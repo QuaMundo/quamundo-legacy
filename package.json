@@ -1,5 +1,15 @@
 {
   "name": "quamundo",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "^4.0.1",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.7",
+    "webpack": "^4.29.6",
+    "webpacker": "^4.2.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.2.1"
+  }
 }

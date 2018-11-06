@@ -1,0 +1,5 @@
+<% if current_user.worlds.empty? %>
+  <%= render partial: 'invitation' %>
+<% end %>
+<%= render partial: 'worlds/overview',
+  locals: { worlds: current_user.worlds } %>

@@ -1,0 +1,15 @@
+<div class="jumbotron">
+ <h1 class="display-4">Hello <%= current_user.nick %>, Wellcome to Qua Mundo!</h1> 
+ <p class="lead">
+ <em>Qua Mundo</em> keeps track of your author ideas, investigations or historical research. Build your own worlds or take your personal image of the world you are in. Begin by <%= link_to 'creating a new world', new_world_path %>!
+ </p>
+ <hr class="my-4">
+ <p>
+ If you are an author, outline your universe! If you are in historical research or investigation, keep track of what you've found out so far. If you are a student, <em>Qua Mundo</em> can serve you as a learning aid!
+ </p>
+ <p>
+ In <em>Qua Mundo</em> a world is a container for persons (figures), items, locations, time periods and relations between all of them. Create dossiers for your items and use filters to focus on your work.
+ </p>
+ <%= link_to('create a world', new_world_path, role: 'button',
+             class: 'btn, btn-primary btn-lg') %>
+</div>

@@ -1,0 +1,8 @@
+<aside id="error_explanation" class="alert alert-danger">
+  <%= I18n.t("errors.messages.not_saved", count: resource.errors.count, resource: resource.class.model_name.human.downcase) %>
+  <ul>
+    <% msg.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</aside>

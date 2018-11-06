@@ -1,0 +1,34 @@
+<div class="row world_overview">
+  <div class="col">
+    <div class="card-group">
+      <% worlds.each do |world| %>
+        <%# FIXME: Style to stylesheet! %>
+        <div class="card text-center" style="min-width: 320px; max-width: 34%;">
+          <% if world.image.attached? %>
+            <%= tag.img( src: overview_img_path(world.image),
+                        class: 'card-img-top',
+                        alt: "#{world.title} - Vorschau") %>
+          <% else %>
+            <%# FIXME: Link here to default world image! %>
+            <img src="" class="card-img-top" alt=""/>
+          <% end   %>
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= world.title %>
+            </h5>
+            <p class="card-text">
+            <%= world.description %>
+            </p>
+            <p class="small"><%= t(:created_by, nick: world.user.nick) %></p>
+          </div>
+          <div class="card-footer">
+            <%# FIXME: This should link to a list of that users worlds %>
+            <%# <%= link_to("by #{world.user.nick}", '#', class: 'card-link') %>
+            <%= link_to(t(:show), world_path(world),
+                        class: 'card-link stretched-link') %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

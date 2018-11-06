@@ -1,4 +1,6 @@
 Rails.application.configure do
+  # Verifies that versions and hashed value of the package contents in the project's package.json
+  config.webpacker.check_yarn_integrity = false
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -20,7 +22,9 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  # FIXME This should be done by nginx!
+  config.public_file_server.enabled = true
+  # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -51,7 +55,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = :fatal
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
@@ -91,4 +95,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # SMTP settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: ENV['SMTP_HOST_PRODUCTION'],
+    port: ENV['SMTP_PORT_PRODUCTION'],
+    user_name: ENV['SMTP_USER_PRODUCTION'],
+    authentication: ENV['SMTP_AUTHENTICATION_PRODUCTION'],
+    password: ENV['SMTP_PASSWORD_PRODUCTION']
+  }
+
 end

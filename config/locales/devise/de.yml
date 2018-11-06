@@ -1,0 +1,6 @@
+de:
+  activerecord:
+    attributes:
+      user:
+        nick: Benutzername
+

@@ -1,0 +1,28 @@
+<div class="accordion" id="worlds-index">
+  <% current_user.worlds.each do |world| %>
+    <div class="card">
+
+      <%# heading %>
+      <%= tag.div(class: 'card-header', id: element_id(world, 'heading')) do %>
+
+        <h2 class="mb-0">
+          <%= tag.button(world.title, class: %w(btn btn-link collapsed),
+                         tpye: 'button', 'data-toggle': 'collapse',
+                         'data-target': element_id(world, '#collapse'),
+                         'aria-expanded': false,
+                         'aria-controls': element_id(world, 'collapse')) %>
+        </h2>
+      <% end %>
+
+      <%# body %>
+      <%= tag.div(id: element_id(world, 'collapse'), class: 'collapse',
+                  'aria-labelledby': element_id(world, 'heading'),
+                  'data-parent': '#worlds-index') do %>
+        <div class="card-body">
+          <p><%= world.description %></p>
+          <%= link_to t(:show), world_path(world), class: 'card-link' %>
+        </div>
+      <% end %>
+    </div> 
+  <% end %>
+</div>

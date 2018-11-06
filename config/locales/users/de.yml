@@ -1,0 +1,5 @@
+de:
+  activerecord:
+    models:
+      user: 'Benutzer'
+

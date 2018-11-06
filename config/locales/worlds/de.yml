@@ -1,0 +1,21 @@
+de:
+  worlds:
+    edit:
+      edit_world: 'Welt bearbeiten'
+    new:
+      new_world: 'Neue Welt erstellen'
+    show:
+      confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
+
+  activerecord:
+    models:
+      world:
+        one: 'Welt'
+        other: 'Welten'
+
+    attributes:
+      world:
+        title: 'Titel'
+        description: 'Beschreibung'
+        image: 'Bild'
+

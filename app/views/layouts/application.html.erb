@@ -2,14 +2,51 @@
 <html>
   <head>
     <title>Quamundo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application' %>
   </head>
 
-  <body>
+  <body class="container">
+    <%# Render default header %>
+    <header>
+      <h1>Qua Mundo</h1>
+      <% if current_user %>
+        <%= render partial: 'shared/main_menu' %>
+        <div class="status">
+          <p class="small">
+          <%= t(:logged_in_as, nick: current_user.nick) %>
+          </p>
+        </div>
+      <% end %>
+    </header>
+
+    <%# Render flash messages %>
+    <% if notice.present? %>
+      <aside class="alert alert-info">
+        <%= notice %>
+      </aside>
+    <% end %>
+
+    <% if alert.present? %>
+      <aside class="alert alert-danger">
+        <%= alert %>
+      </aside>
+    <% end %>
+
+    <%# Render page content %>
     <%= yield %>
+
+    <%# Render footer %>
+    <footer>
+      <%# render partial: 'shared/footer' %>
+    </footer>
+
   </body>
 </html>

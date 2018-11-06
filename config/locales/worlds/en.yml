@@ -1,0 +1,21 @@
+en:
+  worlds:
+    edit:
+      edit_world: 'Edit World'
+    new:
+      new_world: 'New World'
+    show:
+      confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
+
+  activerecord:
+    models:
+      world:
+        one: 'world'
+        other: 'worlds'
+
+    attributes:
+      world:
+        title: 'Title'
+        description: 'Description'
+        image: 'Image'
+

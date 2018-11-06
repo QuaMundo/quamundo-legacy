@@ -17,7 +17,6 @@
 /storage/*
 !/storage/.keep
 
-/node_modules
 /yarn-error.log
 
 /public/assets
@@ -27,3 +26,21 @@
 /config/master.key
 /vendor/*
 !/vendor/.keep
+db/postgresql-data
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
+
+# ignore simplecov stats
+coverage/
+.env.local
+config/credentials.yml.enc
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

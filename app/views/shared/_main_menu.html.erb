@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand navbar-light bg-light">
+
+  <%# OPTIMIZE: Add brand!? %>
+  <%# <a class="navbar-brand" href="#">Brand</a> %>
+
+  <div class="" id="main_menu">
+    <div class="navbar-nav">
+      <%= link_to(t(:dashboard), root_path, class: 'nav-link nav-item') %>
+
+      <%# world submenu %>
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#"
+           id="navbarDropdownWorld"
+           role="button"
+           data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false">
+          <%= World.model_name.human %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownWorld">
+          <%= link_to(t(:list), worlds_path, class: 'nav-link nav-item') %>
+          <%= link_to(t(:new), new_world_path, class: 'nav-link nav-item') %>
+        </div>
+      </div>
+
+      <%# user submenu %>
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"
+           href="#"
+           id="navbarDropdownUser"
+           role="button"
+           data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false">
+           <%= current_user.nick %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownUser">
+      <%= link_to(t(:profile), edit_user_registration_path, class: 'dropdown-item') %>
+      <%= link_to(t(:logout), destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<%# Menu Entries %>
+<%# link_to('dashboard', root_path, class: 'nav-link nav-item') %>
+<%# link_to('new world', new_world_path, class: 'nav-link nav-item') %>
+<%# link_to('profile', edit_user_registration_path, class: 'nav-link nav-item') %>
+<%# link_to('logout', destroy_user_session_path, method: :delete, class: 'nav-link nav-item') %>
+
