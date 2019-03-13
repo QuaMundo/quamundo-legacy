@@ -6,9 +6,23 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
-import "../stylesheets/application.scss"
+import "../src/application.scss"
 
 // Import bootstrap
 import 'bootstrap'
 
+// Import fontawesome svgs
+import './default-images'
+
+// Use rails-ujs
+import Rails from 'rails-ujs';
+
+Rails.start();
+
+// Use activestorage
+import * as ActiveStorage from 'activestorage'
+
+ActiveStorage.start()
+
 console.log('Hello World from Webpacker')
+

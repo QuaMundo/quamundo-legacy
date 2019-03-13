@@ -1,0 +1,20 @@
+en:
+  figures:
+    new:
+      new_figure: 'New Figure'
+    show:
+      confirm_delete: 'Should figure %{figure} really be deleted?'
+
+  activerecord:
+    models:
+      figure:
+        one: 'Figure'
+        other: 'Figures'
+
+    attributes:
+      figure:
+        nick: 'Nick'
+        first_name: 'Firstname'
+        last_name: 'Lastname'
+        description: 'Description'
+        image: 'Image'

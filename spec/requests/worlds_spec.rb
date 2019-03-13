@@ -1,7 +1,7 @@
 RSpec.describe 'Worlds', type: :request do
   include_context 'Users'
 
-  context 'without user logged in'do
+  context 'without user logged in' do
     let(:world) { create(:world, title: 'Welt', user: user) }
 
     # FIXME: Can this be abstracted? It's not DRY
@@ -50,6 +50,16 @@ RSpec.describe 'Worlds', type: :request do
         world = user_with_worlds.worlds.first
         delete world_path(world)
         expect(World.find_by(id: world.id)).to be_falsy
+      end
+
+      it 'must not update title' do
+        world = user_with_worlds.worlds.first
+        old_title = world.title
+        headers = { "CONTENT_TYPE" => "application/json" }
+        post_data = '{ "world": { "title": "A New Title" } }'
+        patch(world_path(world), params: post_data, headers: headers)
+        world.reload
+        expect(world.title).to eq(old_title)
       end
     end
 

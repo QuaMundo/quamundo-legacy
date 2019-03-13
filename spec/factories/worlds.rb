@@ -2,10 +2,15 @@ FactoryBot.define do
   factory :world do
     sequence(:title)  { |n| "World #{n}" }
     description       { "Description of world '#{title}'" }
+    user              { build(:user) }
+    image             { fixture_file_upload(fixture_file_name('earth.jpg')) }
 
-    factory :world_with_image do
-      image           { fixture_file_upload(fixture_file_name('earth.jpg')) }
-      user            { create(:user) }
+    transient do
+      figures_count       { 3 }
+    end
+
+    after(:create) do |world, evaluator|
+      create_list(:figure, evaluator.figures_count, world: world)
     end
   end
 end

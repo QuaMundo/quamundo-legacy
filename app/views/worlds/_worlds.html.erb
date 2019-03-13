@@ -1,0 +1,72 @@
+<div id="worlds" class="row no-gutters">
+  <% @worlds.each do |world| %>
+    <%= tag.div(class: 'col-lg-3 col-sm-6 col-12') do %>
+      <%= tag.div(id: element_id(world, 'card'), class: 'card h-100') do %>
+
+        <%# card header %>
+        <%= tag.div(class: 'card-header') do %>
+          <h5 class="card-title">
+            <%= icon('fa-globe', 'fas') { world.title } %>
+          </h5>
+        <% end %>
+
+        <%# card img %>
+        <% if world.image.attached? %>
+          <%= tag.img(src: card_img_path(world.image), class: 'card-img q-card-img') %>
+        <% else %>
+          <%= tag.img(src: asset_pack_path('media/solid/globe.svg'), class: 'card-img q-card-img-default') %>
+        <% end %>
+
+        <ul class="list-group list-group-flush tiny-font">
+          <li class="list-group-item">
+            <%# card world statistics %>
+            <table width="100%">
+              <tr>
+                <td>
+                  <%= icon('fa-user', 'fas') { world.figures.count.to_s } %>
+                </td>
+                <td>
+                  <%= icon('fa-wrench', 'fas') { "0" } %>
+                </td>
+                <td>
+                  <%= icon('fa-map-marker-alt', 'fas') { "0" } %>
+                </td>
+                <td>
+                  <%= icon('fa-exclamation', 'fas') { "0" } %>
+                </td>
+                <td>
+                  <%= icon('fa-sticky-note', 'fas') { "0" } %>
+                </td>
+                <td>
+                  <%= icon('fa-folder', 'fas') { "0" } %>
+                </td>
+              </tr> 
+            </table>
+          </li>
+        </ul>
+
+        <%# card body %>
+        <%= tag.div(class: 'card-body') do %>
+          <p class="card-text"><%= world.description %></p>
+        <% end %>
+
+        <%# FIXME: Untested %>
+        <%# FIXME: This should go to helper %>
+        <%# card footer %>
+        <%= tag.div(class: 'card-footer tiny-font') do %>
+          <div class="row text-muted">
+            <div class="col-6">
+              <%= time_ago_in_words(world.updated_at) %>
+            </div>
+            <div class="col-6 text-right">
+              <%= world.user.nick %> 
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to('', world_path(world), class: 'card-link stretched-link') %>
+
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

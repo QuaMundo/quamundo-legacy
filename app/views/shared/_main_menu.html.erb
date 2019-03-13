@@ -16,7 +16,7 @@
            data-toggle="dropdown"
            aria-haspopup="true"
            aria-expanded="false">
-          <%= World.model_name.human %>
+          <%= World.model_name.human(count: 2) %>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownWorld">
           <%= link_to(t(:list), worlds_path, class: 'nav-link nav-item') %>

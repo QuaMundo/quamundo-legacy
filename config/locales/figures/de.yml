@@ -1,0 +1,20 @@
+de:
+  figures:
+    new:
+      new_figure: 'New Figure'
+    show:
+      confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
+
+  activerecord:
+    models:
+      figure:
+        one: 'Figur'
+        other: 'Figuren'
+
+    attributes:
+      figure:
+        nick: 'Rufname'
+        first_name: 'Vorname'
+        last_name: 'Nachname'
+        description: 'Anmerkungen'
+        image: 'Bild'

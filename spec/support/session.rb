@@ -21,10 +21,4 @@ RSpec.shared_context 'Session' do
     example.run
     sign_out user_with_worlds
   end
-
-  around(:example, login: :world_with_user) do |example|
-    sign_in world.user
-    example.run
-    sign_out world.user
-  end
 end

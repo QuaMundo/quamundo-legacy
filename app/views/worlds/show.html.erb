@@ -1,62 +1,85 @@
 <%= tag.div(id: element_id(@world), class: 'card') do %>
 
-  <%# world menu %>
+  <%# card header %>
   <div class="card-header">
-    <nav class="nav justify-content-end context-menu">
-      <%= link_to t(:index), worlds_path, class: 'nav-link' %>
-      <%= link_to t(:edit), edit_world_path(@world), class: 'nav-link' %>
-      <%= link_to(t(:delete),
-                  world_path(@world),
-                  method: :delete,
-                  class: 'nav-link',
-                  data: {
-                    confirm: t('.confirm_delete', world: @world.title)
-                  }) %>
-    </nav>
+    <h2 class="card-title">
+      <i class="fas fa-globe"></i>
+      <%# FIXME: use helper %>
+      <%= @world.title %>
+    </h2>
   </div>
 
   <%# world body %>
   <div class="card-body">
+
     <div class="row">
       <div class="col">
         <% if @world.image.attached? %>
-          <%= tag.img(src: overview_img_path(@world.image),
-                      class: "rounded float-right img-thumbnail world-image",
+          <%= tag.img(src: card_img_path(@world.image),
+                      class: "img-fluid rounded float-right img-thumbnail world-image",
+                      width: '38%',
                       alt: "Bild: #{@world.title}") %>
         <% end %>
-        <h1 class="card-title"><%= @world.title %></h1>
         <p class="leader"><%= @world.description %></p>
-        <p>
-        <%# FIXME:... add some statistics here ... %>
-        </p>
+        <div class="text-muted">
+          <small><%= t(:created_by, nick: @world.user.nick) %><br />
+          <%= t(:created_at, datetime: l(@world.created_at)) %><br />
+          <%= t(:last_modified, datetime: l(@world.updated_at)) %></small>
+        </div>
       </div>
     </div>
 
+    <%# Notes go here %>
+
+    <%# Files go here %>
+
     <%# further items goe here  %>
+
     <div class="row">
-      <div class="col">
-        <table class="table table-borderless">
-          <tbody>
-            <%# Figures  %>
-            <tr>
-              <th scope="row">Figures</th>
-            </tr>
-            <%# Items %>
-            <tr>
-              <th scope="row">Items</th>
-            </tr>
-            <%# Locations %>
-            <tr>
-              <th scope="row">Locations</th>
-            </tr>
-            <%# FIXME: Further items %>
-          </tbody> 
-        </table>
+      <div class="col-12 col-md-6 border" id="figure-stats">
+        <%= render 'figure_stats' %>
       </div>
+
+      <%# item stats %>
+
+      <%# location stats %>
+
+      <%# event stats %>
     </div>
+
   </div>
   <div class="card-footer text-muted">
-    <p><small>FIXME: Footer data goes here …</small></p> 
+    <div class="row">
+     <div class="col-4">
+       <small>
+         <%= time_ago_in_words(@world.updated_at) %>, <%= @world.user.nick %>
+       </small>
+     </div> 
+     <div class="col-8">
+       <nav class="nav justify-content-end context-menu">
+         <%= link_to(icon('fa-list', 'fas'),
+                     worlds_path,
+                     class: 'nav-link',
+                     title: t(:index)) %>
+         <%= link_to(icon('fa-edit', 'fas'),
+                     edit_world_path(@world),
+                     class: 'nav-link',
+                     title: t(:edit)) %>
+          <%= link_to(icon('fa-plus', 'fas'),
+                     new_world_path,
+                     class: 'nav-link',
+                     title: t(:new)) %>
+         <%= link_to(icon('fa-trash', 'fas'),
+                     world_path(@world),
+                     method: :delete,
+                     class: 'nav-link',
+                     title: t(:delete),
+                     data: {
+                       confirm: t('.confirm_delete', world: @world.title)
+                     }) %>
+     </nav>
+     </div>
+    </div>
   </div>
 <% end %>
 
@@ -64,6 +87,6 @@
 <%# link_to 'index', worlds_path, class: 'nav-link' %>
 <%# link_to 'edit', edit_world_path(@world), class: 'nav-link' %>
 <%# link_to('delete', world_path(@world), method: :delete,
-            class: 'nav-link',
-            data: { confirm: "Really bring apocalypse to World '#{@world.title}'?" }) %>
+  class: 'nav-link',
+  data: { confirm: "Really bring apocalypse to World '#{@world.title}'?" }) %>
 

@@ -1,21 +1,21 @@
 class World < ApplicationRecord
   belongs_to :user
   has_one_attached :image
-  validates :title, :user, presence: true
-  validate :only_image_attachments
-  # FIXME: Which is better :before- or :after_destroy?
-  after_destroy :purge_image
-
-  private
-  def only_image_attachments
-    if image.attached? && !image.image?
-      errors.add(:image, 'Only images may be attached!')
-    end
+  with_options dependent: :destroy do |assoc|
+    assoc.has_many :figures
   end
 
-  def purge_image
-    if image.attached?
-      image.purge
-    end
+  default_scope { order(title: :asc) } 
+
+  before_save :slugify
+
+  def to_param
+    slug
+  end
+
+  private
+  # FIXME: Maybe Should go to ApplicationController
+  def slugify
+    self.slug = self.title.parameterize
   end
 end

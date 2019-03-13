@@ -1,0 +1,51 @@
+<div class="row no-gutters" id="figures">
+  <% @figures.each do |figure| %>
+    <%= tag.div(class: 'col-lg-3 col-sm-6 col-12') do %>
+      <%= tag.div(id: element_id(figure, 'card'), class: 'card h-100') do %>
+
+        <%# card header %>
+        <%= tag.div(class: 'card-header') do %>
+          <h5 class="card-title">
+            <%= icon('fa-user', 'fas') { figure.nick } %>
+          </h5>
+        <% end %>
+
+        <%# card image %>
+        <% if figure.image.attached? %>
+          <%= tag.img(src: card_img_path(figure.image), class: 'card-img q-card-img') %>
+        <% else %>
+          <%= tag.img(src: asset_pack_path('media/solid/user.svg'), class: 'card-img q-card-img-default') %>
+        <% end %>
+
+        <%# card body %>
+        <%= tag.div(class: 'card-body') do %>
+          <%# FIXME: Deprecated %>
+          <h6>
+            <%= figure.first_name %>
+            <%= figure.last_name %>
+          </h6>
+          <p class="card-text"><%= figure.description %></p>
+          <small class="card-text text-muted">
+          <%= icon('fa-globe', 'fas') { figure.world.title } %>
+          </small>
+        <% end %>
+
+        <%# card footer %>
+        <%# FIXME: Untested %>
+        <%# FIXME: This should go to helper %>
+        <%= tag.div(class: 'card-footer tiny-font') do %>
+          <div class="row text-muted">
+            <div class="col-6">
+              <%= time_ago_in_words(figure.updated_at) %>
+            </div>
+            <div class="col-6 text-right">
+              <%= figure.user.nick %> 
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to('', world_figure_path(figure.world, figure), class: 'card-link stretched-link') %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

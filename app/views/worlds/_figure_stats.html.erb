@@ -1,0 +1,46 @@
+<div class="row border-bottom">
+  <div class="col-7">
+    <h5 class="mt-2">
+      <%= icon('fa-user', 'fas') %>&nbsp;
+      <%= @world.figures.count %>
+      <%= Figure.model_name.human(count: @world.figures.count) %>
+    </h5>
+  </div>
+  <div class="col-5">
+    <nav class="nav justify-content-end context-menu">
+      <%= link_to(icon('fa-list', 'fas'), world_figures_path(@world), class: 'nav-link', title: t(:index)) %>
+      <%= link_to(icon('fa-plus', 'fas'), new_world_figure_path(@world), class: 'nav-link', title: t(:new))%>
+    </nav>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <ul class="list-unstyled">
+      <% @world.figures.last_updated(3).each do |figure| %>
+        <%= tag.li(class: 'media my-2', id: element_id(figure, 'last-updated')) do %>
+
+          <% if figure.image.attached? %>
+            <%= tag.img(src: attached_img_path(figure.image), class: 'mr-3 q-media-img') %>
+          <% else %>
+            <%= tag.img(src: asset_pack_path('media/solid/user.svg'), class: 'mr-3 q-media-img-default') %>
+          <% end %>
+
+          <div class="media-body">
+            <h6 class="mb-1">
+              <%= figure.first_name %> <%= figure.last_name %>
+              <small class="text-muted"><%= figure.nick %></small>
+            </h6>
+            <span>
+              <%= figure.description %><br />
+              <small class="text-muted">
+                <%= time_ago_in_words(figure.updated_at) %> -
+                <%= link_to(t(:show), world_figure_path(@world, figure), title: t(:show)) %>
+              </small>
+            </span>
+          </div>
+
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

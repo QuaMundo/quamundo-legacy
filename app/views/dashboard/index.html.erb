@@ -1,5 +1,8 @@
 <% if current_user.worlds.empty? %>
   <%= render partial: 'invitation' %>
+<% else %>
+
+  <%= render partial: 'worlds/worlds' %>
+  <%= render partial: 'figures/figures' %>
+
 <% end %>
-<%= render partial: 'worlds/overview',
-  locals: { worlds: current_user.worlds } %>

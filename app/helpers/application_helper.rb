@@ -11,12 +11,11 @@ module ApplicationHelper
   end
 
   # Get image variant path for overview cards
-  def overview_img_path(attached)
+  def card_img_path(attached)
     return '' unless attached.image?
     options = {
       resize: "320x240^",
-      gravity: "center",
-      crop: "320x240+0+0"
+      gravity: "center"
     }
     attached_img_path(attached, combine_options: options)
   end

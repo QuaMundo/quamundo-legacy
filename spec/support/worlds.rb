@@ -1,5 +1,5 @@
 RSpec.shared_context 'Worlds' do |context|
-  let(:world) { create(:world_with_image) }
+  let(:world) { create(:world) }
 
   protected
   def variant(world, resize_factor)

@@ -1,0 +1,14 @@
+<footer>
+  <div class=" class="row"">
+    <div class="col">
+      <small>
+        Quamundo <%= Rails.configuration.quamundo_version %> - © 2019
+        <% if Date.current.year > 2019 %>
+          -
+          <%= Date.current.year %>
+        <% end %>
+      Ali Trieschmann
+      </small>
+    </div> 
+  </div>
+</footer>

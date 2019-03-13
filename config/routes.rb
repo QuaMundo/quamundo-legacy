@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :worlds
+  resources :worlds, param: :slug do
+    resources :figures, param: :nick
+  end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "dashboard#index"

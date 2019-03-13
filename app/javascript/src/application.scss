@@ -1,0 +1,38 @@
+@import "variables";
+
+// Import bootstrap here
+@import "~bootstrap/scss/bootstrap";
+
+// Import fontawesome
+
+// Overwrite fa-font-path, otherwise rails can't find the webfonts
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts/";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+
+.tiny-font > * {
+  font-size: 65%;
+}
+
+img.q-card-img {
+  height: 180px;
+  object-fit: cover;
+}
+
+img.q-card-img-default {
+  height: 180px;
+  object-fit: contain;
+}
+
+img.q-media-img {
+  height: 48px;
+  width: 48px;
+  object-fit: cover;
+}
+
+img.q-media-img-default {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}

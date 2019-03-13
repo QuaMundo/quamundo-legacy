@@ -4,6 +4,7 @@ class WorldsController < ApplicationController
   before_action :require_ownership, only: [:show, :update, :edit, :destroy]
 
   def index
+    @worlds = current_user.worlds
   end
 
   def show
@@ -63,17 +64,22 @@ class WorldsController < ApplicationController
 
   private
   def world_params
-    params.require(:world).permit(:title, :description, :image)
+    if params[:action] == 'create'
+      params.require(:world).permit(:title, :description, :image)
+    else
+      params.require(:world).permit(:description, :image)
+    end
   end
 
   def set_world
-    @world = World.find(params[:id])
+    @world = World.find_by(slug: params[:slug])
   end
 
+  # FIXME: This should once be replaced by pundit
   def require_ownership
     unless current_user == @world.user
       # FIXME: Issue with errror messages
-      flash[:error] = "This is not your world - " +
+      flash[:alert] = "This is not your world - " +
         "You are not allowed to do this action!"
       redirect_to worlds_path
     end
