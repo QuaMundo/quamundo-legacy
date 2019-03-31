@@ -35,6 +35,6 @@ module Quamundo
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # quamundo version
-    config.quamundo_version = 'v0.0.1'
+    config.quamundo_version = 'v0.0.2'
   end
 end
