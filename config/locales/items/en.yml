@@ -1,0 +1,19 @@
+en:
+  items:
+    new:
+      new_item: 'New Item'
+    show:
+      confirm_delete: 'Should item %{item} really be removed?'
+
+  activerecord:
+    models:
+      item:
+        one: 'Item'
+        other: 'Items'
+
+    attributes:
+      item:
+        name: 'Name'
+        description: 'Description'
+        image: 'Image'
+

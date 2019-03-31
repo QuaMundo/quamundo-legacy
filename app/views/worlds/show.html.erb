@@ -2,7 +2,7 @@
 
   <%# card header %>
   <div class="card-header">
-    <h2 class="card-title">
+    <h2 class="card-title mt-2">
       <i class="fas fa-globe"></i>
       <%# FIXME: use helper %>
       <%= @world.title %>
@@ -16,47 +16,51 @@
       <div class="col">
         <% if @world.image.attached? %>
           <%= tag.img(src: card_img_path(@world.image),
-                      class: "img-fluid rounded float-right img-thumbnail world-image",
+                      class: "img-fluid rounded float-right world-image",
                       width: '38%',
                       alt: "Bild: #{@world.title}") %>
         <% end %>
         <p class="leader"><%= @world.description %></p>
+
+        <%# Inventory stats and links go here %>
+        
+        <%= tag.a(href: world_figures_path(@world), class: 'card-link') do %>
+          <%= qm_icon(Figure)  %>&nbsp;
+          <%=  Figure.model_name.human(count: 2)  %>:
+          <%= @world.figures.count %>
+        <% end %>
+        <br />
+        <%= tag.a(href: world_items_path(@world), class: 'card-link') do %>
+          <%= qm_icon(Item) %>&nbsp;
+          <%= Item.model_name.human(count: 2) %>:
+          <%= @world.items.count %>
+        <% end %>
+
+        <%# Notes go here %>
+
+        <%# Files go here %>
+
         <div class="text-muted">
-          <small><%= t(:created_by, nick: @world.user.nick) %><br />
-          <%= t(:created_at, datetime: l(@world.created_at)) %><br />
-          <%= t(:last_modified, datetime: l(@world.updated_at)) %></small>
+          <p>
+          <small><%= t(:created_by, nick: @world.user.nick) %>
+          <%= t(:created_at, datetime: l(@world.created_at.localtime)) %>;
+          <%= t(:last_modified, datetime: l(@world.updated_at.localtime)) %></small>
+          </p>
         </div>
+
       </div>
-    </div>
-
-    <%# Notes go here %>
-
-    <%# Files go here %>
-
-    <%# further items goe here  %>
-
-    <div class="row">
-      <div class="col-12 col-md-6 border" id="figure-stats">
-        <%= render 'figure_stats' %>
-      </div>
-
-      <%# item stats %>
-
-      <%# location stats %>
-
-      <%# event stats %>
     </div>
 
   </div>
   <div class="card-footer text-muted">
     <div class="row">
-     <div class="col-4">
+     <div class="col-md-4 col-12 text-md-left text-center mt-2">
        <small>
-         <%= time_ago_in_words(@world.updated_at) %>, <%= @world.user.nick %>
+         <%= time_ago_in_words(@world.updated_at.localtime) %>, <%= @world.user.nick %>
        </small>
      </div> 
-     <div class="col-8">
-       <nav class="nav justify-content-end context-menu">
+     <div class="col-md-8 col-12">
+       <nav class="nav justify-content-md-end justify-content-center context-menu">
          <%= link_to(icon('fa-list', 'fas'),
                      worlds_path,
                      class: 'nav-link',

@@ -23,10 +23,19 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
 
     context 'item statistics' do
       specify 'figure statistics' do
-        skip('To be implemented')
+        expect(page)
+          .to have_content /Figures:\s*#{world.figures.count}/
+        expect(page)
+          .to have_link(href: world_figures_path(world))
       end
 
-      specify 'item statistics'
+      specify 'item statistics' do
+        expect(page)
+          .to have_content /Items:\s*#{world.items.count}/
+        expect(page)
+          .to have_link(href: world_items_path(world))
+      end
+
       specify 'location statistics'
       specify 'event statistics'
     end

@@ -2,7 +2,52 @@
   <%= render partial: 'invitation' %>
 <% else %>
 
+  <%# worlds overview (last 4 modified) %>
+
+  <%# FIXME: Translation goes wrong %>
+  <h2><%= World.model_name.human(count: 2).capitalize %></h2>
   <%= render partial: 'worlds/worlds' %>
-  <%= render partial: 'figures/figures' %>
+
+  <%# dashboard entries %>
+  <h2 class="mt-4"><%= t(:last_activities) %></h2>
+  <div class="row">
+    <div class="col" id="last-activities">
+      <ul class="list-unstyled">
+        <% @dashboard_entries.each do |entry| %>
+          <%= tag.li(class: 'media mb-4', id: element_id(entry.inventory)) do %>
+
+            <%# Image - thumbnail %>
+            <%= tag.a(href: polymorphic_path([entry.world, entry.inventory])) do %>
+              <% if entry.inventory.image.attached? %>
+                <%= tag.img(src: attached_img_path(entry.inventory.image,
+                                                   { resize: "64x64^", }),
+                class: 'mr-3 q-media-img') %>
+            <% else %>
+              <%= tag.img(src: default_image(entry.inventory),
+                          class: 'mr-3 q-media-img-default') %>
+            <% end %>
+          <% end %>
+
+          <%# body %>
+          <div class="media-body">
+            <h5 class="mb-1">
+              <%= qm_icon(entry.inventory) { entry.name.capitalize } %>
+            </h5>
+            <div class="small">
+              <%= entry.description %><br />
+              <span class="text-muted">
+                <%= icon('fa-globe', 'fas') { entry.world.title } %>&nbsp;
+                <%= icon('fa-edit', 'fas') { time_ago_in_words(entry.updated_at) } %>
+              </span>&nbsp;
+              <%= link_to(t('show'),
+                          polymorphic_path([entry.world, entry.inventory])) %>
+            </div>
+          </div>
+
+        <% end %>
+      <% end %>
+      </ul> 
+    </div> 
+  </div>
 
 <% end %>

@@ -2,7 +2,7 @@
 
   <%# card header %>
   <div class="card-header">
-    <h2 class="card-title">
+    <h2 class="card-title mt-2">
       <%= icon('fa-user', 'fas') { @figure.nick } %>
     </h2>
   </div>
@@ -34,13 +34,13 @@
   <%# card footer %>
   <div class="card-footer">
     <div class="row">
-      <div class="col-4">
+      <div class="col-md-4 col-12 text-md-left text-center mt-2">
         <small>
-          <%= time_ago_in_words(@figure.updated_at) %>
+          <%= time_ago_in_words(@figure.updated_at.localtime) %>
         </small>
       </div>
-      <div class="col-8">
-        <nav class="context-menu nav justify-content-end">
+      <div class="col-md-8 col-12">
+        <nav class="context-menu nav justify-content-md-end justify-content-center">
           <%= link_to(icon('fa-list', 'fas'),
                       world_figures_path(@figure.world),
                       class: 'nav-link',

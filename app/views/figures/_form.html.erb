@@ -2,7 +2,7 @@
   <div class="form-group">
    <%= f.label :nick %> 
    <% if @figure.nick %>
-     <%= f.text_field :nick, autofocus: true, autocomplete: :title, disabled: true, class: "form-control" %>
+     <%= f.text_field :nick, autofocus: true, disabled: true, class: "form-control" %>
    <% else %>
      <%= f.text_field :nick, autofocus: true, autocomplete: :title, class: "form-control" %>
    <% end %>

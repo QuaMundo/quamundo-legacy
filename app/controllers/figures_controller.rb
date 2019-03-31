@@ -19,10 +19,12 @@ class FiguresController < WorldInventoryController
       if @figure.save
         format.html do
           redirect_to(world_figure_path(@world, @figure),
+                      # FIXME: I18n
                       notice: "Figure #{@figure.nick} successfully created")
         end
       else
         format.html do
+          # FIXME: I18n
           flash[:alert] = "Nick must be given"
           render :new
         end
@@ -53,7 +55,7 @@ class FiguresController < WorldInventoryController
     @figure.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_figures_path,
+        redirect_to(world_figures_path(@world),
                     notice: "Figure #{@figure.nick} successfully deleted")
       end
     end

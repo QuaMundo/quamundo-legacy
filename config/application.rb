@@ -34,6 +34,10 @@ module Quamundo
     # look at: https://guides.rubyonrails.org/i18n.html#organization-of-locale-files
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+    # PostgreSQL is used with special features (views etc.),
+    # so use `structure.sql`
+    config.active_record.schema_format = :sql
+
     # quamundo version
     config.quamundo_version = 'v0.0.2'
   end

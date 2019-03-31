@@ -4,7 +4,7 @@ class WorldsController < ApplicationController
   before_action :require_ownership, only: [:show, :update, :edit, :destroy]
 
   def index
-    @worlds = current_user.worlds
+    @worlds = current_user.worlds.order(title: :asc)
   end
 
   def show
@@ -71,6 +71,7 @@ class WorldsController < ApplicationController
     end
   end
 
+  # FIXME: Possubly duplicated by WorldInventoryController
   def set_world
     @world = World.find_by(slug: params[:slug])
   end

@@ -1,0 +1,46 @@
+<div class="row border-bottom">
+  <div class="col-7">
+    <h5 class="mt-2">
+      <%= icon('fa-wrench', 'fas') %>&nbsp;
+      <%= @world.items.count %>
+      <%= Item.model_name.human(count: @world.items.count) %>
+    </h5>
+  </div>
+  <div class="col-5">
+    <nav class="nav justify-content-end context-menu">
+      <%= link_to(icon('fa-list', 'fas'), world_items_path(@world), class: 'nav-link', title: t(:index)) %>
+      <%= link_to(icon('fa-plus', 'fas'), new_world_item_path(@world), class: 'nav-link', title: t(:new))%>
+    </nav>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <ul class="list-unstyled">
+      <% @world.items.last_updated(3).each do |item| %>
+        <%= tag.li(class: 'media my-2', id: element_id(item, 'last-updated')) do %>
+
+          <% if item.image.attached? %>
+            <%= tag.img(src: attached_img_path(item.image), class: 'mr-3 q-media-img') %>
+          <% else %>
+            <%= tag.img(src: asset_pack_path('media/solid/wrench.svg'), class: 'mr-3 q-media-img-default') %>
+          <% end %>
+
+          <div class="media-body">
+            <h6 class="mb-1">
+              <%= item.name %>
+            </h6>
+            <span>
+              <%= item.description %><br />
+              <small class="text-muted">
+                <%= time_ago_in_words(item.updated_at.localtime) %> -
+                <%= link_to(t(:show), world_item_path(@world, item), title: t(:show)) %>
+              </small>
+            </span>
+          </div>
+
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+

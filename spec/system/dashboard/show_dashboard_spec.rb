@@ -1,5 +1,6 @@
 RSpec.describe 'Dashboard', type: :system do
   include_context 'Session'
+  include_context 'Worlds'
 
   context 'for user without a world', login: :user do
     before(:example) { visit root_path }
@@ -17,7 +18,8 @@ RSpec.describe 'Dashboard', type: :system do
   end
 
   context 'for user with worlds' do
-    let(:user) { create(:user_with_worlds_wo_img, worlds_count: 7) }
+    # FIXME: There should be a shared_context for this!
+    let(:user) { create(:user_with_worlds_wo_img, worlds_count: 5) }
 
     around(:example) do |example|
       sign_in(user)
@@ -26,7 +28,6 @@ RSpec.describe 'Dashboard', type: :system do
       sign_out(user)
     end
 
-    # FIXME: Make shared_examples of this!
     it 'shows 4 last updated worlds' do
       expect(page).to have_selector("div[id^=\"card-world-\"]", count: 4)
       world_ids = user.worlds.order(updated_at: :desc).limit(4)
@@ -37,14 +38,19 @@ RSpec.describe 'Dashboard', type: :system do
       # Details are tested in world index view
     end
 
-    it 'shows 4 last updated figures' do
-      expect(page).to have_selector("div[id^=\"card-figure-\"]", count: 4)
-      figure_ids = user.figures.order(updated_at: :desc).limit(4)
-        .all.map { |f| "card-figure-#{f.id}" }
-      figure_ids.each do |id|
-        expect(page).to have_selector("##{id}")
+    it 'shows last 15 activities in descending order' do
+      create_some_inventory(user)
+      page.within('#last-activities') do
+        user.dashboard_entries.each do |entry|
+          expect(page).to have_content(entry.name)
+          expect(page).to have_content(entry.description)
+          expect(page).to have_link(
+            href: polymorphic_path([entry.world, entry.inventory])
+          )
+          expect(page).to have_selector('img')
+          # FIXME: Further details ...
+        end
       end
-      # Details are tested in world index view
     end
 
     it_behaves_like "valid_view" do

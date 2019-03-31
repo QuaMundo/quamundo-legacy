@@ -5,7 +5,7 @@
 
         <%# card header %>
         <%= tag.div(class: 'card-header') do %>
-          <h5 class="card-title">
+          <h5 class="card-title mt-2">
             <%= icon('fa-globe', 'fas') { world.title } %>
           </h5>
         <% end %>
@@ -26,19 +26,13 @@
                   <%= icon('fa-user', 'fas') { world.figures.count.to_s } %>
                 </td>
                 <td>
-                  <%= icon('fa-wrench', 'fas') { "0" } %>
+                  <%= icon('fa-wrench', 'fas') { world.items.count.to_s } %>
                 </td>
                 <td>
                   <%= icon('fa-map-marker-alt', 'fas') { "0" } %>
                 </td>
                 <td>
                   <%= icon('fa-exclamation', 'fas') { "0" } %>
-                </td>
-                <td>
-                  <%= icon('fa-sticky-note', 'fas') { "0" } %>
-                </td>
-                <td>
-                  <%= icon('fa-folder', 'fas') { "0" } %>
                 </td>
               </tr> 
             </table>
@@ -55,10 +49,10 @@
         <%# card footer %>
         <%= tag.div(class: 'card-footer tiny-font') do %>
           <div class="row text-muted">
-            <div class="col-6">
-              <%= time_ago_in_words(world.updated_at) %>
+            <div class="col-md-6 col-12 text-md-left text-center">
+              <%= time_ago_in_words(world.updated_at.localtime) %>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-md-6 col-12 text-md-right text-center">
               <%= world.user.nick %> 
             </div>
           </div>

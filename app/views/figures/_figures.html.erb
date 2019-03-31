@@ -5,7 +5,7 @@
 
         <%# card header %>
         <%= tag.div(class: 'card-header') do %>
-          <h5 class="card-title">
+          <h5 class="card-title mt-2">
             <%= icon('fa-user', 'fas') { figure.nick } %>
           </h5>
         <% end %>
@@ -35,10 +35,10 @@
         <%# FIXME: This should go to helper %>
         <%= tag.div(class: 'card-footer tiny-font') do %>
           <div class="row text-muted">
-            <div class="col-6">
-              <%= time_ago_in_words(figure.updated_at) %>
+            <div class="col-md-6 col-12 text-md-left text-center">
+              <%= time_ago_in_words(figure.updated_at.localtime) %>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-md-6 col-12 text-md-right text-center">
               <%= figure.user.nick %> 
             </div>
           </div>

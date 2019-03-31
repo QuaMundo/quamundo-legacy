@@ -18,4 +18,4 @@ de:
   created_by: 'Erstellt von: %{nick}'
   created_at: 'Erstellt am: %{datetime}'
   last_modified: 'Letzte Änderung: %{datetime}'
-  world: 'Welt'
+  last_activities: 'Zuletzt bearbeitet'

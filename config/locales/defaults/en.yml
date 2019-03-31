@@ -18,4 +18,4 @@ en:
   created_by: 'Created by: %{nick}'
   created_at: 'Created at: %{datetime}'
   last_modified: 'Last updated at: %{datetime}'
-  world: 'World'
+  last_activities: 'Last Activities'

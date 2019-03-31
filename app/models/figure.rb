@@ -1,9 +1,5 @@
 class Figure < ApplicationRecord
-  belongs_to :world, touch: true
-  has_one :user, through: :world
-  has_one_attached :image
-
-  def to_param
-    nick
-  end
+  include Imaged
+  include Nicked
+  include WorldAssociated
 end

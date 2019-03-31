@@ -1,0 +1,19 @@
+de:
+  items:
+    new:
+      new_item: 'Neuer Gegenstand'
+    show:
+      confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
+
+  activerecord:
+    models:
+      item:
+        one: 'Gegenstand'
+        other: 'Gegenstände'
+
+    attributes:
+      item:
+        name: 'Bezeichnung'
+        description: 'Beschreibung'
+        image: 'Abbildung'
+

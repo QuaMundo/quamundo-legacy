@@ -25,6 +25,12 @@ RSpec.describe Figure, type: :model do
       .to raise_error ActiveRecord::RecordNotUnique
   end
 
+  it 'is not valid without nick' do
+    a_figure = world.figures.new
+    expect(a_figure).not_to be_valid
+    expect(a_figure.save).to be_falsey
+  end
+
   it 'can get an image attached' do
     attach_file(figure.image, 'figure.png')
     figure.save!
