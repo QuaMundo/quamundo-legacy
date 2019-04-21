@@ -17,7 +17,7 @@ RSpec.describe 'Showing a figure', type: :system, login: :user_with_worlds do
     end
 
     it 'shows figures menu', :comprehensive do
-      page.within('nav.nav') do
+      page.first('nav.nav') do
         expect(page).to have_link(href: new_world_figure_path(world))
         expect(page).to have_link(href: world_figures_path(world))
         expect(page).to have_link(href: edit_world_figure_path(world, figure))

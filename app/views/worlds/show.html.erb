@@ -2,11 +2,16 @@
 
   <%# card header %>
   <div class="card-header">
-    <h2 class="card-title mt-2">
-      <i class="fas fa-globe"></i>
-      <%# FIXME: use helper %>
-      <%= @world.title %>
-    </h2>
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(@world) { @world.title } %>
+        </h2>
+      </div> 
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
+      </div>
+    </div>
   </div>
 
   <%# world body %>
@@ -15,26 +20,87 @@
     <div class="row">
       <div class="col">
         <% if @world.image.attached? %>
-          <%= tag.img(src: card_img_path(@world.image),
-                      class: "img-fluid rounded float-right world-image",
-                      width: '38%',
-                      alt: "Bild: #{@world.title}") %>
+          <%= tag.img(
+            src: card_img_path(@world.image),
+            class: "img-fluid rounded float-right world-image",
+            width: '38%',
+            alt: "Bild: #{@world.title}") %>
         <% end %>
         <p class="leader"><%= @world.description %></p>
 
         <%# Inventory stats and links go here %>
-        
-        <%= tag.a(href: world_figures_path(@world), class: 'card-link') do %>
-          <%= qm_icon(Figure)  %>&nbsp;
-          <%=  Figure.model_name.human(count: 2)  %>:
-          <%= @world.figures.count %>
-        <% end %>
-        <br />
-        <%= tag.a(href: world_items_path(@world), class: 'card-link') do %>
-          <%= qm_icon(Item) %>&nbsp;
-          <%= Item.model_name.human(count: 2) %>:
-          <%= @world.items.count %>
-        <% end %>
+
+        <table class="world-overview">
+          <%# figure stats%>
+          <tr id="figures">
+            <td><%= icon(Figure) %></td>
+            <%# When changing position of this,
+              restyle 'table.world-overview td:nth-of-type(2)'! %>
+            <td><%= @world.figures.count %></td>
+            <td><%= Figure.model_name.human(count: @world.figures.count) %></td>
+            <td><%= link_to(
+              icon(:index),
+              world_figures_path(@world),
+              title: t(:index)) %></td>
+            <td><%= link_to(
+              icon(:new),
+              new_world_figure_path(@world),
+              title: t(:new)) %></td>
+          </tr>
+
+          <%# item stats%>
+          <tr id="items">
+            <td><%= icon(Item) %></td>
+            <%# When changing position of this,
+              restyle 'table.world-overview td:nth-of-type(2)'! %>
+            <td><%= @world.items.count %></td>
+            <td><%= Item.model_name.human(count: @world.items.count) %></td>
+            <td><%= link_to(
+              icon(:index),
+              world_items_path(@world),
+              title: t(:index)) %></td>
+            <td><%= link_to(
+              icon(:new),
+              new_world_item_path(@world),
+              title: t(:new)) %></td>
+          </tr>
+
+          <%# location stats%>
+          <tr id="locations">
+            <td><%= icon(Location) %></td>
+            <%# When changing position of this,
+              restyle 'table.world-overview td:nth-of-type(2)'! %>
+            <td><%= @world.locations.count %></td>
+            <td><%= Location.model_name.human(count: @world.locations.count) %></td>
+            <td><%= link_to(
+              icon(:index),
+              world_locations_path(@world),
+              title: t(:index)) %></td>
+            <td><%= link_to(
+              icon(:new),
+              new_world_location_path(@world),
+              title: t(:new)) %></td>
+          </tr>
+
+          <%# facts stats%>
+          <%# FIXME: This is only stubbed fake! %>
+          <tr id="facts">
+            <td><%= icon(:fact) %></td>
+            <%# When changing position of this,
+              restyle 'table.world-overview td:nth-of-type(2)'! %>
+            <td><%= 99 %></td>
+            <td>Fakten</td>
+            <td><%= link_to(
+              icon(:index),
+              '#',
+              title: t(:index)) %></td>
+            <td><%= link_to(
+              icon(:new),
+              '#',
+              title: t(:new)) %></td>
+          </tr>
+
+        </table>
 
         <%# Notes go here %>
 
@@ -54,43 +120,15 @@
   </div>
   <div class="card-footer text-muted">
     <div class="row">
-     <div class="col-md-4 col-12 text-md-left text-center mt-2">
-       <small>
-         <%= time_ago_in_words(@world.updated_at.localtime) %>, <%= @world.user.nick %>
-       </small>
-     </div> 
-     <div class="col-md-8 col-12">
-       <nav class="nav justify-content-md-end justify-content-center context-menu">
-         <%= link_to(icon('fa-list', 'fas'),
-                     worlds_path,
-                     class: 'nav-link',
-                     title: t(:index)) %>
-         <%= link_to(icon('fa-edit', 'fas'),
-                     edit_world_path(@world),
-                     class: 'nav-link',
-                     title: t(:edit)) %>
-          <%= link_to(icon('fa-plus', 'fas'),
-                     new_world_path,
-                     class: 'nav-link',
-                     title: t(:new)) %>
-         <%= link_to(icon('fa-trash', 'fas'),
-                     world_path(@world),
-                     method: :delete,
-                     class: 'nav-link',
-                     title: t(:delete),
-                     data: {
-                       confirm: t('.confirm_delete', world: @world.title)
-                     }) %>
-     </nav>
-     </div>
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= time_ago_in_words(@world.updated_at.localtime) %>, <%= @world.user.nick %>
+        </small>
+      </div> 
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
+      </div>
     </div>
   </div>
 <% end %>
-
-<%# navigation links %>
-<%# link_to 'index', worlds_path, class: 'nav-link' %>
-<%# link_to 'edit', edit_world_path(@world), class: 'nav-link' %>
-<%# link_to('delete', world_path(@world), method: :delete,
-  class: 'nav-link',
-  data: { confirm: "Really bring apocalypse to World '#{@world.title}'?" }) %>
 

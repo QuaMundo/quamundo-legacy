@@ -1,1 +1,36 @@
-<%= render partial: 'figures' %>
+<%= tag.div(id: 'figures', class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title">
+          <%= icon(:figure) { Figure.model_name.human(count: @figures.count) } %>
+        </h2> 
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <%= render partial: 'figures' %>
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer text-muted">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= @figures.count %>
+          <%= Figure.model_name.human(count: @figures.count) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+      <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

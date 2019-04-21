@@ -11,7 +11,7 @@ RSpec.describe 'Deleting a figure', type: :system, login: :user_with_worlds do
 
     it 'removes this figure', :js, :comprehensive do
       page.accept_confirm() do
-        page.find('nav.context-menu a.nav-link[title="delete"]').click
+        page.first('nav.context-menu a.nav-link[title="delete"]').click
       end
       expect(current_path).to eq(world_figures_path(world))
       expect(Figure.find_by(id: figure.id)).to be_falsey

@@ -8,6 +8,20 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -123,6 +137,21 @@ CREATE TABLE public.items (
 
 
 --
+-- Name: locations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.locations (
+    id bigint NOT NULL,
+    world_id bigint,
+    name character varying NOT NULL,
+    description text,
+    lonlat public.geography(Point,4326),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: worlds; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -161,6 +190,16 @@ UNION
     wf.user_id
    FROM (public.figures f
      LEFT JOIN public.worlds wf ON ((wf.id = f.world_id)))
+UNION
+ SELECT l.id AS inventory_id,
+    'Location'::text AS inventory_type,
+    l.name,
+    l.description,
+    l.updated_at,
+    wl.id AS world_id,
+    wl.user_id
+   FROM (public.locations l
+     LEFT JOIN public.worlds wl ON ((wl.id = l.world_id)))
   ORDER BY 5 DESC;
 
 
@@ -200,6 +239,25 @@ CREATE SEQUENCE public.items_id_seq
 --
 
 ALTER SEQUENCE public.items_id_seq OWNED BY public.items.id;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
@@ -295,6 +353,13 @@ ALTER TABLE ONLY public.items ALTER COLUMN id SET DEFAULT nextval('public.items_
 
 
 --
+-- Name: locations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.locations_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -346,6 +411,14 @@ ALTER TABLE ONLY public.figures
 
 ALTER TABLE ONLY public.items
     ADD CONSTRAINT items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
 
 
 --
@@ -415,6 +488,20 @@ CREATE INDEX index_items_on_world_id ON public.items USING btree (world_id);
 
 
 --
+-- Name: index_locations_on_lonlat; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_lonlat ON public.locations USING gist (lonlat);
+
+
+--
+-- Name: index_locations_on_world_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_locations_on_world_id ON public.locations USING btree (world_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -465,6 +552,14 @@ ALTER TABLE ONLY public.figures
 
 
 --
+-- Name: locations fk_rails_2892871a50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.locations
+    ADD CONSTRAINT fk_rails_2892871a50 FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
 -- Name: worlds fk_rails_7912bd990e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -508,6 +603,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190407144613'),
 ('20190410204103'),
 ('20190411071508'),
-('20190412141828');
+('20190412141828'),
+('20190428142139'),
+('20190506212919');
 
 

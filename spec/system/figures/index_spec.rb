@@ -19,6 +19,13 @@ RSpec.describe 'Listing figures', type: :system, login: :user_with_worlds do
         end
       end
     end
+
+    it 'shows index context menu' do
+      page.first('.card-header') do
+        expect(page).to have_link(href: world_path(world))
+        expect(page).to have_link(href: new_world_figure_path(world))
+      end
+    end
   end
 
   context 'of another users world' do

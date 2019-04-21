@@ -11,5 +11,6 @@ class User < ApplicationRecord
   with_options through: :worlds do |assoc|
     assoc.has_many :figures
     assoc.has_many :items
+    assoc.has_many :locations
   end
 end

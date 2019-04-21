@@ -1,0 +1,19 @@
+de:
+  locations:
+    new:
+      new_location: 'Neuer Ort'
+    show:
+      confirm_delete: 'Soll der Ort %{item} wirklich entfernt werden?'
+
+  activerecord:
+    models:
+      location:
+        one: 'Ort'
+        other: 'Orte'
+
+    attributes:
+      location:
+        name: 'Name'
+        description: 'Beschreibung'
+        lonlat: 'Längen- und Breitengrad'
+

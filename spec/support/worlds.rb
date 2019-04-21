@@ -9,6 +9,7 @@ RSpec.shared_context 'Worlds' do |context|
       3.times do
         travel(rand 21) { world.items << create(:item) }
         travel(rand 21) { world.figures << create(:figure) }
+        travel(rand 21) { world.locations << create(:location) }
       end
     end
   end

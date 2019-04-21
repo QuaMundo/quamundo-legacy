@@ -1,0 +1,19 @@
+en:
+  locations:
+    new:
+      new_location: 'New Location'
+    show:
+      confirm_delete: 'Should location %{item} really be removed?'
+
+  activerecord:
+    models:
+      location:
+        one: 'Location'
+        other: 'Locations'
+
+    attributes:
+      location:
+        name: 'Name'
+        description: 'Description'
+        lonlat: 'Latitude/Longitude'
+

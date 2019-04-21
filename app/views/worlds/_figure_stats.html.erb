@@ -1,15 +1,15 @@
 <div class="row border-bottom">
   <div class="col-7">
     <h5 class="mt-2">
-      <%= icon('fa-user', 'fas') %>&nbsp;
+      <%= icon(:user) %>&nbsp;
       <%= @world.figures.count %>
       <%= Figure.model_name.human(count: @world.figures.count) %>
     </h5>
   </div>
   <div class="col-5">
     <nav class="nav justify-content-end context-menu">
-      <%= link_to(icon('fa-list', 'fas'), world_figures_path(@world), class: 'nav-link', title: t(:index)) %>
-      <%= link_to(icon('fa-plus', 'fas'), new_world_figure_path(@world), class: 'nav-link', title: t(:new))%>
+      <%= link_to(icon(:index), world_figures_path(@world), class: 'nav-link', title: t(:index)) %>
+      <%= link_to(icon(:new), new_world_figure_path(@world), class: 'nav-link', title: t(:new))%>
     </nav>
   </div>
 </div>

@@ -1,0 +1,57 @@
+<div class="row no-gutters" id="locations">
+  <% @locations.each do |location| %>
+    <%= tag.div(class: 'col-lg-3 col-sm-6 col-12') do %>
+      <%= tag.div(id: element_id(location, 'card'), class: 'card h-100') do %>
+
+        <%# card header %>
+        <%= tag.div(class: 'card-header') do %>
+          <h5 class="card-title mt-2">
+            <%= icon(:location) { location.name } %>
+          </h5>
+        <% end %>
+
+        <%# card image %>
+        <% if location.image.attached? %>
+          <%= tag.img(src: card_img_path(location.image),
+                      class: 'card-img q-card-img') %>
+        <% else %>
+          <%= tag.img(src: asset_pack_path('media/solid/map-marker-alt.svg'),
+                      class: 'card-img q-card-img-default') %>
+        <% end %>
+
+        <%# card body %>
+        <%= tag.div(class: 'card-body') do %>
+          <h6>
+            <%= location.name %>
+          </h6>
+          <p class="card-text"><%= location.description %></p>
+          <% if location.lonlat %>
+            <p class="card-text">
+            <%= t('activerecord.attributes.location.lonlat') %>:
+            <%= location.lonlat.lat %>, <%= location.lonlat.lon %>
+            </p>
+          <small class="card-text text-muted">
+            <%= icon(:world) { location.world.title } %>
+          </small>
+          <% end %>
+        <% end %>
+
+        <%# card footer %>
+        <%# FIXME: Untested %>
+        <%# FIXME: This should go to helper %>
+        <%= tag.div(class: 'card-footer tiny-font') do %>
+          <div class="row text-muted">
+            <div class="col-md-6 col-12 text-md-left text-center">
+              <%= time_ago_in_words(location.updated_at.localtime) %>
+            </div>
+            <div class="col-md-6 col-12 text-md-right text-center">
+              <%= location.user.nick %>
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to('', world_location_path(location.world, location), class: 'card-link stretched-link') %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

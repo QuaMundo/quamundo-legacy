@@ -1,0 +1,62 @@
+<%= tag.div(id: element_id(@location), class: 'card') do %>
+
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:location) { @location.name } %>
+        </h2>
+      </div> 
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %> 
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <% if @location.image.attached? %>
+          <%= tag.img(
+            src: card_img_path(@location.image),
+            class: "img-fluid rounded float-right img-thumbnail figure-image",
+            width: '38%',
+            alt: "Location: #{@location.name}" ) %>
+        <% end %>
+        <h6>
+          <%= @location.name %>
+        </h6>
+        <p class="card-text"><%= @location.description %></p>
+        <% if @location.lonlat %>
+          <p class="card-text">
+          <%= t('activerecord.attributes.location.lonlat') %>:
+          <%= @location.lonlat.lat %>, <%= @location.lonlat.lon %>
+          </p>
+        <% end %>
+        <%= link_to(
+          (icon(:world) { @location.world.title }),
+          world_path(@location.world),
+          class: 'card-link') %>
+    </div>
+    </div>
+
+    <%# FIXME: Further location details %>
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= time_ago_in_words(@location.updated_at.localtime) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

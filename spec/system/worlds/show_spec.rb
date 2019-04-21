@@ -21,23 +21,47 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
       end
     end
 
-    context 'item statistics' do
+    context 'inventory statistics' do
       specify 'figure statistics' do
-        expect(page)
-          .to have_content /Figures:\s*#{world.figures.count}/
-        expect(page)
-          .to have_link(href: world_figures_path(world))
+        page.within('tr#figures') do
+          expect(page)
+            .to have_selector('td', text: /Figures/)
+          expect(page)
+            .to have_selector('td', text: /#{world.figures.count}/)
+          expect(page)
+            .to have_link(href: world_figures_path(world))
+          expect(page)
+            .to have_link(href: new_world_figure_path(world))
+        end
       end
 
       specify 'item statistics' do
-        expect(page)
-          .to have_content /Items:\s*#{world.items.count}/
-        expect(page)
-          .to have_link(href: world_items_path(world))
+        page.within('tr#items') do
+          expect(page)
+            .to have_selector('td', text: /Items/)
+          expect(page)
+            .to have_selector('td', text: /#{world.items.count}/)
+          expect(page)
+            .to have_link(href: world_items_path(world))
+          expect(page)
+            .to have_link(href: new_world_item_path(world))
+        end
       end
 
-      specify 'location statistics'
-      specify 'event statistics'
+      specify 'location statistics' do
+        page.within('tr#locations') do
+          expect(page)
+            .to have_selector('td', text: /Locations/)
+          expect(page)
+            .to have_selector('td', text: /#{world.locations.count}/)
+          expect(page)
+            .to have_link(href: world_locations_path(world))
+          expect(page)
+            .to have_link(href: new_world_location_path(world))
+        end
+      end
+
+      specify 'facts statistics'
     end
 
     it_behaves_like 'valid_view' do

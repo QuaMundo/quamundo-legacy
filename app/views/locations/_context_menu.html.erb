@@ -1,0 +1,30 @@
+<nav class="nav context-menu justify-content-md-end justify-content-center">
+  <%= link_to(
+    icon(:index),
+    world_locations_path(@location.world),
+    class: 'nav-link',
+    title: t(:index)) %>
+  <%= link_to(
+    icon(:world),
+    world_path(@location.world),
+    class: 'nav-link',
+    title: t('activerecord.models.world.one')) %>
+  <%= link_to(
+    icon(:edit),
+    edit_world_location_path(@location.world, @location),
+    class: 'nav-link',
+    title: t(:edit)) %>
+  <%= link_to(
+    icon(:new),
+    new_world_location_path(@location.world),
+    class: 'nav-link',
+    title: t(:new)) %>
+  <%= link_to(
+    icon(:delete),
+    world_location_path(@location.world, @location),
+    method: :delete,
+    class: 'nav-link',
+    title: t(:delete),
+    data: { confirm: t('.confirm_delete', item: @location.name) }) %>
+</nav>
+

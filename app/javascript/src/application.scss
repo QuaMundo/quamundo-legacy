@@ -36,3 +36,17 @@ img.q-media-img-default {
   width: 48px;
   object-fit: contain;
 }
+
+table.world-stats td {
+  text-align: center;
+}
+
+table.world-overview {
+  td {
+    padding-right: 1em;
+  }
+
+  td:nth-of-type(2) {
+    text-align: right;
+  }
+}

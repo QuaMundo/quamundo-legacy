@@ -1,1 +1,36 @@
-<%= render partial: 'items' %>
+<%= tag.div(id: 'items', class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:item) { Item.model_name.human(count: @items.count) } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <%= render partial: 'items' %>
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer text-muted">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= @items.count %>
+          <%= Item.model_name.human(count: @items.count) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

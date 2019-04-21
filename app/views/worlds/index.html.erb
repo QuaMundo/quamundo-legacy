@@ -1,1 +1,35 @@
-<%= render partial: 'worlds' %>
+<%= tag.div(id: 'worlds', class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:world) { World.model_name.human(count: @worlds.count) } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <%= render partial: 'worlds' %>
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer text-muted">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= @worlds.count %>
+          <%= World.model_name.human(count: @worlds.count) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+<% end %>

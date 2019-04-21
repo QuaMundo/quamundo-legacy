@@ -7,5 +7,6 @@ class World < ApplicationRecord
   with_options dependent: :destroy do |assoc|
     assoc.has_many :figures
     assoc.has_many :items
+    assoc.has_many :locations
   end
 end

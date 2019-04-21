@@ -1,0 +1,21 @@
+<nav class="nav justify-content-md-end justify-content-center context-menu">
+  <%= link_to(
+    icon(:index), worlds_path,
+    class: 'nav-link', title: t(:index)) %>
+  <%= link_to(
+    icon(:edit),
+    edit_world_path(@world),
+    class: 'nav-link', title: t(:edit)) %>
+  <%= link_to(
+    icon(:new),
+    new_world_path,
+    class: 'nav-link', title: t(:new)) %>
+  <%= link_to(
+    icon(:delete),
+    world_path(@world),
+    method: :delete,
+    class: 'nav-link',
+    title: t(:delete),
+    data: { confirm: t('.confirm_delete', world: @world.title) }) %>
+</nav>
+

@@ -23,21 +23,20 @@
                                                    { resize: "64x64^", }),
                 class: 'mr-3 q-media-img') %>
             <% else %>
-              <%= tag.img(src: default_image(entry.inventory),
-                          class: 'mr-3 q-media-img-default') %>
+              <%= default_image(entry.inventory, 'mr-3 q-media-img-default') %>
             <% end %>
           <% end %>
 
           <%# body %>
           <div class="media-body">
             <h5 class="mb-1">
-              <%= qm_icon(entry.inventory) { entry.name.capitalize } %>
+              <%= icon(entry.inventory) { entry.name.capitalize } %>
             </h5>
             <div class="small">
               <%= entry.description %><br />
               <span class="text-muted">
-                <%= icon('fa-globe', 'fas') { entry.world.title } %>&nbsp;
-                <%= icon('fa-edit', 'fas') { time_ago_in_words(entry.updated_at) } %>
+                <%= icon(:world) { entry.world.title } %>&nbsp;
+                <%= icon(:edit) { time_ago_in_words(entry.updated_at) } %>
               </span>&nbsp;
               <%= link_to(t('show'),
                           polymorphic_path([entry.world, entry.inventory])) %>

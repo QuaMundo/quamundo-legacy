@@ -18,6 +18,13 @@ RSpec.describe 'Listing items', type: :system, login: :user_with_worlds do
         end
       end
     end
+
+    it 'shows index context menu' do
+      page.first('.card-header') do
+        expect(page).to have_link(href: world_path(world))
+        expect(page).to have_link(href: new_world_item_path(world))
+      end
+    end
   end
 
   context 'of another users world' do

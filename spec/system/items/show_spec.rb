@@ -15,7 +15,7 @@ RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
     end
 
     it 'shows item menu', :comprehensive do
-      page.within('nav.nav') do
+      page.first('nav.nav') do
         expect(page).to have_link(href: new_world_item_path(world))
         expect(page).to have_link(href: world_items_path(world))
         expect(page).to have_link(href: edit_world_item_path(world, item))

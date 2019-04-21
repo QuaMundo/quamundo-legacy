@@ -6,7 +6,7 @@
         <%# card header %>
         <%= tag.div(class: 'card-header') do %>
           <h5 class="card-title mt-2">
-            <%= icon('fa-globe', 'fas') { world.title } %>
+            <%= icon(:world) { world.title } %>
           </h5>
         <% end %>
 
@@ -20,19 +20,19 @@
         <ul class="list-group list-group-flush tiny-font">
           <li class="list-group-item">
             <%# card world statistics %>
-            <table width="100%">
+            <table width="100%" class="world-stats">
               <tr>
                 <td>
-                  <%= icon('fa-user', 'fas') { world.figures.count.to_s } %>
+                  <%= icon(:figure) { world.figures.count.to_s } %>
                 </td>
                 <td>
-                  <%= icon('fa-wrench', 'fas') { world.items.count.to_s } %>
+                  <%= icon(:item) { world.items.count.to_s } %>
                 </td>
                 <td>
-                  <%= icon('fa-map-marker-alt', 'fas') { "0" } %>
+                  <%= icon(:location) { world.locations.count.to_s } %>
                 </td>
                 <td>
-                  <%= icon('fa-exclamation', 'fas') { "0" } %>
+                  <%= icon(:fact) { "0" } %>
                 </td>
               </tr> 
             </table>

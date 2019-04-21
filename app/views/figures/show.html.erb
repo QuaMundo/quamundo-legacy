@@ -2,70 +2,54 @@
 
   <%# card header %>
   <div class="card-header">
-    <h2 class="card-title mt-2">
-      <%= icon('fa-user', 'fas') { @figure.nick } %>
-    </h2>
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:user) { @figure.nick } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-cneter">
+        <%= render partial: 'context_menu' %>
+      </div>
+    </div>
   </div>
 
   <%# card body %>
   <div class="card-body">
-   <div class="row">
-    <div class="col">
-     <% if @figure.image.attached? %> 
-       <%= tag.img(src: card_img_path(@figure.image),
-                   class: "img-fluid rounded float-right img-thumbnail figure-image",
-                   width: '38%',
-                   alt: "Figur: #{@figure.nick}") %>
-     <% end %>
-     <h6>
-       <%= @figure.first_name %>
-       <%= @figure.last_name %>
-     </h6>
-     <p class="card-text"><%= @figure.description %></p>
-     <%= link_to((icon('fa-globe', 'fas') { @figure.world.title }),
-                 world_path(@figure.world),
-                 class: 'card-link') %>
+    <div class="row">
+      <div class="col">
+        <% if @figure.image.attached? %> 
+          <%= tag.img(
+            src: card_img_path(@figure.image),
+            class: "img-fluid rounded float-right img-thumbnail figure-image",
+            width: '38%',
+            alt: "Figur: #{@figure.nick}") %>
+        <% end %>
+        <h6>
+          <%= @figure.first_name %>
+          <%= @figure.last_name %>
+        </h6>
+        <p class="card-text"><%= @figure.description %></p>
+        <%= link_to(
+          (icon(:world) { @figure.world.title }),
+          world_path(@figure.world),
+          class: 'card-link') %>
     </div> 
-   </div> 
+    </div> 
 
-   <%# FIXME: Further figure details in div.col %>
+    <%# FIXME: Further figure details in div.col %>
   </div>
 
   <%# card footer %>
   <div class="card-footer">
     <div class="row">
-      <div class="col-md-4 col-12 text-md-left text-center mt-2">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
         <small>
           <%= time_ago_in_words(@figure.updated_at.localtime) %>
         </small>
       </div>
-      <div class="col-md-8 col-12">
-        <nav class="context-menu nav justify-content-md-end justify-content-center">
-          <%= link_to(icon('fa-list', 'fas'),
-                      world_figures_path(@figure.world),
-                      class: 'nav-link',
-                      title: t(:index)) %>
-          <%= link_to(icon('fa-globe', 'fas'),
-                      world_path(@figure.world),
-                      class: 'nav-link',
-                      title: t(:world)) %>
-          <%= link_to(icon('fa-edit', 'fas'),
-                      edit_world_figure_path(@figure.world, @figure),
-                      class: 'nav-link',
-                      title: t(:edit)) %>
-          <%= link_to(icon('fa-plus', 'fas'),
-                      new_world_figure_path(@figure.world),
-                      class: 'nav-link',
-                      title: t(:new)) %>
-          <%= link_to(icon('fa-trash', 'fas'),
-                      world_figure_path(@figure.world, @figure),
-                      method: :delete,
-                      class: 'nav-link',
-                      title: t(:delete),
-                      data: { 
-                        confirm: t('.confirm_delete', figure: @figure.nick)
-                      }) %>
-      </nav>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
       </div>
     </div>
   </div>

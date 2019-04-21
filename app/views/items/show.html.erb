@@ -2,29 +2,38 @@
 
   <%# card header %>
   <div class="card-header">
-    <h2 class="card-title mt-2">
-      <%= icon('fa-wrench', 'fas') { @item.name } %>
-    </h2>
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:item) { @item.name } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %> 
+      </div>
+    </div>
   </div>
 
   <%# card body %>
   <div class="card-body">
     <div class="row">
       <div class="col">
-       <% if @item.image.attached? %> 
-         <%= tag.img(src: card_img_path(@item.image),
-                     class: "img-fluid rounded float-right img-thumbnail figure-image",
-                     width: '38%',
-                     alt: "Item: #{@item.name}") %>
-       <% end %>
-       <h6>
-         <%= @item.name %>
-       </h6>
-       <p class="card-text"><%= @item.description %></p>
-       <%= link_to((icon('fa-globe', 'fas') { @item.world.title }),
-                   world_path(@item.world),
-                 class: 'card-link') %>
-      </div>
+        <% if @item.image.attached? %> 
+          <%= tag.img(
+            src: card_img_path(@item.image),
+            class: "img-fluid rounded float-right img-thumbnail figure-image",
+            width: '38%',
+            alt: "Item: #{@item.name}") %>
+        <% end %>
+        <h6>
+          <%= @item.name %>
+        </h6>
+        <p class="card-text"><%= @item.description %></p>
+        <%= link_to(
+          (icon(:world) { @item.world.title }),
+          world_path(@item.world),
+          class: 'card-link') %>
+    </div>
     </div>
 
     <%# FIXME: Further figure details in div.col %>
@@ -33,38 +42,13 @@
   <%# card footer %>
   <div class="card-footer">
     <div class="row">
-      <div class="col-md-4 col-12 text-md-left text-center mt-2">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
         <small>
           <%= time_ago_in_words(@item.updated_at.localtime) %>
         </small>
       </div>
-      <div class="col-md-8 col-12">
-        <nav class="nav context-menu justify-content-md-end justify-content-center">
-          <%= link_to(icon('fa-list', 'fas'),
-                      world_items_path(@item.world),
-                      class: 'nav-link',
-                      title: t(:index)) %>
-          <%= link_to(icon('fa-globe', 'fas'),
-                      world_path(@item.world),
-                      class: 'nav-link',
-                      title: t(:world)) %>
-          <%= link_to(icon('fa-edit', 'fas'),
-                      edit_world_item_path(@item.world, @item),
-                      class: 'nav-link',
-                      title: t(:edit)) %>
-          <%= link_to(icon('fa-plus', 'fas'),
-                      new_world_item_path(@item.world),
-                      class: 'nav-link',
-                      title: t(:new)) %>
-          <%= link_to(icon('fa-trash', 'fas'),
-                      world_item_path(@item.world, @item),
-                      method: :delete,
-                      class: 'nav-link',
-                      title: t(:delete),
-                      data: { 
-                        confirm: t('.confirm_delete', item: @item.name)
-                      }) %>
-      </nav>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
       </div>
     </div>
   </div>

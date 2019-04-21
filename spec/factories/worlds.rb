@@ -8,11 +8,13 @@ FactoryBot.define do
     transient do
       figures_count       { 3 }
       items_count         { 3 }
+      locations_count     { 3 }
     end
 
     after(:create) do |world, evaluator|
       create_list(:figure, evaluator.figures_count, world: world)
       create_list(:item, evaluator.items_count, world: world)
+      create_list(:location, evaluator.locations_count, world: world)
     end
   end
 end

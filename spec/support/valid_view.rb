@@ -5,6 +5,7 @@ RSpec.shared_examples "valid_view", type: :system do
   context 'translation', :comprehensive do
     it 'does not miss one' do
       expect(page).not_to have_selector('span.translation_missing')
+      expect(page).not_to have_selector('[title*="translation_missing"]')
     end
   end
 

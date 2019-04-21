@@ -12,4 +12,10 @@ RSpec.describe 'Listing worlds', type: :system, login: :user_with_worlds do
     expect(page).to have_link(href: world_path(world))
     expect(page).not_to have_link('', href: world_path(other_world))
   end
+
+  it 'shows index context menu' do
+    page.first('.card-header') do
+      expect(page).to have_link(href: new_world_path)
+    end
+  end
 end

@@ -7,6 +7,8 @@ gem 'rails', '~> 5.2.1'
 gem 'webpacker'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
+# Use PostGIS extension
+gem 'activerecord-postgis-adapter'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # See https://github.com/rails/execjs#readme for more supported runtimes

@@ -14,7 +14,7 @@ import '@fortawesome/fontawesome-free/svgs/solid/wrench.svg'
 // time range
 import '@fortawesome/fontawesome-free/svgs/solid/history.svg'
 // location
-import '@fortawesome/fontawesome-free/svgs/solid/map-marked-alt.svg'
+import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 //import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 // event
 import '@fortawesome/fontawesome-free/svgs/solid/exclamation.svg'

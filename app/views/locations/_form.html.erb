@@ -1,0 +1,23 @@
+<%= form_with url: [@world, @location], model: @location, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, autocomplete: :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :lonlat %>
+    <%= f.text_field :lonlat, autocomplete: :lonlat, class: 'form-control', value: get_lonlat(@location.lonlat) %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :image %>
+    <%= f.file_field :image, class: 'form-control-file' %>
+  </div>
+
+  <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
+<% end %>

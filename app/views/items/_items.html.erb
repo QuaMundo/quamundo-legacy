@@ -6,7 +6,7 @@
         <%# card header %>
         <%= tag.div(class: 'card-header') do %>
           <h5 class="card-title mt-2">
-            <%= icon('fa-wrench', 'fas') { item.name } %>
+            <%= icon(:item) { item.name } %>
           </h5>
         <% end %>
 
@@ -24,7 +24,7 @@
           </h6>
           <p class="card-text"><%= item.description %></p>
           <small class="card-text text-muted">
-            <%= icon('fa-globe', 'fas') { item.world.title } %>
+            <%= icon(:world) { item.world.title } %>
           </small>
         <% end %>
 
