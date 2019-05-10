@@ -39,6 +39,6 @@ module Quamundo
     config.active_record.schema_format = :sql
 
     # quamundo version
-    config.quamundo_version = 'v0.0.3'
+    config.quamundo_version = 'v0.0.4'
   end
 end
