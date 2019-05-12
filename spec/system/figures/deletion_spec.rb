@@ -1,8 +1,6 @@
 RSpec.describe 'Deleting a figure', type: :system, login: :user_with_worlds do
   include_context 'Session'
 
-  let(:world) { user_with_worlds.worlds.last }
-  let(:other_world) { other_user_with_worlds.worlds.last }
   let(:figure) { world.figures.first }
   let(:other_figure) { other_world.figures.first }
 
@@ -13,8 +11,12 @@ RSpec.describe 'Deleting a figure', type: :system, login: :user_with_worlds do
       page.accept_confirm() do
         page.first('nav.context-menu a.nav-link[title="delete"]').click
       end
-      expect(current_path).to eq(world_figures_path(world))
+      expect(page).to have_current_path(world_figures_path(world))
       expect(Figure.find_by(id: figure.id)).to be_falsey
+    end
+
+    it_behaves_like 'valid_view' do
+      let(:subject) { world_figure_path(world, figure) }
     end
   end
 
@@ -22,7 +24,7 @@ RSpec.describe 'Deleting a figure', type: :system, login: :user_with_worlds do
     before(:example) { visit world_figure_path(other_world, other_figure) }
 
     it 'refuses to remove figure of another users world' do
-      expect(current_path).to eq(worlds_path)
+      expect(page).to have_current_path(worlds_path)
     end
   end
 end

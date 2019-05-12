@@ -1,4 +1,6 @@
-class LocationsController < WorldInventoryController
+class LocationsController < ApplicationController
+  include WorldAssociationController
+
   before_action :set_location, only: [:show, :edit, :update, :destroy]
   before_action :set_lonlat_param, only: [:create, :update]
 
@@ -17,13 +19,12 @@ class LocationsController < WorldInventoryController
       if @location.save
         format.html do
           redirect_to(world_location_path(@world, @location),
-                      # FIXME: I18n
-                      notice: "Location #{@location.name} successfully created")
+                      notice: t('controllers.location.created', location: @location.name))
         end
       else
         format.html do
-          # FIXME: I18n
-          flash[:alert] = "Name must be given"
+          # FIXME: This is possibly untested
+          flash[:alert] = t('controllers.location.create_failed', location: @location.name)
           render :new
         end
       end
@@ -41,13 +42,12 @@ class LocationsController < WorldInventoryController
       if @location.update(location_params)
         format.html do
           redirect_to(world_location_path(@world, @location),
-                      # FIXME: I18n
-                      notice: "Location: #{@location.name} sucessfully updated.")
+                      notice: t('controllers.location.updated', location: @location.name))
         end
       else
         format.html do
-          # FIXME: I18n
-          flash[:alert] = "Location updated"
+          # FIXME: This is possibly untested
+          flash[:alert] = t('controllers.location.update_failed', location: @location.name)
           render :edit
         end
       end
@@ -59,7 +59,7 @@ class LocationsController < WorldInventoryController
     respond_to do |format|
       format.html do
         redirect_to(world_locations_path(@world),
-          notice: "Location: #{@location.name} successfully deleted")
+                    notice: t('controllers.location.destroyed', location: @location.name))
       end
     end
   end

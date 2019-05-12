@@ -21,7 +21,7 @@ RSpec.describe 'Creating a world', type: :system, login: :user_with_worlds do
 
   it 'redirects to new form if title is missing' do
     click_button('submit')
-    expect(page).to have_css('.alert', text: 'Title')
+    expect(page).to have_css('.alert', text: /could not be created/i)
   end
 
   it_behaves_like 'valid_view' do

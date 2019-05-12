@@ -1,8 +1,10 @@
-class FiguresController < WorldInventoryController
+class FiguresController < ApplicationController
+  include WorldAssociationController
+
   before_action :set_figure, only: [:show, :edit, :update, :destroy]
 
   def index
-    @figures = @world.figures.order(nick: :asc)
+    @figures = @world.figures.order(name: :asc)
   end
 
   def show
@@ -19,13 +21,12 @@ class FiguresController < WorldInventoryController
       if @figure.save
         format.html do
           redirect_to(world_figure_path(@world, @figure),
-                      # FIXME: I18n
-                      notice: "Figure #{@figure.nick} successfully created")
+                      notice: t('controllers.figure.created', figure: @figure.name))
         end
       else
         format.html do
-          # FIXME: I18n
-          flash[:alert] = "Nick must be given"
+          # FIXME: This is possibly untested!
+          flash[:alert] = t('controllres.figure.create_failed', figure: @figure.name)
           render :new
         end
       end
@@ -40,11 +41,11 @@ class FiguresController < WorldInventoryController
       if @figure.update(figure_params)
         format.html do
           redirect_to(world_figure_path(@world, @figure),
-                      notice: "Figure #{@figure.nick} successfully updated-")
+                      notice: t('controllers.figure.updated', figure: @figure.name))
         end
       else
         format.html do
-          flash[:alert] = "Something went wrong"
+          flash[:alert] = t('controllers.figure.update_failed', figure: @figure.name)
           render :edit
         end
       end
@@ -56,17 +57,17 @@ class FiguresController < WorldInventoryController
     respond_to do |format|
       format.html do
         redirect_to(world_figures_path(@world),
-                    notice: "Figure #{@figure.nick} successfully deleted")
+                    notice: t('controllers.figure.destroyed', figure: @figure.name))
       end
     end
   end
 
   private
   def set_figure
-    @figure = @world.figures.find_by(nick: params[:nick])
+    @figure = @world.figures.find(params[:id])
   end
 
   def figure_params
-    params.require(:figure).permit(:nick, :last_name, :first_name, :description, :image)
+    params.require(:figure).permit(:name, :description, :image)
   end
 end

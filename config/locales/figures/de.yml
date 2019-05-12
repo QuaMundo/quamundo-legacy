@@ -1,8 +1,10 @@
 de:
   figures:
     new:
-      new_figure: 'New Figure'
-    show:
+      new_figure: 'Neue Figur'
+    edit:
+      edit_figure: 'Figur bearbeiten'
+    context_menu:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
 
   activerecord:
@@ -18,3 +20,7 @@ de:
         last_name: 'Nachname'
         description: 'Anmerkungen'
         image: 'Bild'
+
+  controllers:
+    figure:
+      created: 'Figur %{figure} wurde erfolgreuch erstellt'

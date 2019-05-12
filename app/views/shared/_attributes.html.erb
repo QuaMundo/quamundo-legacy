@@ -1,0 +1,66 @@
+<%# `obj` is assumed to hold a `noteable object` %>
+<div class="row">
+  <div class="col">
+    <div class="accordion" id="attributes">
+
+      <%# Tags %>
+      <%# FIXME: Refactor: This shouldn't be a collapse! %>
+      <div class="card" id="tags">
+
+        <div class="card-header" id="tags-header">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tags-collection" aria-expanded="true" aria-controls="tags-collection">
+            <%= icon(:tag) %>&nbsp;<%= obj.tag.tagset.count %>
+          </button>
+        </div>
+
+        <div id="tags-collection" class="collapse" aria-labeled-by="tags-header" data-parent="#attributes">
+          <div class="card-body">
+            <%= render partial: 'shared/tags', locals: { obj: obj } %>
+          </div>
+        </div>
+
+      </div>
+      <%# /Tags %>
+
+      <%# Notes %>
+      <div class="card"id="notes">
+
+        <div class="card-header" id="notes-header">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#notes-collection" aria-expanded="true" aria-controls="notes-collection">
+            <%= icon(:note) %>&nbsp;<%= obj.notes.count %>
+          </button>
+        </div>
+
+        <div id="notes-collection" class="collapse" aria-labeled-by="notes-header" data-parent="#attributes">
+          <div class="card-body">
+            <%= render partial: 'shared/notes', locals: { obj: obj } %>
+          </div>
+        </div>
+
+      </div>
+      <%# /Notes %>
+
+      <%# Dossier %>
+      <div class="card" id="dossiers">
+
+        <div class="card-header" id="dossiers-header">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#dossiers-collection" aria-expanded="true" aria-controls="dossiers-collection">
+            <%= icon(:dossier) %>&nbsp;<%= 99 %>
+          </button>
+        </div>
+
+        <div id="dossiers-collection" class="collapse" aria-labeled-by="dossiers-header" data-parent="#attributes">
+          <div class="card-body">
+            <%# render ... %>
+          </div>
+        </div>
+
+      </div>
+      <%# /Dossier %>
+
+    </div>
+  </div>
+
+</div>
+
+

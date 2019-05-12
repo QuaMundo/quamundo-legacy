@@ -35,14 +35,12 @@
           <%= @location.lonlat.lat %>, <%= @location.lonlat.lon %>
           </p>
         <% end %>
-        <%= link_to(
-          (icon(:world) { @location.world.title }),
-          world_path(@location.world),
-          class: 'card-link') %>
+        <%= link_to((icon(:world) { @location.world.title }), world_path(@location.world), class: 'card-link') %>
+      </div>
     </div>
-    </div>
+    <%# Attributes go here %>
+    <%= render partial: 'shared/attributes', locals: { obj: @location } %>
 
-    <%# FIXME: Further location details %>
   </div>
 
   <%# card footer %>

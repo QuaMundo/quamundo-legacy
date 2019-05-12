@@ -1,0 +1,10 @@
+<%# `@url` has to be set in controller 
+  see: https://stackoverflow.com/a/9163318 %>
+<%= form_with url: @form_url, model: @note, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, autofocus: true, class: 'form-control' %>
+  </div>
+  <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
+<% end %>
+

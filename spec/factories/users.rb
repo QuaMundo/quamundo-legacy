@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :user do
-    sequence(:id)     { |n| n }
-    nick              { "nick_#{id.to_s}" }
+    sequence(:nick)   { |n| "nick_#{n.to_s}" }
     email             { "#{nick}@example.tld" }
 
     password          { 's3cr3t' }
@@ -13,6 +12,7 @@ FactoryBot.define do
 
       after(:create) do |user, evaluator|
         create_list(:world, evaluator.worlds_count, user: user)
+          .each { |w| w.create_tag(tagset: ["world_tag_#{rand(5)}"]) }
       end
     end
 

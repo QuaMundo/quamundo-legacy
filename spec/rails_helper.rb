@@ -27,9 +27,15 @@ require 'support/users'
 require 'support/user_login'
 require 'support/worlds'
 require 'support/session'
-require 'support/active_storage_helper'
+require 'support/quamundo_test_helpers'
 require 'support/valid_view'
 require 'support/associated_with_world'
+require 'support/inventory'
+require 'support/noteable'
+require 'support/tagable'
+require 'support/associated_note'
+require 'support/associated_tag'
+require 'support/updates_parent'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -69,8 +75,8 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  include ActiveStorageTestHelpers
-  config.before(:suite) { remove_uploads }
+  include QuamundoTestHelpers
+  config.before(:suite) { cleanup_test_environment }
   config.before(:example, type: :system) do
     driven_by(:rack_test)
   end

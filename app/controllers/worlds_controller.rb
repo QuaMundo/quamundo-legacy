@@ -21,11 +21,12 @@ class WorldsController < ApplicationController
       if @world.save
         format.html do
           redirect_to(world_path(@world),
-            notice: "World #{@world.title} successfully created.")
+                      notice: t('controllers.world.created', world: @world.title))
         end
       else
         format.html do
-          flash[:alert] = "Title must be given"
+          # FIXME: This possibly is not tested
+          flash[:alert] = t('controllers.world.create_failed', world: @world.title)
           render :new
         end
       end
@@ -40,12 +41,12 @@ class WorldsController < ApplicationController
       if @world.update(world_params)
         format.html do
           redirect_to(world_path(@world),
-                      notice: "World #{@world.title} successfully updated.")
+                      notice:t('controllers.world.updated', world: @world.title))
         end
       else
         format.html do
-          # FIXME This alert must be more generic
-          flash[:alert] = "Title must not be empty"
+          # FIXME This possibly is not testet
+          flash[:alert] = t('controller.world.update_failed', world: @world.title)
           render :edit
         end
       end
@@ -57,7 +58,7 @@ class WorldsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(worlds_path,
-                    notice: "World #{@world.title} got apocalypse")
+                    notice: t('controllers.world.destroyed', world: @world.title))
       end
     end
   end

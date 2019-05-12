@@ -2,7 +2,9 @@ en:
   figures:
     new:
       new_figure: 'New Figure'
-    show:
+    edit:
+      edit_figure: 'Edit Figure'
+    context_menu:
       confirm_delete: 'Should figure %{figure} really be deleted?'
 
   activerecord:
@@ -18,3 +20,7 @@ en:
         last_name: 'Lastname'
         description: 'Description'
         image: 'Image'
+
+  controllers:
+    figure:
+      created: 'Figure %{figure} successfully created'

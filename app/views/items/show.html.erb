@@ -29,14 +29,12 @@
           <%= @item.name %>
         </h6>
         <p class="card-text"><%= @item.description %></p>
-        <%= link_to(
-          (icon(:world) { @item.world.title }),
-          world_path(@item.world),
-          class: 'card-link') %>
+        <%= link_to((icon(:world) { @item.world.title }), world_path(@item.world), class: 'card-link') %>
+      </div>
     </div>
-    </div>
+    <%# Attributes go here %>
+    <%= render partial: 'shared/attributes', locals: { obj: @item } %>
 
-    <%# FIXME: Further figure details in div.col %>
   </div>
 
   <%# card footer %>

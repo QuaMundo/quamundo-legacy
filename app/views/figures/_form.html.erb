@@ -1,21 +1,11 @@
 <%= form_with url: [@world, @figure], model: @figure, local: true do |f| %>
   <div class="form-group">
-   <%= f.label :nick %> 
-   <% if @figure.nick %>
-     <%= f.text_field :nick, autofocus: true, disabled: true, class: "form-control" %>
+   <%= f.label :name %> 
+   <% if @figure.name %>
+     <%= f.text_field :name, autofocus: true, disabled: true, class: "form-control" %>
    <% else %>
-     <%= f.text_field :nick, autofocus: true, autocomplete: :title, class: "form-control" %>
+     <%= f.text_field :name, autofocus: true, autocomplete: :title, class: "form-control" %>
    <% end %>
-  </div>
-
-  <div class="form-group">
-   <%= f.label :first_name %>
-   <%= f.text_field :first_name, autocomplete: :first_name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-   <%= f.label :last_name %>
-   <%= f.text_field :last_name, autocomplete: :last_name, class: "form-control" %>
   </div>
 
   <div class="form-group">

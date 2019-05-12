@@ -4,7 +4,6 @@ RSpec.describe 'Worlds', type: :request do
   context 'without user logged in' do
     let(:world) { create(:world, title: 'Welt', user: user) }
 
-    # FIXME: Can this be abstracted? It's not DRY
     it 'redirects to login when world index ist requested' do
       get worlds_path
       expect_login_path
@@ -64,8 +63,6 @@ RSpec.describe 'Worlds', type: :request do
     end
 
     context 'regarding other users worlds' do
-      let(:other_world) { other_world = other_user_with_worlds.worlds.first }
-
       it 'refuses to destroy world of other user' do
         get world_path(other_world)
         expect(response).to redirect_to(worlds_path)

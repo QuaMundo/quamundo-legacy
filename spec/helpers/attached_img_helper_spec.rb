@@ -8,7 +8,7 @@ RSpec.describe 'Image Attachment Tag Helper' do
       .to match %r(^/rails/active_storage/representations/.+/earth.jpg$)
   end
 
-  it 'returns nothon for non image attachments' do
+  it 'returns nothing for non image attachments' do
     attach_file(world.image, 'file.pdf')
     expect(helper.attached_img_path(world.image)).to match /^$/
   end

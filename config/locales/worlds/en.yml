@@ -4,7 +4,7 @@ en:
       edit_world: 'Edit World'
     new:
       new_world: 'New World'
-    show:
+    context_menu:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
 
   activerecord:
@@ -19,3 +19,7 @@ en:
         description: 'Description'
         image: 'Image'
 
+  controllers:
+    world:
+      created: 'World %{world} successfully created'
+      create_failed: 'World %{world} could not be created'

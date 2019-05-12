@@ -6,7 +6,7 @@
         <%# card header %>
         <%= tag.div(class: 'card-header') do %>
           <h5 class="card-title mt-2">
-            <%= icon(:user) { figure.nick } %>
+            <%= icon(:user) { figure.name } %>
           </h5>
         <% end %>
 
@@ -19,11 +19,6 @@
 
         <%# card body %>
         <%= tag.div(class: 'card-body') do %>
-          <%# FIXME: Deprecated %>
-          <h6>
-            <%= figure.first_name %>
-            <%= figure.last_name %>
-          </h6>
           <p class="card-text"><%= figure.description %></p>
           <small class="card-text text-muted">
           <%= icon(:world) { figure.world.title } %>

@@ -1,6 +1,8 @@
 class World < ApplicationRecord
   include Imaged
   include Slugged
+  include Noteable
+  include Tagable
 
   belongs_to :user
   has_many :dashboard_entries

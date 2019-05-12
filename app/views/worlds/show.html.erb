@@ -102,10 +102,6 @@
 
         </table>
 
-        <%# Notes go here %>
-
-        <%# Files go here %>
-
         <div class="text-muted">
           <p>
           <small><%= t(:created_by, nick: @world.user.nick) %>
@@ -115,7 +111,10 @@
         </div>
 
       </div>
+
     </div>
+    <%# attributes go here %>
+    <%= render partial: 'shared/attributes', locals: { obj: @world } %>
 
   </div>
   <div class="card-footer text-muted">

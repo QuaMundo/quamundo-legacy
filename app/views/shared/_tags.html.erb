@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col">
+    <% if obj.tag %>
+      <% obj.tag.tagset.each do |t| %>
+        <span class="badge badge-pill badge-secondary tag"><%= t %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <%= link_to(icon(:edit), edit_tag_path(obj.tag), id: element_id(obj.tag, 'edit')) %>
+    <%= link_to(icon(:delete), tag_path(obj.tag), id: element_id(obj.tag, 'delete'), method: :delete, data: { confirm: 'delete tagset' }) %>
+  </div>
+</div>
+

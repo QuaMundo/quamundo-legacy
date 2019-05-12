@@ -1,9 +1,6 @@
 RSpec.describe 'Listing items', type: :system, login: :user_with_worlds do
   include_context 'Session'
 
-  let(:world) { user_with_worlds.worlds.first }
-  let(:other_world) { other_user_with_worlds.worlds.first }
-
   context 'of an own world' do
     before(:example) { visit world_items_path(world) }
 
@@ -25,13 +22,17 @@ RSpec.describe 'Listing items', type: :system, login: :user_with_worlds do
         expect(page).to have_link(href: new_world_item_path(world))
       end
     end
+
+    it_behaves_like 'valid_view' do
+      let(:subject) { world_items_path(world) }
+    end
   end
 
   context 'of another users world' do
     before(:example) { visit world_items_path(other_world) }
 
     it 'does not show items of another users world' do
-      expect(current_path).to eq(worlds_path)
+      expect(page).to have_current_path(worlds_path)
     end
   end
 end

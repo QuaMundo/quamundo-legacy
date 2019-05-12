@@ -1,7 +1,6 @@
 RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
   include_context 'Session'
 
-  let(:world) { user_with_worlds.worlds.first }
   let(:item) { world.items.first }
 
   context 'of an own world' do
@@ -27,11 +26,19 @@ RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
     it_behaves_like 'valid_view' do
       let(:subject) { world_item_path(world, item) }
     end
+
+    it_behaves_like 'associated note' do
+      let(:subject) { item }
+    end
+
+    it_behaves_like 'associated tags' do
+      let(:subject) { item }
+    end
   end
 
   context 'with image' do
     before(:example) do
-      item.image = fixture_file_upload(fixture_file_name('item.png'))
+      item.image = fixture_file_upload(fixture_file_name('item.jpg'))
       visit(world_item_path(world, item))
     end
 
@@ -41,13 +48,12 @@ RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
   end
 
   context 'of another users world' do
-    let(:other_world) { other_user_with_worlds.worlds.first }
     let(:other_item) { other_world.items.last }
 
     before(:example) { visit world_item_path(other_world, other_item) }
 
     it 'redirects to worlds index' do
-      expect(current_path).to eq(worlds_path)
+      expect(page).to have_current_path(worlds_path)
     end
   end
 end

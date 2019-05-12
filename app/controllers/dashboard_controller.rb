@@ -1,5 +1,4 @@
 class DashboardController < ApplicationController
-  # FIXME: Refactor - use DashboardEntries Model
   before_action :set_objects
 
   def index

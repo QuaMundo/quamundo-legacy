@@ -1,9 +1,6 @@
 RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
   include_context 'Session'
 
-  let(:world) { user_with_worlds.worlds.first }
-  let(:other_world) { other_user_with_worlds.worlds.first }
-
   context 'own worlds' do
     before(:example) { visit world_path(world) }
 
@@ -25,7 +22,7 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
       specify 'figure statistics' do
         page.within('tr#figures') do
           expect(page)
-            .to have_selector('td', text: /Figures/)
+            .to have_selector('td', text: /Figure/)
           expect(page)
             .to have_selector('td', text: /#{world.figures.count}/)
           expect(page)
@@ -38,7 +35,7 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
       specify 'item statistics' do
         page.within('tr#items') do
           expect(page)
-            .to have_selector('td', text: /Items/)
+            .to have_selector('td', text: /Item/)
           expect(page)
             .to have_selector('td', text: /#{world.items.count}/)
           expect(page)
@@ -51,7 +48,7 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
       specify 'location statistics' do
         page.within('tr#locations') do
           expect(page)
-            .to have_selector('td', text: /Locations/)
+            .to have_selector('td', text: /Location/)
           expect(page)
             .to have_selector('td', text: /#{world.locations.count}/)
           expect(page)
@@ -67,14 +64,22 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
     it_behaves_like 'valid_view' do
       let(:subject) { world_path(world) }
     end
+
+    it_behaves_like 'associated note' do
+      let(:subject) { world }
+    end
+
+    it_behaves_like 'associated tags' do
+      let(:subject) { world }
+    end
   end
 
   context 'other users worlds' do
     before(:example) { visit world_path(other_world) }
 
     it 'does not show world not owned by logged in user' do
-      expect(current_path).not_to eq(world_path(other_world))
-      expect(current_path).to eq(worlds_path)
+      expect(page).not_to have_current_path(world_path(other_world))
+      expect(page).to have_current_path(worlds_path)
       expect(page).to have_selector('aside.alert-danger',
                                    text: 'This is not')
     end

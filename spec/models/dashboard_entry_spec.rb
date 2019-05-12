@@ -1,7 +1,5 @@
 RSpec.describe DashboardEntry, type: :model do
   include_context 'Session'
-  include_context 'Users'
-  include_context 'Worlds'
 
   it 'is a read-only model' do
     expect(DashboardEntry.new.readonly?).to be_truthy
@@ -26,7 +24,7 @@ RSpec.describe DashboardEntry, type: :model do
     it 'lists only objects belonging to the current user' do
       expect(
         user_with_worlds.dashboard_entries.each.all? do |e|
-          e.user = user_with_worlds
+          e.user == user_with_worlds
         end)
           .to be_truthy
     end

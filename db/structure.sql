@@ -5,6 +5,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -112,9 +113,7 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.figures (
     id bigint NOT NULL,
-    first_name character varying,
-    last_name character varying,
-    nick character varying NOT NULL,
+    name character varying NOT NULL,
     description text,
     world_id bigint,
     created_at timestamp without time zone NOT NULL,
@@ -183,7 +182,7 @@ CREATE VIEW public.dashboard_entries AS
 UNION
  SELECT f.id AS inventory_id,
     'Figure'::text AS inventory_type,
-    f.nick AS name,
+    f.name,
     f.description,
     f.updated_at,
     wf.id AS world_id,
@@ -261,12 +260,74 @@ ALTER SEQUENCE public.locations_id_seq OWNED BY public.locations.id;
 
 
 --
+-- Name: notes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.notes (
+    id bigint NOT NULL,
+    content text NOT NULL,
+    noteable_type character varying,
+    noteable_id integer
+);
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.tags (
+    id bigint NOT NULL,
+    tagset character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    tagable_type character varying,
+    tagable_id integer
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
 
 
 --
@@ -360,6 +421,20 @@ ALTER TABLE ONLY public.locations ALTER COLUMN id SET DEFAULT nextval('public.lo
 
 
 --
+-- Name: notes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_id_seq'::regclass);
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -422,11 +497,27 @@ ALTER TABLE ONLY public.locations
 
 
 --
+-- Name: notes notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -467,10 +558,10 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 
 
 --
--- Name: index_figures_on_nick; Type: INDEX; Schema: public; Owner: -
+-- Name: index_figures_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_figures_on_nick ON public.figures USING btree (nick);
+CREATE INDEX index_figures_on_name ON public.figures USING btree (name);
 
 
 --
@@ -499,6 +590,27 @@ CREATE INDEX index_locations_on_lonlat ON public.locations USING gist (lonlat);
 --
 
 CREATE INDEX index_locations_on_world_id ON public.locations USING btree (world_id);
+
+
+--
+-- Name: index_notes_on_noteable_type_and_noteable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notes_on_noteable_type_and_noteable_id ON public.notes USING btree (noteable_type, noteable_id);
+
+
+--
+-- Name: index_tags_on_tagable_type_and_tagable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tags_on_tagable_type_and_tagable_id ON public.tags USING btree (tagable_type, tagable_id);
+
+
+--
+-- Name: index_tags_on_tagset; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tags_on_tagset ON public.tags USING gin (tagset);
 
 
 --
@@ -605,6 +717,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190411071508'),
 ('20190412141828'),
 ('20190428142139'),
-('20190506212919');
+('20190506212919'),
+('20190519214102'),
+('20190601154637'),
+('20190602174120'),
+('20190604130121');
 
 

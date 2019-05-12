@@ -1,0 +1,26 @@
+<div class="row">
+  <%# FIXME: Needs styling %>
+  <% obj.notes.each do |note| %>
+    <%= tag.div(id: element_id(note), class: 'col-md-2 col-6 note') do %>
+
+      <%= tag.div(class: 'card bg-warning h-100') do %>
+        <div class="card-header">
+          <%= icon(:note) %> 
+        </div>
+        <div class="card-body tiny-font">
+          <p><%= note.content %></p>
+        </div>
+        <div class="card-footer">
+          <%= link_to(icon(:delete), note_path(note), id: element_id(note, 'delete'), method: :delete, data: { confirm: 'delete' }) %>
+          <%= link_to(icon(:edit), edit_note_path(note), id: element_id(note, 'edit')) %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="row">
+  <div class="col">
+    <%= link_to(icon(:new), new_polymorphic_path([obj.try(:world), obj, Note]), id: 'add-note') %>
+  </div>
+</div>

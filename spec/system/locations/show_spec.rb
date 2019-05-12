@@ -1,7 +1,6 @@
 RSpec.describe 'Showing a location', type: :system, login: :user_with_worlds do
   include_context 'Session'
 
-  let(:world) { user_with_worlds.worlds.first }
   let(:location) { world.locations.first }
 
   context 'of own world' do
@@ -29,6 +28,14 @@ RSpec.describe 'Showing a location', type: :system, login: :user_with_worlds do
     it_behaves_like 'valid_view' do
       let(:subject) { world_location_path(world, location) }
     end
+
+    it_behaves_like 'associated note' do
+      let(:subject) { location }
+    end
+
+    it_behaves_like 'associated tags' do
+      let(:subject) { location }
+    end
   end
 
   context 'with image' do
@@ -43,13 +50,12 @@ RSpec.describe 'Showing a location', type: :system, login: :user_with_worlds do
   end
 
   context 'of another users world' do
-    let(:other_world) { other_user_with_worlds.worlds.first }
     let(:other_location) { other_world.locations.first }
 
     before(:example) { visit world_location_path(other_world, other_location) }
 
     it 'redirects to worlds index' do
-      expect(current_path).to eq(worlds_path)
+      expect(page).to have_current_path(worlds_path)
     end
   end
 end

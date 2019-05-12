@@ -1,6 +1,5 @@
 RSpec.describe 'Dashboard', type: :system do
   include_context 'Session'
-  include_context 'Worlds'
 
   context 'for user without a world', login: :user do
     before(:example) { visit root_path }
@@ -9,7 +8,7 @@ RSpec.describe 'Dashboard', type: :system do
       page.within('.jumbotron') do
         click_link('create a world', href: new_world_path)
       end
-      expect(current_path).to eq(new_world_path)
+      expect(page).to have_current_path(new_world_path)
     end
 
     it_behaves_like "valid_view" do
@@ -17,20 +16,12 @@ RSpec.describe 'Dashboard', type: :system do
     end
   end
 
-  context 'for user with worlds' do
-    # FIXME: There should be a shared_context for this!
-    let(:user) { create(:user_with_worlds_wo_img, worlds_count: 5) }
-
-    around(:example) do |example|
-      sign_in(user)
-      visit root_path
-      example.run
-      sign_out(user)
-    end
+  context 'for user with worlds', login: :other_user_with_worlds do
+    before(:example) { visit root_path }
 
     it 'shows 4 last updated worlds' do
       expect(page).to have_selector("div[id^=\"card-world-\"]", count: 4)
-      world_ids = user.worlds.order(updated_at: :desc).limit(4)
+      world_ids = other_user_with_worlds.worlds.order(updated_at: :desc).limit(4)
         .all.map { |w| "card-world-#{w.id}" }
       world_ids.each do |id|
         expect(page).to have_selector("##{id}")
@@ -38,23 +29,25 @@ RSpec.describe 'Dashboard', type: :system do
       # Details are tested in world index view
     end
 
-    it 'shows last 15 activities in descending order' do
-      create_some_inventory(user)
-      page.within('#last-activities') do
-        user.dashboard_entries.each do |entry|
-          expect(page).to have_content(entry.name)
-          expect(page).to have_content(entry.description)
-          expect(page).to have_link(
-            href: polymorphic_path([entry.world, entry.inventory])
-          )
-          expect(page).to have_selector('img')
-          # FIXME: Further details ...
-        end
+    it 'shows last 15 activities in descending order', :comprehensive do
+      create_some_inventory(other_user_with_worlds)
+      other_user_with_worlds.dashboard_entries.each do |entry|
+        check_attrs(entry)
       end
     end
 
     it_behaves_like "valid_view" do
       let(:subject) { root_path }
+    end
+
+    private
+    def check_attrs(item)
+      expect(page).to have_content(item.name)
+      expect(page).to have_content(item.description)
+      expect(page).to have_link(
+        href: polymorphic_path([item.world, item.inventory])
+      )
+      expect(page).to have_selector('img')
     end
   end
 end

@@ -1,5 +1,11 @@
-class WorldInventoryController < ApplicationController
-  before_action :set_world
+module WorldAssociationController
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :set_world
+
+    attr_reader :world
+  end
 
   private
   def set_world
@@ -10,7 +16,7 @@ class WorldInventoryController < ApplicationController
   # FIXME: This should once be replaced by pundit
   def require_permissons
     unless current_user == @world.user
-      flash[:alert] = "You are not allowed to create s.th. in this world"
+      flash[:alert] = t(:not_allowed)
       redirect_to worlds_path
     end
   end

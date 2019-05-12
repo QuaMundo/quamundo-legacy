@@ -8,11 +8,13 @@
 // layout file, like app/views/layouts/application.html.erb
 import "../src/application.scss"
 
+
 // Import bootstrap
 import 'bootstrap'
+import 'startbootstrap-sb-admin-2/js/sb-admin-2'
 
 // Import fontawesome svgs
-import './default-images'
+import '../src/default-images'
 
 // Use rails-ujs
 import Rails from 'rails-ujs';

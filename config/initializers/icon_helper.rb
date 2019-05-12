@@ -9,6 +9,12 @@ module IconHelper
         location: { icon: 'map-marker-alt', style: 'fas' },
         fact:     { icon: 'exclamation',    style: 'fas' },
 
+        # Attributes
+        note:     { icon: 'sticky-note',    style: 'far' },
+        dossier:  { icon: 'folder-open',    style: 'fas' },
+        attr:     { icon: 'tag',            style: 'fas' },
+        tag:      { icon: 'hashtag',        style: 'fas' },
+
         # Menu
         user:     { icon: 'user',           style: 'fas' },
         edit:     { icon: 'edit',           style: 'fas' },

@@ -2,7 +2,9 @@ en:
   items:
     new:
       new_item: 'New Item'
-    show:
+    edit:
+      edit_item: 'Edit Item'
+    context_menu:
       confirm_delete: 'Should item %{item} really be removed?'
 
   activerecord:
@@ -17,3 +19,7 @@ en:
         description: 'Description'
         image: 'Image'
 
+  controllers:
+    item:
+      created: 'Item %{item} successfully created'
+      create_failed: 'Item %{item} could not be created'

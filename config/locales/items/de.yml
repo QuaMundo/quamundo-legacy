@@ -2,7 +2,9 @@ de:
   items:
     new:
       new_item: 'Neuer Gegenstand'
-    show:
+    edit:
+      edit_item: 'Gegenstand Bearbeiten'
+    context_menu:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
 
   activerecord:
@@ -16,4 +18,9 @@ de:
         name: 'Bezeichnung'
         description: 'Beschreibung'
         image: 'Abbildung'
+
+  controllers:
+    item:
+      created: 'Item %{item} erfolgreich erstellt'
+      create_failed: 'Ein Item mit Namen %{item} konnte nicht erstellt werden.'
 

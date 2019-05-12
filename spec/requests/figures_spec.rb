@@ -8,8 +8,6 @@ RSpec.describe 'Figures', type: :request do
   context 'withuser logged in', login: :user_with_worlds do
     include_context 'Session'
 
-    let(:world) { user_with_worlds.worlds.first }
-
     it 'shows worlds figures index', :comprehensive do
       get world_figures_path(world)
       expect(response).to be_successful

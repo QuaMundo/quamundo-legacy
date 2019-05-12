@@ -2,10 +2,7 @@ RSpec.describe 'Updating/Editing a location',
   type: :system, login: :user_with_worlds do
 
   include_context 'Session'
-  include_context 'Worlds'
 
-  let(:world) { user_with_worlds.worlds.first }
-  let(:other_world) { other_user_with_worlds.worlds.first }
   let(:location) { world.locations.first }
   let(:other_location) { other_world.locations.first }
 
@@ -26,7 +23,7 @@ RSpec.describe 'Updating/Editing a location',
       fill_in('Latitude/Longitude', with: '55.123, 19.321')
       click_button('submit')
       location.reload
-      expect(current_path).to eq(world_location_path(world, location))
+      expect(page).to have_current_path(world_location_path(world, location))
       expect(page).to have_content('A new location')
       expect(page).to have_content('New description')
       expect(page).to have_content('55.123, 19.321')
@@ -37,7 +34,7 @@ RSpec.describe 'Updating/Editing a location',
     it 'attaches an image', :comprehensive do
       page.attach_file('location_image', fixture_file_name('location.jpg'))
       click_button('submit')
-      expect(current_path).to eq(world_location_path(world, location))
+      expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).to be_attached
       expect(page).to have_selector('img.figure-image')
     end
@@ -45,10 +42,14 @@ RSpec.describe 'Updating/Editing a location',
     it 'refuses to attach non image files', :comprehensive do
       page.attach_file('location_image', fixture_file_name('file.pdf'))
       click_button('submit')
-      expect(current_path).to eq(world_location_path(world, location))
+      expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).not_to be_attached
       pending("Show view not yet implemented")
       expect(page).to have_selector('.alert', text: 'Only images may be')
+    end
+
+    it_behaves_like 'valid_view' do
+      let(:subject) { edit_world_location_path(world, location) }
     end
   end
 
@@ -56,7 +57,7 @@ RSpec.describe 'Updating/Editing a location',
     before(:example) { visit edit_world_location_path(other_world, other_location) }
 
     it 'refuses to update another users worlds locations' do
-      expect(current_path).to eq(worlds_path)
+      expect(page).to have_current_path(worlds_path)
     end
   end
 end

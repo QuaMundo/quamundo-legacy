@@ -4,7 +4,7 @@ de:
       edit_world: 'Welt bearbeiten'
     new:
       new_world: 'Neue Welt erstellen'
-    show:
+    context_menu:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
 
   activerecord:
@@ -18,4 +18,9 @@ de:
         title: 'Titel'
         description: 'Beschreibung'
         image: 'Bild'
+
+  controllers:
+    world:
+      created: 'Die Welt %{world} wurde erfolgreich erstellt'
+      create_failed: 'Die Welt %{world} konnte nicht erstellt werden.'
 

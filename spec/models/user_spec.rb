@@ -50,7 +50,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'when deleted, all worlds are deleted, too' do
-    worlds = user_with_worlds.worlds.map(&:id)
+    worlds = user_with_worlds.world_ids
     user_with_worlds.destroy
     expect(user_with_worlds).to be_destroyed
     expect(World.find_by(id: worlds)).to be_nil

@@ -2,7 +2,9 @@ en:
   locations:
     new:
       new_location: 'New Location'
-    show:
+    edit:
+      edit_location: 'Edit Location'
+    context_menu:
       confirm_delete: 'Should location %{item} really be removed?'
 
   activerecord:
@@ -16,4 +18,10 @@ en:
         name: 'Name'
         description: 'Description'
         lonlat: 'Latitude/Longitude'
+        image: 'Image'
+
+  controllers:
+    location:
+      created: 'Location %{location} successfully created'
+      create_failed: 'Location %{location} could not be created'
 

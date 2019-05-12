@@ -1,4 +1,6 @@
-class ItemsController < WorldInventoryController
+class ItemsController < ApplicationController
+  include WorldAssociationController
+
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -16,13 +18,12 @@ class ItemsController < WorldInventoryController
       if @item.save
         format.html do
           redirect_to(world_item_path(@world, @item),
-                      # FIXME: I18n
-                      notice: "Item #{@item.name} successfully created")
+                      notice: t('controllers.item.created', item: @item.name))
         end
       else
         format.html do
-          # FIXME: I18n
-          flash[:alert] = "Name must be given"
+          # FIXME: This is untested!
+          flash[:alert] = t('controllers.item.create_failed', item: @item.name)
           render :new
         end
       end
@@ -40,13 +41,12 @@ class ItemsController < WorldInventoryController
       if @item.update(item_params)
         format.html do
           redirect_to(world_item_path(@world, @item),
-                      # FIXME: I18n
-                      notice: "Item #{@item.name} successfully updated.")
+                      notice: t('controllers.item.updated', item: @item.name))
         end
       else
         format.html do
-          # FIXME: I18n
-          flash[:alert] = "Item update failed"
+          # FIXME: This is untested
+          flash[:alert] = t('controllers.item.update_failed', item: @item.name)
           render :edit
         end
       end
@@ -58,7 +58,7 @@ class ItemsController < WorldInventoryController
     respond_to do |format|
       format.html do
         redirect_to(world_items_path(@world),
-                    notice: "Item #{@item.name} successfully deleted")
+                    notice: t('controllers.item.destroyed', item: @item.name))
       end
     end
   end

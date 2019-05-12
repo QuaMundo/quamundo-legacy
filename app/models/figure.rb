@@ -1,5 +1,7 @@
 class Figure < ApplicationRecord
   include Imaged
-  include Nicked
+  include Benamed
   include WorldAssociated
+  include Noteable
+  include Tagable
 end

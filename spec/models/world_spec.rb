@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe World, type: :model do
   include_context 'Users'
-  include_context 'Worlds'
 
   it 'must not exist without an associated user' do
     world = build(:world, user: nil)
@@ -40,15 +39,15 @@ RSpec.describe World, type: :model do
     expect { world.save! }.to raise_error ActiveRecord::RecordInvalid
   end
 
-  # FIXME: Maybe redundant, see 'case insensitive uniqueness'
-  it 'has an unique title' do
-    user = create(:user_with_worlds)
-    world = user.worlds.first
-    new_world = build(:world, title: world.title, user: user)
-    expect(new_world).not_to be_valid
-    expect { new_world.save!(validate: false) }
-      .to raise_error ActiveRecord::RecordNotUnique
-  end
+  # Redundant, see 'case insensitive uniqueness'
+  # it 'has an unique title' do
+  #   user = create(:user_with_worlds)
+  #   world = user.worlds.first
+  #   new_world = build(:world, title: world.title, user: user)
+  #   expect(new_world).not_to be_valid
+  #   expect { new_world.save!(validate: false) }
+  #     .to raise_error ActiveRecord::RecordNotUnique
+  # end
 
   it 'has a case insensitive unique title' do
     user = build(:user)
@@ -65,15 +64,14 @@ RSpec.describe World, type: :model do
     expect(world.slug).to eq('a-meaningfull-title')
   end
 
-  # FIXME: World title must not be updated!
-  it 'got slug updated when title is updated' do
-    world = create(:world, title: 'Title', user: build(:user))
-    expect(world.slug).to eq('title')
-    world.title = 'New Title'
-    world.save!
-    world.reload
-    expect(world.slug).to eq('new-title')
-  end
+  # it 'got slug updated when title is updated' do
+  #   world = create(:world, title: 'Title', user: build(:user))
+  #   expect(world.slug).to eq('title')
+  #   world.title = 'New Title'
+  #   world.save!
+  #   world.reload
+  #   expect(world.slug).to eq('new-title')
+  # end
 
   it 'has an unique slug' do
     world = create(:world, user: build(:user), title: 'A Meaningfull Title')
@@ -84,8 +82,38 @@ RSpec.describe World, type: :model do
   end
 
   it 'deletion also removes images and variants from storage' do
+    world = create(:world)
     paths = generate_some_image_paths(world)
     world.destroy
     expect(paths.none? { |p| File.exist? p } ).to be_truthy
+  end
+
+  # FIXME: duplicate code in `spec/support/noteable.rb`
+  it 'has a list of notes' do
+    world = build(:world)
+    expect(world).to respond_to(:notes)
+    notes = []
+    2.times do
+      note = build(:note, noteable: world)
+      notes << note
+      world.notes << note
+    end
+    world.save
+    expect(Note.all.map(&:id)).to include(*notes.map(&:id))
+  end
+
+  # FIXME: duplicate code in `spec/support/tagable.rb`
+  it 'has tags' do
+    world = build(:world)
+    expect(world).to respond_to(:tag)
+  end
+
+  # FIXME: duplicate code in `spec/support/noteable.rb`
+  it 'deletes all notes when subject is deleted' do
+    obj = create(:world)
+    note_ids = obj.note_ids
+    expect(Note.all.map(&:id)).to include(*note_ids)
+    obj.destroy!
+    expect(Note.all.map(&:id)).not_to include(*note_ids)
   end
 end

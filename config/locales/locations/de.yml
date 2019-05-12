@@ -2,7 +2,9 @@ de:
   locations:
     new:
       new_location: 'Neuer Ort'
-    show:
+    edit:
+      edit_location: 'Ort bearbeiten'
+    context_menu:
       confirm_delete: 'Soll der Ort %{item} wirklich entfernt werden?'
 
   activerecord:
@@ -16,4 +18,10 @@ de:
         name: 'Name'
         description: 'Beschreibung'
         lonlat: 'Längen- und Breitengrad'
+        image: 'Abbildung'
+
+  controllers:
+    location:
+      created: 'Der Ort %{location} wurde erfolgreich erstellt.'
+      create_failed: 'Der Ort %{location} konnte nicht erstellt werden'
 
