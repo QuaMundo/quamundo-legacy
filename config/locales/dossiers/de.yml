@@ -1,0 +1,33 @@
+de:
+  dossiers:
+    edit:
+      edit_dossier: 'Dossier bearbeiten'
+    new:
+      new_dossier: 'Neues Dossier'
+    context_menu:
+      confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
+    form:
+      remove_attachments: 'Dateianhänge zum Löschen auswählen'
+      add_attachments: 'Dateien zum Hochladen auswählen'
+
+  activerecord:
+    models:
+      dossier:
+        one: 'Dossier'
+        other: 'Dossiers'
+
+    attributes:
+      dossier:
+        title: 'Titel'
+        description: 'Zusammenfassung'
+        content: 'Inhalt'
+        files: 'Dateianhänge'
+        
+  controllers:
+    dossier:
+      create_success: 'Dossier %{dossier} erfolgreich erzeugt'
+      create_failed: 'Dossier %{dossier} konnte nicht erstellt werden'
+      deleted: 'Dossier %{dossier} wurde gelöscht'
+      update_success: 'Dossier %{dossier} successfully updated'
+      update_failed: 'Failed to update dossier %{dossier}'
+      

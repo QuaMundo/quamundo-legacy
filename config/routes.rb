@@ -7,11 +7,19 @@ Rails.application.routes.draw do
   resources :worlds, only: [:index, :create]
 
   concern :noteable do
-    resources :notes, shallow: true
+    resources :notes, shallow: true, except: [:index, :show]
+  end
+
+  concern :dossierable do
+    resources :dossiers, shallow: true, except: [:index]
   end
 
   concern :tagable do
-    resources :tags, shallow: true, except: [:new, :create]
+    resources :tags, shallow: true, except: [:new, :create, :show, :index]
+  end
+
+  concern :traitable do
+    resources :traits, shallow: true, except: [:new, :create, :show, :index]
   end
 
   # Since World is the 'root container' world_slug should be top level part
@@ -21,14 +29,16 @@ Rails.application.routes.draw do
     param: :slug,
     path: '/',
     except: [:index, :create],
-    concerns: [:noteable, :tagable] do
+    concerns: [:noteable, :tagable, :traitable, :dossierable] do
 
-    resources :figures, :items, :locations do
-      concerns :noteable
-      concerns :tagable
+      resources :figures, :items, :locations do
+        concerns :noteable
+        concerns :dossierable
+        concerns :tagable
+        concerns :traitable
+      end
     end
-  end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root to: "dashboard#index"
+    # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+    root to: "dashboard#index"
 end

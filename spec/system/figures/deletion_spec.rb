@@ -1,6 +1,8 @@
-RSpec.describe 'Deleting a figure', type: :system, login: :user_with_worlds do
+RSpec.describe 'Deleting a figure', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_figures, user: user) }
+  let(:other_world) { create(:world_with_figures) }
   let(:figure) { world.figures.first }
   let(:other_figure) { other_world.figures.first }
 

@@ -1,11 +1,12 @@
-RSpec.describe 'Updating/editing a world',
-  type: :system, login: :user_with_worlds do
-
+RSpec.describe 'Updating/editing a world', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world, user: user) }
 
   before(:example) { visit edit_world_path(world) }
 
   it 'description can be changed' do
+    expect(page).to have_selector("img##{element_id(world, 'img')}")
     fill_in('Description', with: 'A new description')
     click_button('submit')
     expect(page).to have_current_path(world_path(world))

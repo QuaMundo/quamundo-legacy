@@ -1,7 +1,9 @@
-RSpec.describe 'Listing figures', type: :system, login: :user_with_worlds do
+RSpec.describe 'Listing figures', type: :system do
   include_context 'Session'
 
   context 'of an own world' do
+    let(:world) { create(:world_with_figures, user: user) }
+
     before(:example) { visit world_figures_path(world) }
 
     it 'shows cards of each figure' do
@@ -30,6 +32,8 @@ RSpec.describe 'Listing figures', type: :system, login: :user_with_worlds do
   end
 
   context 'of another users world' do
+    let(:other_world) { create(:world_with_figures) }
+
     before(:example) { visit world_figures_path(other_world) }
 
     it 'does not show figures of another users world' do

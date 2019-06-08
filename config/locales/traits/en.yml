@@ -1,0 +1,25 @@
+en:
+  traits:
+    edit:
+      edit_trait: 'Edit Attributes'
+
+    form:
+      new_key: 'New Key'
+      new_value: 'New Value'
+
+  activerecord:
+    models:
+      trait:
+        one: 'Attribute'
+        other: 'Attributes'
+
+    attributes:
+      trait:
+        attributeset: 'Attributes'
+
+  controllers:
+    trait:
+      update_success: 'Attributes successfully updated'
+      update_failed: 'Failed to update attributes'
+      delete_success: 'Attributes deleted'
+      delete_failed: 'Failed to remove attributes'

@@ -21,3 +21,8 @@ en:
   last_modified: 'Last updated at: %{datetime}'
   last_activities: 'Last Activities'
   not_allowed: 'You are not allowed to touch this object'
+
+  shared:
+    traits:
+      attribute: 'Attribute'
+      value: 'Value'

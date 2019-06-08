@@ -1,8 +1,9 @@
-RSpec.describe 'Updating/editing a figure',
-  type: :system, login: :user_with_worlds do
+RSpec.describe 'Updating/editing a figure', type: :system do
 
   include_context 'Session'
 
+  let(:world) { create(:world_with_figures, user: user) }
+  let(:other_world) { create(:world_with_figures) }
   let(:figure) { world.figures.first }
   let(:other_figure) { other_world.figures.first }
 
@@ -10,6 +11,11 @@ RSpec.describe 'Updating/editing a figure',
     before(:example) { visit edit_world_figure_path(world, figure) }
 
     it 'can update description' do
+      # FIXME: Duplicate action below
+      QuamundoTestHelpers::attach_file(
+        figure.image, fixture_file_name('location.jpg'))
+      visit edit_world_figure_path(world, figure)
+      expect(page).to have_selector("img##{element_id(figure, 'img')}")
       fill_in('Description', with: 'New description')
       click_button('submit')
       expect(page).to have_current_path(world_figure_path(world, figure))

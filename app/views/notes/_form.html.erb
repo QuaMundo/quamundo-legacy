@@ -1,5 +1,6 @@
 <%# `@url` has to be set in controller 
   see: https://stackoverflow.com/a/9163318 %>
+<h5><%= associated_object_info(@note.noteable) %></h5>
 <%= form_with url: @form_url, model: @note, local: true do |f| %>
   <div class="form-group">
     <%= f.label :content %>

@@ -1,0 +1,28 @@
+<%# FIXME: For this no tests exist %>
+<nav class="nav justify-content-md-end justify-content-center context-menu">
+  <%= link_to(
+    icon(@dossier.dossierable),
+    polymorphic_path([@dossier.dossierable.try(:world), @dossier.dossierable]),
+    class: 'nav-link', title: t(:index)) %>
+  <%= link_to(
+    icon(:edit),
+    edit_dossier_path(@dossier),
+    class: 'nav-link',
+    title: t(:edit)) %>
+  <%= link_to(
+    icon(:new),
+    new_polymorphic_path(
+      [@dossier.dossierable.try(:world),
+       @dossier.dossierable,
+       Dossier]
+    ),
+    class: 'nav-link',
+    title: t(:new)) %>
+  <%= link_to(
+    icon(:delete),
+    dossier_path(@dossier),
+    method: :delete,
+    class: 'nav-link',
+    title: t(:delete),
+    data: { confirm: t('.confirm_delete', dossier: @dossier) }) %>
+</nav>

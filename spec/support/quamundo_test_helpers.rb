@@ -4,6 +4,7 @@ module QuamundoTestHelpers
   # https://blog.eq8.eu/til/factory-bot-trait-for-active-storange-has_attached.html
   include ActionDispatch::TestProcess::FixtureFile
   include ActiveSupport::Testing::TimeHelpers
+  include ApplicationHelper
 
   def cleanup_test_environment
     remove_uploads
@@ -44,11 +45,11 @@ module QuamundoTestHelpers
   # create some inventory to fill up worlds
   def create_some_inventory(user)
     user.worlds.each do |world|
-      travel(rand 21) { world.items << build(:item) }
-      travel(rand 21) { world.figures << build(:figure) }
-      travel(rand 21) { world.locations << build(:location) }
-      world.save
+      travel(rand 5.days) { world.items << create(:item) }
+      travel(rand 5.days) { world.figures << create(:figure) }
+      travel(rand 5.days) { world.locations << create(:location) }
     end
+    user.dashboard_entries.reload
   end
 
   protected

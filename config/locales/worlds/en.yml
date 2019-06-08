@@ -23,3 +23,4 @@ en:
     world:
       created: 'World %{world} successfully created'
       create_failed: 'World %{world} could not be created'
+      not_allowed: 'You are not allowed to change world %{world}'

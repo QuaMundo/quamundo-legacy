@@ -32,6 +32,11 @@
         <%= link_to((icon(:world) { @item.world.title }), world_path(@item.world), class: 'card-link') %>
       </div>
     </div>
+
+    <%# FIXME: Refactor - extract to image partial %>
+    <%# Show tags %>
+    <%= render partial: 'shared/tags', locals: { obj: @item } %>
+
     <%# Attributes go here %>
     <%= render partial: 'shared/attributes', locals: { obj: @item } %>
 

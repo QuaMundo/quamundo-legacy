@@ -1,7 +1,7 @@
 RSpec.shared_examples 'associated note', type: :system do
   let(:path) { [subject.try(:world), subject] }
 
-  before(:example, :js) do
+  before(:example) do
     visit(polymorphic_path(path))
     page.within('div#notes-header') do
       page.find('button').click
@@ -10,6 +10,7 @@ RSpec.shared_examples 'associated note', type: :system do
 
   it 'show up in details view' do
     expect(page).to have_selector('.note', count: subject.notes.count)
+    # FIXME: Avoid each loops!
     subject.notes.each { |n| expect(page).to have_text(n.content) }
   end
 
@@ -26,6 +27,8 @@ RSpec.shared_examples 'associated note', type: :system do
     edited_note = subject.notes.first
     page.find("a#edit-note-#{edited_note.id}").click
     expect(page).to have_current_path(edit_note_path(edited_note))
+    expect(page)
+      .to have_content("#{subject.model_name.human.capitalize} \"#{subject.try(:name) || subject.try(:title)}\"")
     fill_in('note_content', with: 'Updated note')
     click_button('submit')
     expect(page).to have_current_path(polymorphic_path(path))

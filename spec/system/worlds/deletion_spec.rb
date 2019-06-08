@@ -1,9 +1,12 @@
-RSpec.describe 'Deleting a world', type: :system, login: :user_with_worlds do
+RSpec.describe 'Deleting a world', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world, user: user) }
 
   before(:example) { visit(world_path(world)) }
 
   it 'brings apocalypse', :js, :comprehensive do
+    world.reload
     # FIXME: This fails with geckodriver!?
     page.accept_confirm() do
       page.first('nav.context-menu a.nav-link[title="delete"]').click

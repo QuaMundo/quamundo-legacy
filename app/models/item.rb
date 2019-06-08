@@ -1,7 +1,3 @@
 class Item < ApplicationRecord
-  include Imaged
-  include Benamed
-  include WorldAssociated
-  include Noteable
-  include Tagable
+  include WorldInventory
 end

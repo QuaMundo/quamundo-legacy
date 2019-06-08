@@ -1,6 +1,8 @@
-RSpec.describe 'Showing a location', type: :system, login: :user_with_worlds do
+RSpec.describe 'Showing a location', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_locations, user: user) }
+  let(:other_world) { create(:world_with_locations) }
   let(:location) { world.locations.first }
 
   context 'of own world' do
@@ -30,11 +32,19 @@ RSpec.describe 'Showing a location', type: :system, login: :user_with_worlds do
     end
 
     it_behaves_like 'associated note' do
-      let(:subject) { location }
+      let(:subject) { create(:location_with_notes, world: world) }
     end
 
     it_behaves_like 'associated tags' do
       let(:subject) { location }
+    end
+
+    it_behaves_like 'associated traits' do
+      let(:subject) { create(:location_with_traits, world: world) }
+    end
+
+    it_behaves_like 'associated dossiers' do
+      let(:subject) { create(:location_with_dossiers, user: user) }
     end
   end
 

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe World, type: :model do
-  include_context 'Users'
-
   it 'must not exist without an associated user' do
     world = build(:world, user: nil)
     expect { world.save!(validate: false) }
@@ -25,6 +23,7 @@ RSpec.describe World, type: :model do
 
   it 'can get an image attached' do
     user = create(:user_with_worlds)
+    user.save
     world = user.worlds.first
     attach_file(world.image, 'earth.jpg')
     world.save!
@@ -106,6 +105,18 @@ RSpec.describe World, type: :model do
   it 'has tags' do
     world = build(:world)
     expect(world).to respond_to(:tag)
+  end
+
+  # FIXME: duplicate code in `spec/support/traitable.rb`
+  it 'has traits' do
+    world = build(:world)
+    expect(world).to respond_to(:trait)
+  end
+
+  # FIXME: duplicate code in `spec/support/dossierable.rb`
+  it 'has dossiers' do
+    world = build(:world)
+    expect(world).to respond_to(:dossiers)
   end
 
   # FIXME: duplicate code in `spec/support/noteable.rb`

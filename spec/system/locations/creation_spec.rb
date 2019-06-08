@@ -1,5 +1,7 @@
-RSpec.describe 'Creating a location', type: :system, login: :user_with_worlds do
+RSpec.describe 'Creating a location', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world_with_locations, user: user) }
 
   context 'in own world' do
     before(:example) { visit new_world_location_path(world) }

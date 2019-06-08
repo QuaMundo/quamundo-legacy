@@ -1,33 +1,32 @@
 <%# `obj` is assumed to hold a `noteable object` %>
-<div class="row">
+<div class="row mt-4">
   <div class="col">
     <div class="accordion" id="attributes">
 
-      <%# Tags %>
-      <%# FIXME: Refactor: This shouldn't be a collapse! %>
-      <div class="card" id="tags">
+      <%# Traits %>
+      <div class="card" id="traits">
 
-        <div class="card-header" id="tags-header">
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tags-collection" aria-expanded="true" aria-controls="tags-collection">
-            <%= icon(:tag) %>&nbsp;<%= obj.tag.tagset.count %>
+        <div id="traits-header" class="card-header">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#traits-collection" aria-expanded="true" aria-controls="traits-collection">
+            <%= icon(:trait) %>&nbsp;<%= obj.trait.attributeset.count %>&nbsp;<%= Trait.model_name.human(count: obj.trait.attributeset.count).capitalize %>
           </button>
         </div>
 
-        <div id="tags-collection" class="collapse" aria-labeled-by="tags-header" data-parent="#attributes">
+        <div id="traits-collection" class="collapse" aria-labeled-by="traits-header" data-parent="#attributes">
           <div class="card-body">
-            <%= render partial: 'shared/tags', locals: { obj: obj } %>
+            <%= render partial: 'shared/traits', locals: { obj: obj } %>
           </div>
         </div>
 
       </div>
-      <%# /Tags %>
+      <%# /Traits %>
 
       <%# Notes %>
       <div class="card"id="notes">
 
         <div class="card-header" id="notes-header">
           <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#notes-collection" aria-expanded="true" aria-controls="notes-collection">
-            <%= icon(:note) %>&nbsp;<%= obj.notes.count %>
+            <%= icon(:note) %>&nbsp;<%= obj.notes.count %>&nbsp;<%= Note.model_name.human(count: obj.notes.count).capitalize %>
           </button>
         </div>
 
@@ -45,13 +44,13 @@
 
         <div class="card-header" id="dossiers-header">
           <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#dossiers-collection" aria-expanded="true" aria-controls="dossiers-collection">
-            <%= icon(:dossier) %>&nbsp;<%= 99 %>
+            <%= icon(:dossier) %>&nbsp;<%= obj.dossiers.count %>&nbsp;<%= Dossier.model_name.human(count: obj.dossiers.count).capitalize %>
           </button>
         </div>
 
         <div id="dossiers-collection" class="collapse" aria-labeled-by="dossiers-header" data-parent="#attributes">
           <div class="card-body">
-            <%# render ... %>
+            <%= render partial: 'shared/dossiers', locals: { obj: obj } %>
           </div>
         </div>
 

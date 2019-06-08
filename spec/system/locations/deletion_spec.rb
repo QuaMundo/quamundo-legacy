@@ -1,6 +1,8 @@
-RSpec.describe 'Deleting a location', type: :system, login: :user_with_worlds do
+RSpec.describe 'Deleting a location', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_locations, user: user) }
+  let(:other_world) { create(:world_with_locations) }
   let(:location) { world.locations.first }
   let(:other_location) { other_world.locations.first }
 

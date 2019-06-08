@@ -6,4 +6,22 @@ de:
       edit_note: 'Notiz bearbeiten'
     context_menu:
 
+  activerecord:
+    models:
+      note:
+        one: 'Notiz'
+        other: 'Notizen'
+
+    attributes:
+      note:
+        content: 'Inhalt'
+        
+  controllers:
+    note:
+      create_success: 'Notiz erzeugt'
+      create_failed: 'Notiz konnte nicht erzeugt werden'
+      update_success: 'Notiz aktualisiert'
+      update_failed: 'Notiz konnte nicht aktualisiert werden'
+      delete_success: 'Notiz gelöscht'
+
 

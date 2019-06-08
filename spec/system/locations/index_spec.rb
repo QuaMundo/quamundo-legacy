@@ -1,5 +1,8 @@
-RSpec.describe 'Listing locations', type: :system, login: :user_with_worlds do
+RSpec.describe 'Listing locations', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world_with_locations, user: user) }
+  let(:other_world) { create(:world_with_locations) }
 
   context 'of an own world' do
     before(:example) { visit world_locations_path(world) }

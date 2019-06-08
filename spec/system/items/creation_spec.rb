@@ -1,5 +1,8 @@
-RSpec.describe 'Creating an item', type: :system, login: :user_with_worlds do
+RSpec.describe 'Creating an item', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world_with_items, user: user) }
+  let(:other_world) { create(:world_with_items) }
 
   context 'in own world' do
     before(:example) { visit new_world_item_path(world) }

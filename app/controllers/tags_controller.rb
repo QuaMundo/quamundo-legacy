@@ -1,7 +1,7 @@
 class TagsController < ApplicationController
   include PolymorphicController
 
-  before_action :set_tag, only: [:destroy, :edit, :update, :shoe]
+  before_action :set_tag, only: [:destroy, :edit, :update, :show]
   before_action -> { assoc_obj(@tag, :tagable) }
 
   def edit
@@ -13,10 +13,13 @@ class TagsController < ApplicationController
       if @tag.update(tag_params)
         format.html do
           redirect_to(@redirect_path,
-                      notice: 'Tags successfully updated')
+                      notice: t('controllers.tag.update_success'))
         end
       else
-        # FIXME: Error handling
+        format.html do
+          flash[:alert] = t('controllers.tag.update_failed')
+          render :edit
+        end
       end
     end
   end
@@ -26,10 +29,13 @@ class TagsController < ApplicationController
       if @tag.update(tagset: [])
         format.html do
           redirect_to(@redirect_path,
-                      notice: "Tags successfully deleted")
+                      notice: t('controllers.tag.delete_success'))
         end
       else
-        #FIXME: Error handling
+        format.html do
+          flash[:alert] = t('controllers.tag.delete_failed')
+          render :edit
+        end
       end
     end
   end

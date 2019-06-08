@@ -17,6 +17,7 @@ module PolymorphicController
     @redirect_path = polymorphic_path([@assoc_obj.try(:world), @assoc_obj])
   end
 
+  # FIXME: Is this DRY? Can it be placed  somewhere else?
   def polymorphic_models
     [World, Figure, Item, Location]
   end

@@ -1,7 +1,9 @@
-RSpec.describe 'Creating a figure', type: :system, login: :user_with_worlds do
+RSpec.describe 'Creating a figure', type: :system do
   include_context 'Session'
 
   context 'in own world' do
+    let(:world) { create(:world, user: user) }
+
     before(:example) { visit new_world_figure_path(world) }
 
     it 'is successful with completed form' do
@@ -28,6 +30,8 @@ RSpec.describe 'Creating a figure', type: :system, login: :user_with_worlds do
   end
 
   context 'in other users world' do
+    let(:other_world) { create(:world) }
+
     before(:example) { visit new_world_figure_path(other_world) }
 
     it 'redirects to worlds index' do

@@ -6,5 +6,21 @@ en:
       edit_note: 'Edit Note'
     context_menu:
 
+  activerecord:
+    models:
+      note:
+        one: 'note'
+        other: 'notes'
 
+    attributes:
+      note:
+        content: 'Content'
+        
+  controllers:
+    note:
+      create_success: 'Note successfully created'
+      create_failed: 'Failed to create note'
+      update_success: 'Note successfully updated'
+      update_failed: 'Failed to update note'
+      delete_success: 'Note deleted'
 

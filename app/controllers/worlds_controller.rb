@@ -21,12 +21,14 @@ class WorldsController < ApplicationController
       if @world.save
         format.html do
           redirect_to(world_path(@world),
-                      notice: t('controllers.world.created', world: @world.title))
+                      notice: t('controllers.world.created',
+                                world: @world.title))
         end
       else
         format.html do
           # FIXME: This possibly is not tested
-          flash[:alert] = t('controllers.world.create_failed', world: @world.title)
+          flash[:alert] = t('controllers.world.create_failed',
+                            world: @world.title)
           render :new
         end
       end
@@ -41,12 +43,14 @@ class WorldsController < ApplicationController
       if @world.update(world_params)
         format.html do
           redirect_to(world_path(@world),
-                      notice:t('controllers.world.updated', world: @world.title))
+                      notice:t('controllers.world.updated',
+                               world: @world.title))
         end
       else
         format.html do
           # FIXME This possibly is not testet
-          flash[:alert] = t('controller.world.update_failed', world: @world.title)
+          flash[:alert] = t('controller.world.update_failed',
+                            world: @world.title)
           render :edit
         end
       end
@@ -58,7 +62,8 @@ class WorldsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(worlds_path,
-                    notice: t('controllers.world.destroyed', world: @world.title))
+                    notice: t('controllers.world.destroyed',
+                              world: @world.title))
       end
     end
   end
@@ -80,9 +85,7 @@ class WorldsController < ApplicationController
   # FIXME: This should once be replaced by pundit
   def require_ownership
     unless current_user == @world.user
-      # FIXME: Issue with errror messages
-      flash[:alert] = "This is not your world - " +
-        "You are not allowed to do this action!"
+      flash[:alert] = t('controllers.world.not_allowed', world: @world.title)
       redirect_to worlds_path
     end
   end

@@ -6,4 +6,11 @@ de:
       edit_tag: 'Tags bearbeiten'
     context_menu:
 
+  controllers:
+    tag:
+      update_success: 'Tags aktualisiert'
+      update_failed: 'Tag konnten nicht aktualieiert werden'
+      delete_success: 'Tag wurden entfernt'
+      delete_failed: 'Tags konnten nicht geläscht werden'
+
 

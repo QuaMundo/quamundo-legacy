@@ -1,50 +1,48 @@
 RSpec.shared_examples 'associated tags', type: :system do
+  # FIXME: Maybe a helper `inventory_path` would be usefull
   let(:path) { [subject.try(:world), subject].reject(&:nil?) }
 
   before(:example) do
-    visit(polymorphic_path(path))
+    subject.save
   end
 
-  it 'has a tagset' do
-    expect(subject).to respond_to(:tag)
-    expect(subject.tag).not_to be_nil
-    expect(subject.tag.tagset).to be_an Array
-  end
-
-  it 'show up in details view' do
-    expect(page).to have_selector('.tag', count: subject.tag.tagset.count)
-    subject.tag.tagset
-      .each { |t| expect(page).to have_selector('.tag', text: t) }
-  end
-
-  it 'can be edited' do
-    edited_tag = subject.tag
-    page.find('#tags-header button').click
-    page.find("a#edit-tag-#{edited_tag.id}").click
-    expect(page).to have_current_path(edit_tag_path(edited_tag))
-    expect(page).to have_selector(
-      "#tag_tagset[@value=\"#{edited_tag.tagset.join(', ')}\"]")
-    fill_in('tag_tagset', with: 'A neW tAg, another new tag')
-    click_button('submit')
-    expect(page).to have_current_path(polymorphic_path(path))
-    subject.reload
-    expect(subject.tag.tagset).to eq(['a_new_tag', 'another_new_tag'])
-    expect(page).to have_selector('.tag', text: 'a_new_tag')
-  end
-
-  it 'can be deleted', :js do
-    page.find('#tags-header button').click
-    deleted_tag = subject.tag
-    page.accept_confirm() do
-      page.find("a#delete-tag-#{deleted_tag.id}").click
+  context 'in show views' do
+    before(:example) do
+      visit(polymorphic_path(path))
     end
-    expect(page).to have_current_path(polymorphic_path(path))
-    page.within('#tags') do
-      deleted_tag.tagset.each do |t|
-        expect(page).not_to have_selector('.tag', text: t)
-      end
+
+    it 'lists all tags' do
+      subject.tag.tagset = [:a, :b, :c]
+      subject.tag.save
+      # FIXME: Thise repeats before action
+      visit(polymorphic_path(path))
+      expect(page).to have_selector('.tag', count: subject.tag.tagset.count)
+      subject.tag.tagset
+        .each { |t| expect(page).to have_selector('.tag', text: t) }
     end
-    subject.reload
-    expect(subject.tag.tagset).to be_empty
+
+    it 'provides link to edit' do
+      page.find("a#edit-tag-#{subject.tag.id}").click
+      expect(page).to have_current_path(edit_tag_path(subject.tag))
+    end
+  end
+
+  context 'CRUD actions' do
+    before(:example) do
+      visit(edit_tag_path(subject.tag))
+    end
+
+    it 'can be edited' do
+      expect(page)
+        .to have_content("#{subject.model_name.human.capitalize} \"#{subject.try(:name) || subject.try(:title)}\"")
+      expect(page).to have_selector(
+        "#tag_tagset[@value=\"#{subject.tag.tagset.join(', ')}\"]")
+      fill_in('tag_tagset', with: 'A neW tAg, another new tag')
+      click_button('submit')
+      expect(page).to have_current_path(polymorphic_path(path))
+      subject.reload
+      expect(subject.tag.tagset).to eq(['a_new_tag', 'another_new_tag'])
+      expect(page).to have_selector('.tag', text: 'a_new_tag')
+    end
   end
 end

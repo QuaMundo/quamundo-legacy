@@ -14,6 +14,14 @@
   </div>
 
   <div class="form-group">
+    <%# FIXME: DRY up - this is same in all inventory forms %>
+    <% if @figure.image.attached? %>
+      <%= tag.img(
+        src: attached_img_path(@figure.image, combine_options: { resize: '80x60^', gravity: 'center' }),
+        class: "img-fluid rounded float-right figure-image",
+        id: element_id(@figure, 'img'),
+        alt: "Bild: #{@figure.name}") %>
+    <% end %>
     <%= f.label :image %>
     <%= f.file_field :image, class: "form-control-file" %>
   </div>

@@ -1,9 +1,20 @@
-RSpec.describe 'Listing worlds', type: :system, login: :user_with_worlds do
+RSpec.describe 'Listing worlds', type: :system do
   include_context 'Session'
 
-  before(:example) { visit worlds_path }
+  let(:world) { create(:world, user: user) }
+  let(:other_world) { create(:world) }
+
+  before(:example) do
+    # Call the worlds to force creation
+    # FIXME: ^^optimize this issue
+    world.save
+    other_world.save
+
+    visit worlds_path
+  end
 
   it 'shows index of users worlds' do
+    expect(World.all).to include(world)
     expect(page).to have_content(world.title)
     expect(page).not_to have_content(other_world.title)
     expect(page).to have_link(href: world_path(world))

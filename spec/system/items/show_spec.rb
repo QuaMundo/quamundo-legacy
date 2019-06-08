@@ -1,6 +1,8 @@
-RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
+RSpec.describe 'Showing an item', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_items, user: user) }
+  let(:other_world) { create(:world_with_items) }
   let(:item) { world.items.first }
 
   context 'of an own world' do
@@ -28,11 +30,19 @@ RSpec.describe 'Showing an item', type: :system, login: :user_with_worlds do
     end
 
     it_behaves_like 'associated note' do
-      let(:subject) { item }
+      let(:subject) { create(:item_with_notes, world: world) }
     end
 
     it_behaves_like 'associated tags' do
       let(:subject) { item }
+    end
+
+    it_behaves_like 'associated traits' do
+      let(:subject) { create(:item_with_traits, world: world) }
+    end
+
+    it_behaves_like 'associated dossiers' do
+      let(:subject) { create(:item_with_dossiers, user: user) }
     end
   end
 

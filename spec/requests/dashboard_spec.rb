@@ -1,4 +1,4 @@
-RSpec.describe 'Dashboard', type: :request, login: :user do
+RSpec.describe 'Dashboard', type: :request do
   include_context 'Session'
 
   before(:example) { get root_path }

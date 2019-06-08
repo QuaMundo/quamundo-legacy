@@ -1,7 +1,8 @@
 RSpec.describe Tag, type: :model do
-  include_context 'Session'
+  #include_context 'Session'
 
-  let(:tag) { build(:tag, tagable: create(:world)) }
+  let(:world) { build(:world_with_tags) }
+  let(:tag) { world.tag }
 
   context 'presence' do
     it 'must have a list of tags' do
@@ -30,12 +31,7 @@ RSpec.describe Tag, type: :model do
   end
 
   it_behaves_like 'updates parents' do
-    let(:parent)  { tag.tagable }
-    let(:subject) { parent.tag }
-  end
-
-  it_behaves_like 'updates parents' do
-    let(:parent)  { tag.tagable }
+    let(:parent)  { create(:world_with_tags) }
     let(:subject) { parent.tag }
   end
 end

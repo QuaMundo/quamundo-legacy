@@ -27,6 +27,9 @@ gem 'devise-i18n'
 # Use ActiveStorage variant
 gem 'mini_magick', '~> 4.8'
 
+# Use Redcarpet to rener Markdown
+gem 'redcarpet'
+
 gem 'rails-i18n'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

@@ -1,5 +1,8 @@
-RSpec.describe 'Listing items', type: :system, login: :user_with_worlds do
+RSpec.describe 'Listing items', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world_with_items, user: user) }
+  let(:other_world) { create(:world_with_items) }
 
   context 'of an own world' do
     before(:example) { visit world_items_path(world) }

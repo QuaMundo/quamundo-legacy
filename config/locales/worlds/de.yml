@@ -23,4 +23,5 @@ de:
     world:
       created: 'Die Welt %{world} wurde erfolgreich erstellt'
       create_failed: 'Die Welt %{world} konnte nicht erstellt werden.'
+      not_allowed: 'Keine Berechtigung, die Welt %{world} zu bearbeiten'
 

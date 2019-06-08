@@ -19,12 +19,14 @@ class LocationsController < ApplicationController
       if @location.save
         format.html do
           redirect_to(world_location_path(@world, @location),
-                      notice: t('controllers.location.created', location: @location.name))
+                      notice: t('controllers.location.created',
+                                location: @location.name))
         end
       else
         format.html do
           # FIXME: This is possibly untested
-          flash[:alert] = t('controllers.location.create_failed', location: @location.name)
+          flash[:alert] = t('controllers.location.create_failed',
+                            location: @location.name)
           render :new
         end
       end
@@ -42,12 +44,14 @@ class LocationsController < ApplicationController
       if @location.update(location_params)
         format.html do
           redirect_to(world_location_path(@world, @location),
-                      notice: t('controllers.location.updated', location: @location.name))
+                      notice: t('controllers.location.updated',
+                                location: @location.name))
         end
       else
         format.html do
           # FIXME: This is possibly untested
-          flash[:alert] = t('controllers.location.update_failed', location: @location.name)
+          flash[:alert] = t('controllers.location.update_failed',
+                            location: @location.name)
           render :edit
         end
       end
@@ -59,7 +63,8 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(world_locations_path(@world),
-                    notice: t('controllers.location.destroyed', location: @location.name))
+                    notice: t('controllers.location.destroyed',
+                              location: @location.name))
       end
     end
   end

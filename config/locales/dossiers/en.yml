@@ -1,0 +1,33 @@
+en:
+  dossiers:
+    edit:
+      edit_dossier: 'Edit Dossier'
+    new:
+      new_dossier: 'New Dossier'
+    context_menu:
+      confirm_delete: 'Do you really want to delete dossier %{dossier}'
+    form:
+      remove_attachments: 'Choose attachments for deletion'
+      add_attachments: 'Add attachments'
+
+  activerecord:
+    models:
+      dossier:
+        one: 'dossier'
+        other: 'dossiers'
+
+    attributes:
+      dossier:
+        title: 'Title'
+        description: 'Description'
+        content: 'Content'
+        files: 'File Attachments'
+        
+  controllers:
+    dossier:
+      create_success: 'Dossier %{dossier} successfully created'
+      create_failed: 'Failed to create dossier %{dossier}'
+      deleted: 'Deleted dossier %{dossier}'
+      update_success: 'Dossier %{dossier} wurde aktualisiert'
+      update_failed: 'Dossier %{dossier} konnte nicht aktualisiert werden'
+

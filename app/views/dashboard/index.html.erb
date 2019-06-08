@@ -27,6 +27,7 @@
             <% end %>
           <% end %>
 
+          <%# FIXME: Body must be below li ^^ %>
           <%# body %>
           <div class="media-body">
             <h5 class="mb-1">
@@ -38,8 +39,7 @@
                 <%= icon(:world) { entry.world.title } %>&nbsp;
                 <%= icon(:edit) { time_ago_in_words(entry.updated_at) } %>
               </span>&nbsp;
-              <%= link_to(t('show'),
-                          polymorphic_path([entry.world, entry.inventory])) %>
+              <%= link_to(t('show'), polymorphic_path([entry.world, entry.inventory])) %>
             </div>
           </div>
 

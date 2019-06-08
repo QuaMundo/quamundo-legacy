@@ -1,0 +1,39 @@
+<h5><%= associated_object_info(@dossier.dossierable) %></h5>
+<%= form_with url: @form_url, model: @dossier, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, autofocus: true, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, class: 'form-control' %>
+  </div>
+
+  <%= field_set_tag t('.remove_attachments') do %>
+    <% @dossier.files.each do |file| %>
+      <div class="form-group mb-0">
+        <%= tag.input(
+          type: 'checkbox',
+          id: element_id(file, 'remove'),
+          name: "remove_attachment[]",
+          value: file.id) %>
+        <%= label file, file.filename %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= field_set_tag t('.add_attachments') do %>
+    <div class="form-group">
+      <%= f.label :files %>
+      <%= f.file_field :files, multiple: true, class: 'form-control-file' %>
+    </div>
+  <% end %>
+
+  <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
+<% end %>

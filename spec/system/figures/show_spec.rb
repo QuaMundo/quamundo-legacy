@@ -1,6 +1,7 @@
-RSpec.describe 'Showing a figure', type: :system, login: :user_with_worlds do
+RSpec.describe 'Showing a figure', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_figures, user: user) }
   let(:figure) { world.figures.first }
 
   context 'of an own world' do
@@ -28,11 +29,19 @@ RSpec.describe 'Showing a figure', type: :system, login: :user_with_worlds do
     end
 
     it_behaves_like 'associated note' do
-      let(:subject) { figure }
+      let(:subject) { create(:figure_with_notes, world: world) }
     end
 
     it_behaves_like 'associated tags' do
       let(:subject) { figure }
+    end
+
+    it_behaves_like 'associated traits' do
+      let(:subject) { create(:figure_with_traits, world: world) }
+    end
+
+    it_behaves_like 'associated dossiers' do
+      let(:subject) { create(:figure_with_dossiers, user: user) }
     end
   end
 
@@ -49,6 +58,7 @@ RSpec.describe 'Showing a figure', type: :system, login: :user_with_worlds do
   end
 
   context 'of another users world' do
+    let(:other_world) { create(:world_with_figures) }
     let(:other_figure) { other_world.figures.first }
 
     before(:example) { visit world_figure_path(other_world, other_figure) }

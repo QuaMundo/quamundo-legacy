@@ -1,12 +1,11 @@
 RSpec.describe Location, type: :model do
   include_context 'Session'
 
-  let(:location) { build(:location, world: world) }
-  # FIXME: Can srid be configured by default?
+  let(:world) { build(:world) }
   let(:rgeo_factory) { RGeo::Geographic.spherical_factory(srid: 4326) }
 
   it 'is invalid without a name' do
-    a_location = world.locations.new
+    a_location = build(:location, world: world, name: nil)
     expect(a_location).not_to be_valid
     expect { a_location.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
@@ -14,6 +13,7 @@ RSpec.describe Location, type: :model do
   end
 
   it 'possibly has gps data' do
+    location = build(:location, world: world)
     location.lonlat = rgeo_factory.point(8.5, 49.5)
     location.save!
     location.reload
@@ -21,23 +21,31 @@ RSpec.describe Location, type: :model do
   end
 
   it_behaves_like 'noteable' do
-    let(:subject) { location }
+    let(:subject) { build(:location_with_notes) }
   end
 
   it_behaves_like 'inventory' do
-    let(:subject) { location }
+    let(:subject) { build(:location, world: world) }
   end
 
   it_behaves_like 'associated_with_world' do
-    let(:subject) { location }
+    let(:subject) { build(:location, world: world) }
+  end
+
+  it_behaves_like 'traitable' do
+    let(:subject) { build(:location_with_traits) }
+  end
+
+  it_behaves_like 'dossierable' do
+    let(:subject) { build(:location_with_dossiers) }
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { location }
+    let(:subject) { build(:location_with_tags) }
   end
 
   it_behaves_like 'updates parents' do
-    let(:subject) { location }
-    let(:parent)  { location.world }
+    let(:parent)  { create(:world) }
+    let(:subject) { create(:location, world: parent) }
   end
 end

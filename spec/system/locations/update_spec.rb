@@ -1,8 +1,9 @@
-RSpec.describe 'Updating/Editing a location',
-  type: :system, login: :user_with_worlds do
+RSpec.describe 'Updating/Editing a location', type: :system do
 
   include_context 'Session'
 
+  let(:world) { create(:world_with_locations, user: user) }
+  let(:other_world) { create(:world_with_locations) }
   let(:location) { world.locations.first }
   let(:other_location) { other_world.locations.first }
 
@@ -18,6 +19,11 @@ RSpec.describe 'Updating/Editing a location',
     end
 
     it 'can update name, position and description' do
+      # FIXME: Duplicate action below
+      QuamundoTestHelpers::attach_file(
+        location.image, fixture_file_name('location.jpg'))
+      visit edit_world_location_path(world, location)
+      expect(page).to have_selector("img##{element_id(location, 'img')}")
       fill_in('Name', with: 'A new location')
       fill_in('Description', with: 'New description')
       fill_in('Latitude/Longitude', with: '55.123, 19.321')

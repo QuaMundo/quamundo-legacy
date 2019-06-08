@@ -21,3 +21,8 @@ de:
   last_modified: 'Letzte Änderung: %{datetime}'
   last_activities: 'Zuletzt bearbeitet'
   not_allowed: 'Du bist nicht berechtigt, dieses Objekt zu ändern.'
+
+  shared:
+    traits:
+      attribute: 'Eigenschaft'
+      value: 'Wert'

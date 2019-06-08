@@ -1,5 +1,5 @@
 RSpec.shared_context 'UserLogin' do |context|
-  include_context 'Users'
+  let(:user) { create(:user) }
 
   before(:example) do
     login

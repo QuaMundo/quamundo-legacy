@@ -1,8 +1,9 @@
-RSpec.describe 'Updating/Editing an item',
-  type: :system, login: :user_with_worlds do
+RSpec.describe 'Updating/Editing an item', type: :system do
 
   include_context 'Session'
 
+  let(:world) { create(:world_with_items, user: user) }
+  let(:other_world) { create(:world_with_items) }
   let(:item) { world.items.first }
   let(:other_item) { other_world.items.first }
 
@@ -10,6 +11,11 @@ RSpec.describe 'Updating/Editing an item',
     before(:example) { visit edit_world_item_path(world, item) }
 
     it 'can update name and description' do
+      # FIXME: Duplicate action below
+      QuamundoTestHelpers::attach_file(
+        item.image, fixture_file_name('item.jpg'))
+      visit edit_world_item_path(world, item)
+      expect(page).to have_selector("img##{element_id(item, 'img')}")
       fill_in('Name', with: 'New Name')
       fill_in('Description', with: 'New Description')
       click_button('submit')

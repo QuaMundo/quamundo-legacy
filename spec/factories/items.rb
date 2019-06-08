@@ -4,13 +4,11 @@ FactoryBot.define do
     description     { "Description of #{name}" }
     world           { build(:world, user: build(:user)) }
 
-    transient do
-      notes_count       { 3 }
-    end
-
-    after(:create) do |item, evaluator|
-      create_list(:note, evaluator.notes_count, noteable: item)
-      item.create_tag(tagset: ['item_tag'])
-    end
+    factory :item_with_notes, traits: [:with_notes]
+    factory :item_with_tags, traits: [:with_tags]
+    factory :item_with_traits, traits: [:with_traits]
+    factory :item_with_dossiers, traits: [:with_dossiers]
+    factory :item_with_all,
+      traits: [:with_notes, :with_tags, :with_traits, :with_dossiers]
   end
 end

@@ -1,7 +1,7 @@
 RSpec.describe Note, type: :model do
   include_context 'Session'
 
-  let(:note) { build(:note, noteable: create(:world)) }
+  let(:note) { build(:world_with_notes).notes.first }
 
   it 'must have content' do
     note.content = nil
@@ -11,7 +11,7 @@ RSpec.describe Note, type: :model do
   end
 
   it_behaves_like 'updates parents' do
-    let(:subject) { note }
-    let(:parent)  { note.noteable }
+    let(:parent)  { create(:world) }
+    let(:subject) { create(:note, noteable: parent) }
   end
 end

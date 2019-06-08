@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
+--
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -203,6 +217,41 @@ UNION
 
 
 --
+-- Name: dossiers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.dossiers (
+    id bigint NOT NULL,
+    title character varying NOT NULL,
+    description text,
+    content text NOT NULL,
+    dossierable_type character varying,
+    dossierable_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: dossiers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.dossiers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dossiers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.dossiers_id_seq OWNED BY public.dossiers.id;
+
+
+--
 -- Name: figures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -267,7 +316,9 @@ CREATE TABLE public.notes (
     id bigint NOT NULL,
     content text NOT NULL,
     noteable_type character varying,
-    noteable_id integer
+    noteable_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -328,6 +379,37 @@ CREATE SEQUENCE public.tags_id_seq
 --
 
 ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
+
+
+--
+-- Name: traits; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.traits (
+    id bigint NOT NULL,
+    attributeset public.hstore DEFAULT ''::public.hstore NOT NULL,
+    traitable_type character varying,
+    traitable_id integer
+);
+
+
+--
+-- Name: traits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.traits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: traits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.traits_id_seq OWNED BY public.traits.id;
 
 
 --
@@ -400,6 +482,13 @@ ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: dossiers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dossiers ALTER COLUMN id SET DEFAULT nextval('public.dossiers_id_seq'::regclass);
+
+
+--
 -- Name: figures id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -432,6 +521,13 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 --
 
 ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.tags_id_seq'::regclass);
+
+
+--
+-- Name: traits id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.traits ALTER COLUMN id SET DEFAULT nextval('public.traits_id_seq'::regclass);
 
 
 --
@@ -470,6 +566,14 @@ ALTER TABLE ONLY public.active_storage_blobs
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: dossiers dossiers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dossiers
+    ADD CONSTRAINT dossiers_pkey PRIMARY KEY (id);
 
 
 --
@@ -521,6 +625,14 @@ ALTER TABLE ONLY public.tags
 
 
 --
+-- Name: traits traits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.traits
+    ADD CONSTRAINT traits_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -555,6 +667,13 @@ CREATE UNIQUE INDEX index_active_storage_attachments_uniqueness ON public.active
 --
 
 CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_blobs USING btree (key);
+
+
+--
+-- Name: index_dossiers_on_dossierable_type_and_dossierable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_dossiers_on_dossierable_type_and_dossierable_id ON public.dossiers USING btree (dossierable_type, dossierable_id);
 
 
 --
@@ -611,6 +730,20 @@ CREATE UNIQUE INDEX index_tags_on_tagable_type_and_tagable_id ON public.tags USI
 --
 
 CREATE INDEX index_tags_on_tagset ON public.tags USING gin (tagset);
+
+
+--
+-- Name: index_traits_on_attributeset; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_traits_on_attributeset ON public.traits USING gin (attributeset);
+
+
+--
+-- Name: index_traits_on_traitable_type_and_traitable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_traits_on_traitable_type_and_traitable_id ON public.traits USING btree (traitable_type, traitable_id);
 
 
 --
@@ -721,6 +854,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190519214102'),
 ('20190601154637'),
 ('20190602174120'),
-('20190604130121');
+('20190604130121'),
+('20190610173015'),
+('20190617112044'),
+('20190619154220'),
+('20190619155033');
 
 

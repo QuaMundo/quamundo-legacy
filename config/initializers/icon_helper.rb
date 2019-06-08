@@ -12,7 +12,7 @@ module IconHelper
         # Attributes
         note:     { icon: 'sticky-note',    style: 'far' },
         dossier:  { icon: 'folder-open',    style: 'fas' },
-        attr:     { icon: 'tag',            style: 'fas' },
+        trait:    { icon: 'tag',            style: 'fas' },
         tag:      { icon: 'hashtag',        style: 'fas' },
 
         # Menu

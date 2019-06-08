@@ -3,6 +3,8 @@ class World < ApplicationRecord
   include Slugged
   include Noteable
   include Tagable
+  include Traitable
+  include Dossierable
 
   belongs_to :user
   has_many :dashboard_entries
@@ -11,4 +13,6 @@ class World < ApplicationRecord
     assoc.has_many :items
     assoc.has_many :locations
   end
+
+  alias_attribute :name, :title
 end

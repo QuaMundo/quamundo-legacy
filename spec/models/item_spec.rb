@@ -1,33 +1,41 @@
 RSpec.describe Item, type: :model do
   include_context 'Session'
 
-  let(:item) { build(:item, world: world) }
+  let(:world) { build(:world) }
 
   it 'is invalid without a name' do
-    an_item = world.items.new
+    an_item = build(:item, world: world, name: nil)
     expect(an_item).not_to be_valid
     expect { an_item.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
   end
 
   it_behaves_like 'noteable' do
-    let(:subject) { item }
+    let(:subject) { build(:item_with_notes) }
   end
 
   it_behaves_like 'inventory' do
-    let(:subject) { item }
+    let(:subject) { build(:item, world: world) }
   end
 
   it_behaves_like 'associated_with_world' do
-    let(:subject) { item }
+    let(:subject) { build(:item, world: world) }
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { item }
+    let(:subject) { build(:item_with_tags) }
+  end
+
+  it_behaves_like 'traitable' do
+    let(:subject) { build(:item_with_traits) }
+  end
+
+  it_behaves_like 'dossierable' do
+    let(:subject) { build(:item_with_dossiers) }
   end
 
   it_behaves_like 'updates parents' do
-    let(:subject) { item }
-    let(:parent)  { item.world }
+    let(:parent)  { create(:world) }
+    let(:subject) { create(:item, world: parent) }
   end
 end

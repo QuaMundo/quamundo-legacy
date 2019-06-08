@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  include_context 'Users'
-
   # default user stuff doesn't need testing since it's hopefully
   # tested by devise
+
+  let(:user) { build(:user) }
 
   it 'has a list of his worlds' do
     world = build(:world, title: 'My World', user: user)
@@ -26,6 +26,7 @@ RSpec.describe User, type: :model do
 
   # FIXME: Refactor next examples to use shaerd examples
   it 'requires nick name to be case insensitive unique' do
+    user.save
     other_user = build(:user, nick: user.nick.upcase,
                        email: 'test1@example.com', password: 'pa55w05t')
     expect { other_user.save!(validate: false) }
@@ -50,6 +51,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'when deleted, all worlds are deleted, too' do
+    user_with_worlds = create(:user_with_worlds_wo_img, worlds_count: 3)
     worlds = user_with_worlds.world_ids
     user_with_worlds.destroy
     expect(user_with_worlds).to be_destroyed

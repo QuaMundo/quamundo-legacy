@@ -1,6 +1,8 @@
-RSpec.describe 'Deleting an item', type: :system, login: :user_with_worlds do
+RSpec.describe 'Deleting an item', type: :system do
   include_context 'Session'
 
+  let(:world) { create(:world_with_items, user: user) }
+  let(:other_world) { create(:world_with_items) }
   let(:item) { world.items.first }
   let(:other_item) { other_world.items.first }
 

@@ -1,4 +1,4 @@
-RSpec.describe 'Routes for Quamundo', type: :routing, login: :user_with_worlds do
+RSpec.describe 'Routes for Quamundo', type: :routing do
   include_context 'Session'
 
   context 'Dashboard' do

@@ -1,5 +1,8 @@
-RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
+RSpec.describe 'Showing a world', type: :system do
   include_context 'Session'
+
+  let(:world) { create(:world, user: user) }
+  let(:other_world) { create(:world) }
 
   context 'own worlds' do
     before(:example) { visit world_path(world) }
@@ -66,11 +69,19 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
     end
 
     it_behaves_like 'associated note' do
-      let(:subject) { world }
+      let(:subject) { create(:world_with_notes, user: user) }
     end
 
     it_behaves_like 'associated tags' do
-      let(:subject) { world }
+      let(:subject) { create(:world_with_tags, user: user) }
+    end
+
+    it_behaves_like 'associated traits' do
+      let(:subject) { create(:world_with_traits, user: user) }
+    end
+
+    it_behaves_like 'associated dossiers' do
+      let(:subject) { create(:world_with_dossiers, user: user) }
     end
   end
 
@@ -81,7 +92,7 @@ RSpec.describe 'Showing a world', type: :system, login: :user_with_worlds do
       expect(page).not_to have_current_path(world_path(other_world))
       expect(page).to have_current_path(worlds_path)
       expect(page).to have_selector('aside.alert-danger',
-                                   text: 'This is not')
+                                   text: /^You are not allowed/)
     end
   end
 end

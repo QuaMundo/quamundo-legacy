@@ -1,14 +1,16 @@
-RSpec.describe 'Creating a world', type: :system, login: :user_with_worlds do
+RSpec.describe 'Creating a world', type: :system do
   include_context 'Session'
+
+  let(:user) { create(:user_with_worlds) }
 
   before(:example) { visit new_world_path }
 
   it 'is successfull with completed form' do
-    world_count = user_with_worlds.worlds.count
+    world_count = user.worlds.count
     fill_in('Title', with: 'One More new World')
     fill_in('Description', with: 'Description of newly created world')
     click_button('submit')
-    expect(user_with_worlds.worlds.count).to eq(world_count + 1)
+    expect(user.worlds.count).to eq(world_count + 1)
     expect(page).to have_content('One More new World')
   end
 

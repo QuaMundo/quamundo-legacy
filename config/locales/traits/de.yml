@@ -1,0 +1,25 @@
+de:
+  traits:
+    edit:
+      edit_trait: 'Eigenschaften bearbeiten'
+
+    form:
+      new_key: 'Neue Eigenschaft'
+      new_value: 'Neuer Wert'
+
+  activerecord:
+    models:
+      trait:
+        one: 'Eigenschaft'
+        other: 'Eigenschaften'
+
+    attributes:
+      trait:
+        attributeset: 'Eigenschaften'
+
+  controllers:
+    trait:
+      update_success: 'Eigenschaften aktualisiert'
+      update_failed: 'Eigenschaften konnten nicht aktualisiert werden'
+      delete_success: 'Eigenschaften gelöscht'
+      delete_failed: 'Eigenscahften konnten nicht gelöscht werden'

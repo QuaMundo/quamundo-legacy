@@ -1,4 +1,4 @@
-RSpec.describe 'Registration', type: :request, login: :user do
+RSpec.describe 'Registration', type: :request do
   include_context 'Session'
 
   context 'Update' do

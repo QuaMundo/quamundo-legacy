@@ -23,9 +23,7 @@ require 'rspec/rails'
 # Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 require 'support/factory_bot'
-require 'support/users'
 require 'support/user_login'
-require 'support/worlds'
 require 'support/session'
 require 'support/quamundo_test_helpers'
 require 'support/valid_view'
@@ -33,8 +31,12 @@ require 'support/associated_with_world'
 require 'support/inventory'
 require 'support/noteable'
 require 'support/tagable'
+require 'support/traitable'
+require 'support/dossierable'
 require 'support/associated_note'
 require 'support/associated_tag'
+require 'support/associated_trait'
+require 'support/associated_dossier'
 require 'support/updates_parent'
 
 # Checks for pending migrations and applies them before tests are run.

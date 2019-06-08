@@ -1,8 +1,6 @@
 RSpec.describe 'Worlds', type: :request do
-  include_context 'Users'
-
   context 'without user logged in' do
-    let(:world) { create(:world, title: 'Welt', user: user) }
+    let(:world) { create(:world, title: 'Welt') }
 
     it 'redirects to login when world index ist requested' do
       get worlds_path
@@ -41,18 +39,21 @@ RSpec.describe 'Worlds', type: :request do
     end
   end
 
-  context 'with logged in user', login: :user_with_worlds do
+  context 'with logged in user' do
     include_context 'Session'
+
+    let(:user) { build(:user_with_worlds_wo_img) }
+    let(:other_world) { create(:world) }
 
     context 'regarding own worlds' do
       it 'can destroy a world' do
-        world = user_with_worlds.worlds.first
+        world = user.worlds.first
         delete world_path(world)
         expect(World.find_by(id: world.id)).to be_falsy
       end
 
       it 'must not update title' do
-        world = user_with_worlds.worlds.first
+        world = user.worlds.first
         old_title = world.title
         headers = { "CONTENT_TYPE" => "application/json" }
         post_data = '{ "world": { "title": "A New Title" } }'
@@ -92,7 +93,7 @@ RSpec.describe 'Worlds', type: :request do
         get worlds_path
         expect(response).to be_successful
         expect(response.body).not_to include(other_world.title)
-        expect(response.body).to include(user_with_worlds.worlds.first.title)
+        expect(response.body).to include(user.worlds.first.title)
       end
     end
   end

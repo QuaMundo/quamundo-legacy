@@ -15,10 +15,13 @@ class NotesController < ApplicationController
       if @note.save
         format.html do
           redirect_to(@redirect_path,
-                      notice: 'Note successfully created')
+                      notice: t('controllers.note.create_success'))
         end
       else
-        # FIXME: Error handling
+        format.html do
+          flash[:alert] = t('controllers.note.create_failed')
+          render :new
+        end
       end
     end
   end
@@ -32,10 +35,13 @@ class NotesController < ApplicationController
       if @note.update(note_params)
         format.html do
           redirect_to(@redirect_path,
-                      notice: "Note successfully updated")
+                      notice: t('controllers.note.update_success'))
         end
       else
-        # FIXME: Error
+        format.html do
+          flash[:alert] = t('controllers.note.update_failed')
+          render :edit
+        end
       end
     end
   end
@@ -45,7 +51,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(@redirect_path,
-                    notice: "Note successfully deleted")
+                    notice: t('controllers.note.delete_success'))
       end
     end
   end

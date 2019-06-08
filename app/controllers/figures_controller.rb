@@ -21,12 +21,14 @@ class FiguresController < ApplicationController
       if @figure.save
         format.html do
           redirect_to(world_figure_path(@world, @figure),
-                      notice: t('controllers.figure.created', figure: @figure.name))
+                      notice: t('controllers.figure.created',
+                                figure: @figure.name))
         end
       else
         format.html do
           # FIXME: This is possibly untested!
-          flash[:alert] = t('controllres.figure.create_failed', figure: @figure.name)
+          flash[:alert] = t('controllres.figure.create_failed',
+                            figure: @figure.name)
           render :new
         end
       end
@@ -41,11 +43,13 @@ class FiguresController < ApplicationController
       if @figure.update(figure_params)
         format.html do
           redirect_to(world_figure_path(@world, @figure),
-                      notice: t('controllers.figure.updated', figure: @figure.name))
+                      notice: t('controllers.figure.updated',
+                                figure: @figure.name))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.figure.update_failed', figure: @figure.name)
+          flash[:alert] = t('controllers.figure.update_failed',
+                            figure: @figure.name)
           render :edit
         end
       end
@@ -57,7 +61,8 @@ class FiguresController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(world_figures_path(@world),
-                    notice: t('controllers.figure.destroyed', figure: @figure.name))
+                    notice: t('controllers.figure.destroyed',
+                              figure: @figure.name))
       end
     end
   end
