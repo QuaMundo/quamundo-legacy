@@ -11,6 +11,7 @@ RSpec.describe 'Registration', type: :system do
         fill_in('Password', with: 's3cr3t')
         fill_in('Password confirmation', with: 's3cr3t')
         click_button('Sign up')
+        expect(page).to be_i18n_ready
         expect(page).to have_current_path(user_registration_path)
         expect(page).to have_css('aside.alert')
       end
@@ -25,6 +26,7 @@ RSpec.describe 'Registration', type: :system do
         fill_in('Password', with: 's3cr3t')
         fill_in('Password confirmation', with: 's3cr3t')
         click_button('Sign up')
+        expect(page).to be_i18n_ready
         expect(page).to have_current_path(root_path)
       end
     end

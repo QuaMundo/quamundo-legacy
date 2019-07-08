@@ -2,8 +2,16 @@ de:
   figures:
     new:
       new_figure: 'Neue Figur'
+    create:
+      created: 'Figur erfolgreich erstellt'
+      create_failed: 'Figur konnte nicht erstellt werden'
     edit:
       edit_figure: 'Figur bearbeiten'
+    update:
+      updated: 'Figur %{figure} erfolgreich aktualisiert'
+      update_failed: 'Figur %{figure} konnte nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Figur %{figure} erfoglreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
 

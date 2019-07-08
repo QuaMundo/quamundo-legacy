@@ -19,7 +19,8 @@ RSpec.shared_examples 'associated note', type: :system do
     expect(page).to have_current_path(new_polymorphic_path(path << Note))
     fill_in('note_content', with: 'This is my new note')
     click_button('submit')
-    expect(page).to have_current_path(polymorphic_path([subject.try(:world), subject]))
+    expect(page)
+      .to have_current_path(polymorphic_path([subject.try(:world), subject]))
     expect(page).to have_content('This is my new note')
   end
 
@@ -37,9 +38,10 @@ RSpec.shared_examples 'associated note', type: :system do
 
   it 'can be deleted', :js, :comprehensive do
     deleted_note = subject.notes.first
-    page.accept_confirm() do
+    res = page.accept_confirm() do
       page.find("a#delete-note-#{deleted_note.id}").click
     end
+    expect(res).not_to match(/translation missing/i)
     expect(page).to have_current_path(polymorphic_path(path))
     expect(page).not_to have_selector("#note-#{deleted_note.id}")
     expect(Note.ids).not_to include(deleted_note.id)

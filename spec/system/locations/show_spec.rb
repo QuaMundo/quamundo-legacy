@@ -46,6 +46,11 @@ RSpec.describe 'Showing a location', type: :system do
     it_behaves_like 'associated dossiers' do
       let(:subject) { create(:location_with_dossiers, user: user) }
     end
+
+    it_behaves_like 'associated facts' do
+      let(:subject) { create(:location_with_facts, facts_count: 3, world: world) }
+      let(:path)    { world_location_path(subject.world, subject) }
+    end
   end
 
   context 'with image' do

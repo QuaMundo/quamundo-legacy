@@ -9,10 +9,16 @@
     "core-js": "3",
     "eslint": "^5.16.0",
     "jquery": "^3.3.1",
+    "modernizr": "^3.7.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
     "popper.js": "^1.14.7",
     "rails-ujs": "^5.2.3",
     "startbootstrap-sb-admin-2": "^4.0.3",
+    "tempusdominus-bootstrap-4": "^5.1.2",
+    "tempusdominus-core": "^5.0.3",
     "webpack": "^4.29.6",
+    "webpack-modernizr-loader": "^5.0.0",
     "webpacker": "^4.2.2"
   },
   "devDependencies": {

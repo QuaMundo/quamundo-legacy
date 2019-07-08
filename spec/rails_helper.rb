@@ -37,7 +37,9 @@ require 'support/associated_note'
 require 'support/associated_tag'
 require 'support/associated_trait'
 require 'support/associated_dossier'
+require 'support/associated_facts'
 require 'support/updates_parent'
+require 'support/i18n.rb'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.

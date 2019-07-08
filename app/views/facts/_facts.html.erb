@@ -1,0 +1,50 @@
+<div class="row no-gutters" id="facts">
+  <% @facts.each do |fact| %>
+    <%= tag.div(class: 'col-lg-3 col-sm-6 col-12') do %>
+      <%= tag.div(id: element_id(fact, 'card'), class: 'card h-100') do %>
+
+        <%# card header %>
+        <%= tag.div(class: 'card-header') do %>
+          <h5 class="card-title mt-2">
+            <%= icon(:fact) { fact.name } %>
+          </h5>
+        <% end %>
+
+        <%# card image %>
+        <% if fact.image.attached? %>
+          <%= tag.img(src: card_img_path(fact.image), class: 'card-img q-card-img') %>
+        <% else %>
+          <%= tag.img(src: asset_pack_path('media/solid/wrench.svg'), class: 'card-img q-card-img-default') %>
+        <% end %>
+
+        <%# card body %>
+        <%= tag.div(class: 'card-body') do %>
+          <h6>
+            <%= fact.name %>
+          </h6>
+          <p class="card-text"><%= fact.description %></p>
+          <small class="card-text text-muted">
+            <%= icon(:world) { fact.world.title } %>
+          </small>
+        <% end %>
+
+        <%# card footer %>
+        <%# FIXME: Untested %>
+        <%# FIXME: This should go to helper %>
+        <%= tag.div(class: 'card-footer tiny-font') do %>
+          <div class="row text-muted">
+            <div class="col-md-6 col-12 text-md-left text-center">
+              <%= time_ago_in_words(fact.updated_at.localtime) %>
+            </div>
+            <div class="col-md-6 col-12 text-md-right text-center">
+              <%= fact.user.nick %>
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to('', world_fact_path(fact.world, fact), class: 'card-link stretched-link') %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+

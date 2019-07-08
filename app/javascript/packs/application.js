@@ -6,15 +6,15 @@
 //
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
-import "../src/application.scss"
+import "../src/application.scss";
 
 
 // Import bootstrap
-import 'bootstrap'
-import 'startbootstrap-sb-admin-2/js/sb-admin-2'
+import 'bootstrap';
+import 'startbootstrap-sb-admin-2/js/sb-admin-2';
 
 // Import fontawesome svgs
-import '../src/default-images'
+import '../src/default-images';
 
 // Use rails-ujs
 import Rails from 'rails-ujs';
@@ -22,9 +22,9 @@ import Rails from 'rails-ujs';
 Rails.start();
 
 // Use activestorage
-import * as ActiveStorage from 'activestorage'
+import * as ActiveStorage from 'activestorage';
 
-ActiveStorage.start()
+ActiveStorage.start();
 
-console.log('Hello World from Webpacker')
+//console.log('Hello World from Webpacker');
 

@@ -2,9 +2,20 @@ en:
   notes:
     new:
       new_note: 'New Note'
+    create:
+      created: 'Note successfully created'
+      create_failed: 'Failed to create note'
     edit:
       edit_note: 'Edit Note'
-    context_menu:
+    update:
+      updated: 'Note successfully updated'
+      update_failed: 'Failed to update note'
+    destroy:
+      destroyed: 'Note deleted'
+
+  shared:
+    notes:
+      confirm_delete: 'Should this note really be removed?'
 
   activerecord:
     models:
@@ -15,12 +26,4 @@ en:
     attributes:
       note:
         content: 'Content'
-        
-  controllers:
-    note:
-      create_success: 'Note successfully created'
-      create_failed: 'Failed to create note'
-      update_success: 'Note successfully updated'
-      update_failed: 'Failed to update note'
-      delete_success: 'Note deleted'
 

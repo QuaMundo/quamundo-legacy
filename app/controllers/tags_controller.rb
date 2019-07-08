@@ -13,11 +13,11 @@ class TagsController < ApplicationController
       if @tag.update(tag_params)
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.tag.update_success'))
+                      notice: t('.updated'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.tag.update_failed')
+          flash[:alert] = t('.update_failed')
           render :edit
         end
       end
@@ -29,11 +29,11 @@ class TagsController < ApplicationController
       if @tag.update(tagset: [])
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.tag.delete_success'))
+                      notice: t('.destroyed'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.tag.delete_failed')
+          flash[:alert] = t('.destroy_failed')
           render :edit
         end
       end
@@ -53,7 +53,8 @@ class TagsController < ApplicationController
   def dispatch_tagset
     if params[:tag][:tagset].kind_of? String
       tagset = params[:tag][:tagset]
-      params[:tag][:tagset] = tagset.split(',').map(&:strip)
+      # FIXME: Uniq ist not testet!
+      params[:tag][:tagset] = tagset.split(',').map(&:strip).uniq
     end
   end
 end

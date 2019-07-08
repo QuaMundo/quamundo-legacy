@@ -15,11 +15,11 @@ class NotesController < ApplicationController
       if @note.save
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.note.create_success'))
+                      notice: t('.created'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.note.create_failed')
+          flash[:alert] = t('.create_failed')
           render :new
         end
       end
@@ -35,11 +35,11 @@ class NotesController < ApplicationController
       if @note.update(note_params)
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.note.update_success'))
+                      notice: t('.updated'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.note.update_failed')
+          flash[:alert] = t('.update_failed')
           render :edit
         end
       end
@@ -51,7 +51,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(@redirect_path,
-                    notice: t('controllers.note.delete_success'))
+                    notice: t('.destroyed'))
       end
     end
   end

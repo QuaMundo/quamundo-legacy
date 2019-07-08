@@ -4,6 +4,16 @@ de:
       edit_world: 'Welt bearbeiten'
     new:
       new_world: 'Neue Welt erstellen'
+    create:
+      created: 'Welt erfolgreich erstellt'
+      create_failed: 'Welt konnte nicht erstellt werden'
+    update:
+      updated: 'Welt %{world} wurde erfolgreich aktualisiert'
+      update_failed: 'Welt %{world} konnte nicht aktualisiert werden'
+    show:
+      not_allowed: 'Keine Berechtigung für Welt %{world}'
+    destroy:
+      destroyed: 'Welt %{world} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
 

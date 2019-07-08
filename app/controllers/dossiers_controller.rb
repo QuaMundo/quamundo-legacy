@@ -19,15 +19,12 @@ class DossiersController < ApplicationController
     respond_to do |format|
       if @dossier.save
         format.html do
-          redirect_to(dossier_path(@dossier),
-                      notice: t('controllers.dossier.create_success',
-                                dossier: @dossier.title))
+          redirect_to(dossier_path(@dossier), notice: t('.created'))
         end
       else
         format.html do
           @form_url = [@assoc_obj.try(:world), @assoc_obj, @dossier]
-          flash[:alert] = t('controllers.dossier.create_failed',
-                            dossier: @dossier.title)
+          flash[:alert] = t('.create_failed')
           render :new
         end
       end
@@ -43,13 +40,11 @@ class DossiersController < ApplicationController
         remove_marked_attachments
         format.html do
           redirect_to(dossier_path(@dossier),
-                      notice: t('controllers.dossier.update_success',
-                                dossier: @dossier.title))
+                      notice: t('.updated', dossier: @dossier.title))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.dossier.update_failed',
-                            dossier: @dossier.title)
+          flash[:alert] = t('.update_failed', dossier: @dossier.title)
           render :edit
         end
       end
@@ -61,8 +56,7 @@ class DossiersController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(@redirect_path,
-                    notice: t('controller.dossier.deleted',
-                              dossier: @dossier.title))
+                    notice: t('.destroyed', dossier: @dossier.title))
       end
     end
   end

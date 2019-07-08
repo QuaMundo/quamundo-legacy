@@ -4,6 +4,16 @@ en:
       edit_world: 'Edit World'
     new:
       new_world: 'New World'
+    create:
+      created: 'World successfully created'
+      create_failed: 'Failed to create world'
+    update:
+      updated: 'World %{world} successfully updated'
+      update_failed: 'Failed to update %{world}'
+    show:
+      not_allowed: 'You are not allowed to show %{world}'
+    destroy:
+      destroyed: 'World %{world} successfully deleted'
     context_menu:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
 

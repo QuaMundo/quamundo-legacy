@@ -17,7 +17,7 @@ import '@fortawesome/fontawesome-free/svgs/solid/history.svg'
 import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 //import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 // event
-import '@fortawesome/fontawesome-free/svgs/solid/exclamation.svg'
+import '@fortawesome/fontawesome-free/svgs/solid/exclamation-circle.svg'
 // file
 import '@fortawesome/fontawesome-free/svgs/solid/folder.svg'
 // note

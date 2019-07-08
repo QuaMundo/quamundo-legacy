@@ -7,11 +7,14 @@ class World < ApplicationRecord
   include Dossierable
 
   belongs_to :user
-  has_many :dashboard_entries
+  has_many :inventories
+
+  # FIXME: Can this put in a concern?
   with_options dependent: :destroy do |assoc|
     assoc.has_many :figures
     assoc.has_many :items
     assoc.has_many :locations
+    assoc.has_many :facts
   end
 
   alias_attribute :name, :title

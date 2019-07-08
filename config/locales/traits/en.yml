@@ -2,10 +2,20 @@ en:
   traits:
     edit:
       edit_trait: 'Edit Attributes'
+    update:
+      updated: 'Attributes successfully updated'
+      update_failed: 'Failed to update attributes'
+    destroy:
+      destroyed: 'Attributes deleted'
+      destroy_failed: 'Failed to remove attributes'
 
     form:
       new_key: 'New Key'
       new_value: 'New Value'
+
+  shared:
+    traits:
+      confirm_delete: 'Should all attributes really be removed?'
 
   activerecord:
     models:
@@ -17,9 +27,3 @@ en:
       trait:
         attributeset: 'Attributes'
 
-  controllers:
-    trait:
-      update_success: 'Attributes successfully updated'
-      update_failed: 'Failed to update attributes'
-      delete_success: 'Attributes deleted'
-      delete_failed: 'Failed to remove attributes'

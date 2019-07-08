@@ -61,7 +61,18 @@ RSpec.describe 'Showing a world', type: :system do
         end
       end
 
-      specify 'facts statistics'
+      specify 'facts statistics' do
+        page.within('tr#facts') do
+          expect(page)
+            .to have_selector('td', text: /Fact/)
+          expect(page)
+            .to have_selector('td', text: /#{world.facts.count}/)
+          expect(page)
+            .to have_link(href: world_facts_path(world))
+          expect(page)
+            .to have_link(href: new_world_fact_path(world))
+        end
+      end
     end
 
     it_behaves_like 'valid_view' do
@@ -93,6 +104,10 @@ RSpec.describe 'Showing a world', type: :system do
       expect(page).to have_current_path(worlds_path)
       expect(page).to have_selector('aside.alert-danger',
                                    text: /^You are not allowed/)
+    end
+
+    it_behaves_like 'valid_view' do
+      let(:subject) { world_path(other_world) }
     end
   end
 end

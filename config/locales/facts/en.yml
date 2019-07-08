@@ -1,0 +1,52 @@
+en:
+  facts:
+    new:
+      new_fact: 'New Fact'
+    create:
+      created: 'Fact successfully created'
+      create_failed: 'Failed to create fact'
+    edit:
+      edit_fact: 'Edit Fact'
+    update:
+      updated: 'Fact %{fact} successfully updated'
+      update_failed: 'Failed to update fact %{fact}'
+    show:
+      edit_roles: 'Edit roles'
+      remove_from_fact: 'Remove from fact'
+      confirm_delete: 'Should %{constituent} really be unlinked?'
+    destroy:
+      destroyed: 'Fact %{fact} successfully deleted'
+    context_menu:
+      confirm_delete: 'Should fact %{fact} really be removed'
+
+  fact_constituents:
+    new:
+      new_fact_constituent: 'New fact constituent'
+    create:
+      created: 'Fact constituent successfully created'
+      create_failed: 'Failed to create fact constituent'
+    destroy:
+      destroyed: 'Constituent unlinked from fact'
+    update:
+      updated: 'Constituent %{constituent} of fact %{fact} successfully updated'
+
+  activerecord:
+    models:
+      fact:
+        one: 'Fact'
+        other: 'Facts'
+
+      fact_constituent:
+        one: 'Constituent'
+        other: 'Constituents'
+
+  controllers:
+    fact:
+      created: 'Fact %{fact} successfully created'
+      create_failed: 'Fact %{fact} could not be created'
+      updated: 'Fact %{fact} successfully updated'
+      update_failed: 'Fact %{fact} could not be updated'
+
+    fact_constituent:
+      created: '%{constituable} successfully linked to fact %{fact}'
+      create_failed: 'Linkag to fact %{fact} failed'

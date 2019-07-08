@@ -1,0 +1,8 @@
+<h2><%= t('.update_fact_constituent') %></h2>
+<%= form_with url: [@world, @fact, @fact_constituent], model: @fact_constituent, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :roles %>
+    <%= f.text_field :roles, class: 'form-control', value: @fact_constituent.roles.join(', ') %>
+  </div>
+  <%= f.submit t('submit'), class: 'btn btn-primary btn-lg' %>
+<% end %>

@@ -18,9 +18,9 @@ RSpec.describe 'Dashboard', type: :system do
 
   context 'for user with worlds' do
     let(:user) { build(:user_with_worlds_wo_img, worlds_count: 5) }
-    before(:example) { visit root_path }
 
     it 'shows 4 last updated worlds' do
+      visit root_path
       expect(page).to have_selector("div[id^=\"card-world-\"]", count: 4)
       world_ids = user.worlds.order(updated_at: :desc).limit(4)
         .all.map { |w| "card-world-#{w.id}" }
@@ -32,9 +32,9 @@ RSpec.describe 'Dashboard', type: :system do
 
     it 'shows last 15 activities in descending order', :comprehensive do
       create_some_inventory(user)
-      # FIXME: This repeats before action!
       visit root_path
-      user.dashboard_entries.each do |entry|
+      expect(page).to have_selector('#last-activities ul li', count: 15)
+      user.inventories.limit(15).each do |entry|
         check_attrs(entry)
       end
     end

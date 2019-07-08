@@ -48,4 +48,17 @@ FactoryBot.define do
       create_list(:dossier, evaluator.dossiers_count, dossierable: obj)
     end
   end
+
+  trait :with_facts do
+    transient do
+      facts_count     { 1 }
+    end
+
+    after(:build) do |obj, evaluator|
+      facts = build_list(:fact, evaluator.facts_count, world: obj.world)
+      facts.each do |fact|
+        create(:fact_constituent, fact: fact, constituable: obj)
+      end
+    end
+  end
 end

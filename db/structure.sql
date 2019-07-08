@@ -122,6 +122,110 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: dossiers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.dossiers (
+    id bigint NOT NULL,
+    title character varying NOT NULL,
+    description text,
+    content text NOT NULL,
+    dossierable_type character varying,
+    dossierable_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: dossiers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.dossiers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dossiers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.dossiers_id_seq OWNED BY public.dossiers.id;
+
+
+--
+-- Name: fact_constituents; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.fact_constituents (
+    id bigint NOT NULL,
+    roles character varying[] DEFAULT '{}'::character varying[] NOT NULL,
+    constituable_type character varying NOT NULL,
+    constituable_id integer NOT NULL,
+    fact_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: fact_constituents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.fact_constituents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: fact_constituents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.fact_constituents_id_seq OWNED BY public.fact_constituents.id;
+
+
+--
+-- Name: facts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.facts (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    start_date timestamp without time zone,
+    end_date timestamp without time zone,
+    world_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: facts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.facts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: facts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.facts_id_seq OWNED BY public.facts.id;
+
+
+--
 -- Name: figures; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -133,6 +237,25 @@ CREATE TABLE public.figures (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
+
+
+--
+-- Name: figures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.figures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: figures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.figures_id_seq OWNED BY public.figures.id;
 
 
 --
@@ -180,10 +303,10 @@ CREATE TABLE public.worlds (
 
 
 --
--- Name: dashboard_entries; Type: VIEW; Schema: public; Owner: -
+-- Name: inventories; Type: VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW public.dashboard_entries AS
+CREATE VIEW public.inventories AS
  SELECT i.id AS inventory_id,
     'Item'::text AS inventory_type,
     i.name,
@@ -213,61 +336,17 @@ UNION
     wl.user_id
    FROM (public.locations l
      LEFT JOIN public.worlds wl ON ((wl.id = l.world_id)))
+UNION
+ SELECT fa.id AS inventory_id,
+    'Fact'::text AS inventory_type,
+    fa.name,
+    fa.description,
+    fa.updated_at,
+    wfa.id AS world_id,
+    wfa.user_id
+   FROM (public.facts fa
+     LEFT JOIN public.worlds wfa ON ((wfa.id = fa.world_id)))
   ORDER BY 5 DESC;
-
-
---
--- Name: dossiers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.dossiers (
-    id bigint NOT NULL,
-    title character varying NOT NULL,
-    description text,
-    content text NOT NULL,
-    dossierable_type character varying,
-    dossierable_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: dossiers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.dossiers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: dossiers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.dossiers_id_seq OWNED BY public.dossiers.id;
-
-
---
--- Name: figures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.figures_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: figures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.figures_id_seq OWNED BY public.figures.id;
 
 
 --
@@ -489,6 +568,20 @@ ALTER TABLE ONLY public.dossiers ALTER COLUMN id SET DEFAULT nextval('public.dos
 
 
 --
+-- Name: fact_constituents id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fact_constituents ALTER COLUMN id SET DEFAULT nextval('public.fact_constituents_id_seq'::regclass);
+
+
+--
+-- Name: facts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.facts ALTER COLUMN id SET DEFAULT nextval('public.facts_id_seq'::regclass);
+
+
+--
 -- Name: figures id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -574,6 +667,22 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.dossiers
     ADD CONSTRAINT dossiers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fact_constituents fact_constituents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fact_constituents
+    ADD CONSTRAINT fact_constituents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: facts facts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.facts
+    ADD CONSTRAINT facts_pkey PRIMARY KEY (id);
 
 
 --
@@ -674,6 +783,41 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 --
 
 CREATE INDEX index_dossiers_on_dossierable_type_and_dossierable_id ON public.dossiers USING btree (dossierable_type, dossierable_id);
+
+
+--
+-- Name: index_fact_const_on_const_type_and_const_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_fact_const_on_const_type_and_const_id ON public.fact_constituents USING btree (constituable_type, constituable_id);
+
+
+--
+-- Name: index_fact_const_on_const_type_and_const_id_and_fact_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_fact_const_on_const_type_and_const_id_and_fact_id ON public.fact_constituents USING btree (constituable_type, constituable_id, fact_id);
+
+
+--
+-- Name: index_fact_constituents_on_fact_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_fact_constituents_on_fact_id ON public.fact_constituents USING btree (fact_id);
+
+
+--
+-- Name: index_fact_constituents_on_roles; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_fact_constituents_on_roles ON public.fact_constituents USING gin (roles);
+
+
+--
+-- Name: index_facts_on_world_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_facts_on_world_id ON public.facts USING btree (world_id);
 
 
 --
@@ -789,6 +933,14 @@ CREATE INDEX index_worlds_on_user_id ON public.worlds USING btree (user_id);
 
 
 --
+-- Name: facts fk_rails_0610f2844b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.facts
+    ADD CONSTRAINT fk_rails_0610f2844b FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
 -- Name: figures fk_rails_124bcd8f21; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -802,6 +954,14 @@ ALTER TABLE ONLY public.figures
 
 ALTER TABLE ONLY public.locations
     ADD CONSTRAINT fk_rails_2892871a50 FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
+-- Name: fact_constituents fk_rails_6ac65e0a48; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fact_constituents
+    ADD CONSTRAINT fk_rails_6ac65e0a48 FOREIGN KEY (fact_id) REFERENCES public.facts(id);
 
 
 --
@@ -858,6 +1018,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190610173015'),
 ('20190617112044'),
 ('20190619154220'),
-('20190619155033');
+('20190619155033'),
+('20190715165925'),
+('20190715192434'),
+('20190717165733'),
+('20190721205302'),
+('20190722161446'),
+('20190726172358'),
+('20190731140244');
 
 

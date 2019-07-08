@@ -4,6 +4,14 @@ en:
       edit_dossier: 'Edit Dossier'
     new:
       new_dossier: 'New Dossier'
+    create:
+      created: 'Dossier successfully created'
+      create_failed: 'Failed to create dossier'
+    update:
+      updated: 'Dossier %{dossier} successfully updated'
+      update_failed: 'Failed to update dossier %{dossier}'
+    destroy:
+      destroyed: 'Deleted dossier %{dossier}'
     context_menu:
       confirm_delete: 'Do you really want to delete dossier %{dossier}'
     form:
@@ -23,11 +31,3 @@ en:
         content: 'Content'
         files: 'File Attachments'
         
-  controllers:
-    dossier:
-      create_success: 'Dossier %{dossier} successfully created'
-      create_failed: 'Failed to create dossier %{dossier}'
-      deleted: 'Deleted dossier %{dossier}'
-      update_success: 'Dossier %{dossier} wurde aktualisiert'
-      update_failed: 'Dossier %{dossier} konnte nicht aktualisiert werden'
-

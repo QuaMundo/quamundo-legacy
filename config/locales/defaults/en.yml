@@ -13,7 +13,6 @@ en:
   dashboard: 'dashboard'
   logout: 'logout'
   profile: 'profile'
-  logged_in_as: 'You are logged in as: %{nick}'
   nick_normalized: 'Nick name may only contain letters, numbers and "._-" and must start and end with a letter or number'
   world: 'World'
   created_by: 'Created by: %{nick}'
@@ -21,8 +20,15 @@ en:
   last_modified: 'Last updated at: %{datetime}'
   last_activities: 'Last Activities'
   not_allowed: 'You are not allowed to touch this object'
+  start_time: 'Starts at'
+  end_time: 'Ends at'
+  duration: 'Duration'
 
   shared:
     traits:
       attribute: 'Attribute'
       value: 'Value'
+
+  time:
+    formats:
+      fact: '%m-%d-%Y %H:%M:%S h'

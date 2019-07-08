@@ -2,9 +2,20 @@ de:
   notes:
     new:
       new_note: 'Neue Notiz'
+    create:
+      created: 'Notiz erzeugt'
+      create_failed: 'Notiz konnte nicht erzeugt werden'
     edit:
       edit_note: 'Notiz bearbeiten'
-    context_menu:
+    update:
+      updated: 'Notiz aktualisiert'
+      update_failed: 'Notiz konnte nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Notiz gelöscht'
+
+  shared:
+    notes:
+      confirm_delete: 'Soll diese Notiz wirklich gelöscht werden?'
 
   activerecord:
     models:
@@ -15,13 +26,4 @@ de:
     attributes:
       note:
         content: 'Inhalt'
-        
-  controllers:
-    note:
-      create_success: 'Notiz erzeugt'
-      create_failed: 'Notiz konnte nicht erzeugt werden'
-      update_success: 'Notiz aktualisiert'
-      update_failed: 'Notiz konnte nicht aktualisiert werden'
-      delete_success: 'Notiz gelöscht'
-
 

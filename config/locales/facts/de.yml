@@ -1,0 +1,52 @@
+de:
+  facts:
+    new:
+      new_fact: 'Neuer Fakt'
+    create:
+      created: 'Fakt erfolgreich erstellt'
+      create_failed: 'Fakt konnte nicht erstellt werden'
+    edit:
+      edit_fact: 'Fakt bearbeiten'
+    update:
+      updated: 'Fakt %{fact} wurde erfolgreich aktualisiert'
+      update_failed: 'Fakt %{fact} konnte nicht aktualisiert werden'
+    show:
+      edit_roles: 'Rollen bearbeiten'
+      remove_from_fact: 'Von Fakt entfernen'
+      confirm_delete: 'Soll Aspekt %{constituent} wirklich entfernt werden?'
+    destroy:
+      destroyed: 'Fakt %{fact} wurde erfolgreich gelöscht'
+    context_menu:
+      confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'
+
+  fact_constituents:
+    new:
+      new_fact_constituent: 'Neuer Faktenaspekt'
+    create:
+      created: 'Faktenaspekt erfolgreich erstellt'
+      create_failed: 'Faktenaspekt konnte nicht erstellt werden'
+    destroy:
+      destroyed: 'Zuordnung zu Fakt wurde entfernt'
+    update:
+      updated: 'Aspekt %{constituent} von Fakt %{fact} erfoglreich aktualisiert'
+
+  activerecord:
+    models:
+      fact:
+        one: 'Fakt'
+        other: 'Fakten'
+
+      fact_constituent:
+        one: 'Aspekt'
+        other: 'Aspekte'
+
+  controllers:
+    fact:
+      created: 'Fakt %{fact} erfolgreich erstellt'
+      create_failed: 'Fakt %{fact} konnte nicht erstellt werden'
+      updated: 'Fakt %{fact} erfolgreich aktualisiert'
+      update_failed: 'Fakt %{fact} konnte nicht aktualisiert werden'
+
+    fact_constituent:
+      created: '%{constituable} wurde erfolgrech Fakt %{fact} zugeordnet'
+      create_failed: 'Zuordnung zu Fakt %{fact} konnte nicht hergestellt werden'

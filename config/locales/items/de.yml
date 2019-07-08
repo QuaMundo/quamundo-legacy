@@ -2,8 +2,16 @@ de:
   items:
     new:
       new_item: 'Neuer Gegenstand'
+    create:
+      created: 'Gegenstand wurde erfolgreich erstellt'
+      create_failed: 'Gegenstand konnte nicht erstellt werden'
     edit:
       edit_item: 'Gegenstand Bearbeiten'
+    update:
+      updated: 'Gegenstand %{item} wurde erfolgreich aktualisiert'
+      update_failed: 'Gegenstand %{item} konnte nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Gegenstand %{item} erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
 

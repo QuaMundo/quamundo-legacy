@@ -25,9 +25,10 @@ RSpec.shared_examples 'associated traits', type: :system do
     end
 
     it 'provides link to delete', :js, :comprehensive do
-      page.accept_confirm do
+      res = page.accept_confirm do
         page.find("a#delete-trait-#{subject.trait.id}").click
       end
+      expect(res).not_to match(/translation missing/i)
       expect(page).to have_current_path(polymorphic_path(path))
       expect(page).to have_selector('.attributeset-key', count: 0)
       expect(page).to have_selector('.attributeset-value', count: 0)

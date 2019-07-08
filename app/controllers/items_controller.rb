@@ -18,12 +18,12 @@ class ItemsController < ApplicationController
       if @item.save
         format.html do
           redirect_to(world_item_path(@world, @item),
-                      notice: t('controllers.item.created', item: @item.name))
+                      notice: t('.created'))
         end
       else
         format.html do
           # FIXME: This is untested!
-          flash[:alert] = t('controllers.item.create_failed', item: @item.name)
+          flash[:alert] = t('.create_failed')
           render :new
         end
       end
@@ -41,12 +41,12 @@ class ItemsController < ApplicationController
       if @item.update(item_params)
         format.html do
           redirect_to(world_item_path(@world, @item),
-                      notice: t('controllers.item.updated', item: @item.name))
+                      notice: t('.updated', item: @item.name))
         end
       else
         format.html do
           # FIXME: This is untested
-          flash[:alert] = t('controllers.item.update_failed', item: @item.name)
+          flash[:alert] = t('.update_failed', item: @item.name)
           render :edit
         end
       end
@@ -58,7 +58,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(world_items_path(@world),
-                    notice: t('controllers.item.destroyed', item: @item.name))
+                    notice: t('.destroyed', item: @item.name))
       end
     end
   end

@@ -7,6 +7,6 @@ class DashboardController < ApplicationController
   private
   def set_objects
     @worlds = current_user.worlds.last_updated
-    @dashboard_entries = current_user.dashboard_entries
+    @inventories = current_user.inventories.order(updated_at: :desc).limit(15)
   end
 end

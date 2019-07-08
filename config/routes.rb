@@ -31,11 +31,16 @@ Rails.application.routes.draw do
     except: [:index, :create],
     concerns: [:noteable, :tagable, :traitable, :dossierable] do
 
-      resources :figures, :items, :locations do
+      resources :figures, :items, :locations, :facts do
         concerns :noteable
         concerns :dossierable
         concerns :tagable
         concerns :traitable
+      end
+
+      resources :facts do
+        # fact_constituents
+        resources :fact_constituents, except: [:show, :index]
       end
     end
 

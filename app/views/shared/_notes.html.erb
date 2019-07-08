@@ -11,7 +11,7 @@
           <p><%= note.content %></p>
         </div>
         <div class="card-footer">
-          <%= link_to(icon(:delete), note_path(note), id: element_id(note, 'delete'), method: :delete, data: { confirm: 'delete' }) %>
+          <%= link_to(icon(:delete), note_path(note), id: element_id(note, 'delete'), method: :delete, data: { confirm: t('.confirm_delete') }) %>
           <%= link_to(icon(:edit), edit_note_path(note), id: element_id(note, 'edit')) %>
         </div>
       <% end %>

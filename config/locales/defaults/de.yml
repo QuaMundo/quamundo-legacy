@@ -13,7 +13,6 @@ de:
   dashboard: 'Übersicht'
   logout: 'abmelden'
   profile: 'Profil'
-  logged_in_as: 'Du bist eingeloggt als: %{nick}'
   nick_normalized: 'Ein Nickname darf nur Buchstaben, Ziffern und die Zeichen "._-" enthalten und muss mit einem Buchstaben oder einer Ziffer beginnen und enden'
   world: 'Welt'
   created_by: 'Erstellt von: %{nick}'
@@ -21,8 +20,15 @@ de:
   last_modified: 'Letzte Änderung: %{datetime}'
   last_activities: 'Zuletzt bearbeitet'
   not_allowed: 'Du bist nicht berechtigt, dieses Objekt zu ändern.'
+  start_time: 'Beginnt am'
+  end_time: 'Endet am'
+  duration: 'Zeitspanne'
 
   shared:
     traits:
       attribute: 'Eigenschaft'
       value: 'Wert'
+
+  time:
+    formats:
+      fact: '%d.%m.%Y %H:%M:%S h'

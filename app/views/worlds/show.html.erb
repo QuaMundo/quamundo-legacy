@@ -88,15 +88,15 @@
             <td><%= icon(:fact) %></td>
             <%# When changing position of this,
               restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= 99 %></td>
-            <td>Fakten</td>
+            <td><%= @world.facts.count %></td>
+            <td><%= Fact.model_name.human(count: @world.facts.count) %></td>
             <td><%= link_to(
               icon(:index),
-              '#',
+              world_facts_path(@world),
               title: t(:index)) %></td>
             <td><%= link_to(
               icon(:new),
-              '#',
+              new_world_fact_path(@world),
               title: t(:new)) %></td>
           </tr>
 

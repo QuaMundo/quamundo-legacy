@@ -12,6 +12,7 @@ RSpec.describe 'Creating a figure', type: :system do
       fill_in('Description', with: 'New Figgies description')
       page.attach_file('figure_image', fixture_file_name('figure.jpg'))
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(world.figures.count).to be > figure_count
       expect(page).to have_selector('.alert-info',
                                     text: /successfully\s+created/i)
@@ -21,6 +22,7 @@ RSpec.describe 'Creating a figure', type: :system do
 
     it 'redirects to new form if name is missing' do
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_css('.alert', text: /failed/i)
     end
 

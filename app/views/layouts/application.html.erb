@@ -11,7 +11,9 @@
     <%= stylesheet_pack_tag 'application' %>
   </head>
 
-  <body class="container">
+  <%# To provide locale to js as workaround use a `data-locale` attribute
+    in body tag and use `$('body').data('locale')`to access %>
+  <%= tag.body(class: 'container', data: { locale: I18n.locale }) do %>
 
     <%# Render default header %>
     <%= render partial: 'shared/header' %>
@@ -25,5 +27,5 @@
     <%# Render footer %>
     <%= render partial: 'shared/footer' %>
 
-  </body>
+  <% end %>
 </html>

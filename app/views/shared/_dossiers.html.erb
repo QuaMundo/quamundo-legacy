@@ -22,7 +22,7 @@
             <p class="text-muted">
             <%= link_to(t('show'), polymorphic_path([dossier.try(:world), dossier])) %>
             <%= link_to(icon(:edit), edit_polymorphic_path([dossier.try(:world), dossier]), id: element_id(dossier, 'edit')) %>
-            <%= link_to(icon(:delete), polymorphic_path([dossier.try(:world), dossier]), id: element_id(dossier, 'delete'), method: :delete, data: { confirm: 'delete dossier?' }) %>
+            <%= link_to(icon(:delete), polymorphic_path([dossier.try(:world), dossier]), id: element_id(dossier, 'delete'), method: :delete, data: { confirm: t('.confirm_delete', dossier: dossier.title) }) %>
             </p>
           </div>
 

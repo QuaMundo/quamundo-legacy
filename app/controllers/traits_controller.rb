@@ -13,11 +13,11 @@ class TraitsController < ApplicationController
       if @trait.update(trait_params)
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.trait.update_success'))
+                      notice: t('.updated'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.trait.update_failed')
+          flash[:alert] = t('.update_failed')
           render :edit
         end
       end
@@ -29,11 +29,11 @@ class TraitsController < ApplicationController
       if @trait.update(attributeset: {})
         format.html do
           redirect_to(@redirect_path,
-                      notice: t('controllers.trait.delete_success'))
+                      notice: t('.destroyed'))
         end
       else
         format.html do
-          flash[:alert] = t('controllers.trait.delete_failed')
+          flash[:alert] = t('.destroy_failed')
           render :edit
         end
       end

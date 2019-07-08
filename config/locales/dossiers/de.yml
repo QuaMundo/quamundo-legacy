@@ -4,6 +4,14 @@ de:
       edit_dossier: 'Dossier bearbeiten'
     new:
       new_dossier: 'Neues Dossier'
+    create:
+      created: 'Dossier erfoglreich erstellt'
+      create_failed: 'Dossier konnte nicht erstellt werden'
+    update:
+      updated: 'Dossier %{dossier} wurde erfolgreich aktualisiert'
+      update_failed: 'Dossier %{dossier} konnte nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Dossier %{dossier} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
     form:
@@ -23,11 +31,3 @@ de:
         content: 'Inhalt'
         files: 'Dateianhänge'
         
-  controllers:
-    dossier:
-      create_success: 'Dossier %{dossier} erfolgreich erzeugt'
-      create_failed: 'Dossier %{dossier} konnte nicht erstellt werden'
-      deleted: 'Dossier %{dossier} wurde gelöscht'
-      update_success: 'Dossier %{dossier} successfully updated'
-      update_failed: 'Failed to update dossier %{dossier}'
-      

@@ -2,8 +2,16 @@ de:
   locations:
     new:
       new_location: 'Neuer Ort'
+    create:
+      created: 'Neuer Ort erfolgreich erstellt'
+      create_failed: 'Ort konnte nicht erstellt werden'
     edit:
       edit_location: 'Ort bearbeiten'
+    update:
+      updated: 'Ort %{location} erfolgreich aktualisiert'
+      update_failed: 'Ort %{location} konnte nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Ort %{location} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Ort %{item} wirklich entfernt werden?'
 

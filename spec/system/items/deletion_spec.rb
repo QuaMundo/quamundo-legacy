@@ -14,6 +14,7 @@ RSpec.describe 'Deleting an item', type: :system do
         page.first('nav.context-menu a.nav-link[title="delete"]').click
       end
       expect(page).to have_current_path(world_items_path(world))
+      expect(page).to be_i18n_ready
       expect(Item.find_by(id: item.id)).to be_falsey
     end
 

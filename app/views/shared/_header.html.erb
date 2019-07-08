@@ -2,11 +2,6 @@
   <h1>Qua Mundo</h1>
   <% if current_user %>
     <%= render partial: 'shared/main_menu' %>
-    <div class="status">
-      <p class="small">
-      <%= t(:logged_in_as, nick: current_user.nick) %>
-      </p>
-    </div>
   <% end %>
 </header>
 

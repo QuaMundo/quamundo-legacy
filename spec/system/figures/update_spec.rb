@@ -18,6 +18,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
       expect(page).to have_selector("img##{element_id(figure, 'img')}")
       fill_in('Description', with: 'New description')
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_figure_path(world, figure))
       figure.reload
       expect(figure.description).to eq('New description')
@@ -31,6 +32,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     it 'attaches an image', :comprehensive do
       page.attach_file('figure_image', fixture_file_name('figure.jpg'))
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_figure_path(world, figure))
       expect(figure.image).to be_attached
       expect(page).to have_selector('img.figure-image')
@@ -39,6 +41,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     it 'refuse to attach non image files', :comprehensive do
       page.attach_file('figure_image', fixture_file_name('file.pdf'))
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_figure_path(world, figure))
       expect(figure.image).not_to be_attached
       pending("First find out how errors and flash work")

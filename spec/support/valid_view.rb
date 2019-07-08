@@ -3,19 +3,13 @@ RSpec.shared_examples "valid_view", type: :system do
   before(:example) { visit path }
 
   context 'translation', :comprehensive do
-    it 'does not miss one' do
-      expect(page).not_to have_selector('span.translation_missing')
-      expect(page).not_to have_selector('[title*="translation_missing"]')
+    it 'is complete' do
+      expect(page).to be_i18n_ready
     end
 
     # FIXME: Slow example!
-    it 'does not miss one in dialogs', :js, :comprehensive do
-      if page.has_selector?('a.nav-link[title="delete"]')
-        res = page.accept_confirm {
-          page.first('nav.context-menu a.nav-link[title="delete"]').click
-        }
-        expect(res).not_to match(/translation missing/i)
-      end
+    it 'is complete for dialog', :js, :comprehensive do
+      expect(page).to have_i18n_ready_dialogs
     end
   end
 

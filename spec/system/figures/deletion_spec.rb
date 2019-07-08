@@ -13,6 +13,7 @@ RSpec.describe 'Deleting a figure', type: :system do
       page.accept_confirm() do
         page.first('nav.context-menu a.nav-link[title="delete"]').click
       end
+      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_figures_path(world))
       expect(Figure.find_by(id: figure.id)).to be_falsey
     end

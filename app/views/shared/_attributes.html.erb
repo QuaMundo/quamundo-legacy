@@ -3,6 +3,27 @@
   <div class="col">
     <div class="accordion" id="attributes">
 
+      <%# FIXME: Refactor: Maybe use `content_for` or similar approach %>
+      <%# Facts %>
+      <% if obj.respond_to?(:facts) %>
+        <div id="facts" class="card">
+
+          <div id="facts-header" class="card-header">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#facts-collection" aria-expanded="true" aria-controls="facts-collection">
+              <%= icon(:fact) %>&nbsp;<%= obj.facts.count %>&nbsp;<%= Fact.model_name.human(count: obj.facts.count).capitalize %>
+            </button>
+          </div>
+
+          <div id="facts-collection" class="collapse" aria-labeled-by="facts-header" data-parent="#attributes">
+            <div class="card-body">
+              <%= render partial: 'shared/facts', locals: { obj: obj } %> 
+            </div>
+          </div>
+          
+        </div>
+      <% end %>
+      <%# /Facts %>
+
       <%# Traits %>
       <div class="card" id="traits">
 

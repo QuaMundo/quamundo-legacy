@@ -14,6 +14,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       files = %w(earth.jpg file.pdf).map { |f| fixture_file_name(f) }
       page.attach_file('dossier_files', files)
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_content('New Dossier')
       expect(page).to have_content('Some content')
       expect(world.dossiers.count).to be > dossiers_count
@@ -25,6 +26,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
     it 'renders form again if required fields are missing' do
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
@@ -41,12 +43,14 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     it 'refuses to save dossier w/o title' do
       fill_in('Title', with: nil)
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
     it 'refuses to save dossier w/o content' do
       fill_in('Content', with: nil)
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
@@ -55,6 +59,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       fill_in('Description', with: 'Description of new dossier')
       fill_in('Content', with: 'Content of new dossier')
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(page).to have_content('New Dossier')
       expect(page).to have_content('Description of new dossier')
       # FIXME: Test this for html rendered markdown
@@ -108,6 +113,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       visit(edit_dossier_path(dossier))
       page.attach_file('dossier_files', fixture_file_name('file.pdf'))
       click_button('submit')
+      expect(page).to be_i18n_ready
       #dossier.reload
       expect(dossier.files.count).to be > no_attachments
       expect(page).to have_link('file.pdf')
@@ -123,6 +129,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       check(element_id(dossier.files.find(file_ids).first, 'remove'))
       check(element_id(dossier.files.find(file_ids).last, 'remove'))
       click_button('submit')
+      expect(page).to be_i18n_ready
       expect(dossier.files.ids).not_to include(*file_ids)
     end
 

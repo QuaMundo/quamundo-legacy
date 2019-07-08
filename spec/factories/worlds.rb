@@ -35,6 +35,17 @@ FactoryBot.define do
       end
     end
 
+    trait :with_facts do
+      transient do
+        facts_count         { 1 }
+      end
+
+      after(:build) do |world, evaluator|
+        create_list(:fact_with_constituents,
+                    evaluator.facts_count, world: world)
+      end
+    end
+
     factory :world_with_notes, traits: [:with_notes]
     factory :world_with_tags, traits: [:with_tags]
     factory :world_with_traits, traits: [:with_traits]
@@ -42,6 +53,7 @@ FactoryBot.define do
     factory :world_with_figures, traits: [:with_figures]
     factory :world_with_items, traits: [:with_items]
     factory :world_with_locations, traits: [:with_locations]
+    factory :world_with_facts, traits: [:with_facts]
 
     factory :world_with_all, traits: [
       :with_notes,
@@ -50,7 +62,8 @@ FactoryBot.define do
       :with_dossiers,
       :with_figures,
       :with_items,
-      :with_locations
+      :with_locations,
+      :with_facts
     ]
   end
 end

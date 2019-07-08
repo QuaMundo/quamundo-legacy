@@ -13,6 +13,7 @@ RSpec.describe 'Deleting a world', type: :system do
     end
     expect(page).to have_current_path(worlds_path)
     expect(World.find_by(id: world.id)).to be_falsey
+    expect(page).to be_i18n_ready
   end
 
   it_behaves_like 'valid_view' do

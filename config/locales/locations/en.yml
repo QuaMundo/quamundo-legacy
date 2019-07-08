@@ -4,6 +4,14 @@ en:
       new_location: 'New Location'
     edit:
       edit_location: 'Edit Location'
+    create:
+      created: 'Location successfully created'
+      create_failed: 'Failed to create location'
+    update:
+      updated: 'Location %{location} successfully updated'
+      update_failed: 'Failed to update location %{location}'
+    destroy:
+      destroyed: 'Location %{location} successfully deleted'
     context_menu:
       confirm_delete: 'Should location %{item} really be removed?'
 

@@ -2,8 +2,16 @@ en:
   items:
     new:
       new_item: 'New Item'
+    create:
+      created: 'Item successfully created'
+      create_failed: 'Failed to create item'
     edit:
       edit_item: 'Edit Item'
+    update:
+      updated: 'Item %{item} successfully updated'
+      update_failed: 'Failed to update item %{item}'
+    destroy:
+      destroyed: 'Item %{item} successfully deleted'
     context_menu:
       confirm_delete: 'Should item %{item} really be removed?'
 

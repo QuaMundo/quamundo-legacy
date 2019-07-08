@@ -27,7 +27,7 @@
           <%= markdown @dossier.content %>
         </div>
         <div class="file_attachments mt-3">
-          <h5><%= t(:attachments) %></h5>
+          <h5><%= t('activerecord.attributes.dossier.files') %></h5>
           <ul>
             <% @dossier.files.each do |file| %>
               <li class="file_attachment">

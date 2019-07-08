@@ -43,6 +43,11 @@ RSpec.describe 'Showing a figure', type: :system do
     it_behaves_like 'associated dossiers' do
       let(:subject) { create(:figure_with_dossiers, user: user) }
     end
+
+    it_behaves_like 'associated facts' do
+      let(:subject) { create(:figure_with_facts, facts_count: 3, world: world) }
+      let(:path)    { world_figure_path(subject.world, subject) }
+    end
   end
 
   context 'with image' do

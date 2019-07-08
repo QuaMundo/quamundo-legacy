@@ -1,0 +1,13 @@
+<nav class="nav justify-content-md-end justify-content-center context-menu mt-2">
+  <%= link_to(
+    icon(:world),
+    world_path(@world),
+    class: 'nav-link',
+    title: t(:world)) %>
+  <%= link_to(
+    icon(:new),
+    new_world_fact_path(@world),
+    class: 'nav-link',
+    title: t(:new)) %>
+</nav>
+

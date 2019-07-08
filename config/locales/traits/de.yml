@@ -2,10 +2,20 @@ de:
   traits:
     edit:
       edit_trait: 'Eigenschaften bearbeiten'
+    update:
+      updated: 'Eigenschaften aktualisiert'
+      update_failed: 'Eigenschaften konnten nicht aktualisiert werden'
+    destroy:
+      destroyed: 'Eigenschaften gelöscht'
+      destroy_failed: 'Eigenscahften konnten nicht gelöscht werden'
 
     form:
       new_key: 'Neue Eigenschaft'
       new_value: 'Neuer Wert'
+
+  shared:
+    traits:
+      confirm_delete: 'Sollen wirklich alle Eigenschaften entfernt werden?'
 
   activerecord:
     models:
@@ -17,9 +27,3 @@ de:
       trait:
         attributeset: 'Eigenschaften'
 
-  controllers:
-    trait:
-      update_success: 'Eigenschaften aktualisiert'
-      update_failed: 'Eigenschaften konnten nicht aktualisiert werden'
-      delete_success: 'Eigenschaften gelöscht'
-      delete_failed: 'Eigenscahften konnten nicht gelöscht werden'

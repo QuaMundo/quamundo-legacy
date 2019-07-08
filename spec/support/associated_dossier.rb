@@ -2,7 +2,9 @@ RSpec.shared_examples 'associated dossiers', type: :system do
   let(:path) { [subject.try(:world), subject] }
 
   before(:example) do
-    subject.dossiers << Dossier.new(title: 'Test Dossier', content: 'Test')
+    subject.dossiers << Dossier.new(title: 'Test Dossier',
+                                    content: 'Test',
+                                    description: 'Desription of Test Dossier')
     visit(polymorphic_path(path))
     page.within('div#dossiers-header') do
       page.find('button').click

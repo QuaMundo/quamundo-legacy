@@ -14,6 +14,7 @@ RSpec.describe 'Deleting a location', type: :system do
         page.first('nav.context-menu a.nav-link[title="delete"]').click
       end
       expect(page).to have_current_path(world_locations_path(world))
+      expect(page).to be_i18n_ready
       expect(Location.find_by(id: location.id)).to be_falsey
     end
 
