@@ -9,6 +9,8 @@ class Fact < ApplicationRecord
     source: :constituable, source_type: 'Figure'
   has_many :locations, through: :fact_constituents,
     source: :constituable, source_type: 'Location'
+  has_many :concepts, through: :fact_constituents,
+    source: :constituable, source_type: 'Concept'
 
   validate :end_after_start_date
 

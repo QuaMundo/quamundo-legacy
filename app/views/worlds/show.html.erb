@@ -82,6 +82,23 @@
               title: t(:new)) %></td>
           </tr>
 
+          <%# concept stats%>
+          <tr id="concepts">
+            <td><%= icon(Concept) %></td>
+            <%# When changing position of this,
+              restyle 'table.world-overview td:nth-of-type(2)'! %>
+            <td><%= @world.concepts.count %></td>
+            <td><%= Concept.model_name.human(count: @world.concepts.count) %></td>
+            <td><%= link_to(
+              icon(:index),
+              world_concepts_path(@world),
+              title: t(:index)) %></td>
+            <td><%= link_to(
+              icon(:new),
+              new_world_concept_path(@world),
+              title: t(:new)) %></td>
+          </tr>
+
           <%# facts stats%>
           <%# FIXME: This is only stubbed fake! %>
           <tr id="facts">

@@ -16,8 +16,8 @@ import '@fortawesome/fontawesome-free/svgs/solid/history.svg'
 // location
 import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 //import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
-// event
-import '@fortawesome/fontawesome-free/svgs/solid/exclamation-circle.svg'
+// fact
+import '@fortawesome/fontawesome-free/svgs/solid/exclamation-triangle.svg'
 // file
 import '@fortawesome/fontawesome-free/svgs/solid/folder.svg'
 // note
@@ -28,4 +28,5 @@ import '@fortawesome/fontawesome-free/svgs/solid/folder-open.svg'
 import '@fortawesome/fontawesome-free/svgs/solid/tag.svg'
 // tag
 import '@fortawesome/fontawesome-free/svgs/solid/hashtag.svg'
-
+// concept
+import '@fortawesome/fontawesome-free/svgs/regular/comment.svg'

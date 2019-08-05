@@ -61,6 +61,19 @@ RSpec.describe 'Showing a world', type: :system do
         end
       end
 
+      specify 'concept statistics' do
+        page.within('tr#concepts') do
+          expect(page)
+            .to have_selector('td', text: /Concept/)
+          expect(page)
+            .to have_selector('td', text: /#{world.concepts.count}/)
+          expect(page)
+            .to have_link(href: world_concepts_path(world))
+          expect(page)
+            .to have_link(href: new_world_concept_path(world))
+        end
+      end
+
       specify 'facts statistics' do
         page.within('tr#facts') do
           expect(page)

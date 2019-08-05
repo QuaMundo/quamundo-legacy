@@ -1,0 +1,59 @@
+<%= tag.div(id: element_id(@concept), class: 'card') do %>
+
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:concept) { @concept.name } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %> 
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <% if @concept.image.attached? %> 
+          <%= tag.img(
+            src: card_img_path(@concept.image),
+            class: "img-fluid rounded float-right img-thumbnail figure-image",
+            width: '38%',
+            alt: "Concept: #{@concept.name}") %>
+        <% end %>
+        <h6>
+          <%= @concept.name %>
+        </h6>
+        <p class="card-text"><%= @concept.description %></p>
+        <%= link_to((icon(:world) { @concept.world.title }), world_path(@concept.world), class: 'card-link') %>
+      </div>
+    </div>
+
+    <%# FIXME: Refactor - extract to image partial %>
+    <%# Show tags %>
+    <%= render partial: 'shared/tags', locals: { obj: @concept } %>
+
+    <%# Attributes go here %>
+    <%= render partial: 'shared/attributes', locals: { obj: @concept } %>
+
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= time_ago_in_words(@concept.updated_at.localtime) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'context_menu' %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

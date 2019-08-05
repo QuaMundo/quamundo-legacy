@@ -122,6 +122,39 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: concepts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.concepts (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    world_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: concepts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.concepts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: concepts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.concepts_id_seq OWNED BY public.concepts.id;
+
+
+--
 -- Name: dossiers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -346,6 +379,16 @@ UNION
     wfa.user_id
    FROM (public.facts fa
      LEFT JOIN public.worlds wfa ON ((wfa.id = fa.world_id)))
+UNION
+ SELECT c.id AS inventory_id,
+    'Concept'::text AS inventory_type,
+    c.name,
+    c.description,
+    c.updated_at,
+    wc.id AS world_id,
+    wc.user_id
+   FROM (public.concepts c
+     LEFT JOIN public.worlds wc ON ((wc.id = c.world_id)))
   ORDER BY 5 DESC;
 
 
@@ -561,6 +604,13 @@ ALTER TABLE ONLY public.active_storage_blobs ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: concepts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.concepts ALTER COLUMN id SET DEFAULT nextval('public.concepts_id_seq'::regclass);
+
+
+--
 -- Name: dossiers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -659,6 +709,14 @@ ALTER TABLE ONLY public.active_storage_blobs
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: concepts concepts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.concepts
+    ADD CONSTRAINT concepts_pkey PRIMARY KEY (id);
 
 
 --
@@ -776,6 +834,13 @@ CREATE UNIQUE INDEX index_active_storage_attachments_uniqueness ON public.active
 --
 
 CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_blobs USING btree (key);
+
+
+--
+-- Name: index_concepts_on_world_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_concepts_on_world_id ON public.concepts USING btree (world_id);
 
 
 --
@@ -989,6 +1054,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 
 --
+-- Name: concepts fk_rails_d1ab849943; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.concepts
+    ADD CONSTRAINT fk_rails_d1ab849943 FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -1025,6 +1098,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190721205302'),
 ('20190722161446'),
 ('20190726172358'),
-('20190731140244');
+('20190731140244'),
+('20190805152237'),
+('20190805163701');
 
 

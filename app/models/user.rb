@@ -14,6 +14,7 @@ class User < ApplicationRecord
     assoc.has_many :figures
     assoc.has_many :items
     assoc.has_many :locations
+    assoc.has_many :concepts
     assoc.has_many :facts
   end
 end

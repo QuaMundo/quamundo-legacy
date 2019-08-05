@@ -49,6 +49,7 @@ module QuamundoTestHelpers
       travel(rand 5.days) { world.figures << build(:figure) }
       travel(rand 5.days) { world.locations << build(:location) }
       travel(rand 5.days) { world.facts << build(:fact) }
+      travel(rand 5.days) { world.concepts << build(:concept) }
     end
   end
 

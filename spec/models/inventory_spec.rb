@@ -18,6 +18,12 @@ RSpec.describe Inventory, type: :model do
       5.times { create(:world_with_all, user: user) }
     end
 
+    it 'contains all types of inventories' do
+      available_types = %w(Item Figure Location Fact Concept)
+      types = Inventory.pluck(:inventory_type).uniq
+      expect(types).to include(*available_types)
+    end
+
     it 'lists only objects belonging to the current user' do
       expect(user.inventories.each.all? { |e| e.user == user }).to be_truthy
     end

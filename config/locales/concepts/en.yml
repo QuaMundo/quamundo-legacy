@@ -1,0 +1,29 @@
+en:
+  concepts:
+    new:
+      new_concept: 'New concept'
+    edit:
+      edit_concept: 'Edit concept'
+    create:
+      created: 'Concept successfully created'
+      create_failed: 'Failed to create concept'
+    update:
+      updated: 'Concept "%{concept}" successfully updated'
+      update_failed: 'Failed to update concept "%{concept}"'
+    destroy:
+      destroyed: 'Concept %{concept} deleted'
+    context_menu:
+      confirm_delete: 'Should concept "%{concept}" really be removed?'
+
+  activerecord:
+    models:
+      concept:
+        one: 'Concept'
+        other: 'Concepts'
+
+    attributes:
+      concept:
+        name: 'Name'
+        description: 'Description'
+        image: 'Image'
+

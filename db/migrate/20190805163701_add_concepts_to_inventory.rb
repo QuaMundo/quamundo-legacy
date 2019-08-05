@@ -1,0 +1,121 @@
+class AddConceptsToInventory < ActiveRecord::Migration[5.2]
+  def change
+    reversible do |dir|
+      dir.up do
+        # drop view if exist
+        execute <<~SQL
+          DROP VIEW IF EXISTS inventories;
+        SQL
+
+        # create view
+        execute <<~SQL
+          CREATE OR REPLACE VIEW inventories AS
+            SELECT
+              i.id AS inventory_id,
+              'Item' AS inventory_type,
+              i.name AS name,
+              i.description AS description,
+              i.updated_at AS updated_at,
+              wi.id AS world_id,
+              wi.user_id AS user_id
+            FROM items i
+            LEFT JOIN worlds wi ON (wi.id = i.world_id)
+            UNION SELECT
+              f.id AS inventory_id,
+              'Figure' AS inventory_type,
+              f.name AS name,
+              f.description AS description,
+              f.updated_at AS updated_at,
+              wf.id AS world_id,
+              wf.user_id AS user_id
+            FROM figures f
+            LEFT JOIN worlds wf ON (wf.id = f.world_id)
+            UNION SELECT
+              l.id AS inventory_id,
+              'Location' AS inventory_type,
+              l.name AS name,
+              l.description AS description,
+              l.updated_at AS updated_at,
+              wl.id AS world_id,
+              wl.user_id AS user_id
+            FROM locations l
+            LEFT JOIN worlds wl ON (wl.id = l.world_id)
+            UNION SELECT
+              fa.id AS inventory_id,
+              'Fact' AS inventory_type,
+              fa.name AS name,
+              fa.description AS description,
+              fa.updated_at AS updated_at,
+              wfa.id AS world_id,
+              wfa.user_id AS user_id
+            FROM facts fa
+            LEFT JOIN worlds wfa ON (wfa.id = fa.world_id)
+            UNION SELECT
+              c.id AS inventory_id,
+              'Concept' AS inventory_type,
+              c.name AS name,
+              c.description AS description,
+              c.updated_at AS updated_at,
+              wc.id AS world_id,
+              wc.user_id AS user_id
+            FROM concepts c
+            LEFT JOIN worlds wc ON (wc.id = c.world_id)
+          ORDER BY updated_at DESC;
+        SQL
+      end
+
+      dir.down do
+        # drop view if exist
+        execute <<~SQL
+          DROP VIEW IF EXISTS inventories;
+        SQL
+
+        # create view
+        execute <<~SQL
+          CREATE OR REPLACE VIEW inventories AS
+            SELECT
+              i.id AS inventory_id,
+              'Item' AS inventory_type,
+              i.name AS name,
+              i.description AS description,
+              i.updated_at AS updated_at,
+              wi.id AS world_id,
+              wi.user_id AS user_id
+            FROM items i
+            LEFT JOIN worlds wi ON (wi.id = i.world_id)
+            UNION SELECT
+              f.id AS inventory_id,
+              'Figure' AS inventory_type,
+              f.name AS name,
+              f.description AS description,
+              f.updated_at AS updated_at,
+              wf.id AS world_id,
+              wf.user_id AS user_id
+            FROM figures f
+            LEFT JOIN worlds wf ON (wf.id = f.world_id)
+            UNION SELECT
+              l.id AS inventory_id,
+              'Location' AS inventory_type,
+              l.name AS name,
+              l.description AS description,
+              l.updated_at AS updated_at,
+              wl.id AS world_id,
+              wl.user_id AS user_id
+            FROM locations l
+            LEFT JOIN worlds wl ON (wl.id = l.world_id)
+            UNION SELECT
+              fa.id AS inventory_id,
+              'Fact' AS inventory_type,
+              fa.name AS name,
+              fa.description AS description,
+              fa.updated_at AS updated_at,
+              wfa.id AS world_id,
+              wfa.user_id AS user_id
+            FROM facts fa
+            LEFT JOIN worlds wfa ON (wfa.id = fa.world_id)
+          ORDER BY updated_at DESC;
+        SQL
+      end
+    end
+  end
+end

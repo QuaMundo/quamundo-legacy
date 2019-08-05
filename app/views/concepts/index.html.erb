@@ -1,0 +1,35 @@
+<%= tag.div(id: 'concepts', class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center">
+        <h2 class="card-title mt-2">
+          <%= icon(:concept) { Concept.model_name.human(count: @concepts.count) } %>
+        </h2>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <%= render partial: 'concepts' %>
+  </div>
+
+  <%# card footer %>
+  <div class="card-footer text-muted">
+    <div class="row">
+      <div class="col-md-6 col-12 text-md-left text-center mt-2">
+        <small>
+          <%= @concepts.count %>
+          <%= Concept.model_name.human(count: @concepts.count) %>
+        </small>
+      </div>
+      <div class="col-md-6 col-12 text-md-right text-center">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+<% end %>

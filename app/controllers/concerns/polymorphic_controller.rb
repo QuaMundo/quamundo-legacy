@@ -20,7 +20,7 @@ module PolymorphicController
   # FIXME: Is this DRY? Can it be placed  somewhere else?
   # FIXME: Can these models be put by their concern?
   def polymorphic_models
-    [World, Figure, Item, Location, Fact]
+    [World, Figure, Item, Location, Fact, Concept]
   end
 
   def param_id_keys

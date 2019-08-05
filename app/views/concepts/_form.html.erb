@@ -1,0 +1,26 @@
+<%= form_with url: [@world, @concept], model: @concept, local: true do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, autocomplete: :description, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%# FIXME: DRY up - this is same in all inventory forms %>
+    <% if @concept.image.attached? %>
+      <%= tag.img(
+        src: attached_img_path(@concept.image, combine_options: { resize: '80x60^', gravity: 'center' }),
+        class: "img-fluid rounded float-right concept-image",
+        id: element_id(@concept, 'img'),
+        alt: "Bild: #{@concept.name}") %>
+    <% end %>
+    <%= f.label :image %>
+    <%= f.file_field :image, class: 'form-control-file' %>
+  </div>
+
+  <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
+<% end %>

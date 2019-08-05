@@ -14,7 +14,7 @@ class FactConstituent < ApplicationRecord
 
   private
   def allowed_constituable_type
-    unless %w(Item Figure Location Spirit).include?(constituable_type)
+    unless %w(Item Figure Location Concept).include?(constituable_type)
       errors.add(:constituable_type, 'Facts not allowed to contain facts')
     end
   end
