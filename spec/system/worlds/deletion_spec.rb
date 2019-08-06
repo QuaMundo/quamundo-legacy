@@ -7,13 +7,12 @@ RSpec.describe 'Deleting a world', type: :system do
 
   it 'brings apocalypse', :js, :comprehensive do
     world.reload
-    # FIXME: This fails with geckodriver!?
+    page.find('.nav-item a.nav-link.dropdown').click
     page.accept_confirm() do
-      page.first('nav.context-menu a.nav-link[title="delete"]').click
+      page.first('a.dropdown-item[title="delete"]').click
     end
     expect(page).to have_current_path(worlds_path)
     expect(World.find_by(id: world.id)).to be_falsey
-    expect(page).to be_i18n_ready
   end
 
   it_behaves_like 'valid_view' do

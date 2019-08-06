@@ -9,20 +9,18 @@ RSpec.describe 'Updating/editing a world', type: :system do
     expect(page).to have_selector("img##{element_id(world, 'img')}")
     fill_in('Description', with: 'A new description')
     click_button('submit')
-    expect(page).to be_i18n_ready
     expect(page).to have_current_path(world_path(world))
     expect(page).to have_content('A new description')
   end
 
-  it 'refuses to change title' do
+  it 'refuses to change name' do
     expect(page)
-      .to have_selector('input[type="text"][name="world[title]"][disabled]')
+      .to have_selector('input[type="text"][name="world[name]"][disabled]')
   end
 
   it 'attaches an image' do
     page.attach_file('world_image', fixture_file_name('earth.jpg'))
     click_button('submit')
-    expect(page).to be_i18n_ready
     expect(page).to have_current_path(world_path(world))
     expect(world.image).to be_attached
     expect(page).to have_selector('img.world-image')
@@ -31,7 +29,6 @@ RSpec.describe 'Updating/editing a world', type: :system do
   it 'refuse to attach non image files' do
     page.attach_file('world_image', fixture_file_name('file.pdf'))
     click_button('submit')
-    expect(page).to be_i18n_ready
     expect(page).to have_current_path(world_path(world))
     expect(world.image.filename).not_to eq('file.pdf')
     pending("First find out how errors and flash work")

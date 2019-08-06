@@ -10,10 +10,10 @@ RSpec.describe 'Deleting a figure', type: :system do
     before(:example) { visit world_figure_path(world, figure) }
 
     it 'removes this figure', :js, :comprehensive do
+      page.find('.nav-item a.nav-link.dropdown').click
       page.accept_confirm() do
-        page.first('nav.context-menu a.nav-link[title="delete"]').click
+        page.first('a.dropdown-item[title="delete"]').click
       end
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_figures_path(world))
       expect(Figure.find_by(id: figure.id)).to be_falsey
     end

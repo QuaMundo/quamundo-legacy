@@ -8,9 +8,11 @@ class FactConstituent < ApplicationRecord
     uniqueness: { scope: [:constituable_type, :constituable_id] }
   validate :allowed_constituable_type
 
+  # FIXME: Missing specs for these scopes
   # scope :items,     -> { where(constituable_type: 'Item') }
   # scope :figures,   -> { where(constituable_type: 'Figure') }
   # scope :locations, -> { where(constituable_type: 'Location') }
+  # scope :concepts,  -> { where(constituable_type: 'Concept') }
 
   private
   def allowed_constituable_type
@@ -20,6 +22,6 @@ class FactConstituent < ApplicationRecord
   end
 
   def normalize_roles
-    self.roles = [] if self.roles.nil?
+    self.roles ||=  []
   end
 end

@@ -39,7 +39,6 @@ require 'support/associated_trait'
 require 'support/associated_dossier'
 require 'support/associated_facts'
 require 'support/updates_parent'
-require 'support/i18n.rb'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -85,7 +84,10 @@ RSpec.configure do |config|
     driven_by(:rack_test)
   end
   config.before(:example, type: :system, js: true) do
-    driven_by(:selenium_chrome_headless)
+    # FIXME: Usually I use chrome_headless, which is buggy for the moment
+    # so temporarily use this one
+    driven_by(:selenium_headless)
+    # driven_by(:selenium_chrome_headless)
   end
 end
 

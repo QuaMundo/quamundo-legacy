@@ -2,12 +2,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:item) { Item.model_name.human(count: @items.count) } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'index_menu' %>
       </div>
     </div>
@@ -15,20 +15,58 @@
 
   <%# card body %>
   <div class="card-body">
-    <%= render partial: 'items' %>
-  </div>
-
-  <%# card footer %>
-  <div class="card-footer text-muted">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= @items.count %>
-          <%= Item.model_name.human(count: @items.count) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'index_menu' %>
+      <div class="col">
+        <ul class="list-unstyled">
+          <% @items.each do |item| %>
+            <%= tag.li(class: 'media mb-4', id: element_id(item)) do %>
+
+              <%# Image - Thumbnail %>
+              <%= tag.a(href: world_item_path(item.world, item)) do %>
+                <% if item.image.attached? %>
+                  <%= tag.img(src: attached_img_path(item.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                <% else %>
+                  <%= default_image(item, 'mr-3 q-media-img-default') %>
+                <% end %>
+              <% end %>
+
+              <%# FIXME: Body must be below li ^^ %>
+              <%# body%>
+              <div class="media-body">
+                <h5 class="mb-q">
+                  <%= icon(:item) { item.name } %>
+                </h5>
+                <div class="small">
+                  <% if item.description.present? %>
+                    <%= item.description %><br />
+                  <% end %>
+                  <span class="text-muted">
+                    <%= icon(:fact) %>&nbsp;
+                    <%= item.facts.count %>
+                  </span>
+                  <nav class="nav small">
+                    <%= link_to(
+                      t('show'),
+                      world_item_path(item.world, item),
+                      class: 'nav-link pr-2 pl-0 py-0') %>
+                    <%= link_to(
+                      icon(:edit),
+                      edit_world_item_path(item.world, item),
+                      class: 'nav-link px-2 py-0',
+                      id: element_id(item, 'edit')) %>
+                    <%= link_to(
+                      icon(:delete),
+                      world_item_path(item.world, item),
+                      id: element_id(item, 'delete'),
+                      class: 'nav-link px-2 py-0',
+                      method: :delete,
+                      data: { confirm: t('.confirm_delete', item:item.name) })%>
+                  </nav>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>

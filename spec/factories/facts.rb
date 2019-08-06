@@ -19,6 +19,22 @@ FactoryBot.define do
       end
     end
 
+    trait :with_start_date do
+      if end_time
+        start_time { random_date(0, end_time) }
+      else
+        start_time { random_date }
+      end
+    end
+
+    trait :with_end_date do
+      if start_time
+        end_time { random_date(start_time, start_time + 100.years) }
+      else
+        end_time { random_date }
+      end
+    end
+
     factory :fact_with_notes, traits: [:with_notes]
     factory :fact_with_tags, traits: [:with_tags]
     factory :fact_with_traits, traits: [:with_traits]
@@ -27,6 +43,10 @@ FactoryBot.define do
     factory :fact_with_all,
       traits: [:with_notes, :with_tags, :with_traits,
                :with_dossiers, :with_constituents]
+  end
+
+  def random_date(s = 0, e = DateTime.current + 100.years)
+    Time.at(rand * (e - s).to_f + s.to_f)
   end
 end
 

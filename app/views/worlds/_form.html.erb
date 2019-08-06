@@ -1,10 +1,10 @@
 <%= form_with model: @world, local: true do |f| %>
   <div class="form-group">
-    <%= f.label :title %>
+    <%= f.label :name %>
     <% if @world.slug %>
-      <%= f.text_field :title, autofocus: true, disabled: true, autocomplete: "title", class: "form-control" %>
+      <%= f.text_field :name, autofocus: true, disabled: true, autocomplete: "name", class: "form-control" %>
     <% else %>
-      <%= f.text_field :title, autofocus: true, autocomplete: "title", class: "form-control" %>
+      <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control" %>
     <% end %>
   </div>
 
@@ -20,7 +20,7 @@
         src: attached_img_path(@world.image, combine_options: { resize: '80x60^', gravity: 'center' }),
         class: "img-fluid rounded float-right world-image",
         id: element_id(@world, 'img'),
-        alt: "Bild: #{@world.title}") %>
+        alt: "Bild: #{@world.name}") %>
     <% end %>
     <%= f.label :image %>
     <%= f.file_field :image, class: "form-control-file" %>

@@ -12,7 +12,6 @@ RSpec.describe 'Updating/Editing a fact', type: :system do
       fill_in('Description', with: 'Edited description')
       click_button('submit')
       fact.reload
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_fact_path(world, fact))
       expect(fact.name).to eq('Edited fact name')
       expect(fact.description).to eq('Edited description')
@@ -24,23 +23,20 @@ RSpec.describe 'Updating/Editing a fact', type: :system do
       fill_in('Start date', with: '2019-12-31')
       fill_in('End date', with: '2019-01-01')
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
     it 'attaches an image', :comprehensive do
       page.attach_file('fact_image', fixture_file_name('fact.jpg'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_fact_path(world, fact))
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.fact-image')
       expect(fact.image).to be_attached
     end
 
     it 'refuses to attach non image files', :comprehensive do
       page.attach_file('fact_image', fixture_file_name('file.pdf'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_fact_path(world, fact))
       expect(fact.image).not_to be_attached
       pending("Show view not yet implemented")

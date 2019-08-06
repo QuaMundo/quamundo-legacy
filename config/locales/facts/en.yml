@@ -14,9 +14,15 @@ en:
       edit_roles: 'Edit roles'
       remove_from_fact: 'Remove from fact'
       confirm_delete: 'Should %{constituent} really be unlinked?'
+      world: 'Fact "%{name}" happens in world: '
+      starts_at: 'The event starts at %{start}.'
+      ends_at: 'The event ends at %{end}.'
+      duration: 'The event spans a time of %{duration}.'
     destroy:
       destroyed: 'Fact %{fact} successfully deleted'
     context_menu:
+      confirm_delete: 'Should fact %{fact} really be removed'
+    index:
       confirm_delete: 'Should fact %{fact} really be removed'
 
   fact_constituents:
@@ -29,6 +35,12 @@ en:
       destroyed: 'Constituent unlinked from fact'
     update:
       updated: 'Constituent %{constituent} of fact %{fact} successfully updated'
+    edit:
+      update_fact_constituent: 'Update fact constituent'
+    fact_constituents:
+      edit_roles: 'Edit roles'
+      remove_from_fact: 'Remove from fact'
+      confirm_delete: 'Should %{constituent} really be unlinked?'
 
   activerecord:
     models:

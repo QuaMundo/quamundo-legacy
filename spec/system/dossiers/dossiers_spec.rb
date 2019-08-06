@@ -9,12 +9,11 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
     it 'succeeds with proper filled form' do
       dossiers_count = world.dossiers.count
-      fill_in('Title', with: 'New Dossier')
+      fill_in('Name', with: 'New Dossier')
       fill_in('Content', with: 'Some content')
       files = %w(earth.jpg file.pdf).map { |f| fixture_file_name(f) }
       page.attach_file('dossier_files', files)
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_content('New Dossier')
       expect(page).to have_content('Some content')
       expect(world.dossiers.count).to be > dossiers_count
@@ -26,7 +25,6 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
     it 'renders form again if required fields are missing' do
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
@@ -40,26 +38,17 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
     before(:example) { visit(edit_dossier_path(dossier)) }
 
-    it 'refuses to save dossier w/o title' do
-      fill_in('Title', with: nil)
+    it 'refuses to save dossier w/o name' do
+      fill_in('Name', with: nil)
       click_button('submit')
-      expect(page).to be_i18n_ready
-      expect(page).to have_selector('.alert.alert-danger')
-    end
-
-    it 'refuses to save dossier w/o content' do
-      fill_in('Content', with: nil)
-      click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 
     it 'saves with completed form' do
-      fill_in('Title', with: 'New Dossier')
+      fill_in('Name', with: 'New Dossier')
       fill_in('Description', with: 'Description of new dossier')
       fill_in('Content', with: 'Content of new dossier')
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_content('New Dossier')
       expect(page).to have_content('Description of new dossier')
       # FIXME: Test this for html rendered markdown
@@ -113,7 +102,6 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       visit(edit_dossier_path(dossier))
       page.attach_file('dossier_files', fixture_file_name('file.pdf'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       #dossier.reload
       expect(dossier.files.count).to be > no_attachments
       expect(page).to have_link('file.pdf')
@@ -129,7 +117,6 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       check(element_id(dossier.files.find(file_ids).first, 'remove'))
       check(element_id(dossier.files.find(file_ids).last, 'remove'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(dossier.files.ids).not_to include(*file_ids)
     end
 
@@ -143,6 +130,17 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       # FIXME: Try to avoid sleeping - purging files seems to need some time
       sleep 0.2
       expect(ActiveStorage::Blob.ids).not_to include(*file_ids)
+    end
+
+    it 'renders image sliders' do
+      files = %w(earth.jpg htrae.jpg video.m4v audio.mp3).map do |file|
+        f = fixture_file_name(file)
+        dossier.files.attach(fixture_file_upload(f))
+      end
+      visit dossier_path(dossier)
+      expect(page).to have_selector('img.q-slide', count: 2)
+      expect(page).to have_selector('audio', count: 1)
+      expect(page).to have_selector('video', count: 1)
     end
   end
 end

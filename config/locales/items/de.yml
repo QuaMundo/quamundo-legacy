@@ -14,6 +14,13 @@ de:
       destroyed: 'Gegenstand %{item} erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
+    index:
+      confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
+    show:
+      part_of_facts:
+        one: 'Dieser Gegenstand ist ist Bestandteil von einem Fakt.'
+        other: 'Diser Gegenstand ist Bestandteil von %{count} Fakten.'
+      world: 'Der Gegenstand "%{name}" gehört zum Inventar der Welt: '
 
   activerecord:
     models:

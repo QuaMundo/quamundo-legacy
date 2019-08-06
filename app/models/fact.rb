@@ -14,6 +14,10 @@ class Fact < ApplicationRecord
 
   validate :end_after_start_date
 
+  scope :chronological, -> {
+    order("start_date ASC NULLS FIRST, end_date DESC NULLS FIRST")
+  }
+
   private
   def end_after_start_date
     if start_date.present? && end_date.present? && start_date > end_date

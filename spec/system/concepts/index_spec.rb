@@ -10,11 +10,11 @@ RSpec.describe 'Listing concepts', type: :system do
     it 'shows cards of each concept' do
       world.concepts.each do |concept|
         page
-          .within("div[id=\"card-concept-#{concept.id}\"]") do
+          .within("[id=\"concept-#{concept.id}\"]") do
           expect(page).to have_content(concept.name)
           expect(page).to have_content(concept.description)
           expect(page).to have_link(href: world_concept_path(world, concept))
-          expect(page).to have_selector(".card-img")
+          expect(page).to have_selector("img")
         end
       end
     end

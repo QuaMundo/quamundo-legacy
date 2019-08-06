@@ -3,12 +3,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:location) { @location.name } %>
         </h2>
       </div> 
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'context_menu' %> 
       </div>
     </div>
@@ -17,49 +17,48 @@
   <%# card body %>
   <div class="card-body">
     <div class="row">
-      <div class="col">
-        <% if @location.image.attached? %>
-          <%= tag.img(
-            src: card_img_path(@location.image),
-            class: "img-fluid rounded float-right img-thumbnail figure-image",
-            width: '38%',
-            alt: "Location: #{@location.name}" ) %>
+      <%# info %>
+      <div class="col-md-6 col-12">
+        <% if @location.description.present? %>
+          <p><%= @location.description %></p>
         <% end %>
-        <h6>
-          <%= @location.name %>
-        </h6>
-        <p class="card-text"><%= @location.description %></p>
         <% if @location.lonlat %>
-          <p class="card-text">
+          <p>
           <%= t('activerecord.attributes.location.lonlat') %>:
           <%= @location.lonlat.lat %>, <%= @location.lonlat.lon %>
           </p>
         <% end %>
-        <%= link_to((icon(:world) { @location.world.title }), world_path(@location.world), class: 'card-link') %>
+        <% unless @location.facts.empty? %>
+          <p><%= t('.part_of_facts', count: @location.facts.count) %></p>
+        <% end %>
+        <p>
+        <%= t('.world', name: @location.name) %>
+        <%= link_to(@location.world.name, world_path(@location.world)) %>
+        </p>
+        <p class="small text-muted">
+        <%= t(:created_at, datetime: l(@location.created_at.localtime)) %>
+        (<%= @location.world.user.nick %>)<br />
+        <%= t(:last_modified, datetime: l(@location.updated_at.localtime)) %>
+        </p>
+      </div>
+
+      <%# image %>
+      <div class="col-md-6 col-12 order-first order-md-0 mb-3 mb-0-md">
+        <% if @location.image.attached? %>
+          <%= tag.img(
+            src: card_img_path(@location.image),
+            class: "img-fluid rounded float-right location-image",
+            width: '100%',
+            alt: "Bild: #{@location.name}") %>
+        <% end %>
       </div>
     </div>
 
-    <%# FIXME: Refactor - extract to image partial %>
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @location } %>
-
-    <%# Attributes go here %>
-    <%= render partial: 'shared/attributes', locals: { obj: @location } %>
-
   </div>
-
-  <%# card footer %>
-  <div class="card-footer">
-    <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= time_ago_in_words(@location.updated_at.localtime) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'context_menu' %>
-      </div>
-    </div>
-  </div>
-
 <% end %>
+<%# Attributes go here %>
+<%= render partial: 'facts/facts', locals: { obj: @location.facts.chronological } %>
+<%= render partial: 'shared/attributes', locals: { obj: @location } %>
+

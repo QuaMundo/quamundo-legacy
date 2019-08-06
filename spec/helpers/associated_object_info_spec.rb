@@ -1,6 +1,6 @@
 RSpec.describe 'Associated object info', type: :helper do
-  it 'shows world title' do
-    world = build(:world, title: 'Hello World')
+  it 'shows world name' do
+    world = build(:world, name: 'Hello World')
     expect(helper.associated_object_info(world))
       .to eq("World \"Hello World\"")
   end

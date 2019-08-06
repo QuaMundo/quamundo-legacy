@@ -33,6 +33,8 @@ RSpec.describe Fact, type: :model do
                    start_date: DateTime.current + 1.day,
                    end_date: DateTime.current - 1.day)
       expect(fact).not_to be_valid
+      expect { fact.save!(validate: false) }
+        .to raise_error ActiveRecord::StatementInvalid
     end
   end
 

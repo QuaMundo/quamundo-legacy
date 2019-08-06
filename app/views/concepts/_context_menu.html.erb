@@ -1,31 +1,43 @@
-<nav class="nav context-menu justify-content-md-end justify-content-center">
-  <%= link_to(
-    icon(:index),
-    world_concepts_path(@concept.world),
-    class: 'nav-link',
-    title: t(:index)) %>
-  <%= link_to(
-    icon(:world),
-    world_path(@concept.world),
-    class: 'nav-link',
-    title: t('activerecord.models.world.one')) %>
-  <%= link_to(
-    icon(:edit),
-    edit_world_concept_path(@concept.world, @concept),
-    class: 'nav-link',
-    title: t(:edit)) %>
-  <%= link_to(
-    icon(:new),
-    new_world_concept_path(@concept.world),
-    class: 'nav-link',
-    title: t(:new)) %>
-  <%= link_to(
-    icon(:delete),
-    world_concept_path(@concept.world, @concept),
-    method: :delete,
-    class: 'nav-link',
-    title: t(:delete),
-    data: { confirm: t('.confirm_delete', concept: @concept.name) }) %>
-</nav>
-
+<ul class="nav justify-content-end context-menu mt-2">
+  <li class="nav-item">
+    <a class="nav-link dropdown"
+       data-toggle="dropdown"
+       href="#"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false">
+      <%= icon(:menu) %>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <%= link_to(
+        icon(:world) { @world.name },
+        world_path(@concept.world),
+        class: 'dropdown-item',
+        title: t('activerecord.models.world.one')) %>
+      <div class="dropdown-divider"></div>
+      <%= link_to(
+        icon(:index) { t('index') },
+        world_concepts_path(@concept.world),
+        class: 'dropdown-item',
+        title: t(:index)) %>
+      <%= link_to(
+        icon(:edit) { t('edit') },
+        edit_world_concept_path(@concept.world, @concept),
+        class: 'dropdown-item',
+        title: t(:edit)) %>
+      <%= link_to(
+        icon(:new) { t('new') },
+        new_world_concept_path(@concept.world),
+        class: 'dropdown-item',
+        title: t(:new)) %>
+      <%= link_to(
+        icon(:delete) { t('delete') },
+        world_concept_path(@concept.world, @concept),
+        method: :delete,
+        class: 'dropdown-item',
+        title: t(:delete),
+        data: { confirm: t('.confirm_delete', concept: @concept.name) }) %>
+    </div>
+  </li>
+</ul>
 

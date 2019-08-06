@@ -15,8 +15,8 @@ RSpec.describe 'Listing worlds', type: :system do
 
   it 'shows index of users worlds' do
     expect(World.all).to include(world)
-    expect(page).to have_content(world.title)
-    expect(page).not_to have_content(other_world.title)
+    expect(page).to have_content(world.name)
+    expect(page).not_to have_content(other_world.name)
     expect(page).to have_link(href: world_path(world))
     expect(page).not_to have_link('', href: world_path(other_world))
   end

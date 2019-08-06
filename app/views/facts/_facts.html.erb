@@ -1,50 +1,76 @@
-<div class="row no-gutters" id="facts">
-  <% @facts.each do |fact| %>
-    <%= tag.div(class: 'col-lg-3 col-sm-6 col-12') do %>
-      <%= tag.div(id: element_id(fact, 'card'), class: 'card h-100') do %>
+<%= content_for :facts do %>
+  <div id="facts" class="card">
 
-        <%# card header %>
-        <%= tag.div(class: 'card-header') do %>
-          <h5 class="card-title mt-2">
-            <%= icon(:fact) { fact.name } %>
-          </h5>
-        <% end %>
+    <div id="facts-header" class="card-header">
+      <button class="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target="#facts-collection"
+              aria-expanded="true"
+              aria-controls="facts-collection">
+        <%= icon(:fact) %>
+        &nbsp;
+        <%= obj.count %>
+        &nbsp;
+        <%= Fact.model_name.human(count: obj.count).capitalize %>
+      </button>
+    </div>
 
-        <%# card image %>
-        <% if fact.image.attached? %>
-          <%= tag.img(src: card_img_path(fact.image), class: 'card-img q-card-img') %>
-        <% else %>
-          <%= tag.img(src: asset_pack_path('media/solid/wrench.svg'), class: 'card-img q-card-img-default') %>
-        <% end %>
+    <div id="facts-collection"
+         class="collapse"
+         aria-labeled-by="facts-header"
+         data-parent="#attributes">
+      <div class="card-body">
 
-        <%# card body %>
-        <%= tag.div(class: 'card-body') do %>
-          <h6>
-            <%= fact.name %>
-          </h6>
-          <p class="card-text"><%= fact.description %></p>
-          <small class="card-text text-muted">
-            <%= icon(:world) { fact.world.title } %>
-          </small>
-        <% end %>
+        <%# Actual index list goes here %>
+        <div class="row">
+          <div class="col">
 
-        <%# card footer %>
-        <%# FIXME: Untested %>
-        <%# FIXME: This should go to helper %>
-        <%= tag.div(class: 'card-footer tiny-font') do %>
-          <div class="row text-muted">
-            <div class="col-md-6 col-12 text-md-left text-center">
-              <%= time_ago_in_words(fact.updated_at.localtime) %>
-            </div>
-            <div class="col-md-6 col-12 text-md-right text-center">
-              <%= fact.user.nick %>
-            </div>
+            <ul class="list-unstyled">
+              <% obj.each do |fact| %> 
+                <%= tag.li(class: 'media mb-4', id: element_id(fact)) do %>
+
+                  <%# Image - Thumbnail %>
+                  <%= tag.a(href: world_fact_path(fact.world, fact)) do %>
+                    <% if fact.image.attached? %>
+                      <%=
+                        tag.img(
+                          src: attached_img_path(
+                            fact.image, { resize: "64x64^" }),
+                          class: 'mr-3 q-media-img'
+                        ) %>
+                    <% else %>
+                      <%= default_image(fact, 'mr-3 q-media-img-default') %>
+                    <% end %>
+                  <% end %>
+
+                  <%# Body %>
+                  <div class="media-body">
+                    <h5 class="mb-1">
+                      <%= icon(fact) { fact.name } %>
+                    </h5>
+                    <div class="small">
+                      <%= fact.description %><br />
+                      <%= link_to(t('show'), world_fact_path(fact.world, fact)) %>
+                    </div>
+                  </div>
+
+                <% end %>
+              <% end %>
+            </ul>
+
+          </div> 
+        </div>
+        <%# Actual index list ends here %>
+
+        <div class="row">
+          <div class="col text-right">
+            <%= link_to(icon(:new), new_world_fact_path(@world)) %>
           </div>
-        <% end %>
+        </div>
 
-        <%= link_to('', world_fact_path(fact.world, fact), class: 'card-link stretched-link') %>
-      <% end %>
-    <% end %>
-  <% end %>
-</div>
+      </div>
+    </div>
 
+  </div>
+<% end %>

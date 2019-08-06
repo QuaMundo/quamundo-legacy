@@ -8,80 +8,71 @@ RSpec.describe 'Showing a world', type: :system do
     before(:example) { visit world_path(world) }
 
     it 'shows details of world' do
-      expect(page).to have_content(world.title)
+      page.find('.nav-item a.nav-link.dropdown').click
+      expect(page).to have_content(world.name)
       expect(page).to have_content(world.description)
-      page.within('div.card-footer nav.context-menu') do
+      page.within('ul.nav') do
         expect(page).to have_link(href: world_path(world),
-                                  class: 'nav-link',
+                                  class: 'dropdown-item',
                                   title: 'delete')
         expect(page).to have_link(href: edit_world_path(world),
-                                  class: 'nav-link')
-        expect(page).to have_link(href: worlds_path, class: 'nav-link')
-        expect(page).to have_link(href: new_world_path, class: 'nav-link')
+                                  class: 'dropdown-item')
+        expect(page).to have_link(href: worlds_path, class: 'dropdown-item')
+        expect(page).to have_link(href: new_world_path, class: 'dropdown-item')
       end
     end
 
     context 'inventory statistics' do
       specify 'figure statistics' do
-        page.within('tr#figures') do
+        page.within('#figures') do
           expect(page)
-            .to have_selector('td', text: /Figure/)
+            .to have_text(/Figure/)
           expect(page)
-            .to have_selector('td', text: /#{world.figures.count}/)
-          expect(page)
-            .to have_link(href: world_figures_path(world))
+            .to have_text(/#{world.figures.count}/)
           expect(page)
             .to have_link(href: new_world_figure_path(world))
         end
       end
 
       specify 'item statistics' do
-        page.within('tr#items') do
+        page.within('#items') do
           expect(page)
-            .to have_selector('td', text: /Item/)
+            .to have_text(/Item/)
           expect(page)
-            .to have_selector('td', text: /#{world.items.count}/)
-          expect(page)
-            .to have_link(href: world_items_path(world))
+            .to have_text(/#{world.items.count}/)
           expect(page)
             .to have_link(href: new_world_item_path(world))
         end
       end
 
       specify 'location statistics' do
-        page.within('tr#locations') do
+        page.within('#locations') do
           expect(page)
-            .to have_selector('td', text: /Location/)
+            .to have_text(/Location/)
           expect(page)
-            .to have_selector('td', text: /#{world.locations.count}/)
-          expect(page)
-            .to have_link(href: world_locations_path(world))
+            .to have_text(/#{world.locations.count}/)
           expect(page)
             .to have_link(href: new_world_location_path(world))
         end
       end
 
       specify 'concept statistics' do
-        page.within('tr#concepts') do
+        page.within('#concepts') do
           expect(page)
-            .to have_selector('td', text: /Concept/)
+            .to have_text(/Concept/)
           expect(page)
-            .to have_selector('td', text: /#{world.concepts.count}/)
-          expect(page)
-            .to have_link(href: world_concepts_path(world))
+            .to have_text(/#{world.concepts.count}/)
           expect(page)
             .to have_link(href: new_world_concept_path(world))
         end
       end
 
       specify 'facts statistics' do
-        page.within('tr#facts') do
+        page.within('#facts') do
           expect(page)
-            .to have_selector('td', text: /Fact/)
+            .to have_text(/Fact/)
           expect(page)
-            .to have_selector('td', text: /#{world.facts.count}/)
-          expect(page)
-            .to have_link(href: world_facts_path(world))
+            .to have_text(/#{world.facts.count}/)
           expect(page)
             .to have_link(href: new_world_fact_path(world))
         end
@@ -106,6 +97,11 @@ RSpec.describe 'Showing a world', type: :system do
 
     it_behaves_like 'associated dossiers' do
       let(:subject) { create(:world_with_dossiers, user: user) }
+    end
+
+    it_behaves_like 'associated facts' do
+      let(:subject) { create(:world_with_facts, facts_count: 2, user: user) }
+      let(:path)    { world_path(subject) }
     end
   end
 

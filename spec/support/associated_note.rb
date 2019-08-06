@@ -4,7 +4,7 @@ RSpec.shared_examples 'associated note', type: :system do
   before(:example) do
     visit(polymorphic_path(path))
     page.within('div#notes-header') do
-      page.find('button').click
+      page.first('button').click
     end
   end
 

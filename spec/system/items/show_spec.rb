@@ -12,7 +12,7 @@ RSpec.describe 'Showing an item', type: :system do
       expect(page).to have_content(item.name)
       expect(page).to have_content(item.description)
       expect(page)
-        .to have_link(item.world.title, href: world_path(world))
+        .to have_link(item.world.name, href: world_path(world))
     end
 
     it 'shows item menu', :comprehensive do
@@ -58,7 +58,7 @@ RSpec.describe 'Showing an item', type: :system do
     end
 
     it 'has an img tag' do
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.item-image')
     end
   end
 

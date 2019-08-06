@@ -40,11 +40,11 @@ class DossiersController < ApplicationController
         remove_marked_attachments
         format.html do
           redirect_to(dossier_path(@dossier),
-                      notice: t('.updated', dossier: @dossier.title))
+                      notice: t('.updated', dossier: @dossier.name))
         end
       else
         format.html do
-          flash[:alert] = t('.update_failed', dossier: @dossier.title)
+          flash[:alert] = t('.update_failed', dossier: @dossier.name)
           render :edit
         end
       end
@@ -56,7 +56,7 @@ class DossiersController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(@redirect_path,
-                    notice: t('.destroyed', dossier: @dossier.title))
+                    notice: t('.destroyed', dossier: @dossier.name))
       end
     end
   end
@@ -67,7 +67,7 @@ class DossiersController < ApplicationController
   end
 
   def dossier_params
-    params.require(:dossier).permit(:title, :description, :content, files: [])
+    params.require(:dossier).permit(:name, :description, :content, files: [])
   end
 
   def form_url

@@ -12,7 +12,7 @@ RSpec.describe 'Showing an concept', type: :system do
       expect(page).to have_content(concept.name)
       expect(page).to have_content(concept.description)
       expect(page)
-        .to have_link(concept.world.title, href: world_path(world))
+        .to have_link(concept.world.name, href: world_path(world))
     end
 
     it 'shows concept menu', :comprehensive do
@@ -58,7 +58,7 @@ RSpec.describe 'Showing an concept', type: :system do
     end
 
     it 'has an img tag' do
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.concept-image')
     end
   end
 

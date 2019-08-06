@@ -13,7 +13,6 @@ RSpec.describe 'Creating a fact', type: :system do
       page.attach_file('fact_image', fixture_file_name('fact.jpg'))
       # FIXME: Add start and end date
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(world.facts.count).to be > 0
       expect(page).to have_current_path(
         world_fact_path(world, Fact.find_by(name: 'This new fact'))
@@ -25,8 +24,8 @@ RSpec.describe 'Creating a fact', type: :system do
       fill_in('Start date', with: '2018-01-01 10:25')
       fill_in('End date', with: '2019-01-01 10:25')
       click_button('submit')
-      expect(page).to have_content('01-01-2018 10:25')
-      expect(page).to have_content('01-01-2019 10:25')
+      expect(page).to have_content(/January 01, 2018 10:25/)
+      expect(page).to have_content(/January 01, 2019 10:25/)
     end
 
     it 'refuses creation if start date is after end date' do
@@ -34,7 +33,6 @@ RSpec.describe 'Creating a fact', type: :system do
       fill_in('Start date', with: '2019-12-31')
       fill_in('End date', with: '2019-01-01')
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_selector('.alert.alert-danger')
     end
 

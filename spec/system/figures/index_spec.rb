@@ -9,12 +9,11 @@ RSpec.describe 'Listing figures', type: :system do
     it 'shows cards of each figure' do
       world.figures.each do |figure|
         page
-          .within("div[id=\"card-figure-#{figure.id}\"]") do
+          .within("[id=\"figure-#{figure.id}\"]") do
           expect(page).to have_content(figure.name)
           expect(page).to have_content(figure.description)
           expect(page).to have_link(href: world_figure_path(world, figure))
-          expect(page).to have_selector(".card-img")
-          expect(page).to have_content(figure.world.title)
+          expect(page).to have_selector("img")
         end
       end
     end

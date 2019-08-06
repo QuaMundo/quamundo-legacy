@@ -2,12 +2,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:concept) { Concept.model_name.human(count: @concepts.count) } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'index_menu' %>
       </div>
     </div>
@@ -15,20 +15,58 @@
 
   <%# card body %>
   <div class="card-body">
-    <%= render partial: 'concepts' %>
-  </div>
-
-  <%# card footer %>
-  <div class="card-footer text-muted">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= @concepts.count %>
-          <%= Concept.model_name.human(count: @concepts.count) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'index_menu' %>
+      <div class="col">
+        <ul class="list-unstyled">
+          <% @concepts.each do |concept| %>
+            <%= tag.li(class: 'media mb-4', id: element_id(concept)) do %>
+
+              <%# Image - Thumbnail %>
+              <%= tag.a(href: world_concept_path(concept.world, concept)) do %>
+                <% if concept.image.attached? %>
+                  <%= tag.img(src: attached_img_path(concept.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                <% else %>
+                  <%= default_image(concept, 'mr-3 q-media-img-default') %>
+                <% end %>
+              <% end %>
+
+              <%# FIXME: Body must be below li ^^ %>
+              <%# body%>
+              <div class="media-body">
+                <h5 class="mb-q">
+                  <%= icon(:concept) { concept.name } %>
+                </h5>
+                <div class="small">
+                  <% if concept.description.present? %>
+                    <%= concept.description %><br />
+                  <% end %>
+                  <span class="text-muted">
+                    <%= icon(:fact) %>&nbsp;
+                    <%= concept.facts.count %>
+                  </span>
+                  <nav class="nav small">
+                    <%= link_to(
+                      t('show'),
+                      world_concept_path(concept.world, concept),
+                      class: 'nav-link pr-2 pl-0 py-0') %>
+                    <%= link_to(
+                      icon(:edit),
+                      edit_world_concept_path(concept.world, concept),
+                      class: 'nav-link px-2 py-0',
+                      id: element_id(concept, 'edit')) %>
+                    <%= link_to(
+                      icon(:delete),
+                      world_concept_path(concept.world, concept),
+                      id: element_id(concept, 'delete'),
+                      class: 'nav-link px-2 py-0',
+                      method: :delete,
+                      data: { confirm: t('.confirm_delete', concept:concept.name) })%>
+                  </nav>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>

@@ -14,9 +14,12 @@ en:
       destroyed: 'Deleted dossier %{dossier}'
     context_menu:
       confirm_delete: 'Do you really want to delete dossier %{dossier}'
+    dossiers:
+      confirm_delete: 'Do you really want to delete dossier %{dossier}'
     form:
       remove_attachments: 'Choose attachments for deletion'
       add_attachments: 'Add attachments'
+      content_in_markdown: 'Content can be written in markdown'
 
   activerecord:
     models:

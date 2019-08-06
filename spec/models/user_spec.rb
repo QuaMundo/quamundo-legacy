@@ -7,7 +7,7 @@ RSpec.describe User, type: :model do
   let(:user) { build(:user) }
 
   it 'has a list of his worlds' do
-    world = build(:world, title: 'My World', user: user)
+    world = build(:world, name: 'My World', user: user)
     expect(user).to respond_to(:worlds)
     user.worlds << world
     expect { user.save! }.not_to raise_error

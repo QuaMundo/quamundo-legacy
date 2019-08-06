@@ -10,11 +10,11 @@ RSpec.describe 'Listing items', type: :system do
     it 'shows cards of each item' do
       world.items.each do |item|
         page
-          .within("div[id=\"card-item-#{item.id}\"]") do
+          .within("[id=\"item-#{item.id}\"]") do
           expect(page).to have_content(item.name)
           expect(page).to have_content(item.description)
           expect(page).to have_link(href: world_item_path(world, item))
-          expect(page).to have_selector(".card-img")
+          expect(page).to have_selector("img")
         end
       end
     end

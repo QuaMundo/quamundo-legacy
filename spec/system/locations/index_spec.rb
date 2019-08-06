@@ -10,12 +10,10 @@ RSpec.describe 'Listing locations', type: :system do
     it 'shows cards of each location' do
       world.locations.each do |location|
         page
-          .within("div[id=\"card-location-#{location.id}\"]") do
+          .within("[id=\"location-#{location.id}\"]") do
           expect(page).to have_content(location.name)
           expect(page).to have_content(location.description)
-          expect(page).to have_content(location.lonlat.lon)
-          expect(page).to have_content(location.lonlat.lat)
-          expect(page).to have_selector(".card-img")
+          expect(page).to have_selector("img")
         end
       end
     end

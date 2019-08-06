@@ -2,8 +2,8 @@ module Slugged
   extend ActiveSupport::Concern
 
   included do
-    validates :title, :user, presence: true
-    validates_uniqueness_of :title, case_sensitive: false
+    validates :name, :user, presence: true
+    validates_uniqueness_of :name, case_sensitive: false
 
     before_save :slugify
 
@@ -14,6 +14,6 @@ module Slugged
 
   private
   def slugify
-    self.slug = self.title.parameterize
+    self.slug = self.name.parameterize
   end
 end

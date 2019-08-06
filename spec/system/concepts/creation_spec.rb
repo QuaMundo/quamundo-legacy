@@ -13,7 +13,6 @@ RSpec.describe 'Creating a concept', type: :system do
       fill_in('Description', with: 'A new concept description')
       page.attach_file('concept_image', fixture_file_name('concept.jpg'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(world.concepts.count).to be > concept_count
       expect(page).to have_selector('.alert-info',
                                     text: /successfully\s+created/i)
@@ -23,7 +22,6 @@ RSpec.describe 'Creating a concept', type: :system do
 
     it 'redirects to new form if name is missing' do
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_css('.alert', text: /failed to create/i)
     end
 

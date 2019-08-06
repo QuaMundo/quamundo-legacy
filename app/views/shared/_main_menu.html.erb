@@ -1,12 +1,9 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
 
-  <%# OPTIMIZE: Add brand!? %>
-  <%# <a class="navbar-brand" href="#">Brand</a> %>
+  <%= link_to 'Qua Mundo', root_path, class: 'navbar-brand' %>
 
   <div class="" id="main_menu">
     <div class="navbar-nav">
-      <%= link_to(t(:dashboard), root_path, class: 'nav-link nav-item') %>
-
       <%# world submenu %>
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle"
@@ -44,10 +41,3 @@
     </div>
   </div>
 </nav>
-
-<%# Menu Entries %>
-<%# link_to('dashboard', root_path, class: 'nav-link nav-item') %>
-<%# link_to('new world', new_world_path, class: 'nav-link nav-item') %>
-<%# link_to('profile', edit_user_registration_path, class: 'nav-link nav-item') %>
-<%# link_to('logout', destroy_user_session_path, method: :delete, class: 'nav-link nav-item') %>
-

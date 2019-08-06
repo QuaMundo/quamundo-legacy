@@ -4,7 +4,7 @@ class WorldsController < ApplicationController
   before_action :require_ownership, only: [:show, :update, :edit, :destroy]
 
   def index
-    @worlds = current_user.worlds.order(title: :asc)
+    @worlds = current_user.worlds.order(name: :asc)
   end
 
   def show
@@ -21,12 +21,12 @@ class WorldsController < ApplicationController
       if @world.save
         format.html do
           redirect_to(world_path(@world),
-                      notice: t('.created', world: @world.title))
+                      notice: t('.created', world: @world.name))
         end
       else
         format.html do
           # FIXME: This possibly is not tested
-          flash[:alert] = t('.create_failed', world: @world.title)
+          flash[:alert] = t('.create_failed', world: @world.name)
           render :new
         end
       end
@@ -41,12 +41,12 @@ class WorldsController < ApplicationController
       if @world.update(world_params)
         format.html do
           redirect_to(world_path(@world),
-                      notice:t('.updated', world: @world.title))
+                      notice:t('.updated', world: @world.name))
         end
       else
         format.html do
           # FIXME This possibly is not testet
-          flash[:alert] = t('.update_failed', world: @world.title)
+          flash[:alert] = t('.update_failed', world: @world.name)
           render :edit
         end
       end
@@ -58,7 +58,7 @@ class WorldsController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(worlds_path,
-                    notice: t('.destroyed', world: @world.title))
+                    notice: t('.destroyed', world: @world.name))
       end
     end
   end
@@ -66,7 +66,7 @@ class WorldsController < ApplicationController
   private
   def world_params
     if params[:action] == 'create'
-      params.require(:world).permit(:title, :description, :image)
+      params.require(:world).permit(:name, :description, :image)
     else
       params.require(:world).permit(:description, :image)
     end
@@ -80,7 +80,7 @@ class WorldsController < ApplicationController
   # FIXME: This should once be replaced by pundit
   def require_ownership
     unless current_user == @world.user
-      flash[:alert] = t('.not_allowed', world: @world.title)
+      flash[:alert] = t('.not_allowed', world: @world.name)
       redirect_to worlds_path
     end
   end

@@ -36,7 +36,7 @@
             <div class="small">
               <%= entry.description %><br />
               <span class="text-muted">
-                <%= icon(:world) { entry.world.title } %>&nbsp;
+                <%= icon(:world) { entry.world.name } %>&nbsp;
                 <%= icon(:edit) { time_ago_in_words(entry.updated_at) } %>
               </span>&nbsp;
               <%= link_to(t('show'), polymorphic_path([entry.world, entry.inventory])) %>

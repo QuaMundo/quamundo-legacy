@@ -12,8 +12,6 @@ de:
       update_failed: 'Notiz konnte nicht aktualisiert werden'
     destroy:
       destroyed: 'Notiz gelöscht'
-
-  shared:
     notes:
       confirm_delete: 'Soll diese Notiz wirklich gelöscht werden?'
 

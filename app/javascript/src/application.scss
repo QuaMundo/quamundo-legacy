@@ -2,7 +2,6 @@
 
 // Import bootstrap here
 @import "~bootstrap/scss/bootstrap";
-@import "~startbootstrap-sb-admin-2/scss/sb-admin-2";
 
 // Import fontawesome
 
@@ -13,7 +12,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts/";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 
 .tiny-font > * {
-  font-size: 65%;
+  font-size: 70%;
 }
 
 img.q-card-img {
@@ -38,6 +37,12 @@ img.q-media-img-default {
   object-fit: contain;
 }
 
+.q-slide {
+  height: 400px;
+  background-color: black;
+  object-fit: contain;
+}
+
 table.world-stats td {
   text-align: center;
 }
@@ -49,5 +54,31 @@ table.world-overview {
 
   td:nth-of-type(2) {
     text-align: right;
+  }
+}
+
+#attributes {
+  .card-header {
+    padding-top: map-get($spacers, 1);
+    padding-bottom: map-get($spacers, 1);
+  }
+  button:first-of-type {
+    padding-left: 0;
+  }
+}
+
+.card-title {
+  margin: 0;
+}
+
+@include media-breakpoint-down(sm) {
+  .q-slide {
+    height: 280px;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .q-slide {
+    height: 200px;
   }
 }

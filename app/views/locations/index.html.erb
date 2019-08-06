@@ -2,12 +2,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:location) { Location.model_name.human(count: @locations.count) } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'index_menu' %>
       </div>
     </div>
@@ -15,23 +15,60 @@
 
   <%# card body %>
   <div class="card-body">
-    <%= render partial: 'locations' %>
-  </div>
-
-  <%# card footer %>
-  <div class="card-footer text-muted">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= @locations.count %>
-          <%= Location.model_name.human(count: @locations.count) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'index_menu' %>
+      <div class="col">
+        <ul class="list-unstyled">
+          <% @locations.each do |location| %>
+            <%= tag.li(class: 'media mb-4', id: element_id(location)) do %>
+
+              <%# Image - Thumbnail %>
+              <%= tag.a(href: world_location_path(location.world, location)) do %>
+                <% if location.image.attached? %>
+                  <%= tag.img(src: attached_img_path(location.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                <% else %>
+                  <%= default_image(location, 'mr-3 q-media-img-default') %>
+                <% end %>
+              <% end %>
+
+              <%# FIXME: Body must be below li ^^ %>
+              <%# body%>
+              <div class="media-body">
+                <h5 class="mb-q">
+                  <%= icon(:location) { location.name } %>
+                </h5>
+                <div class="small">
+                  <% if location.description.present? %>
+                    <%= location.description %><br />
+                  <% end %>
+                  <span class="text-muted">
+                    <%= icon(:fact) %>&nbsp;
+                    <%= location.facts.count %>
+                  </span>
+                  <nav class="nav small">
+                    <%= link_to(
+                      t('show'),
+                      world_location_path(location.world, location),
+                      class: 'nav-link pr-2 pl-0 py-0') %>
+                    <%= link_to(
+                      icon(:edit),
+                      edit_world_location_path(location.world, location),
+                      class: 'nav-link px-2 py-0',
+                      id: element_id(location, 'edit')) %>
+                    <%= link_to(
+                      icon(:delete),
+                      world_location_path(location.world, location),
+                      id: element_id(location, 'delete'),
+                      class: 'nav-link px-2 py-0',
+                      method: :delete,
+                      data: { confirm: t('.confirm_delete', location:location.name) })%>
+                  </nav>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>
 <% end %>
-
 

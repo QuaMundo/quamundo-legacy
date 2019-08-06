@@ -14,6 +14,13 @@ de:
       destroyed: 'Konzept %{concept} wurde gelöscht'
     context_menu:
       confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
+    index:
+      confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
+    show:
+      part_of_facts:
+        one: 'Dieses Konzept ist in einem Fakt enthalten.'
+        other: 'Dieses Konzept ist in %{count} Fakten enthalten.'
+      world: 'Das Konzept "%{name}" gehört zum Gedankengut der Welt: '
 
   activerecord:
     models:

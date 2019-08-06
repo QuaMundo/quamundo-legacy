@@ -3,12 +3,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
-          <%= icon(@world) { @world.title } %>
+          <%= icon(@world) { @world.name } %>
         </h2>
       </div> 
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'context_menu' %>
       </div>
     </div>
@@ -18,138 +18,54 @@
   <div class="card-body">
 
     <div class="row">
-      <div class="col">
+      <%# info %>
+      <div class="col-md-6 col-12">
+        <% if @world.description.present? %>
+          <p class="leader"><%= @world.description %></p>
+        <% end %>
+        <% if @world.begin_of_time %>
+          <p><%= t('.begin_of_time',
+                   start: l(@world.begin_of_time, format: :long)) %></p>
+        <% end %>
+        <% if @world.end_of_time %>
+          <p><%= t('.end_of_time',
+                   end: l(@world.end_of_time, format: :long)) %></p>
+        <% end %>
+        <% if @world.age %>
+          <p><%= t('.age', age: distance_of_time_in_words(@world.age)) %></p>
+        <% end %>
+        <p class="small text-muted">
+        <%= t(:created_at, datetime: l(@world.created_at.localtime)) %>
+        (<%= @world.user.nick %>)<br />
+        <%= t(:last_modified, datetime: l(@world.updated_at.localtime)) %>
+        </p>
+      </div>
+
+      <%# image %>
+      <div class="col-md-6 col-12 order-first order-md-0 mb-3 mb-0-md">
         <% if @world.image.attached? %>
           <%= tag.img(
             src: card_img_path(@world.image),
             class: "img-fluid rounded float-right world-image",
-            width: '38%',
-            alt: "Bild: #{@world.title}") %>
+            width: '100%',
+            alt: "Bild: #{@world.name}") %>
         <% end %>
-        <p class="leader"><%= @world.description %></p>
-
-        <%# Inventory stats and links go here %>
-
-        <table class="world-overview">
-          <%# figure stats%>
-          <tr id="figures">
-            <td><%= icon(Figure) %></td>
-            <%# When changing position of this,
-              restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= @world.figures.count %></td>
-            <td><%= Figure.model_name.human(count: @world.figures.count) %></td>
-            <td><%= link_to(
-              icon(:index),
-              world_figures_path(@world),
-              title: t(:index)) %></td>
-            <td><%= link_to(
-              icon(:new),
-              new_world_figure_path(@world),
-              title: t(:new)) %></td>
-          </tr>
-
-          <%# item stats%>
-          <tr id="items">
-            <td><%= icon(Item) %></td>
-            <%# When changing position of this,
-              restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= @world.items.count %></td>
-            <td><%= Item.model_name.human(count: @world.items.count) %></td>
-            <td><%= link_to(
-              icon(:index),
-              world_items_path(@world),
-              title: t(:index)) %></td>
-            <td><%= link_to(
-              icon(:new),
-              new_world_item_path(@world),
-              title: t(:new)) %></td>
-          </tr>
-
-          <%# location stats%>
-          <tr id="locations">
-            <td><%= icon(Location) %></td>
-            <%# When changing position of this,
-              restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= @world.locations.count %></td>
-            <td><%= Location.model_name.human(count: @world.locations.count) %></td>
-            <td><%= link_to(
-              icon(:index),
-              world_locations_path(@world),
-              title: t(:index)) %></td>
-            <td><%= link_to(
-              icon(:new),
-              new_world_location_path(@world),
-              title: t(:new)) %></td>
-          </tr>
-
-          <%# concept stats%>
-          <tr id="concepts">
-            <td><%= icon(Concept) %></td>
-            <%# When changing position of this,
-              restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= @world.concepts.count %></td>
-            <td><%= Concept.model_name.human(count: @world.concepts.count) %></td>
-            <td><%= link_to(
-              icon(:index),
-              world_concepts_path(@world),
-              title: t(:index)) %></td>
-            <td><%= link_to(
-              icon(:new),
-              new_world_concept_path(@world),
-              title: t(:new)) %></td>
-          </tr>
-
-          <%# facts stats%>
-          <%# FIXME: This is only stubbed fake! %>
-          <tr id="facts">
-            <td><%= icon(:fact) %></td>
-            <%# When changing position of this,
-              restyle 'table.world-overview td:nth-of-type(2)'! %>
-            <td><%= @world.facts.count %></td>
-            <td><%= Fact.model_name.human(count: @world.facts.count) %></td>
-            <td><%= link_to(
-              icon(:index),
-              world_facts_path(@world),
-              title: t(:index)) %></td>
-            <td><%= link_to(
-              icon(:new),
-              new_world_fact_path(@world),
-              title: t(:new)) %></td>
-          </tr>
-
-        </table>
-
-        <div class="text-muted">
-          <p>
-          <small><%= t(:created_by, nick: @world.user.nick) %>
-          <%= t(:created_at, datetime: l(@world.created_at.localtime)) %>;
-          <%= t(:last_modified, datetime: l(@world.updated_at.localtime)) %></small>
-          </p>
-        </div>
-
       </div>
 
     </div>
 
-    <%# FIXME: Refactor - extract to image partial %>
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @world } %>
 
-    <%# attributes go here %>
-    <%= render partial: 'shared/attributes', locals: { obj: @world } %>
-
-  </div>
-  <div class="card-footer text-muted">
-    <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= time_ago_in_words(@world.updated_at.localtime) %>, <%= @world.user.nick %>
-        </small>
-      </div> 
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'context_menu' %>
-      </div>
-    </div>
   </div>
 <% end %>
+
+<%# attributes go here %>
+<%= render partial: 'figures/figures', locals: { obj: @world.figures } %>
+<%= render partial: 'items/items', locals: { obj: @world.items } %>
+<%= render partial: 'locations/locations', locals: { obj: @world.locations } %>
+<%= render partial: 'concepts/concepts', locals: { obj: @world.concepts } %>
+<%= render partial: 'facts/facts', locals: { obj: @world.facts.chronological } %>
+
+<%= render partial: 'shared/attributes', locals: { obj: @world } %>
 

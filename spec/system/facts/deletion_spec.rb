@@ -8,11 +8,11 @@ RSpec.describe 'Deleting a fact', type: :system do
     before(:example)  { visit world_fact_path(world, fact) }
 
     it 'removes a fact', :js, :comprehensive do
+      page.find('.nav-item a.nav-link.dropdown').click
       page.accept_confirm() do
-        page.first('nav.context-menu a.nav-link[title="delete"]').click
+        page.first('a.dropdown-item[title="delete"]').click
       end
       expect(page).to have_current_path(world_facts_path(world))
-      expect(page).to be_i18n_ready
       expect(Fact.find_by(id: fact.id)).to be_falsey
     end
 

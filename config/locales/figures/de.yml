@@ -14,6 +14,13 @@ de:
       destroyed: 'Figur %{figure} erfoglreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
+    index:
+      confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
+    show:
+      part_of_facts:
+        one: 'Diese Figur ist an einem Fakt beteiligt.'
+        other: 'Diese Figur ist an %{count} Fakten beteiligt.'
+      world: '%{name} ist Bewohner der Welt: '
 
   activerecord:
     models:

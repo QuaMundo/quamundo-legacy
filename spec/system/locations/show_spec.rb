@@ -12,7 +12,7 @@ RSpec.describe 'Showing a location', type: :system do
       expect(page).to have_content(location.name)
       expect(page).to have_content(location.description)
       expect(page)
-        .to have_link(location.world.title, href: world_path(world))
+        .to have_link(location.world.name, href: world_path(world))
       expect(page).to have_content(location.lonlat.lon)
       expect(page).to have_content(location.lonlat.lat)
     end
@@ -60,7 +60,7 @@ RSpec.describe 'Showing a location', type: :system do
     end
 
     it 'has an img tag' do
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.location-image')
     end
   end
 

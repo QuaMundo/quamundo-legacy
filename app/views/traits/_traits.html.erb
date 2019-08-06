@@ -26,8 +26,10 @@
 </div>
 
 <div class="row">
-  <div class="col">
-    <%= link_to(icon(:edit), edit_trait_path(obj.trait), id: element_id(obj.trait, 'edit')) %>
-    <%= link_to(icon(:delete), trait_path(obj.trait), id: element_id(obj.trait, 'delete'), method: :delete, data: { confirm: t('.confirm_delete') }) %>
+  <div class="col text-right">
+    <%= link_to(
+      icon(:edit),
+      edit_trait_path(obj.trait),
+      id: element_id(obj.trait, 'edit')) %>
   </div>
 </div>

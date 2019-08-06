@@ -12,10 +12,10 @@ en:
     form:
       new_key: 'New Key'
       new_value: 'New Value'
-
-  shared:
     traits:
       confirm_delete: 'Should all attributes really be removed?'
+      attribute: 'Attribute'
+      value: 'Value'
 
   activerecord:
     models:

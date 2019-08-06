@@ -4,7 +4,7 @@ class FactsController < ApplicationController
   before_action :set_fact, only: [:show, :edit, :update, :destroy]
 
   def index
-    @facts = @world.facts.order(end_date: :desc)
+    @facts = @world.facts.chronological
   end
 
   def new

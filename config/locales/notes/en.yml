@@ -12,8 +12,6 @@ en:
       update_failed: 'Failed to update note'
     destroy:
       destroyed: 'Note deleted'
-
-  shared:
     notes:
       confirm_delete: 'Should this note really be removed?'
 

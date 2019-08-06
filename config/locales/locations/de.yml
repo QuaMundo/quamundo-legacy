@@ -13,7 +13,14 @@ de:
     destroy:
       destroyed: 'Ort %{location} wurde erfolgreich gelöscht'
     context_menu:
-      confirm_delete: 'Soll der Ort %{item} wirklich entfernt werden?'
+      confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
+    index:
+      confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
+    show:
+      part_of_facts:
+        one: 'Ein Fakt geschieht an diesem Ort.'
+        other: '%{count} Fakten geschehen an diesem Ort.'
+      world: 'Der Ort "%{name}" liegt in der Welt: '
 
   activerecord:
     models:

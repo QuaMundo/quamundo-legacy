@@ -3,12 +3,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:item) { @item.name } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'context_menu' %> 
       </div>
     </div>
@@ -17,43 +17,43 @@
   <%# card body %>
   <div class="card-body">
     <div class="row">
-      <div class="col">
-        <% if @item.image.attached? %> 
+      <%# info %>
+      <div class="col-md-6 col-12">
+        <% if @item.description.present? %>
+          <p><%= @item.description %></p>
+        <% end %>
+        <% unless @item.facts.empty? %>
+          <p><%= t('.part_of_facts', count: @item.facts.count) %></p>
+        <% end %>
+        <p>
+        <%= t('.world', name: @item.name) %>
+        <%= link_to(@item.world.name, world_path(@item.world)) %>
+        </p>
+        <p class="small text-muted">
+        <%= t(:created_at, datetime: l(@item.created_at.localtime)) %>
+        (<%= @item.world.user.nick %>)<br />
+        <%= t(:last_modified, datetime: l(@item.updated_at.localtime)) %>
+        </p>
+      </div>
+
+      <%# image %>
+      <div class="col-md-6 col-12 order-first order-md-0 mb-3 mb-0-md">
+        <% if @item.image.attached? %>
           <%= tag.img(
             src: card_img_path(@item.image),
-            class: "img-fluid rounded float-right img-thumbnail figure-image",
-            width: '38%',
-            alt: "Item: #{@item.name}") %>
+            class: "img-fluid rounded float-right item-image",
+            width: '100%',
+            alt: "Bild: #{@item.name}") %>
         <% end %>
-        <h6>
-          <%= @item.name %>
-        </h6>
-        <p class="card-text"><%= @item.description %></p>
-        <%= link_to((icon(:world) { @item.world.title }), world_path(@item.world), class: 'card-link') %>
       </div>
     </div>
 
-    <%# FIXME: Refactor - extract to image partial %>
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @item } %>
-
-    <%# Attributes go here %>
-    <%= render partial: 'shared/attributes', locals: { obj: @item } %>
-
   </div>
-
-  <%# card footer %>
-  <div class="card-footer">
-    <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= time_ago_in_words(@item.updated_at.localtime) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'context_menu' %>
-      </div>
-    </div>
-  </div>
-
 <% end %>
+
+<%# Attributes go here %>
+<%= render partial: 'facts/facts', locals: { obj: @item.facts.chronological } %>
+<%= render partial: 'shared/attributes', locals: { obj: @item } %>
+

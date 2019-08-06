@@ -14,6 +14,13 @@ en:
       destroyed: 'Figure %{figure} successfully deleted'
     context_menu:
       confirm_delete: 'Should figure %{figure} really be deleted?'
+    index:
+      confirm_delete: 'Should figure %{figure} really be deleted?'
+    show:
+      part_of_facts:
+        one: 'This figure ist part of one fact.'
+        other: 'This figure is part of %{count} facts.'
+      world: '%{name} is inhabitant of world: '
 
   activerecord:
     models:

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :world do
-    sequence(:title)  { |n| "World #{n}" }
-    description       { "Description of world '#{title}'" }
+    sequence(:name)   { |n| "World #{n}" }
+    description       { "Description of world '#{name}'" }
     user              { build(:user) }
     image             { fixture_file_upload(fixture_file_name('earth.jpg')) }
 

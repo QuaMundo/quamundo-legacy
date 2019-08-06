@@ -13,7 +13,14 @@ en:
     destroy:
       destroyed: 'Location %{location} successfully deleted'
     context_menu:
-      confirm_delete: 'Should location %{item} really be removed?'
+      confirm_delete: 'Should location %{location} really be removed?'
+    index:
+      confirm_delete: 'Should location %{location} really be removed?'
+    show:
+      part_of_facts:
+        one: 'This location ist part of one fact.'
+        other: 'This location is part of %{count} facts.'
+      world: 'Location "%{name}" is belongs to world: '
 
   activerecord:
     models:

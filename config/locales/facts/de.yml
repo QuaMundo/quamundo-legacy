@@ -14,9 +14,15 @@ de:
       edit_roles: 'Rollen bearbeiten'
       remove_from_fact: 'Von Fakt entfernen'
       confirm_delete: 'Soll Aspekt %{constituent} wirklich entfernt werden?'
+      world: 'Fakt "%{name}" geschieht in Welt: '
+      starts_at: 'Das Ereignis beginnt am %{start}.'
+      ends_at: 'Das Ereignis endet am %{end}.'
+      duration: 'Das Ereignis dauert %{duration}.'
     destroy:
       destroyed: 'Fakt %{fact} wurde erfolgreich gelöscht'
     context_menu:
+      confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'
+    index:
       confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'
 
   fact_constituents:
@@ -29,6 +35,12 @@ de:
       destroyed: 'Zuordnung zu Fakt wurde entfernt'
     update:
       updated: 'Aspekt %{constituent} von Fakt %{fact} erfoglreich aktualisiert'
+    edit:
+      update_fact_constituent: 'Aspekt aktualisieren'
+    fact_constituents:
+      edit_roles: 'Rollen bearbeiten'
+      remove_from_fact: 'Von Fakt entfernen'
+      confirm_delete: 'Soll Aspekt %{constituent} wirklich entfernt werden?'
 
   activerecord:
     models:

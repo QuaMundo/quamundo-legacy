@@ -1,6 +1,6 @@
 RSpec.describe 'Worlds', type: :request do
   context 'without user logged in' do
-    let(:world) { create(:world, title: 'Welt') }
+    let(:world) { create(:world, name: 'Welt') }
 
     it 'redirects to login when world index ist requested' do
       get worlds_path
@@ -28,7 +28,7 @@ RSpec.describe 'Worlds', type: :request do
     end
 
     it 'redirects to login when world update is requested' do
-      post_data = '{ "world": { "title": "Neuer Titel" } }'
+      post_data = '{ "world": { "name": "Neuer Titel" } }'
       patch world_path(world), params: post_data
       expect_login_path
     end
@@ -52,14 +52,14 @@ RSpec.describe 'Worlds', type: :request do
         expect(World.find_by(id: world.id)).to be_falsy
       end
 
-      it 'must not update title' do
+      it 'must not update name' do
         world = user.worlds.first
-        old_title = world.title
+        old_name = world.name
         headers = { "CONTENT_TYPE" => "application/json" }
-        post_data = '{ "world": { "title": "A New Title" } }'
+        post_data = '{ "world": { "name": "A New Title" } }'
         patch(world_path(world), params: post_data, headers: headers)
         world.reload
-        expect(world.title).to eq(old_title)
+        expect(world.name).to eq(old_name)
       end
     end
 
@@ -92,8 +92,8 @@ RSpec.describe 'Worlds', type: :request do
       it 'allows to show index of own worlds' do
         get worlds_path
         expect(response).to be_successful
-        expect(response.body).not_to include(other_world.title)
-        expect(response.body).to include(user.worlds.first.title)
+        expect(response.body).not_to include(other_world.name)
+        expect(response.body).to include(user.worlds.first.name)
       end
     end
   end

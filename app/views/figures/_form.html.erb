@@ -1,11 +1,7 @@
 <%= form_with url: [@world, @figure], model: @figure, local: true do |f| %>
   <div class="form-group">
    <%= f.label :name %> 
-   <% if @figure.name.present? %>
-     <%= f.text_field :name, autofocus: true, disabled: true, class: "form-control" %>
-   <% else %>
-     <%= f.text_field :name, autofocus: true, autocomplete: :title, class: "form-control" %>
-   <% end %>
+   <%= f.text_field :name, autofocus: true, autocomplete: :name, class: "form-control" %>
   </div>
 
   <div class="form-group">

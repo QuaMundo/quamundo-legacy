@@ -11,13 +11,11 @@ RSpec.describe 'Session', type: :system do
 
     scenario 'User is redirected to dashboard after login' do
       expect(page).to have_current_path(root_path)
-      expect(page).to be_i18n_ready
     end
 
     scenario 'User is redirected to login after logout' do
       logout
       expect(page).to have_current_path(new_user_session_path)
-      expect(page).to be_i18n_ready
     end
   end
 end

@@ -160,9 +160,9 @@ ALTER SEQUENCE public.concepts_id_seq OWNED BY public.concepts.id;
 
 CREATE TABLE public.dossiers (
     id bigint NOT NULL,
-    title character varying NOT NULL,
+    name character varying NOT NULL,
     description text,
-    content text NOT NULL,
+    content text,
     dossierable_type character varying,
     dossierable_id integer,
     created_at timestamp without time zone NOT NULL,
@@ -235,7 +235,8 @@ CREATE TABLE public.facts (
     end_date timestamp without time zone,
     world_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    CONSTRAINT start_before_end_date CHECK (((start_date IS NULL) OR (end_date IS NULL) OR (start_date < end_date)))
 );
 
 
@@ -326,7 +327,7 @@ CREATE TABLE public.locations (
 
 CREATE TABLE public.worlds (
     id bigint NOT NULL,
-    title character varying NOT NULL,
+    name character varying NOT NULL,
     description text,
     user_id bigint NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -977,17 +978,17 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING bt
 
 
 --
+-- Name: index_worlds_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_worlds_on_name ON public.worlds USING btree (name);
+
+
+--
 -- Name: index_worlds_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_worlds_on_slug ON public.worlds USING btree (slug);
-
-
---
--- Name: index_worlds_on_title; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_worlds_on_title ON public.worlds USING btree (title);
 
 
 --
@@ -1100,6 +1101,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190726172358'),
 ('20190731140244'),
 ('20190805152237'),
-('20190805163701');
+('20190805163701'),
+('20190814142500'),
+('20190814152829'),
+('20190825145758'),
+('20190825151321');
 
 

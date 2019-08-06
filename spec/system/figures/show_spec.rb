@@ -11,7 +11,7 @@ RSpec.describe 'Showing a figure', type: :system do
       expect(page).to have_content(figure.name)
       expect(page).to have_content(figure.description)
       expect(page)
-        .to have_link(figure.world.title, href: world_path(figure.world))
+        .to have_link(figure.world.name, href: world_path(figure.world))
     end
 
     it 'shows figures menu', :comprehensive do

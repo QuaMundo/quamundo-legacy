@@ -11,7 +11,7 @@ RSpec.describe 'Showing a fact', type: :system do
       expect(page).to have_content(fact.name)
       expect(page).to have_content(fact.description)
       expect(page)
-        .to have_link(fact.world.title, href: world_path(world))
+        .to have_link(fact.world.name, href: world_path(world))
       expect(page).to have_selector('li[id^="fact_constituent"]',
                                     count: fact.fact_constituents.count)
       expect(page)

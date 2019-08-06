@@ -10,12 +10,17 @@ en:
     update:
       updated: 'World %{world} successfully updated'
       update_failed: 'Failed to update %{world}'
-    show:
-      not_allowed: 'You are not allowed to show %{world}'
     destroy:
       destroyed: 'World %{world} successfully deleted'
     context_menu:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
+    index:
+      confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
+    show:
+      not_allowed: 'You are not allowed to show %{world}'
+      begin_of_time: 'The first known event in this world starts at %{start}'
+      end_of_time: 'The last known event in this world ends at %{end}'
+      age: 'The events of this world span a time of %{age}'
 
   activerecord:
     models:

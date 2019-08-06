@@ -18,5 +18,18 @@ class World < ApplicationRecord
     assoc.has_many :facts
   end
 
-  alias_attribute :name, :title
+  # FIXME: REFACTOR: Get this with a single query from db
+  def begin_of_time
+    @begin_of_time ||= self.facts.minimum(:start_date)
+  end
+
+  def end_of_time
+    @end_of_time ||= self.facts.maximum(:end_date)
+  end
+
+  def age
+    unless begin_of_time.nil? || end_of_time.nil?
+      end_of_time - begin_of_time
+    end
+  end
 end

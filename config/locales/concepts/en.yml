@@ -14,6 +14,13 @@ en:
       destroyed: 'Concept %{concept} deleted'
     context_menu:
       confirm_delete: 'Should concept "%{concept}" really be removed?'
+    index:
+      confirm_delete: 'Should concept "%{concept}" really be removed?'
+    show:
+      part_of_facts:
+        one: 'This concept ist part of one fact.'
+        other: 'This concept is part of %{count} facts.'
+      world: 'Concept "%{name}" belongs to world: '
 
   activerecord:
     models:

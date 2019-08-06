@@ -14,6 +14,13 @@ en:
       destroyed: 'Item %{item} successfully deleted'
     context_menu:
       confirm_delete: 'Should item %{item} really be removed?'
+    index:
+      confirm_delete: 'Should item %{item} really be removed?'
+    show:
+      part_of_facts:
+        one: 'This item ist part of one fact.'
+        other: 'This item is part of %{count} facts.'
+      world: '%{name} is inventory of world: '
 
   activerecord:
     models:

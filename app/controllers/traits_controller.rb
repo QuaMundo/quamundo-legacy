@@ -64,6 +64,7 @@ class TraitsController < ApplicationController
   end
 
   def remove_empty
+    params[:trait][:attributeset] ||= []
     params[:trait][:attributeset].reject! { |_, v| v.to_s.empty? }
   end
 end

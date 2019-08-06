@@ -23,18 +23,6 @@ RSpec.shared_examples 'associated traits', type: :system do
       page.find("a#edit-trait-#{subject.trait.id}").click
       expect(page).to have_current_path(edit_trait_path(subject.trait))
     end
-
-    it 'provides link to delete', :js, :comprehensive do
-      res = page.accept_confirm do
-        page.find("a#delete-trait-#{subject.trait.id}").click
-      end
-      expect(res).not_to match(/translation missing/i)
-      expect(page).to have_current_path(polymorphic_path(path))
-      expect(page).to have_selector('.attributeset-key', count: 0)
-      expect(page).to have_selector('.attributeset-value', count: 0)
-      subject.reload
-      expect(subject.trait.attributeset).to be_empty
-    end
   end
 
   context 'CRUD actions' do

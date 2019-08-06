@@ -11,7 +11,6 @@ RSpec.describe 'Adding a constituent to a fact', type: :system do
     select("Item: #{item.name}", from: 'Inventory')
     click_button('submit')
     fact.reload
-    expect(page).to be_i18n_ready
     expect(page).to have_current_path(world_fact_path(world, fact))
     expect(page).to have_content(item.name)
     # expect(fact.fact_constituents.map(&:constituable)).to include(item)
@@ -23,7 +22,6 @@ RSpec.describe 'Adding a constituent to a fact', type: :system do
   it 'gives an error if constiuable ist not set' do
     visit new_world_fact_fact_constituent_path(world, fact)
     click_button('submit')
-    expect(page).to be_i18n_ready
     expect(page).to have_selector('.alert-danger')
   end
 end

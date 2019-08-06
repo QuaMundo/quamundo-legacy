@@ -1,41 +1,37 @@
 <%# `obj` is assumed to hold a `noteable object` %>
-<div class="row mt-4">
+<div class="row">
   <div class="col">
     <div class="accordion" id="attributes">
-
-      <%# FIXME: Refactor: Maybe use `content_for` or similar approach %>
-      <%# Facts %>
-      <% if obj.respond_to?(:facts) %>
-        <div id="facts" class="card">
-
-          <div id="facts-header" class="card-header">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#facts-collection" aria-expanded="true" aria-controls="facts-collection">
-              <%= icon(:fact) %>&nbsp;<%= obj.facts.count %>&nbsp;<%= Fact.model_name.human(count: obj.facts.count).capitalize %>
-            </button>
-          </div>
-
-          <div id="facts-collection" class="collapse" aria-labeled-by="facts-header" data-parent="#attributes">
-            <div class="card-body">
-              <%= render partial: 'shared/facts', locals: { obj: obj } %> 
-            </div>
-          </div>
-          
-        </div>
+      <%# Fact contituents %>
+      <% if content_for? :fact_constituents %>
+        <%= yield :fact_constituents %>
       <% end %>
-      <%# /Facts %>
+
 
       <%# Traits %>
       <div class="card" id="traits">
 
         <div id="traits-header" class="card-header">
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#traits-collection" aria-expanded="true" aria-controls="traits-collection">
-            <%= icon(:trait) %>&nbsp;<%= obj.trait.attributeset.count %>&nbsp;<%= Trait.model_name.human(count: obj.trait.attributeset.count).capitalize %>
+          <button class="btn btn-link"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#traits-collection"
+                  aria-expanded="true"
+                  aria-controls="traits-collection">
+            <%= icon(:trait) %>
+            &nbsp;
+            <%= obj.trait.attributeset.count %>
+            &nbsp;
+            <%= Trait.model_name.human(count: obj.trait.attributeset.count).capitalize %>
           </button>
         </div>
 
-        <div id="traits-collection" class="collapse" aria-labeled-by="traits-header" data-parent="#attributes">
+        <div id="traits-collection"
+             class="collapse"
+             aria-labeled-by="traits-header"
+             data-parent="#attributes">
           <div class="card-body">
-            <%= render partial: 'shared/traits', locals: { obj: obj } %>
+            <%= render partial: 'traits/traits', locals: { obj: obj } %>
           </div>
         </div>
 
@@ -43,17 +39,29 @@
       <%# /Traits %>
 
       <%# Notes %>
-      <div class="card"id="notes">
+      <div class="card" id="notes">
 
         <div class="card-header" id="notes-header">
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#notes-collection" aria-expanded="true" aria-controls="notes-collection">
-            <%= icon(:note) %>&nbsp;<%= obj.notes.count %>&nbsp;<%= Note.model_name.human(count: obj.notes.count).capitalize %>
+          <button class="btn btn-link"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#notes-collection"
+                  aria-expanded="true"
+                  aria-controls="notes-collection">
+            <%= icon(:note) %>
+            &nbsp;
+            <%= obj.notes.count %>
+            &nbsp;
+            <%= Note.model_name.human(count: obj.notes.count).capitalize %>
           </button>
         </div>
 
-        <div id="notes-collection" class="collapse" aria-labeled-by="notes-header" data-parent="#attributes">
+        <div id="notes-collection"
+             class="collapse"
+             aria-labeled-by="notes-header"
+             data-parent="#attributes">
           <div class="card-body">
-            <%= render partial: 'shared/notes', locals: { obj: obj } %>
+            <%= render partial: 'notes/notes', locals: { obj: obj } %>
           </div>
         </div>
 
@@ -64,19 +72,57 @@
       <div class="card" id="dossiers">
 
         <div class="card-header" id="dossiers-header">
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#dossiers-collection" aria-expanded="true" aria-controls="dossiers-collection">
-            <%= icon(:dossier) %>&nbsp;<%= obj.dossiers.count %>&nbsp;<%= Dossier.model_name.human(count: obj.dossiers.count).capitalize %>
+          <button class="btn btn-link"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#dossiers-collection"
+                  aria-expanded="true"
+                  aria-controls="dossiers-collection">
+            <%= icon(:dossier) %>
+            &nbsp;
+            <%= obj.dossiers.count %>
+            &nbsp;
+            <%= Dossier.model_name.human(count: obj.dossiers.count).capitalize %>
           </button>
         </div>
 
-        <div id="dossiers-collection" class="collapse" aria-labeled-by="dossiers-header" data-parent="#attributes">
+        <div id="dossiers-collection"
+             class="collapse"
+             aria-labeled-by="dossiers-header"
+             data-parent="#attributes">
           <div class="card-body">
-            <%= render partial: 'shared/dossiers', locals: { obj: obj } %>
+            <%= render partial: 'dossiers/dossiers', locals: { obj: obj } %>
           </div>
         </div>
 
       </div>
       <%# /Dossier %>
+
+      <%# Items %>
+      <% if content_for? :items %>
+        <%= yield :items %>
+      <% end %>
+
+      <%# Figures %>
+      <% if content_for? :figures %>
+        <%= yield :figures %>
+      <% end %>
+
+      <%# Locations %>
+      <% if content_for? :locations %>
+        <%= yield :locations %>
+      <% end %>
+
+      <%# Concepts %>
+      <% if content_for? :concepts %>
+        <%= yield :concepts %>
+      <% end %>
+
+      <%# Facts %>
+      <% if content_for?(:facts) %>
+        <%= yield :facts %>
+      <% end %>
+      <%# /Facts %>
 
     </div>
   </div>

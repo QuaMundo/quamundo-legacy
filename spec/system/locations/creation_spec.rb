@@ -25,7 +25,6 @@ RSpec.describe 'Creating a location', type: :system do
       fill_in('Description', with: 'A new locations description')
       page.attach_file('location_image', fixture_file_name('location.jpg'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(world.locations.count).to be > location_count
       expect(page).to have_selector('.alert-info',
                                     text: /successfully\s+created/i)
@@ -38,7 +37,6 @@ RSpec.describe 'Creating a location', type: :system do
       fill_in('Name', with: 'Location with position')
       fill_in('Latitude/Longitude', with: '49.5, 8.5')
       click_button('submit')
-      expect(page).to be_i18n_ready
       new_location = Location.find_by(name: 'Location with position')
       expect(page).to have_current_path(world_location_path(world, new_location))
       expect(new_location.lonlat)
@@ -47,7 +45,6 @@ RSpec.describe 'Creating a location', type: :system do
 
     it 'redirects to new form if name is missing' do
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_css('.alert', text: /failed to create/i)
     end
 

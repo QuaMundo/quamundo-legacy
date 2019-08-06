@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'edit_traits' %>
+
 <%# `@form_url` has to be set in controller 
   see: https://stackoverflow.com/a/9163318 %>
 <h5><%= associated_object_info(@trait.traitable) %></h5>
@@ -8,8 +10,15 @@
     <% @trait.attributeset.each do |key, value| %>
       <div class="form-group row">
         <%= a.label key, key, class: 'col-form-label col-4' %>
-        <div class="col-8">
+        <div class="col-8 input-group">
           <%= a.text_field key, value: value, class: 'form-control' %>
+          <div class="input-group-append">
+            <button
+              class="btn input-group-text btn-outline-primary remove-trait"
+              type="button">
+              <%= icon(:delete) %>
+            </button>
+          </div>
         </div>
       </div>
     <% end %>
@@ -17,11 +26,18 @@
   <% end %>
 
   <div class="form-group row">
-    <div class="col-4">
+    <div class="col-4 input-group">
       <%= f.text_field :new_key, autofocus: true, class: 'form-control', placeholder: t('.new_key') %>
     </div>
-    <div class="col-8">
+    <div class="col-8 input-group">
       <%= f.text_field :new_value, class: 'form-control', placeholder: t('.new_value') %>
+      <div class="input-group-append">
+        <button id="add-trait"
+                class="btn input-group-text btn-outline-primary"
+                type="button">
+          <%= icon(:new) %>
+        </button> 
+      </div>
     </div>
   </div>
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>

@@ -12,10 +12,10 @@ de:
     form:
       new_key: 'Neue Eigenschaft'
       new_value: 'Neuer Wert'
-
-  shared:
     traits:
       confirm_delete: 'Sollen wirklich alle Eigenschaften entfernt werden?'
+      attribute: 'Eigenschaft'
+      value: 'Wert'
 
   activerecord:
     models:

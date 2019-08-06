@@ -9,8 +9,8 @@ RSpec.describe World, type: :model do
     expect(world).not_to be_valid
   end
 
-  it 'requires a title' do
-    world = build(:world, title: nil)
+  it 'requires a name' do
+    world = build(:world, name: nil)
     # Since :before_save tries to build a slug via
     # ActiveSupport::Inflector.parameterize - which raises an error on a nil
     # value, the actual exception now is:
@@ -39,43 +39,43 @@ RSpec.describe World, type: :model do
   end
 
   # Redundant, see 'case insensitive uniqueness'
-  # it 'has an unique title' do
+  # it 'has an unique name' do
   #   user = create(:user_with_worlds)
   #   world = user.worlds.first
-  #   new_world = build(:world, title: world.title, user: user)
+  #   new_world = build(:world, name: world.name, user: user)
   #   expect(new_world).not_to be_valid
   #   expect { new_world.save!(validate: false) }
   #     .to raise_error ActiveRecord::RecordNotUnique
   # end
 
-  it 'has a case insensitive unique title' do
+  it 'has a case insensitive unique name' do
     user = build(:user)
-    world = create(:world, title: 'Test', user: user)
-    other_world = build(:world, title: 'tesT', user: user)
+    world = create(:world, name: 'Test', user: user)
+    other_world = build(:world, name: 'tesT', user: user)
     expect { other_world.save!(validate: false) }
       .to raise_error ActiveRecord::RecordNotUnique
     expect(other_world).not_to be_valid
   end
 
   it 'got a slug after creation' do
-    world = build(:world, user: build(:user), title: 'A Meaningfull Title')
+    world = build(:world, user: build(:user), name: 'A Meaningfull Name')
     world.save
-    expect(world.slug).to eq('a-meaningfull-title')
+    expect(world.slug).to eq('a-meaningfull-name')
   end
 
-  # it 'got slug updated when title is updated' do
-  #   world = create(:world, title: 'Title', user: build(:user))
-  #   expect(world.slug).to eq('title')
-  #   world.title = 'New Title'
+  # it 'got slug updated when name is updated' do
+  #   world = create(:world, name: 'Title', user: build(:user))
+  #   expect(world.slug).to eq('name')
+  #   world.name = 'New Title'
   #   world.save!
   #   world.reload
-  #   expect(world.slug).to eq('new-title')
+  #   expect(world.slug).to eq('new-name')
   # end
 
   it 'has an unique slug' do
-    world = create(:world, user: build(:user), title: 'A Meaningfull Title')
+    world = create(:world, user: build(:user), name: 'A Meaningfull Name')
     other_world = build(:world, user: build(:user),
-                        title: 'a meaningfull title')
+                        name: 'a meaningfull name')
     expect { other_world.save(validate: false) }
       .to raise_error ActiveRecord::RecordNotUnique
   end
@@ -98,7 +98,7 @@ RSpec.describe World, type: :model do
       world.notes << note
     end
     world.save
-    expect(Note.all.map(&:id)).to include(*notes.map(&:id))
+    expect(Note.ids).to include(*notes.map(&:id))
   end
 
   # FIXME: duplicate code in `spec/support/tagable.rb`
@@ -123,8 +123,39 @@ RSpec.describe World, type: :model do
   it 'deletes all notes when subject is deleted' do
     obj = create(:world)
     note_ids = obj.note_ids
-    expect(Note.all.map(&:id)).to include(*note_ids)
+    expect(Note.ids).to include(*note_ids)
     obj.destroy!
-    expect(Note.all.map(&:id)).not_to include(*note_ids)
+    expect(Note.ids).not_to include(*note_ids)
+  end
+
+  context 'age of world' do
+      let(:world) { build(:world) }
+      let(:s_time) { Time.current - 50.years }
+      let(:e_time) { Time.current + 50.years }
+
+    it 'knows its time of beginning' do
+      world.facts << build(:fact, start_date: s_time)
+      world.save
+      expect(world.begin_of_time).to eq s_time
+      expect(world.end_of_time).to be_nil
+      expect(world.age).to be_nil
+    end
+
+    it 'knows its time of ending' do
+      world.facts << build(:fact, end_date: e_time)
+      world.save
+      expect(world.begin_of_time).to be_nil
+      expect(world.end_of_time).to eq e_time
+      expect(world.age).to be_nil
+    end
+
+    it 'knows about its age if dated facts exist' do
+      world.facts << build(:fact, start_date: s_time)
+      world.facts << build(:fact, end_date: e_time)
+      world.save
+      expect(world.begin_of_time).to eq s_time
+      expect(world.end_of_time).to eq e_time
+      expect(world.age).to eq(e_time - s_time)
+    end
   end
 end

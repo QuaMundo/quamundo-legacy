@@ -1,21 +1,37 @@
-<nav class="nav justify-content-md-end justify-content-center context-menu">
-  <%= link_to(
-    icon(:index), worlds_path,
-    class: 'nav-link', title: t(:index)) %>
-  <%= link_to(
-    icon(:edit),
-    edit_world_path(@world),
-    class: 'nav-link', title: t(:edit)) %>
-  <%= link_to(
-    icon(:new),
-    new_world_path,
-    class: 'nav-link', title: t(:new)) %>
-  <%= link_to(
-    icon(:delete),
-    world_path(@world),
-    method: :delete,
-    class: 'nav-link',
-    title: t(:delete),
-    data: { confirm: t('.confirm_delete', world: @world.title) }) %>
-</nav>
+<ul class="nav justify-content-end context-menu mt-2">
+  <li class="nav-item">
+    <a class="nav-link dropdown"
+       data-toggle="dropdown"
+       href="#"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false">
+      <%= icon(:menu) %>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <%= link_to(
+        icon(:index) { t('index') },
+        worlds_path,
+        class: 'dropdown-item',
+        title: t(:index)) %>
+      <%= link_to(
+        icon(:edit) { t('edit') },
+        edit_world_path(@world),
+        class: 'dropdown-item',
+        title: t(:edit)) %>
+      <%= link_to(
+        icon(:new) { t('new') },
+        new_world_path,
+        class: 'dropdown-item',
+        title: t(:new)) %>
+      <%= link_to(
+        icon(:delete) { t('delete') },
+        world_path(@world),
+        method: :delete,
+        class: 'dropdown-item',
+        title: t(:delete),
+        data: { confirm: t('.confirm_delete', world: @world.name) }) %>
+    </div>
+  </li>
+</ul>
 

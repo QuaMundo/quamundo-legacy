@@ -19,7 +19,6 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
       fill_in('Description', with: 'New Description')
       click_button('submit')
       concept.reload
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_concept_path(world, concept))
       expect(concept.name).to eq('New Name')
       expect(concept.description).to eq('New Description')
@@ -30,16 +29,14 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     it 'attaches an image', :comprehensive do
       page.attach_file('concept_image', fixture_file_name('concept.jpg'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_concept_path(world, concept))
       expect(concept.image).to be_attached
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.concept-image')
     end
 
     it 'refuses to attach non image files', :comprehensive do
       page.attach_file('concept_image', fixture_file_name('file.pdf'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_concept_path(world, concept))
       expect(concept.image).not_to be_attached
       pending("Show view not yet implemented")

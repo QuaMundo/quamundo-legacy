@@ -11,7 +11,6 @@ import "../src/application.scss";
 
 // Import bootstrap
 import 'bootstrap';
-import 'startbootstrap-sb-admin-2/js/sb-admin-2';
 
 // Import fontawesome svgs
 import '../src/default-images';

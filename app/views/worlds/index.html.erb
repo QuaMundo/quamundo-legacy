@@ -2,12 +2,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:world) { World.model_name.human(count: @worlds.count) } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'index_menu' %>
       </div>
     </div>
@@ -15,20 +15,62 @@
 
   <%# card body %>
   <div class="card-body">
-    <%= render partial: 'worlds' %>
-  </div>
-
-  <%# card footer %>
-  <div class="card-footer text-muted">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= @worlds.count %>
-          <%= World.model_name.human(count: @worlds.count) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'index_menu' %>
+      <div class="col">
+        <ul class="list-unstyled">
+          <% @worlds.each do |world| %>
+            <%= tag.li(class: 'media mb-4', id: element_id(world)) do %>
+
+              <%# Iage - Thumbnail %>
+              <%= tag.a(href: world_path(world)) do %>
+                <% if world.image.attached? %>
+                  <%= tag.img(src: attached_img_path(world.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                <% else %>
+                  <%= default_image(world, 'mr-3 q-media-img-default') %>
+                <% end %>
+              <% end %>
+
+              <%# FIXME: Body must be below li ^^ %>
+              <%# body%>
+              <div class="media-body">
+                <h5 class="mb-q">
+                  <%= icon(:world) { world.name } %>
+                </h5>
+                <div class="small">
+                  <% if world.description.present? %>
+                    <%= world.description %><br />
+                  <% end %>
+                  <span class="text-muted">
+                    <%= icon(:figure) %>&nbsp;<%= world.figures.count %>&nbsp;
+                    <%= icon(:item) %>&nbsp;<%= world.items.count %>&nbsp;
+                    <%= icon(:location) %>&nbsp;<%= world.locations.count %>&nbsp;
+                    <%= icon(:concept) %>&nbsp;<%= world.concepts.count %>&nbsp;
+                    <%= icon(:fact) %>&nbsp;<%= world.facts.count %>&nbsp;
+                  </span>
+                  <nav class="nav small">
+                    <%= link_to(
+                      t('show'),
+                      world_path(world),
+                      class: 'nav-link pr-2 pl-0 py-0') %>
+                    <%= link_to(
+                      icon(:edit),
+                      edit_world_path(world),
+                      class: 'nav-link px-2 py-0',
+                      id: element_id(world, 'edit')) %>
+                    <%= link_to(
+                      icon(:delete),
+                      world_path(world),
+                      id: element_id(world, 'delete'),
+                      class: 'nav-link px-2 py-0',
+                      method: :delete,
+                      data: { confirm: t('.confirm_delete', world: world.name) })%>
+                  </nav>
+                </div>
+              </div>
+
+            <% end %>
+          <% end %>
+        </ul>
       </div>
     </div>
   </div>

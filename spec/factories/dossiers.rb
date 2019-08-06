@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :dossier do
-    sequence(:title)  { |n| "Dossier No. #{n}" }
-    description       { "Description of dossier #{title}" }
-    content           { "Content of dossier #{title}" }
+    sequence(:name)  { |n| "Dossier No. #{n}" }
+    description       { "Description of dossier #{name}" }
+    content           { "Content of dossier #{name}" }
   end
 end

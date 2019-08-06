@@ -3,12 +3,12 @@
   <%# card header %>
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center">
+      <div class="col-10">
         <h2 class="card-title mt-2">
           <%= icon(:fact) { @fact.name } %>
         </h2>
       </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
+      <div class="col-2 text-right">
         <%= render partial: 'context_menu' %> 
       </div>
     </div>
@@ -17,114 +17,52 @@
   <%# card body %>
   <div class="card-body">
     <div class="row">
-      <div class="col">
-        <% if @fact.image.attached? %> 
+      <%# info %>
+      <div class="col-md-6 col-12">
+        <% if @fact.description.present? %>
+          <p><%= @fact.description %></p>
+        <% end %>
+        <% if @fact.start_date %>
+          <p><%= t('.starts_at', start: l(@fact.start_date, format: :long)) %></p>
+        <% end %>
+        <% if @fact.end_date %>
+          <p><%= t('.ends_at', end: l(@fact.end_date, format: :long)) %></p>
+        <% end %>
+        <% if @fact.start_date.present? and @fact.end_date.present? %>
+          <p><%= t('.duration', duration: distance_of_time_in_words( @fact.end_date - @fact.start_date)) %></p>
+        <% end %>
+        <p>
+        <%= t('.world', name: @fact.name) %>
+        <%= link_to(@fact.world.name, world_path(@fact.world)) %>
+        </p>
+        <p class="small text-muted">
+        <%= t(:created_at, datetime: l(@fact.created_at.localtime)) %>
+        (<%= @fact.world.user.nick %>)<br />
+        <%= t(:last_modified, datetime: l(@fact.updated_at.localtime)) %>
+        </p>
+      </div>
+
+      <%# image %>
+      <div class="col-md-6 col-12 order-first order-md-0 mb-3 mb-0-md">
+        <% if @fact.image.attached? %>
           <%= tag.img(
             src: card_img_path(@fact.image),
-            class: "img-fluid rounded float-right img-thumbnail figure-image",
-            width: '38%',
-            alt: "Fact: #{@fact.name}") %>
+            class: "img-fluid rounded float-right fact-image",
+            width: '100%',
+            alt: "Bild: #{@fact.name}") %>
         <% end %>
-        <h6>
-          <%= @fact.name %>
-        </h6>
-
-        <%# Time info %>
-        <small class="text-muted card-text mb-4">
-        <% if @fact.start_date.present? %>
-          <%= t('start_time') %>: <%= l(@fact.start_date, format: :fact) %><br />
-        <% end %>
-        <% if @fact.end_date.present? %>
-          <%= t('end_time') %>: <%= l(@fact.end_date, format: :fact) %><br />
-        <% end %>
-        <% if @fact.start_date.present? && @fact.end_date.present? %>
-          <%= t('duration') %>: <%= distance_of_time_in_words(@fact.end_date, @fact.start_date) %><br />
-        <% end %>
-        </small>
-
-        
-        <p class="card-text"><%= @fact.description %></p>
-
-        <%# fact entries %>
-        <div class="row">
-          <div class="col" id="fact-constituents">
-            <h2 class="mt-4"><%= FactConstituent.model_name.human(count: @fact.fact_constituents.count) %></h2>
-            <ul class="list-unstyled">
-              <% @fact.fact_constituents.each do |fact| %>
-                <%= tag.li(class: 'media mb-4', id: element_id(fact)) do %>
-
-                  <%# Image - thumbnail %>
-                  <%= tag.a(href: polymorphic_path([@fact.world, fact.constituable])) do %>
-                    <% if fact.constituable.image.attached? %>
-                      <%= tag.img(src: attached_img_path(fact.constituable.image,
-                                                         { resize: "64x64^", }),
-                      class: 'mr-3 q-media-img') %>
-                  <% else %>
-                    <%= default_image(fact.constituable, 'mr-3 q-media-img-default') %>
-                  <% end %>
-                <% end %>
-
-                <%# FIXME: Body must be below li ^^ %>
-                <%# body %>
-                <div class="media-body">
-                  <h5 class="mb-1">
-                    <%= icon(fact.constituable) { fact.constituable.name.capitalize } %>
-                  </h5>
-                  <div class="small">
-                    <%= fact.constituable.description %>
-                    <% unless fact.roles.empty? %>
-                      <span class="text-muted">(<%= fact.roles.join(', ') %>)</span><br />
-                    <% end %>
-                    <span class="text-muted">
-                      <%= icon(:edit) { time_ago_in_words(fact.constituable.updated_at) } %>
-                    </span><br />
-                    <%= link_to(t('show'), polymorphic_path([@fact.world, fact.constituable])) %>
-                    <%= link_to(t('.edit_roles'), edit_world_fact_fact_constituent_path(@world, @fact, fact)) %>
-                    <%= link_to(t('.remove_from_fact'), world_fact_fact_constituent_path(@world, @fact, fact),
-                                method: :delete, data: {confirm: t('.confirm_delete',
-                                                                   constituent: fact.constituable.name)},
-                                title: 'destroy') %>
-                  </div>
-                </div>
-
-              <% end %>
-            <% end %>
-            </ul> 
-          </div> 
-        </div>
-        <div class="row">
-          <div class="col">
-           <%= link_to(icon(:new), new_world_fact_fact_constituent_path(@world, @fact)) %> 
-          </div>
-        </div>
-        <%# /fact entries %>
-
-        <%= link_to((icon(:world) { @fact.world.title }), world_path(@fact.world), class: 'card-link') %>
       </div>
+      
     </div>
 
     <%# FIXME: Refactor - extract to image partial %>
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @fact } %>
-
-    <%# Attributes go here %>
-    <%= render partial: 'shared/attributes', locals: { obj: @fact } %>
-
   </div>
-
-  <%# card footer %>
-  <div class="card-footer">
-    <div class="row">
-      <div class="col-md-6 col-12 text-md-left text-center mt-2">
-        <small>
-          <%= time_ago_in_words(@fact.updated_at.localtime) %>
-        </small>
-      </div>
-      <div class="col-md-6 col-12 text-md-right text-center">
-        <%= render partial: 'context_menu' %>
-      </div>
-    </div>
-  </div>
-
 <% end %>
+<%# Attributes go here %>
+<%= render(
+  partial: 'fact_constituents/fact_constituents',
+  locals: { obj: @fact.fact_constituents.order(constituable_type: :asc) }) %>
+<%= render partial: 'shared/attributes', locals: { obj: @fact } %>
 

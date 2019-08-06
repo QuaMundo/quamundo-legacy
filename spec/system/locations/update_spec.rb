@@ -42,7 +42,6 @@ RSpec.describe 'Updating/Editing a location', type: :system do
       fill_in('Latitude/Longitude', with: '55.123, 19.321')
       click_button('submit')
       location.reload
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_location_path(world, location))
       expect(page).to have_content('A new location')
       expect(page).to have_content('New description')
@@ -54,16 +53,14 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     it 'attaches an image', :comprehensive do
       page.attach_file('location_image', fixture_file_name('location.jpg'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).to be_attached
-      expect(page).to have_selector('img.figure-image')
+      expect(page).to have_selector('img.location-image')
     end
 
     it 'refuses to attach non image files', :comprehensive do
       page.attach_file('location_image', fixture_file_name('file.pdf'))
       click_button('submit')
-      expect(page).to be_i18n_ready
       expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).not_to be_attached
       pending("Show view not yet implemented")

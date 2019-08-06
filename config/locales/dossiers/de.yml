@@ -14,9 +14,12 @@ de:
       destroyed: 'Dossier %{dossier} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
+    dossiers:
+      confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
     form:
       remove_attachments: 'Dateianhänge zum Löschen auswählen'
       add_attachments: 'Dateien zum Hochladen auswählen'
+      content_in_markdown: 'Dieser Text kann in Markdown verfasst werden'
 
   activerecord:
     models:
@@ -26,7 +29,7 @@ de:
 
     attributes:
       dossier:
-        title: 'Titel'
+        name: 'Name'
         description: 'Zusammenfassung'
         content: 'Inhalt'
         files: 'Dateianhänge'
