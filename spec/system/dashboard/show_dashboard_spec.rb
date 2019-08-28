@@ -1,4 +1,4 @@
-RSpec.describe 'Dashboard', type: :system do
+RSpec.describe 'Dashboard', type: :system, db_triggers: true do
   include_context 'Session'
 
   context 'for user without a world' do
@@ -17,7 +17,7 @@ RSpec.describe 'Dashboard', type: :system do
   end
 
   context 'for user with worlds' do
-    let(:user) { build(:user_with_worlds_wo_img, worlds_count: 5) }
+    let(:user) { build(:user_with_worlds_wo_img, worlds_count: 15) }
 
     it 'shows 4 last updated worlds' do
       visit root_path

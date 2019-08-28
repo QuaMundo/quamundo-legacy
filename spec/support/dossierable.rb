@@ -1,12 +1,6 @@
 RSpec.shared_examples 'dossierable', type: :model do
   let(:assoc_obj) { subject.model_name.to_s.downcase.to_sym }
 
-  it 'gets a default dossier after creation' do
-    obj = create(assoc_obj, world: build(:world))
-    expect(obj.dossiers.count).to eq(1)
-    expect(obj.dossiers.first.name).to eq(obj.name)
-  end
-
   it 'has a list of dossiers' do
     dossiers = []
     3.times do

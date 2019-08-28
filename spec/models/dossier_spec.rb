@@ -1,7 +1,7 @@
 RSpec.describe Dossier, type: :model do
   include_context 'Session'
 
-  let(:dossier) { build(:dossier) }
+  let(:dossier) { build(:dossier, dossierable: build(:world, user: user)) }
 
   it 'must have a name' do
     dossier.name = nil
@@ -26,6 +26,14 @@ RSpec.describe Dossier, type: :model do
     expect(dossier.audios.count).to eq 1
     expect(dossier.videos.count).to eq 1
     expect(dossier.other_files.count).to eq 1
+  end
+
+  it 'can remove attached files' do
+    %w(video.m4v earth.jpg audio.mp3).each { |f| attach_file(dossier.files, f) }
+    dossier.save!
+    expect(dossier.files.count).to eq(3)
+    dossier.files.first.purge
+    expect(dossier.files.count).to eq(2)
   end
 
   it_behaves_like 'updates parents' do

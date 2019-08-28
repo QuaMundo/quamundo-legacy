@@ -35,8 +35,7 @@
                       <%=
                         tag.img(
                           src: attached_img_path(
-                            fact_constituent.constituable.image,
-                            { resize: "64x64^" }),
+                            fact_constituent.constituable.image, 64, 64),
                           class: 'mr-3 q-media-img'
                         ) %>
                     <% else %>

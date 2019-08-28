@@ -1,4 +1,6 @@
-RSpec.describe 'Select options for fact constituents', type: :system do
+RSpec.describe 'Select options for fact constituents',
+  type: :system, db_triggers: true do
+
   include_context 'Session'
 
   let(:world)   { create(:world, user: user) }

@@ -37,6 +37,20 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
 
 
+--
+-- Name: refresh_inventories(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.refresh_inventories() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    REFRESH MATERIALIZED VIEW inventories;
+    RETURN NULL;
+  END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -337,10 +351,10 @@ CREATE TABLE public.worlds (
 
 
 --
--- Name: inventories; Type: VIEW; Schema: public; Owner: -
+-- Name: inventories; Type: MATERIALIZED VIEW; Schema: public; Owner: -
 --
 
-CREATE VIEW public.inventories AS
+CREATE MATERIALIZED VIEW public.inventories AS
  SELECT i.id AS inventory_id,
     'Item'::text AS inventory_type,
     i.name,
@@ -390,7 +404,8 @@ UNION
     wc.user_id
    FROM (public.concepts c
      LEFT JOIN public.worlds wc ON ((wc.id = c.world_id)))
-  ORDER BY 5 DESC;
+  ORDER BY 5 DESC
+  WITH NO DATA;
 
 
 --
@@ -901,6 +916,13 @@ CREATE INDEX index_figures_on_world_id ON public.figures USING btree (world_id);
 
 
 --
+-- Name: index_inventories_on_inventory_id_and_inventory_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_inventories_on_inventory_id_and_inventory_type ON public.inventories USING btree (inventory_id, inventory_type);
+
+
+--
 -- Name: index_items_on_world_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -996,6 +1018,41 @@ CREATE UNIQUE INDEX index_worlds_on_slug ON public.worlds USING btree (slug);
 --
 
 CREATE INDEX index_worlds_on_user_id ON public.worlds USING btree (user_id);
+
+
+--
+-- Name: concepts refresh_concept_inventories; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_concept_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.concepts FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: facts refresh_fact_inventories; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_fact_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.facts FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: figures refresh_figure_inventories; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_figure_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.figures FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: items refresh_item_inventories; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_item_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.items FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: locations refresh_location_inventories; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_location_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.locations FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
 
 
 --
@@ -1105,6 +1162,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190814142500'),
 ('20190814152829'),
 ('20190825145758'),
-('20190825151321');
+('20190825151321'),
+('20190828145207'),
+('20190830105858');
 
 

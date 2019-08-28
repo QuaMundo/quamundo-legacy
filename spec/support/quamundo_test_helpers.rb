@@ -55,7 +55,8 @@ module QuamundoTestHelpers
 
   protected
   def get_variant(world, resize_factor)
-    world.image.variant(resize: resize_factor).processed.key
+    coords = resize_factor.split('x').map(&:to_i)
+    world.image.variant(resize_to_fill: coords).processed.key
   end
 
   def active_storage_path(active_storage_key)

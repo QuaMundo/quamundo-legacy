@@ -24,7 +24,8 @@
               <%# Iage - Thumbnail %>
               <%= tag.a(href: world_path(world)) do %>
                 <% if world.image.attached? %>
-                  <%= tag.img(src: attached_img_path(world.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                  <%= tag.img(src: attached_img_path(world.image, 64, 64),
+                              class: 'mr-3 q-media-img') %>
                 <% else %>
                   <%= default_image(world, 'mr-3 q-media-img-default') %>
                 <% end %>

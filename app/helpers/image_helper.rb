@@ -1,17 +1,14 @@
 module ImageHelper
   # Simplify url/path generation for attached images
-  def attached_img_path(attached, options = {})
+  # FIXME: Should ensure null or both args are provided
+  def attached_img_path(attached, x = 800, y = 600)
     return '' unless attached.image?
-    url_for(attached.variant(options).processed)
+    url_for(attached.variant(resize_to_fill: [x, y]).processed)
   end
 
   # Get image variant path for overview cards
   def card_img_path(attached)
     return '' unless attached.image?
-    options = {
-      resize: "320x240^",
-      gravity: "center"
-    }
-    attached_img_path(attached, combine_options: options)
+    url_for(attached)
   end
 end

@@ -18,7 +18,7 @@ RSpec.describe 'Showing a location', type: :system do
     end
 
     it 'shows location menu', :comprehensive do
-      page.first('nav.nav') do
+      page.first('.nav') do
         expect(page).to have_link(href: new_world_location_path(world))
         expect(page).to have_link(href: world_locations_path(world))
         expect(page).to have_link(href: edit_world_location_path(world, location))
@@ -56,6 +56,7 @@ RSpec.describe 'Showing a location', type: :system do
   context 'with image' do
     before(:example) do
       location.image = fixture_file_upload(fixture_file_name('location.jpg'))
+      location.save
       visit(world_location_path(world, location))
     end
 

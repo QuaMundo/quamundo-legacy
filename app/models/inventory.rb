@@ -7,4 +7,10 @@ class Inventory < ApplicationRecord
   def readonly?
     true
   end
+
+  # in case one wants to refresh the materialized view
+  def self.refresh
+    connection
+      .execute('REFRESH MATERIALIZED VIEW inventories;')
+  end
 end

@@ -1,4 +1,4 @@
-RSpec.describe Inventory, type: :model do
+RSpec.describe Inventory, type: :model, db_triggers: true do
   include_context 'Session'
 
   it 'is a read-only model' do
@@ -15,7 +15,7 @@ RSpec.describe Inventory, type: :model do
 
   context 'for user with worlds' do
     before(:example) do
-      5.times { create(:world_with_all, user: user) }
+      create(:world_with_all, user: user)
     end
 
     it 'contains all types of inventories' do

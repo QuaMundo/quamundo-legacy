@@ -16,7 +16,7 @@ RSpec.describe 'Showing an item', type: :system do
     end
 
     it 'shows item menu', :comprehensive do
-      page.first('nav.nav') do
+      page.first('.nav') do
         expect(page).to have_link(href: new_world_item_path(world))
         expect(page).to have_link(href: world_items_path(world))
         expect(page).to have_link(href: edit_world_item_path(world, item))
@@ -54,6 +54,7 @@ RSpec.describe 'Showing an item', type: :system do
   context 'with image' do
     before(:example) do
       item.image = fixture_file_upload(fixture_file_name('item.jpg'))
+      item.save
       visit(world_item_path(world, item))
     end
 

@@ -18,6 +18,7 @@ RSpec.shared_examples "associated_with_world", type: :model do
   context 'when deleting the world', :comprehensive do
     it 'all its items are destroyed too' do
       items = has_many.each.map(&:id)
+      world.save
       world.destroy!
       expect(klass.send(:find_by, id: items)).to be_nil
     end

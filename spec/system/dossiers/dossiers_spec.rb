@@ -98,13 +98,17 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     let(:dossier) { create(:dossier, dossierable: build(:world)) }
 
     it 'adds an attachment' do
+      dossier.files.attach(fixture_file_upload(fixture_file_name('earth.jpg')))
+      dossier.files.attach(fixture_file_upload(fixture_file_name('htrae.jpg')))
       no_attachments = dossier.files.count
       visit(edit_dossier_path(dossier))
+      expect(page).to have_selector('label', text: 'Earth.jpg')
       page.attach_file('dossier_files', fixture_file_name('file.pdf'))
       click_button('submit')
-      #dossier.reload
       expect(dossier.files.count).to be > no_attachments
       expect(page).to have_link('file.pdf')
+      expect(page).to have_link('earth.jpg')
+      expect(page).to have_link('htrae.jpg')
     end
 
     it 'removes attachments marked for removal' do
@@ -117,6 +121,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       check(element_id(dossier.files.find(file_ids).first, 'remove'))
       check(element_id(dossier.files.find(file_ids).last, 'remove'))
       click_button('submit')
+      dossier.reload
       expect(dossier.files.ids).not_to include(*file_ids)
     end
 
@@ -127,8 +132,6 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       end
       file_ids = dossier.files.ids
       dossier.destroy
-      # FIXME: Try to avoid sleeping - purging files seems to need some time
-      sleep 0.2
       expect(ActiveStorage::Blob.ids).not_to include(*file_ids)
     end
 

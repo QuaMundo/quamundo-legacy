@@ -36,7 +36,7 @@
     <%# FIXME: DRY up - this is same in all inventory forms %>
     <% if @location.image.attached? %>
       <%= tag.img(
-        src: attached_img_path(@location.image, combine_options: { resize: '80x60^', gravity: 'center' }),
+        src: attached_img_path(@location.image, 80, 60),
         class: "img-fluid rounded float-right location-image",
         id: element_id(@location, 'img'),
         alt: "Bild: #{@location.name}") %>

@@ -30,6 +30,18 @@ RSpec.describe 'Showing a fact', type: :system do
       end
     end
 
+  context 'with image' do
+    before(:example) do
+      fact.image = fixture_file_upload(fixture_file_name('fact.jpg'))
+      fact.save
+      visit(world_fact_path(world, fact))
+    end
+
+    it 'has an img tag' do
+      expect(page).to have_selector('img.fact-image')
+    end
+  end
+
     it_behaves_like 'valid_view' do
       let(:subject) { world_fact_path(world, fact) }
     end

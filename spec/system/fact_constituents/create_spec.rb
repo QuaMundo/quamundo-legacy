@@ -5,7 +5,7 @@ RSpec.describe 'Adding a constituent to a fact', type: :system do
   let(:fact)  { create(:fact, world: world) }
   let!(:item) { create(:item, world: world) }
 
-  it 'adds constituent to a fact' do
+  it 'adds constituent to a fact', db_triggers: true do
     visit new_world_fact_fact_constituent_path(world, fact)
     fill_in('Roles', with: 'Role_A, Role_B, Role_A')
     select("Item: #{item.name}", from: 'Inventory')

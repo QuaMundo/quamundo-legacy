@@ -79,7 +79,25 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   include QuamundoTestHelpers
-  config.before(:suite) { cleanup_test_environment }
+  config.before(:suite) do
+    cleanup_test_environment
+    Inventory.refresh
+  end
+
+  # Attention! Disable database triggers for time saving reasons
+  # Maybe this must be reworked in the future if further triggers are added
+  config.before(:example) do
+    # Disable triggers by default since this decreases runtime significantly
+    ActiveRecord::Base.connection
+      .execute('SET session_replication_role = replica;')
+  end
+
+  config.before(:example, db_triggers: true) do
+    # Enable triggers for inventory testinb
+    ActiveRecord::Base.connection
+      .execute('SET session_replication_role = DEFAULT;')
+  end
+
   config.before(:example, type: :system) do
     driven_by(:rack_test)
   end

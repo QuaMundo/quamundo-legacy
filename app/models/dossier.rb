@@ -1,6 +1,8 @@
 class Dossier < ApplicationRecord
   include Benamed
 
+  before_destroy :purge_files
+
   validates :name, presence: true
 
   # TODO: Check costs of `touch: true`
@@ -22,5 +24,11 @@ class Dossier < ApplicationRecord
 
   def other_files
     files.reject { |f| f.image? || f.audio? || f.video? }
+  end
+
+  private
+  def purge_files
+    # FIXME: Maybe use `purge_later`
+    files.purge
   end
 end

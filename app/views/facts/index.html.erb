@@ -24,7 +24,8 @@
               <%# Image - Thumbnail %>
               <%= tag.a(href: world_fact_path(fact.world, fact)) do %>
                 <% if fact.image.attached? %>
-                  <%= tag.img(src: attached_img_path(fact.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                  <%= tag.img(src: attached_img_path(fact.image, 64, 64),
+                              class: 'mr-3 q-media-img') %>
                 <% else %>
                   <%= default_image(fact, 'mr-3 q-media-img-default') %>
                 <% end %>

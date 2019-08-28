@@ -16,7 +16,7 @@ RSpec.describe 'Showing an concept', type: :system do
     end
 
     it 'shows concept menu', :comprehensive do
-      page.first('nav.nav') do
+      page.first('.nav') do
         expect(page).to have_link(href: new_world_concept_path(world))
         expect(page).to have_link(href: world_concepts_path(world))
         expect(page).to have_link(href: edit_world_concept_path(world, concept))
@@ -54,6 +54,7 @@ RSpec.describe 'Showing an concept', type: :system do
   context 'with image' do
     before(:example) do
       concept.image = fixture_file_upload(fixture_file_name('concept.jpg'))
+      concept.save
       visit(world_concept_path(world, concept))
     end
 

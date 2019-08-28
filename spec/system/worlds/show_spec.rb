@@ -105,6 +105,18 @@ RSpec.describe 'Showing a world', type: :system do
     end
   end
 
+  context 'with image' do
+    before(:example) do
+      world.image = fixture_file_upload(fixture_file_name('earth.jpg'))
+      world.save
+      visit(world_path(world, world))
+    end
+
+    it 'has an img tag' do
+      expect(page).to have_selector('img.world-image')
+    end
+  end
+
   context 'other users worlds' do
     before(:example) { visit world_path(other_world) }
 

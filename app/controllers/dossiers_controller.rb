@@ -10,7 +10,6 @@ class DossiersController < ApplicationController
 
   def new
     @dossier = @assoc_obj.dossiers.new
-    # FIXME: Check if this leads to dossiers show view!?
     @form_url = [@assoc_obj.try(:world), @assoc_obj, @dossier]
   end
 
@@ -36,8 +35,8 @@ class DossiersController < ApplicationController
 
   def update
     respond_to do |format|
+      handle_attachments
       if @dossier.update(dossier_params)
-        remove_marked_attachments
         format.html do
           redirect_to(dossier_path(@dossier),
                       notice: t('.updated', dossier: @dossier.name))
@@ -74,12 +73,21 @@ class DossiersController < ApplicationController
     @form_url ||= [@assoc_obj.try(:world), @assoc_obj, @dossier]
   end
 
-  def remove_marked_attachments
+  def remove_attachments
     # FIXME: Needs refactoring, maybe use `purge_later`
     if params[:remove_attachment]
-      params[:remove_attachment].each do |attachment|
-        @dossier.files.find(attachment).purge
-      end
+      @dossier.files.find(params[:remove_attachment]).each(&:purge)
     end
+  end
+
+  def add_attachments
+    if params[:dossier][:files]
+      @dossier.files.attach(params[:dossier].delete(:files))
+    end
+  end
+
+  def handle_attachments
+    remove_attachments
+    add_attachments
   end
 end

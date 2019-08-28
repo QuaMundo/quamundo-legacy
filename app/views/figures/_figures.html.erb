@@ -35,8 +35,7 @@
                     <% if figure.image.attached? %>
                       <%=
                         tag.img(
-                          src: attached_img_path(
-                            figure.image, { resize: "64x64^" }),
+                          src: attached_img_path(figure.image, 64, 64),
                           class: 'mr-3 q-media-img'
                         ) %>
                     <% else %>

@@ -2,20 +2,20 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.0'
 # Use webpack
 gem 'webpacker'
 # Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
+gem 'pg'
 # Use PostGIS extension
 gem 'activerecord-postgis-adapter'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 # Use devise for authentication
 gem 'devise'
 gem 'devise-i18n'
@@ -25,7 +25,7 @@ gem 'devise-i18n'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-gem 'mini_magick', '~> 4.8'
+gem 'image_processing', '~> 1.2'
 
 # Use Redcarpet to rener Markdown
 gem 'redcarpet'
@@ -45,9 +45,9 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console'
   gem 'ffi'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
 end
 
 

@@ -15,7 +15,7 @@ RSpec.describe 'Showing a figure', type: :system do
     end
 
     it 'shows figures menu', :comprehensive do
-      page.first('nav.nav') do
+      page.first('.nav') do
         expect(page).to have_link(href: new_world_figure_path(world))
         expect(page).to have_link(href: world_figures_path(world))
         expect(page).to have_link(href: edit_world_figure_path(world, figure))
@@ -53,6 +53,7 @@ RSpec.describe 'Showing a figure', type: :system do
   context 'with image' do
     before(:example) do
       figure.image = fixture_file_upload(fixture_file_name('figure.jpg'))
+      figure.save
       visit world_figure_path(world, figure)
     end
 

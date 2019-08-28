@@ -19,8 +19,7 @@
             <%# Image - thumbnail %>
             <%= tag.a(href: polymorphic_path([entry.world, entry.inventory])) do %>
               <% if entry.inventory.image.attached? %>
-                <%= tag.img(src: attached_img_path(entry.inventory.image,
-                                                   { resize: "64x64^", }),
+                <%= tag.img(src: attached_img_path(entry.inventory.image, 64, 64),
                 class: 'mr-3 q-media-img') %>
             <% else %>
               <%= default_image(entry.inventory, 'mr-3 q-media-img-default') %>

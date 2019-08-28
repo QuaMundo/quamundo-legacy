@@ -24,7 +24,7 @@
               <%# Image - Thumbnail %>
               <%= tag.a(href: world_concept_path(concept.world, concept)) do %>
                 <% if concept.image.attached? %>
-                  <%= tag.img(src: attached_img_path(concept.image, { resize: "64x64^" }), class: 'mr-3 q-media-img') %>
+                  <%= tag.img(src: attached_img_path(concept.image, 64, 64), class: 'mr-3 q-media-img') %>
                 <% else %>
                   <%= default_image(concept, 'mr-3 q-media-img-default') %>
                 <% end %>
