@@ -3,12 +3,13 @@ RSpec.describe 'Select options for fact constituents',
 
   include_context 'Session'
 
-  let(:world)   { create(:world, user: user) }
-  let!(:item) { create(:item, world: world) }
-  let!(:fact) { create(:fact, world: world) }
-  let!(:location) { create(:location, world: world) }
-  let!(:figure) { create(:figure, world: world) }
-  let!(:other_fact) { create(:fact, world: world) }
+  let(:fact)        { create(:fact, user: user) }
+  let(:world)       { fact.world }
+  let(:other_fact)  { create(:fact, world: world) }
+  let(:item)        { create(:item, world: world) }
+  let!(:figure)     { create(:figure, world: world) }
+  let!(:concept)    { create(:concept, world: world) }
+  let!(:location)   { create(:location, world: world) }
 
   before(:example) { other_fact.fact_constituents.create(constituable: location) }
 
@@ -20,7 +21,7 @@ RSpec.describe 'Select options for fact constituents',
         expect(page).to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')
-        #expect(page).to have_selector('option[value^="Spirit"]')
+        expect(page).to have_selector('option[value^="Concept"]')
         expect(page).not_to have_selector('option[value^="Fact"]')
       end
     end
@@ -33,7 +34,7 @@ RSpec.describe 'Select options for fact constituents',
         expect(page).not_to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')
-        #expect(page).to have_selector('option[value^="Spirit"]')
+        expect(page).to have_selector('option[value^="Concept"]')
         expect(page).not_to have_selector('option[value^="Fact"]')
       end
     end
@@ -49,7 +50,7 @@ RSpec.describe 'Select options for fact constituents',
         expect(page).not_to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')
-        #expect(page).to have_selector('option[value^="Spirit"]')
+        expect(page).to have_selector('option[value^="Concept"]')
         expect(page).not_to have_selector('option[value^="Fact"]')
       end
     end

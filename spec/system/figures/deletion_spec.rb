@@ -1,10 +1,10 @@
 RSpec.describe 'Deleting a figure', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_figures, user: user) }
-  let(:other_world) { create(:world_with_figures) }
-  let(:figure) { world.figures.first }
-  let(:other_figure) { other_world.figures.first }
+  let(:figure)        { create(:figure, user: user) }
+  let(:world)         { figure.world }
+  let(:other_figure)  { create(:figure) }
+  let(:other_world)   { other_figure.world }
 
   context 'of an own world' do
     before(:example) { visit world_figure_path(world, figure) }

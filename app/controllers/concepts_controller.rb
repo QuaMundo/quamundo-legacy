@@ -65,7 +65,10 @@ class ConceptsController < ApplicationController
 
   private
   def set_concept
-    @concept = @world.concepts.find(params[:id])
+    @concept = @world.concepts
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find(params[:id])
   end
 
   def concept_params

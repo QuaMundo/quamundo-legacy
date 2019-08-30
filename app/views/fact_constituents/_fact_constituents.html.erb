@@ -36,7 +36,7 @@
                         tag.img(
                           src: attached_img_path(
                             fact_constituent.constituable.image, 64, 64),
-                          class: 'mr-3 q-media-img'
+                            class: 'mr-3 q-media-img'
                         ) %>
                     <% else %>
                       <%= default_image(
@@ -61,7 +61,7 @@
                                   method: :delete, data: {confirm: t('.confirm_delete',
                                                                      constituent: fact_constituent.constituable.name)},
                                                                     title: 'destroy') %>
-                  </div>
+                    </div>
                   </div>
 
                 <% end %>
@@ -77,7 +77,7 @@
             <%= link_to(
               icon(:new),
               new_world_fact_fact_constituent_path(@world, @fact)) %>
-        </div>
+          </div>
         </div>
 
       </div>

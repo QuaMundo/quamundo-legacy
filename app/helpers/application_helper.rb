@@ -1,7 +1,7 @@
 module ApplicationHelper
   # Element ID helper - creates ids for html elements
   def element_id(obj, prefix = nil)
-    [prefix, obj.model_name.param_key, obj.id].reject(&:nil?).join('-')
+    [prefix, obj.model_name.param_key, obj.id].compact.join('-')
   end
 
   # LonLat helper - gets coords as string from rgeo object (to prefill input)

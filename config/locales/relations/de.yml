@@ -1,0 +1,42 @@
+de:
+  relations:
+    show:
+      belongs_to_fact: 'Diese Relation basiert auf dem Fakt "%{fact}"'
+      unidirectional: 'Diese Beziehung ist unidirektional'
+      bidirectional: 'Diese Beziehung ist bidirektional'
+      subjects: 'Die Beziehung geht aus von'
+      relatives: 'Die Beziehung verbindet mit'
+      confirm_delete: 'Soll diese Verknüpfung tatsächlich gelöscht werden?'
+    new:
+      new_relation: 'Neue Beziehung'
+    create:
+      created: 'Relation "%{relation}" erfolgreich erstellt'
+      create_failed: 'Relation "%{relation}" konnte nicht erstellt werden'
+    edit:
+      edit_relation: 'Relation bearbeiten'
+    update:
+      updated: 'Relation "%{relation}" wurde erfolgreich aktualisiert'
+      update_failed: 'Relation "%{relation}" konnte nicht aktualisiert werden'
+    context_menu:
+      confirm_delete: 'Soll die Relation "%{relation}" wirklich geläscht werden?'
+    index:
+      subjects:
+        one: 'Subjekt'
+        other: 'Subjekte'
+      relatives:
+        one: 'verwandtes Objekt'
+        other: 'verwandte Objekte'
+      show: 'anzeigen'
+      confirm_delete: 'Soll die Relation "%{relation}" wirklich geläscht werden?'
+    destroy:
+      destroyed: 'Relation "%{relation}" wurde gelöscht'
+    relations:
+      confirm_delete: 'Soll die Relation "%{relation}" wirklich geläscht werden?'
+    relatives:
+      confirm_delete: 'Soll die Verknüpfung zu %{relative} wirklick entfernt werden?'
+  activerecord:
+    models:
+      relation:
+        one: 'Relation'
+        other: 'Relationen'
+

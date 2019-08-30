@@ -1,0 +1,80 @@
+<%= content_for :relations do %>
+  <div id="relations" class="card">
+
+    <div id="relations-header" class="card-header">
+      <button class="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target="#relations-collection"
+              aria-expanded="true"
+              aria-controls="relations-collection">
+        <%= icon(:relation) %>
+        &nbsp;
+        <%= obj.count %>
+        &nbsp;
+        <%= Relation.model_name.human(count: obj.count).capitalize %>
+      </button>
+    </div>
+
+    <div id="relations-collection"
+         class="collapse"
+         aria-labeled-by="relations-header"
+         data-parent="#attributes">
+      <div class="card-body">
+
+        <%# Actual index list goes here %>
+        <div class="row">
+          <div class="col">
+
+            <ul class="list-unstyled">
+              <% obj.each do |relation| %> 
+                <%= tag.li(class: 'media mb-4', id: element_id(relation)) do %>
+                  <%= tag.a(
+                    href: world_fact_relation_path(@world, @fact, relation)) do %>
+                    <%= default_image(:relation, 'mr-3 q-media-img-default') %>
+                  <% end %>
+
+                  <%# Body %>
+                  <div class="media-body">
+                    <h5 class="mb-1">
+                      <%= relation.name %>
+                    </h5>
+                    <div class="small">
+                      <%= relation.description %><br />
+                      <%= link_to(
+                        t('show'),
+                        world_fact_relation_path(@world, @fact, relation)) %>
+                      <%= link_to(
+                        t('edit'),
+                        edit_world_fact_relation_path(@world, @fact, relation)) %>
+                      <%= link_to(
+                        t('delete'),
+                        world_fact_relation_path(@world, @fact, relation),
+                        title: 'destroy',
+                        method: :delete,
+                        data: { confirm: t('.confirm_delete',
+                                           relation: relation.name) } ) %>
+                    </div>
+                  </div>
+
+                <% end %>
+              <% end %>
+            </ul>
+
+          </div> 
+        </div>
+        <%# Actual index list ends here %>
+
+        <div class="row">
+          <div class="col text-right">
+            <%= link_to(
+              icon(:new),
+              new_world_fact_relation_path(@world, @fact)) %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+<% end %>

@@ -66,7 +66,10 @@ class LocationsController < ApplicationController
 
   private
   def set_location
-    @location = @world.locations.find(params[:id])
+    @location = @world.locations
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find(params[:id])
   end
 
   def set_lonlat_param

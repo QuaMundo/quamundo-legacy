@@ -11,6 +11,7 @@ module IconHelper
       concept:          { icon: 'comment',              style: 'far' },
       fact:             { icon: 'exclamation-triangle', style: 'fas' },
       fact_constituent: { icon: 'random',               style: 'fas' },
+      relation:         { icon: 'link',                 style: 'fas' },
 
       # Attribut        es
       note:             { icon: 'sticky-note',          style: 'far' },

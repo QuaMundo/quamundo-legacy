@@ -1,4 +1,4 @@
-RSpec.describe 'Dashboard', type: :system, db_triggers: true do
+RSpec.describe 'Dashboard', type: :system do
   include_context 'Session'
 
   context 'for user without a world' do
@@ -17,7 +17,7 @@ RSpec.describe 'Dashboard', type: :system, db_triggers: true do
   end
 
   context 'for user with worlds' do
-    let(:user) { build(:user_with_worlds_wo_img, worlds_count: 15) }
+    let(:user) { build(:user_with_worlds_wo_img, worlds_count: 4) }
 
     it 'shows 4 last updated worlds' do
       visit root_path
@@ -32,6 +32,7 @@ RSpec.describe 'Dashboard', type: :system, db_triggers: true do
 
     it 'shows last 15 activities in descending order', :comprehensive do
       create_some_inventory(user)
+      refresh_materialized_views(Inventory)
       visit root_path
       expect(page).to have_selector('#last-activities ul li', count: 15)
       user.inventories.limit(15).each do |entry|

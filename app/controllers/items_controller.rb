@@ -65,7 +65,10 @@ class ItemsController < ApplicationController
 
   private
   def set_item
-    @item = @world.items.find(params[:id])
+    @item = @world.items
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find(params[:id])
   end
 
   def item_params

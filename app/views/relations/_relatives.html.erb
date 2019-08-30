@@ -1,0 +1,90 @@
+<%= content_for :relatives do %>
+  <div id="relatives" class="card">
+
+    <div id="relatives-header" class="card-header">
+      <button class="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target="#relatives-collection"
+              aria-expanded="true"
+              aria-controls="relatives-collection">
+        <%= icon(:relation) %>
+        &nbsp;
+        <%= obj.count %>
+        &nbsp;
+        <%= Relation.model_name.human(count: obj.count) %>
+      </button>
+    </div>
+
+    <div id="relatives-collection"
+         class="collapse"
+         aria-labeled-by="relatives-header"
+         data-parent="#attributes">
+      <div class="card-body">
+
+        <%# Actual index list goes here %>
+        <div class="row">
+          <div class="col">
+
+            <ul class="list-unstyled">
+              <%# FIXME: Is that `map...` OK? %>
+              <% obj.each do |relative| %> 
+                <%= tag.li(
+                  class: 'media mb-4', id: element_id(relative.relative)) do %>
+                  <%= tag.a(
+                    href: polymorphic_path([@world, relative.fact_constituent.constituable])) do %>
+                    <%= default_image(:relation, 'mr-3 q-media-img-default') %>
+                  <% end %>
+
+                  <%# Body %>
+                  <div class="media-body">
+                    <h5 class="mb-1">
+                      <span class="text-muted">
+                        <%= relative.subject.fact_constituent.constituable.name %>
+                      </span>:&nbsp;
+                      <%= relative.name %>&nbsp;
+                      <span class="text-muted">
+                        <%= relative.relative.fact_constituent.constituable.name %>
+                      </span>
+                    </h5>
+                    <div class="small">
+                      <%= relative.fact_constituent.constituable.description %><br />
+                      <%= link_to(
+                        t('show'),
+                        polymorphic_path([@world, relative.fact_constituent.constituable])) %>
+                      <%= link_to(
+                        t('edit'),
+                        edit_world_fact_relation_path(@world, relative.relation.fact, relative.relation)) %>
+                      <%# FIXME: Destroy link is missing %>
+                      <%= link_to(
+                        t('delete'),
+                        world_relation_constituent_path(@world, relative.relative),
+                        title: 'destroy',
+                        method: :delete,
+                        data: { confirm: t('.confirm_delete',
+                                           relative: relative.fact_constituent.constituable.name) } ) %>
+                    </div>
+                  </div>
+
+                <% end %>
+              <% end %>
+            </ul>
+
+          </div> 
+        </div>
+        <%# Actual index list ends here %>
+
+        <div class="row">
+          <div class="col text-right">
+            <%# FIXME: New link is missing %>
+            <%= link_to(
+              icon(:new),
+              '#') %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+<% end %>

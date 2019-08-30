@@ -2,10 +2,10 @@ RSpec.describe 'Updating/editing a figure', type: :system do
 
   include_context 'Session'
 
-  let(:world) { create(:world_with_figures, user: user) }
-  let(:other_world) { create(:world_with_figures) }
-  let(:figure) { world.figures.first }
-  let(:other_figure) { other_world.figures.first }
+  let(:figure)        { create(:figure, user: user) }
+  let(:world)         { figure.world }
+  let(:other_figure)  { create(:figure)  }
+  let(:other_world)   { other_figure.world }
 
   context 'of own world' do
     before(:example) { visit edit_world_figure_path(world, figure) }
@@ -34,7 +34,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
       page.attach_file('figure_image', fixture_file_name('figure.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_figure_path(world, figure))
-      expect(figure.image).to be_attached
+      expect(figure.reload.image).to be_attached
       expect(page).to have_selector('img.figure-image')
     end
 
@@ -43,8 +43,8 @@ RSpec.describe 'Updating/editing a figure', type: :system do
       click_button('submit')
       expect(page).to have_current_path(world_figure_path(world, figure))
       expect(figure.image).not_to be_attached
-      pending("First find out how errors and flash work")
-      expect(page).to have_selector('.alert', text: 'Only images may be')
+      # FIXME: Check for proper error msg
+      expect(page).to have_selector('.alert')
     end
 
     it_behaves_like 'valid_view' do

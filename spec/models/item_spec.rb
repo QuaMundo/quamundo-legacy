@@ -38,4 +38,8 @@ RSpec.describe Item, type: :model do
     let(:parent)  { create(:world) }
     let(:subject) { create(:item, world: parent) }
   end
+
+  it_behaves_like 'relatable' do
+    let(:subject) { build(:item, world: world) }
+  end
 end

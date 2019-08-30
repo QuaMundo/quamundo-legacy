@@ -1,9 +1,9 @@
 RSpec.describe 'Showing a location', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_locations, user: user) }
+  let(:location)    { create(:location, user: user) }
+  let(:world)       { location.world }
   let(:other_world) { create(:world_with_locations) }
-  let(:location) { world.locations.first }
 
   context 'of own world' do
     before(:example) { visit world_location_path(world, location) }
@@ -50,6 +50,10 @@ RSpec.describe 'Showing a location', type: :system do
     it_behaves_like 'associated facts' do
       let(:subject) { create(:location_with_facts, facts_count: 3, world: world) }
       let(:path)    { world_location_path(subject.world, subject) }
+    end
+
+    it_behaves_like 'associated relations' do
+      let(:subject) { create(:location, world: world) }
     end
   end
 

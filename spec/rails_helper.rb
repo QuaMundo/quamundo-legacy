@@ -33,11 +33,13 @@ require 'support/noteable'
 require 'support/tagable'
 require 'support/traitable'
 require 'support/dossierable'
+require 'support/relatable'
 require 'support/associated_note'
 require 'support/associated_tag'
 require 'support/associated_trait'
 require 'support/associated_dossier'
 require 'support/associated_facts'
+require 'support/associated_relations'
 require 'support/updates_parent'
 
 # Checks for pending migrations and applies them before tests are run.
@@ -81,7 +83,6 @@ RSpec.configure do |config|
   include QuamundoTestHelpers
   config.before(:suite) do
     cleanup_test_environment
-    Inventory.refresh
   end
 
   # Attention! Disable database triggers for time saving reasons
@@ -104,8 +105,8 @@ RSpec.configure do |config|
   config.before(:example, type: :system, js: true) do
     # FIXME: Usually I use chrome_headless, which is buggy for the moment
     # so temporarily use this one
-    driven_by(:selenium_headless)
-    # driven_by(:selenium_chrome_headless)
+    # driven_by(:selenium_headless)
+    driven_by(:selenium_chrome_headless)
   end
 end
 

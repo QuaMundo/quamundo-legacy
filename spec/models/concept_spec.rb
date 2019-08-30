@@ -38,4 +38,8 @@ RSpec.describe Concept, type: :model do
     let(:parent)  { create(:world) }
     let(:subject) { create(:concept, world: parent) }
   end
+
+  it_behaves_like 'relatable' do
+    let(:subject) { build(:concept, world: world) }
+  end
 end

@@ -20,6 +20,8 @@ import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 import '@fortawesome/fontawesome-free/svgs/solid/exclamation-triangle.svg'
 // fact constituent
 import '@fortawesome/fontawesome-free/svgs/solid/random.svg'
+// relation
+import '@fortawesome/fontawesome-free/svgs/solid/link.svg'
 // file
 import '@fortawesome/fontawesome-free/svgs/solid/folder.svg'
 // note

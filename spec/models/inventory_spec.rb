@@ -1,4 +1,4 @@
-RSpec.describe Inventory, type: :model, db_triggers: true do
+RSpec.describe Inventory, type: :model do
   include_context 'Session'
 
   it 'is a read-only model' do
@@ -19,6 +19,7 @@ RSpec.describe Inventory, type: :model, db_triggers: true do
     end
 
     it 'contains all types of inventories' do
+      refresh_materialized_views(Inventory)
       available_types = %w(Item Figure Location Fact Concept)
       types = Inventory.pluck(:inventory_type).uniq
       expect(types).to include(*available_types)
@@ -29,10 +30,8 @@ RSpec.describe Inventory, type: :model, db_triggers: true do
     end
 
     it 'lists only objects belonging to the worlds of current user' do
-      expect(
-        user.inventories.each.all? do |e|
-          user.worlds.include?(e.world)
-        end)
+      users_worlds = user.worlds
+      expect(user.inventories.all? { |i| users_worlds.include?(i.world) })
           .to be_truthy
     end
   end

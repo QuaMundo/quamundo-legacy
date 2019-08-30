@@ -31,8 +31,8 @@ RSpec.describe 'Updating/editing a world', type: :system do
     click_button('submit')
     expect(page).to have_current_path(world_path(world))
     expect(world.image.filename).not_to eq('file.pdf')
-    pending("First find out how errors and flash work")
-    expect(page).to have_selector('.alert', text: 'Only images may be')
+    # FIXME: Check for proper error msg
+    expect(page).to have_selector('.alert')
   end
 
   it_behaves_like 'valid_view' do

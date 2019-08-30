@@ -12,6 +12,8 @@ class Fact < ApplicationRecord
   has_many :concepts, through: :fact_constituents,
     source: :constituable, source_type: 'Concept'
 
+  has_many :relations, dependent: :destroy
+
   validate :end_after_start_date
 
   scope :chronological, -> {

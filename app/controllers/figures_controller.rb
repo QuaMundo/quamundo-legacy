@@ -64,7 +64,10 @@ class FiguresController < ApplicationController
 
   private
   def set_figure
-    @figure = @world.figures.find(params[:id])
+    @figure = @world.figures
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find(params[:id])
   end
 
   def figure_params

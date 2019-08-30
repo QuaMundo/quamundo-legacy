@@ -1,6 +1,6 @@
 RSpec.shared_examples 'associated tags', type: :system do
   # FIXME: Maybe a helper `inventory_path` would be usefull
-  let(:path) { [subject.try(:world), subject].reject(&:nil?) }
+  let(:path) { [subject.try(:world), subject].compact }
 
   before(:example) do
     subject.save

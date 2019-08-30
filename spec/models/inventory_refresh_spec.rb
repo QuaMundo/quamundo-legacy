@@ -1,9 +1,9 @@
-RSpec.describe Inventory, type: :model, db_triggers: true do
+RSpec.describe Inventory, type: :model do
   include_context 'Session'
 
   let(:world) { create(:world, user: user) }
 
-  it 'updates inventories on insert update and delete' do
+  it 'updates inventories on insert update and delete', db_triggers: true do
     count = 0
     [:location, :fact, :item, :concept, :figure].each do |obj|
       count += 1

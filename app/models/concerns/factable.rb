@@ -4,5 +4,6 @@ module Factable
   included do
     has_many :fact_constituents, as: :constituable, dependent: :destroy
     has_many :facts, through: :fact_constituents
+    has_many :relatives, through: :fact_constituents
   end
 end

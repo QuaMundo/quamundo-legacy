@@ -1,10 +1,10 @@
 RSpec.describe 'Deleting an item', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_items, user: user) }
-  let(:other_world) { create(:world_with_items) }
-  let(:item) { world.items.first }
-  let(:other_item) { other_world.items.first }
+  let(:item)        { create(:item, user: user) }
+  let(:world)       { item.world }
+  let(:other_item)  { create(:item) }
+  let(:other_world) { other_item.world }
 
   context 'of an own world' do
     before(:example) { visit world_item_path(world, item) }

@@ -48,4 +48,8 @@ RSpec.describe Location, type: :model do
     let(:parent)  { create(:world) }
     let(:subject) { create(:location, world: parent) }
   end
+
+  it_behaves_like 'relatable' do
+    let(:subject) { build(:location, world: world) }
+  end
 end

@@ -37,4 +37,8 @@ RSpec.describe Figure, type: :model do
     let(:parent)  { create(:world) }
     let(:subject) { create(:figure, world: parent) }
   end
+
+  it_behaves_like 'relatable' do
+    let(:subject) { build(:figure, world: world) }
+  end
 end

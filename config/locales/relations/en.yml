@@ -1,0 +1,41 @@
+en:
+  relations:
+    show:
+      belongs_to_fact: 'This relation is based on fact "%{fact}"'
+      unidirectional: 'This relation is unidirectional'
+      bidirectional: 'This relation is bidirectional'
+      subjects: 'Subjects'
+      relatives: 'Relatives'
+      confirm_delete: 'Should this relation to another object realy be deleted?'
+    new:
+      new_relation: 'New relation'
+    create:
+      created: 'Relation %{relation} successfully created'
+      create_failed: 'Failed to create relation %{relation}'
+    edit:
+      edit_relation: 'Edit relation'
+    update:
+      updated: 'Relation "%{relation}" successfully updated'
+      update_failed: 'Failed to update relation "%{relation}"'
+    context_menu:
+      confirm_delete: 'Should relation "%{relation}" really be deleted?'
+    index:
+      subjects:
+        one: 'Subject'
+        other: 'Subjects'
+      relatives:
+        one: 'Relative'
+        other: 'Relatives'
+      show: 'show'
+      confirm_delete: 'Should relation "%{relation}" really be deleted?'
+    destroy:
+      destroyed: 'Relation "%{relation}" successfully deleted'
+    relations:
+      confirm_delete: 'Should relation "%{relation}" really be deleted?'
+    relatives:
+      confirm_delete: 'Should relation to %{relative} really be deleted?'
+  activerecord:
+    models:
+      relation:
+        one: 'Relation'
+        other: 'Relations'

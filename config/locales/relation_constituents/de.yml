@@ -1,0 +1,19 @@
+de:
+  relation_constituents:
+    new:
+      new_relation_constituent: 'Neues Bezugsobjekt'
+      subject: 'Subjekt'
+      relative: 'verwandtes Objekt'
+    destroy:
+      destroyed: 'Die Verküpfung wurde gelöscht'
+    create:
+      created: 'Verknüpfung mit %{constituent} erstellt'
+      create_failed: 'Verknüpfung mit %{constituent} konnte nicht erstellt werden'
+    edit:
+      edit_relation_constituent: 'Rolle der Verknüpfung bearbeiten'
+      subject: 'Subjekt'
+      relative: 'verwandtes Objekt'
+    update:
+      updated: 'Verknüpfung aktualisiert'
+      update_failed: 'Verknüpfung konnte nicht aktualisiert werden'
+

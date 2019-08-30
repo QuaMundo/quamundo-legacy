@@ -14,7 +14,8 @@ RSpec.describe 'Creating a location', type: :system do
     end
 
     it 'has button to get current position via javascript', :js, :comprehensive do
-      page.execute_script('navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }')
+      page
+        .execute_script('navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }')
       page.find('#get_device_pos').click
       expect(page.find('#location_lonlat').value).to eq '12, 34'
     end

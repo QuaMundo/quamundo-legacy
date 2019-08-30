@@ -1,8 +1,12 @@
 FactoryBot.define do
   factory :concept do
+    transient do
+      user            { build(:user) }
+    end
+
     sequence(:name) { |n| "Concept #{n}" }
     description     { "Description of concept #{name}" }
-    world           { build(:world, user: build(:user)) }
+    world           { build(:world, user: user) }
 
     factory :concept_with_notes, traits: [:with_notes]
     factory :concept_with_tags, traits: [:with_tags]

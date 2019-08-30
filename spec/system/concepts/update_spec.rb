@@ -1,10 +1,10 @@
 RSpec.describe 'Updating/Editing an concept', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_concepts, user: user) }
-  let(:other_world) { create(:world_with_concepts) }
-  let(:concept) { world.concepts.first }
-  let(:other_concept) { other_world.concepts.first }
+  let(:concept)       { create(:concept, user: user) }
+  let(:world)         { concept.world }
+  let(:other_concept) { create(:concept) }
+  let(:other_world)   { other_concept.world }
 
   context 'of own world' do
     before(:example) { visit edit_world_concept_path(world, concept) }
@@ -30,6 +30,7 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
       page.attach_file('concept_image', fixture_file_name('concept.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_concept_path(world, concept))
+      concept.reload
       expect(concept.image).to be_attached
       expect(page).to have_selector('img.concept-image')
     end
@@ -39,8 +40,9 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
       click_button('submit')
       expect(page).to have_current_path(world_concept_path(world, concept))
       expect(concept.image).not_to be_attached
-      pending("Show view not yet implemented")
-      expect(page).to have_selector('.alert', text: 'Only images may be')
+      #pending("Show view not yet implemented")
+      # FIXME: Check for proper error msg
+      expect(page).to have_selector('.alert')
     end
 
     it_behaves_like 'valid_view' do

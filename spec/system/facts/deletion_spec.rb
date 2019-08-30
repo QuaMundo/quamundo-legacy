@@ -1,8 +1,8 @@
 RSpec.describe 'Deleting a fact', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_facts, user: user) }
-  let(:fact)  { world.facts.first }
+  let(:fact)  { create(:fact, user: user) }
+  let(:world) { fact.world }
 
   context 'of an own world' do
     before(:example)  { visit world_fact_path(world, fact) }

@@ -1,8 +1,12 @@
 FactoryBot.define do
   factory :fact do
+    transient do
+      user              { build(:user) }
+    end
+
     sequence(:name) { |n| "Fact No. #{n}" }
     description     { "Description of #{name}" }
-    world           { build(:world, user: build(:user)) }
+    world           { build(:world, user: user) }
 
     trait :with_constituents do
       transient do
@@ -10,28 +14,12 @@ FactoryBot.define do
       end
 
       after(:build) do |fact, evaluator|
-        [:item, :location, :figure].each do |inventory|
-          create_list(:fact_constituent,
-                      evaluator.fact_constituents_count,
-                      fact: fact,
-                      constituable: create(inventory, world: fact.world))
+        [:item, :location, :figure, :concept].each do |inventory|
+          evaluator.fact_constituents_count.times do
+            build(:fact_constituent,
+                  inventory_type: inventory, fact: fact)
+          end
         end
-      end
-    end
-
-    trait :with_start_date do
-      if end_time
-        start_time { random_date(0, end_time) }
-      else
-        start_time { random_date }
-      end
-    end
-
-    trait :with_end_date do
-      if start_time
-        end_time { random_date(start_time, start_time + 100.years) }
-      else
-        end_time { random_date }
       end
     end
 
@@ -43,10 +31,6 @@ FactoryBot.define do
     factory :fact_with_all,
       traits: [:with_notes, :with_tags, :with_traits,
                :with_dossiers, :with_constituents]
-  end
-
-  def random_date(s = 0, e = DateTime.current + 100.years)
-    Time.at(rand * (e - s).to_f + s.to_f)
   end
 end
 

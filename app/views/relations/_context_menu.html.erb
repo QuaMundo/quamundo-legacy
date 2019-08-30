@@ -1,0 +1,48 @@
+<ul class="nav justify-content-end context-menu mt-2">
+  <li class="nav-item">
+    <a class="nav-link dropdown"
+       data-toggle="dropdown"
+       href="#"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false">
+      <%= icon(:menu) %>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <%= link_to(
+        icon(:world) { @relation.fact.world.name },
+        world_path(@relation.fact.world),
+        class: 'dropdown-item',
+        title: t('activerecord.models.world.one')) %>
+      <div class="dropdown-divider"></div>
+      <%= link_to(
+        icon(:index) { t('index') },
+        world_fact_relations_path(@relation.fact.world, @relation.fact),
+        class: 'dropdown-item',
+        title: t(:index)) %>
+      <%= link_to(
+        icon(:edit) { t('edit') },
+        edit_world_fact_relation_path(
+          @relation.fact.world, @relation.fact, @relation
+        ),
+        class: 'dropdown-item',
+        title: t(:edit)) %>
+      <%= link_to(
+        icon(:new) { t('new') },
+        new_world_fact_relation_path(@relation.fact.world, @relation.fact),
+        class: 'dropdown-item',
+        title: t(:new)) %>
+      <%= link_to(
+        icon(:delete) { t('delete') },
+        world_fact_relation_path(
+          @relation.fact.world, @relation.fact, @relation
+        ),
+        method: :delete,
+        class: 'dropdown-item',
+        title: t(:delete),
+        data: { confirm: t('.confirm_delete', relation: @relation.name) }) %>
+    </div>
+  </li>
+</ul>
+
+

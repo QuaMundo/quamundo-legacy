@@ -1,9 +1,9 @@
 RSpec.describe 'Removing a constituent from a fact', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_facts, user: user) }
-  let(:fact)  { world.facts.first }
-  let(:const) { fact.fact_constituents.first }
+  let(:const) { create(:fact_constituent, user: user) }
+  let(:fact)  { const.fact }
+  let(:world) { fact.world }
 
   it 'removes linkage to fact', :js, :comprehensive do
     visit world_fact_path(world, fact)

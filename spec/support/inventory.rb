@@ -11,7 +11,6 @@ RSpec.shared_examples "inventory", type: :model do
   end
 
   it 'can only be created in context of a world' do
-    expect(subject.world).to eq(subject_world)
     subject.world = nil
     expect(subject).not_to be_valid
   end
@@ -20,5 +19,17 @@ RSpec.shared_examples "inventory", type: :model do
     subject.save
     expect(world.user.send(method)).to include(subject)
     expect(subject.user).to eq(world.user)
+  end
+
+  it 'refuses to change references to it\'s world' do
+    subject.save
+    old_world_id = subject.world_id
+    subject.world_id = create(:world, user: user).id
+    subject.save
+    subject.reload
+    expect(subject.world_id).to eq(old_world_id)
+    # DB exception not thrown since attribute is read-only in rails!
+    # expect { subject.save! }
+    #   .to raise_error ActiveRecord::StatementInvalid
   end
 end

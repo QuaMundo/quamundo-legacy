@@ -38,6 +38,113 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 
 
 --
+-- Name: relation_role; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.relation_role AS ENUM (
+    'subject',
+    'relative'
+);
+
+
+--
+-- Name: fact_constituents_common_world(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fact_constituents_common_world() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (SELECT ((i.world_id IS NULL)
+          OR (f.world_id IS NULL)
+          OR (f.world_id != i.world_id))
+        FROM fact_constituents fc
+        LEFT JOIN facts f ON f.id = fc.fact_id
+        LEFT JOIN inventories i ON fc.constituable_id = i.inventory_id
+                                AND fc.constituable_type = i.inventory_type
+        WHERE fc.id = NEW.id)
+    THEN
+        RAISE EXCEPTION 'World mismatch: constituent % % does not belong to same world as his fact',
+          NEW.constituable_type, NEW.constituable_id;
+    ELSE
+        RETURN NEW;
+    END IF;
+  END;
+$$;
+
+
+--
+-- Name: freeze_fact_constituent_constituable(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.freeze_fact_constituent_constituable() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (NEW.constituable_id != OLD.constituable_id
+        OR NEW.constituable_type != OLD.constituable_type)
+    THEN
+      RAISE EXCEPTION 'Referenced inventory of fact constituent cannot be changed';
+    END IF;
+    RETURN NEW;
+  END;
+$$;
+
+
+--
+-- Name: freeze_relation_constituent_references(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.freeze_relation_constituent_references() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (OLD.relation_id != NEW.relation_id
+        OR OLD.fact_constituent_id != NEW.fact_constituent_id)
+    THEN
+      RAISE EXCEPTION 'References of a relation constituents may not be changed';
+    ELSE
+      RETURN NEW;
+    END IF;
+  END;
+$$;
+
+
+--
+-- Name: freeze_relation_fact(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.freeze_relation_fact() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (NEW.fact_id != OLD.fact_id)
+    THEN
+      RAISE EXCEPTION 'Referenced fact cannot be changed!';
+    END IF;
+    RETURN NEW;
+  END;
+$$;
+
+
+--
+-- Name: freeze_world_ref(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.freeze_world_ref() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF NEW.world_id != OLD.world_id THEN
+      RAISE EXCEPTION 'Not allowed to change world reference of %',
+      TG_TABLE_NAME;
+    END IF;
+    RETURN NEW;
+  END;
+$$;
+
+
+--
 -- Name: refresh_inventories(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -47,6 +154,42 @@ CREATE FUNCTION public.refresh_inventories() RETURNS trigger
   BEGIN
     REFRESH MATERIALIZED VIEW inventories;
     RETURN NULL;
+  END;
+$$;
+
+
+--
+-- Name: refresh_subject_relative_relations(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.refresh_subject_relative_relations() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    REFRESH MATERIALIZED VIEW subject_relative_relations;
+    RETURN NULL;
+  END;
+$$;
+
+
+--
+-- Name: relation_constituent_common_fact(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.relation_constituent_common_fact() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (
+      (SELECT fact_id FROM relations WHERE id = NEW.relation_id)
+      !=
+      (SELECT fact_id FROM fact_constituents WHERE id = NEW.fact_constituent_id)
+    )
+    THEN
+      RAISE EXCEPTION 'Fact mismatch! All relation constituents must belong to the same fact';
+    ELSE
+      RETURN NEW;
+    END IF;
   END;
 $$;
 
@@ -130,8 +273,8 @@ ALTER SEQUENCE public.active_storage_blobs_id_seq OWNED BY public.active_storage
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -480,12 +623,102 @@ ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
 
 
 --
+-- Name: relation_constituents; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.relation_constituents (
+    id bigint NOT NULL,
+    fact_constituent_id bigint NOT NULL,
+    relation_id bigint NOT NULL,
+    role public.relation_role NOT NULL
+);
+
+
+--
+-- Name: relation_constituents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.relation_constituents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: relation_constituents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.relation_constituents_id_seq OWNED BY public.relation_constituents.id;
+
+
+--
+-- Name: relations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.relations (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    reverse_name character varying,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    fact_id bigint NOT NULL
+);
+
+
+--
+-- Name: relations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.relations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: relations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.relations_id_seq OWNED BY public.relations.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: subject_relative_relations; Type: MATERIALIZED VIEW; Schema: public; Owner: -
+--
+
+CREATE MATERIALIZED VIEW public.subject_relative_relations AS
+ SELECT sc.relation_id,
+    sc.id AS subject_id,
+    r.name,
+    rc.id AS relative_id
+   FROM ((public.relation_constituents sc
+     JOIN public.relation_constituents rc ON (((sc.relation_id = rc.relation_id) AND (sc.role <> rc.role))))
+     JOIN public.relations r ON ((r.id = sc.relation_id)))
+  WHERE (sc.role = 'subject'::public.relation_role)
+UNION
+ SELECT sc.relation_id,
+    sc.id AS subject_id,
+    r.reverse_name AS name,
+    rc.id AS relative_id
+   FROM ((public.relation_constituents sc
+     JOIN public.relation_constituents rc ON (((sc.relation_id = rc.relation_id) AND (sc.role <> rc.role))))
+     JOIN public.relations r ON ((r.id = sc.relation_id)))
+  WHERE ((sc.role = 'relative'::public.relation_role) AND (r.reverse_name IS NOT NULL))
+  WITH NO DATA;
 
 
 --
@@ -676,6 +909,20 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 
 
 --
+-- Name: relation_constituents id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relation_constituents ALTER COLUMN id SET DEFAULT nextval('public.relation_constituents_id_seq'::regclass);
+
+
+--
+-- Name: relations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations ALTER COLUMN id SET DEFAULT nextval('public.relations_id_seq'::regclass);
+
+
+--
 -- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -792,6 +1039,22 @@ ALTER TABLE ONLY public.notes
 
 
 --
+-- Name: relation_constituents relation_constituents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relation_constituents
+    ADD CONSTRAINT relation_constituents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: relations relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT relations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -881,6 +1144,13 @@ CREATE UNIQUE INDEX index_fact_const_on_const_type_and_const_id_and_fact_id ON p
 
 
 --
+-- Name: index_fact_constituent_relation_role_unique_on_rel_constituents; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_fact_constituent_relation_role_unique_on_rel_constituents ON public.relation_constituents USING btree (fact_constituent_id, relation_id, role);
+
+
+--
 -- Name: index_fact_constituents_on_fact_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -948,6 +1218,55 @@ CREATE INDEX index_locations_on_world_id ON public.locations USING btree (world_
 --
 
 CREATE INDEX index_notes_on_noteable_type_and_noteable_id ON public.notes USING btree (noteable_type, noteable_id);
+
+
+--
+-- Name: index_rel_const_on_fact_const_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rel_const_on_fact_const_and_role ON public.relation_constituents USING btree (fact_constituent_id, role);
+
+
+--
+-- Name: index_rel_const_on_relation_and_role; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rel_const_on_relation_and_role ON public.relation_constituents USING btree (relation_id, role);
+
+
+--
+-- Name: index_relation_constituents_on_fact_constituent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_relation_constituents_on_fact_constituent_id ON public.relation_constituents USING btree (fact_constituent_id);
+
+
+--
+-- Name: index_relation_constituents_on_relation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_relation_constituents_on_relation_id ON public.relation_constituents USING btree (relation_id);
+
+
+--
+-- Name: index_relation_relative_on_sub_rel_relations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_relation_relative_on_sub_rel_relations ON public.subject_relative_relations USING btree (relation_id, relative_id);
+
+
+--
+-- Name: index_relation_subject_on_sub_rel_relations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_relation_subject_on_sub_rel_relations ON public.subject_relative_relations USING btree (relation_id, subject_id);
+
+
+--
+-- Name: index_relations_on_fact_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_relations_on_fact_id ON public.relations USING btree (fact_id);
 
 
 --
@@ -1021,10 +1340,73 @@ CREATE INDEX index_worlds_on_user_id ON public.worlds USING btree (user_id);
 
 
 --
+-- Name: concepts concept_world_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER concept_world_change BEFORE UPDATE OF world_id ON public.concepts FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+
+
+--
+-- Name: fact_constituents fact_constituent_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER fact_constituent_change BEFORE UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE PROCEDURE public.freeze_fact_constituent_constituable();
+
+
+--
+-- Name: facts fact_world_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER fact_world_change BEFORE UPDATE OF world_id ON public.facts FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+
+
+--
+-- Name: figures figure_world_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER figure_world_change BEFORE UPDATE OF world_id ON public.figures FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+
+
+--
+-- Name: fact_constituents foreign_fact_constituent; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER foreign_fact_constituent AFTER INSERT OR UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE PROCEDURE public.fact_constituents_common_world();
+
+
+--
+-- Name: relation_constituents foreign_relation_constituent; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER foreign_relation_constituent BEFORE INSERT ON public.relation_constituents FOR EACH ROW EXECUTE PROCEDURE public.relation_constituent_common_fact();
+
+
+--
+-- Name: items item_world_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER item_world_change BEFORE UPDATE OF world_id ON public.items FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+
+
+--
+-- Name: locations location_world_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER location_world_change BEFORE UPDATE OF world_id ON public.locations FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+
+
+--
 -- Name: concepts refresh_concept_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE TRIGGER refresh_concept_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.concepts FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: relation_constituents refresh_constituent_on_subject_relative_relations; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_constituent_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relation_constituents FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_subject_relative_relations();
 
 
 --
@@ -1053,6 +1435,27 @@ CREATE TRIGGER refresh_item_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUN
 --
 
 CREATE TRIGGER refresh_location_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.locations FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+
+
+--
+-- Name: relations refresh_relation_on_subject_relative_relations; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER refresh_relation_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relations FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_subject_relative_relations();
+
+
+--
+-- Name: relation_constituents relation_constituent_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER relation_constituent_change BEFORE UPDATE OF fact_constituent_id, relation_id ON public.relation_constituents FOR EACH ROW EXECUTE PROCEDURE public.freeze_relation_constituent_references();
+
+
+--
+-- Name: relations relation_fact_change; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER relation_fact_change BEFORE UPDATE OF fact_id ON public.relations FOR EACH ROW EXECUTE PROCEDURE public.freeze_relation_fact();
 
 
 --
@@ -1164,6 +1567,18 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190825145758'),
 ('20190825151321'),
 ('20190828145207'),
-('20190830105858');
+('20190830105858'),
+('20190923090443'),
+('20190923124805'),
+('20190923131312'),
+('20190924112933'),
+('20190924114909'),
+('20190925152408'),
+('20190927113355'),
+('20190927150245'),
+('20190927153349'),
+('20190930151242'),
+('20191001121919'),
+('20191005215006');
 
 

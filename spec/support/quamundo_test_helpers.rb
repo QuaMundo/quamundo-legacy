@@ -9,6 +9,7 @@ module QuamundoTestHelpers
   def cleanup_test_environment
     remove_uploads
     reset_db_sequences
+    refresh_materialized_views
   end
 
   def remove_uploads
@@ -40,6 +41,20 @@ module QuamundoTestHelpers
     sizes = %w(10x10 20x20 30x30)
     [active_storage_path(world.image.key)]
       .concat(sizes.map { |s| active_storage_path(get_variant(world, s)) })
+  end
+
+  def refresh_materialized_views(model = nil)
+    if model.nil?
+      Inventory.refresh
+      SubjectRelativeRelation.refresh
+    else
+      model.refresh
+    end
+  end
+
+  # get random inventory type
+  def random_inventory_type
+    [:concept, :figure, :item, :location][rand(4)]
   end
 
   # create some inventory to fill up worlds

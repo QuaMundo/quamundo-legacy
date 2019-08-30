@@ -1,8 +1,12 @@
 FactoryBot.define do
   factory :location do
+    transient do
+      user            { build(:user) }
+    end
+
     sequence(:name) { |n| "Location #{n}" }
     description     { "Description of location #{name}" }
-    world           { build(:world, user: build(:user)) }
+    world           { build(:world, user: user) }
     lonlat          { "POINT(#{rand * 360.0 - 180.0} #{rand * 360.0 - 180.0})" }
 
     factory :location_with_notes, traits: [:with_notes]

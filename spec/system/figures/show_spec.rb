@@ -1,8 +1,8 @@
 RSpec.describe 'Showing a figure', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_figures, user: user) }
-  let(:figure) { world.figures.first }
+  let(:figure)  { create(:figure, user: user) }
+  let(:world)   { figure.world }
 
   context 'of an own world' do
     before(:example) { visit world_figure_path(world, figure) }
@@ -47,6 +47,10 @@ RSpec.describe 'Showing a figure', type: :system do
     it_behaves_like 'associated facts' do
       let(:subject) { create(:figure_with_facts, facts_count: 3, world: world) }
       let(:path)    { world_figure_path(subject.world, subject) }
+    end
+
+    it_behaves_like 'associated relations' do
+      let(:subject) { create(:figure, world: world) }
     end
   end
 

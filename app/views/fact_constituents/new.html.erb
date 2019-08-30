@@ -7,7 +7,9 @@
 
   <div class="form-group">
     <%= f.label :inventory %> 
-    <%= f.select(:inventory, @selectable_constituents.collect { |i| ["#{i.inventory_type}: #{i.name}", [i.inventory_type, i.inventory_id].join('.')] }, { include_blank: true, multiple: true }) %>
+    <%= f.select(:inventory,
+                 FactConstituentHelper.select_options(@fact_constituent),
+                 { include_blank: true, multiple: true }) %>
   </div>
 
   <%= f.submit t('submit'), class: 'btn btn-primary btn-lg' %>

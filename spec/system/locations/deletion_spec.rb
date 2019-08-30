@@ -1,10 +1,10 @@
 RSpec.describe 'Deleting a location', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_locations, user: user) }
-  let(:other_world) { create(:world_with_locations) }
-  let(:location) { world.locations.first }
-  let(:other_location) { other_world.locations.first }
+  let(:location)        { create(:location, user: user) }
+  let(:world)           { location.world }
+  let(:other_location)  { create(:location) }
+  let(:other_world)     { other_location.world }
 
   context 'of own world' do
     before(:example) { visit world_location_path(world, location) }

@@ -53,6 +53,8 @@
   </div>
 <% end %>
 <%# Attributes go here %>
+<%# FIXME: Try @figure.relatives.map(&:constituable) - What about eager loading %>
+<%= render partial: 'relations/relatives', locals: { obj: @figure.relatives } %>
 <%= render partial: 'facts/facts', locals: { obj: @figure.facts.chronological } %>
 <%= render partial: 'shared/attributes', locals: { obj: @figure } %>
 

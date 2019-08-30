@@ -1,11 +1,8 @@
 RSpec.describe 'CRUD actions on traits', type: :system do
   include_context 'Session'
 
-  # FIXME: Refactor - item creation redundant
   context 'edit traits' do
-    let(:trait) { create(:world).trait }
-
-    it 'can add a trait', :js do
+    it 'can add a trait', :js, :comprehensive do
       item = create(:item_with_traits, world: build(:world, user: user))
       item.save
       visit edit_trait_path(item.trait)
@@ -25,7 +22,7 @@ RSpec.describe 'CRUD actions on traits', type: :system do
       expect(page).to have_selector('td', text: 'another_new_value')
     end
 
-    it 'can remove traits', :js do
+    it 'can remove traits', :js, :comprehensive do
       item = create(:item, world: build(:world, user: user))
       item.trait.attributeset = { a_key: 'a_value' }
       item.trait.save
@@ -46,7 +43,7 @@ RSpec.describe 'CRUD actions on traits', type: :system do
 
 
     it_behaves_like('valid_view') do
-      let(:path) { edit_trait_path(trait) }
+      let(:path) { edit_trait_path(create(:world).trait) }
     end
   end
 end

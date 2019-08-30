@@ -1,7 +1,5 @@
 class WorldsController < ApplicationController
   before_action :set_world, only: [:show, :edit, :update, :destroy]
-  # OPTIMIZE: For perms use a lib like `pundit`!?
-  before_action :require_ownership, only: [:show, :update, :edit, :destroy]
 
   def index
     @worlds = current_user.worlds.order(name: :asc)
@@ -72,9 +70,14 @@ class WorldsController < ApplicationController
     end
   end
 
-  # FIXME: Possubly duplicated by WorldInventoryController
+  # FIXME: Possibly duplicated by WorldInventoryController
   def set_world
-    @world = World.find_by(slug: params[:slug])
+    @world = World
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find_by(slug: params[:slug])
+    # FIXME: For perms use a lib like `pundit`!?
+    require_ownership
   end
 
   # FIXME: This should once be replaced by pundit

@@ -1,12 +1,14 @@
 RSpec.describe 'Showing an concept', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_concepts, user: user) }
+  let(:concept) { create(:concept, user: user) }
+  let(:world)   { concept.world}
   let(:other_world) { create(:world_with_concepts) }
-  let(:concept) { world.concepts.first }
 
   context 'of an own world' do
-    before(:example) { visit world_concept_path(world, concept) }
+    before(:example) do
+      visit world_concept_path(world, concept)
+    end
 
     it 'shows concept details' do
       expect(page).to have_content(concept.name)
@@ -48,6 +50,10 @@ RSpec.describe 'Showing an concept', type: :system do
     it_behaves_like 'associated facts' do
       let(:subject) { create(:concept_with_facts, facts_count: 3, world: world) }
       let(:path)    { world_concept_path(subject.world, subject) }
+    end
+
+    it_behaves_like 'associated relations' do
+      let(:subject) { create(:concept, world: world) }
     end
   end
 

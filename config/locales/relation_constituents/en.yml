@@ -1,0 +1,19 @@
+en:
+  relation_constituents:
+    new:
+      new_relation_constituent: 'New relation constituent'
+      subject: 'Subject'
+      relative: 'Relative'
+    destroy:
+      destroyed: 'Relation was removed'
+    create:
+      created: 'Constituent %{constituent} successfully created'
+      create_failed: 'Failed to create constituent %{constituent}'
+    edit:
+      edit_relation_constituent: 'Edit relation constituent'
+      subject: 'Subject'
+      relative: 'Relative'
+    update:
+      updated: 'Relation successfully updated'
+      update_failed: 'Failed to update relation'
+

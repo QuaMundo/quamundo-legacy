@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe World, type: :model do
   it 'must not exist without an associated user' do
     world = build(:world, user: nil)

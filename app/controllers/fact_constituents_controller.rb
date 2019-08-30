@@ -5,7 +5,6 @@ class FactConstituentsController < ApplicationController
   before_action :set_fact
 
   def new
-    set_select_options
     @fact_constituent = @fact.fact_constituents.new
   end
 
@@ -26,8 +25,6 @@ class FactConstituentsController < ApplicationController
         format.html do
           # FIXME: This is untested!
           flash[:alert] = t('.create_failed', fact: @fact)
-          # FIXME: DRYup
-          set_select_options
           render :new
         end
       end
@@ -78,36 +75,6 @@ class FactConstituentsController < ApplicationController
     @fact = @world.facts.find(params[:fact_id])
   end
 
-  # FIXME: Find right place for this (helper?)
-  def set_select_options
-    sql = <<~EOQ
-    select
-      i.inventory_type,
-      i.inventory_id,
-      i.name
-    from
-      inventories i
-    left outer join
-      fact_constituents c
-    on
-      i.inventory_id = c.constituable_id
-      and i.inventory_type = c.constituable_type
-    where
-      i.world_id = ?                                       -- insert param here
-    group by
-      i.inventory_type,
-      i.inventory_id,
-      i.name
-    having
-      i.inventory_type in ('Figure', 'Item', 'Location', 'Concept')
-      and not array_agg(c.fact_id) @> array[?]::bigint[]   -- insert param here
-    order by i.inventory_type asc
-    EOQ
-
-    @selectable_constituents = Inventory
-      .find_by_sql([sql, @fact.world_id, @fact.id])
-  end
-
   def fact_constituent_params
     dispatch_roles
     params
@@ -116,6 +83,7 @@ class FactConstituentsController < ApplicationController
   end
 
   def strip_inventory_param
+    # FIXME: This is not clean - check if better a helper
     c_type, c_id = params[:fact_constituent].delete(:inventory).split('.')
     params[:fact_constituent][:constituable_id] = c_id
     params[:fact_constituent][:constituable_type] = c_type

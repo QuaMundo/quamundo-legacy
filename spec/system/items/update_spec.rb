@@ -1,10 +1,10 @@
 RSpec.describe 'Updating/Editing an item', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_items, user: user) }
-  let(:other_world) { create(:world_with_items) }
-  let(:item) { world.items.first }
-  let(:other_item) { other_world.items.first }
+  let(:item)          { create(:item, user: user) }
+  let(:world)         { item.world }
+  let(:other_item)    { create(:item) }
+  let(:other_world)   { other_item.world }
 
   context 'of own world' do
     before(:example) { visit edit_world_item_path(world, item) }
@@ -30,7 +30,7 @@ RSpec.describe 'Updating/Editing an item', type: :system do
       page.attach_file('item_image', fixture_file_name('item.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_item_path(world, item))
-      expect(item.image).to be_attached
+      expect(item.reload.image).to be_attached
       expect(page).to have_selector('img.item-image')
     end
 
@@ -39,8 +39,8 @@ RSpec.describe 'Updating/Editing an item', type: :system do
       click_button('submit')
       expect(page).to have_current_path(world_item_path(world, item))
       expect(item.image).not_to be_attached
-      pending("Show view not yet implemented")
-      expect(page).to have_selector('.alert', text: 'Only images may be')
+      # FIXME: Check for proper error msg
+      expect(page).to have_selector('.alert')
     end
 
     it_behaves_like 'valid_view' do

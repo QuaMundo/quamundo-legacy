@@ -1,9 +1,9 @@
 RSpec.describe 'Showing an item', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_items, user: user) }
-  let(:other_world) { create(:world_with_items) }
-  let(:item) { world.items.first }
+  let(:item)          { create(:item, user: user) }
+  let(:world)         { item.world }
+  let(:other_world)   { create(:world_with_items) }
 
   context 'of an own world' do
     before(:example) { visit world_item_path(world, item) }
@@ -48,6 +48,10 @@ RSpec.describe 'Showing an item', type: :system do
     it_behaves_like 'associated facts' do
       let(:subject) { create(:item_with_facts, facts_count: 3, world: world) }
       let(:path)    { world_item_path(subject.world, subject) }
+    end
+
+    it_behaves_like 'associated relations' do
+      let(:subject) { create(:item, world: world) }
     end
   end
 

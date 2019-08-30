@@ -1,9 +1,9 @@
 RSpec.describe 'Adding a constituent to a fact', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_facts, user: user) }
-  let(:fact)  { create(:fact, world: world) }
-  let!(:item) { create(:item, world: world) }
+  let(:fact)  { create(:fact, user: user) }
+  let(:world) { fact.world }
+  let!(:item)  { create(:item, world: world) }
 
   it 'adds constituent to a fact', db_triggers: true do
     visit new_world_fact_fact_constituent_path(world, fact)

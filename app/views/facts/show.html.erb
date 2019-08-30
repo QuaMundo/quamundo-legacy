@@ -23,13 +23,16 @@
           <p><%= @fact.description %></p>
         <% end %>
         <% if @fact.start_date %>
-          <p><%= t('.starts_at', start: l(@fact.start_date, format: :long)) %></p>
+          <p><%= t('.starts_at',
+                   start: l(@fact.start_date, format: :long)) %></p>
         <% end %>
         <% if @fact.end_date %>
           <p><%= t('.ends_at', end: l(@fact.end_date, format: :long)) %></p>
         <% end %>
         <% if @fact.start_date.present? and @fact.end_date.present? %>
-          <p><%= t('.duration', duration: distance_of_time_in_words( @fact.end_date - @fact.start_date)) %></p>
+          <p><%= t('.duration',
+                   duration: distance_of_time_in_words(
+                     @fact.end_date - @fact.start_date)) %></p>
         <% end %>
         <p>
         <%= t('.world', name: @fact.name) %>
@@ -64,5 +67,8 @@
 <%= render(
   partial: 'fact_constituents/fact_constituents',
   locals: { obj: @fact.fact_constituents.order(constituable_type: :asc) }) %>
+<%= render(
+  partial: 'relations/relations',
+  locals: { obj: @fact.relations }) %>
 <%= render partial: 'shared/attributes', locals: { obj: @fact } %>
 

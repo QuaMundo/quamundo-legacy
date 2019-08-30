@@ -1,9 +1,9 @@
 RSpec.describe 'Updating/Editing a fact constituent', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_facts, user: user) }
-  let(:fact)  { world.facts.first }
-  let(:const) { fact.fact_constituents.first }
+  let(:const) { create(:fact_constituent, user: user) }
+  let(:fact)  { const.fact }
+  let(:world) { fact.world }
 
   it 'updates a constituent' do
     visit edit_world_fact_fact_constituent_path(world, fact, const)

@@ -22,7 +22,9 @@ gem 'devise-i18n'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# FIXME: After upgrade of Debian servers remove this entry!
+# bcrypt 3.1.13 (the actual) doesn't run on raspi/Debian Stretch
+  gem 'bcrypt', '<= 3.1.12'
 
 # Use ActiveStorage variant
 gem 'image_processing', '~> 1.2'

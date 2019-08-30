@@ -2,10 +2,10 @@ RSpec.describe 'Updating/Editing a location', type: :system do
 
   include_context 'Session'
 
-  let(:world) { create(:world_with_locations, user: user) }
-  let(:other_world) { create(:world_with_locations) }
-  let(:location) { world.locations.first }
-  let(:other_location) { other_world.locations.first }
+  let(:location)        { create(:location, user: user) }
+  let(:world)           { location.world }
+  let(:other_location)  { create(:location) }
+  let(:other_world)     { other_location.world }
 
   context 'of own world' do
     before(:example) { visit edit_world_location_path(world, location) }
@@ -54,7 +54,7 @@ RSpec.describe 'Updating/Editing a location', type: :system do
       page.attach_file('location_image', fixture_file_name('location.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_location_path(world, location))
-      expect(location.image).to be_attached
+      expect(location.reload.image).to be_attached
       expect(page).to have_selector('img.location-image')
     end
 
@@ -63,8 +63,8 @@ RSpec.describe 'Updating/Editing a location', type: :system do
       click_button('submit')
       expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).not_to be_attached
-      pending("Show view not yet implemented")
-      expect(page).to have_selector('.alert', text: 'Only images may be')
+      # FIXME: Check for proper error msg
+      expect(page).to have_selector('.alert')
     end
 
     it_behaves_like 'valid_view' do

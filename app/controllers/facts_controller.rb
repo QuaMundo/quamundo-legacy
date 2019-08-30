@@ -68,7 +68,10 @@ class FactsController < ApplicationController
 
   private
   def set_fact
-    @fact = @world.facts.find(params[:id])
+    @fact = @world.facts
+      .with_attached_image
+      .includes(:tag, :trait, :notes, :dossiers)
+      .find(params[:id])
   end
 
   def fact_params

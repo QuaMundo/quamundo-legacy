@@ -1,8 +1,8 @@
 RSpec.describe 'Showing a fact', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_facts, user: user) }
-  let(:fact)  { world.facts.first }
+  let(:fact)  { create(:fact, user: user) }
+  let(:world) { fact.world }
 
   context 'of an own world' do
     before(:example) { visit world_fact_path(world, fact) }
@@ -30,17 +30,40 @@ RSpec.describe 'Showing a fact', type: :system do
       end
     end
 
-  context 'with image' do
-    before(:example) do
-      fact.image = fixture_file_upload(fixture_file_name('fact.jpg'))
-      fact.save
-      visit(world_fact_path(world, fact))
+    context 'with relations' do
+      let!(:relation_1)  { create(:relation, fact: fact, name: 'rel 1') }
+      let!(:relation_2)  { create(:relation, fact: fact, name: 'rel 2') }
+
+      it 'shows a list of relations' do
+        # FIXME: Visit twice!?
+        visit(world_fact_path(world, fact))
+        expect(page).to have_selector('#relations')
+        [relation_1, relation_2].each do |relation|
+          expect(page).to have_content(relation.name)
+          expect(page).to have_content(relation.description)
+          expect(page)
+            .to have_link(href: world_fact_relation_path(world, fact, relation))
+          expect(page)
+            .to have_link(href: world_fact_relation_path(world, fact, relation),
+                          title: 'destroy')
+          expect(page)
+            .to have_link(href: edit_world_fact_relation_path(
+              world, fact, relation))
+        end
+      end
     end
 
-    it 'has an img tag' do
-      expect(page).to have_selector('img.fact-image')
+    context 'with image' do
+      before(:example) do
+        fact.image = fixture_file_upload(fixture_file_name('fact.jpg'))
+        fact.save
+        visit(world_fact_path(world, fact))
+      end
+
+      it 'has an img tag' do
+        expect(page).to have_selector('img.fact-image')
+      end
     end
-  end
 
     it_behaves_like 'valid_view' do
       let(:subject) { world_fact_path(world, fact) }
@@ -68,7 +91,7 @@ RSpec.describe 'Showing a fact', type: :system do
     let(:other_fact)  { other_world.facts.first }
 
     before(:example) { visit world_fact_path(other_world, other_fact) }
- 
+
     it 'redirects to world index' do
       expect(page).to have_current_path(worlds_path)
     end

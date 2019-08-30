@@ -23,6 +23,8 @@ en:
   start_time: 'Starts at'
   end_time: 'Ends at'
   duration: 'Duration'
+  constituent_common_world: 'All constituents of a fact must belong to the same world.'
+  relation_common_fact: 'All constituents of a relation must belong to the same fact.'
 
   shared:
     traits:

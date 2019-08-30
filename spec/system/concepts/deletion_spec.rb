@@ -1,10 +1,10 @@
 RSpec.describe 'Deleting a concept', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_concepts, user: user) }
-  let(:other_world) { create(:world_with_concepts) }
-  let(:concept) { world.concepts.first }
-  let(:other_concept) { other_world.concepts.first }
+  let(:concept)       { create(:concept, user: user) }
+  let(:world)         { concept.world }
+  let(:other_concept) { create(:concept) }
+  let(:other_world)   { other_concept.world }
 
   context 'of an own world' do
     before(:example) { visit world_concept_path(world, concept) }

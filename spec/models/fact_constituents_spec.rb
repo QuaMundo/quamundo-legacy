@@ -6,7 +6,7 @@ RSpec.describe FactConstituent, type: :model do
   let(:item)      { build(:item, world: world) }
   let(:figure)    { build(:figure, world: world) }
   let(:location)  { build(:location, world: world) }
-  # let(:spirits)   { 2.times { build(:spirit, world: world) } }
+  let(:concept)   { build(:concept, world: world) }
 
   let!(:item_fc)   {
     create(:fact_constituent,
@@ -27,20 +27,31 @@ RSpec.describe FactConstituent, type: :model do
            roles: ['n.n.', 'superduper'])
   }
 
+  let!(:concept_fc) {
+    create(:fact_constituent,
+           fact: fact,
+           constituable: concept,
+           roles: ['n.n.', 'superduper'])
+  }
+
   it 'can be build with item, figure and location' do
-    expect(fact.fact_constituents.count).to eq(3)
+    expect(fact.fact_constituents.count).to eq(4)
     expect(fact.fact_constituents.map(&:constituable))
-      .to contain_exactly(item, figure, location)
+      .to contain_exactly(item, figure, location, concept)
     expect(fact.items).to include(item)
     expect(fact.figures).to include(figure)
     expect(fact.locations).to include(location)
+    expect(fact.concepts).to include(concept)
     expect(item.facts).to include(fact)
     expect(figure.facts).to include(fact)
     expect(location.facts).to include(fact)
+    expect(concept.facts).to include(fact)
   end
 
   it 'has an empty list of roles if no roles are given' do
-    fc = create(:fact_constituent, fact: fact, constituable: build(:item))
+    fc = create(:fact_constituent,
+                fact: fact,
+                constituable: build(:item, world: fact.world))
     expect(fc.roles).to be_empty
   end
 
@@ -51,7 +62,7 @@ RSpec.describe FactConstituent, type: :model do
   end
 
   it 'is destroyed when inventory is destroyed' do
-    [item, figure, location].each(&:destroy)
+    [item, figure, location, concept].each(&:destroy)
     expect(fact.fact_constituents.count).to eq(0)
   end
 
@@ -75,13 +86,24 @@ RSpec.describe FactConstituent, type: :model do
       .to raise_error ActiveRecord::NotNullViolation
   end
 
+  it 'refuses creating of constituable that does not belong to facts world',
+    db_triggers: true do
+
+    other_world = create(:world, user: user)
+    item = create(:item, world: other_world)
+    fc = fact.fact_constituents.build(constituable: item)
+    expect(fc).not_to be_valid
+    expect { fc.save!(validate: false) }
+      .to raise_error ActiveRecord::StatementInvalid
+  end
+
   it 'touches timestamp of its fact when added' do
     t = fact.updated_at
     travel(10.days) do
       fact.fact_constituents << create(
         :fact_constituent,
         fact: fact,
-        constituable: build(:item))
+        constituable: build(:item, world: fact.world))
       expect(fact.updated_at).to be > t
     end
   end
@@ -94,7 +116,10 @@ RSpec.describe FactConstituent, type: :model do
     end
   end
 
-  it 'refuses to change constituable'
+  it 'refuses to change constituable' do
+    concept_fc.constituable = item
+    expect(concept_fc).not_to be_valid
+  end
 
   it 'removes roles when updating with empty array' do
     item_fc.roles = nil

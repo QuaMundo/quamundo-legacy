@@ -118,6 +118,16 @@
         <%= yield :concepts %>
       <% end %>
 
+      <%# Relatives %>
+      <% if content_for? :relatives %>
+        <%= yield :relatives %>
+      <% end %>
+
+      <%# Relations %>
+      <% if content_for? :relations %>
+        <%= yield :relations %>
+      <% end %>
+
       <%# Facts %>
       <% if content_for?(:facts) %>
         <%= yield :facts %>
