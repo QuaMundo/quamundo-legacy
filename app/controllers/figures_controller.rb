@@ -1,5 +1,6 @@
 class FiguresController < ApplicationController
   include WorldAssociationController
+  include ProcessParams
 
   before_action :set_figure, only: [:show, :edit, :update, :destroy]
 
@@ -11,7 +12,8 @@ class FiguresController < ApplicationController
   end
 
   def new
-    @figure = Figure.new
+    @figure = Figure.new(tag_attributes: {},
+                         trait_attributes: {})
   end
 
   def create
@@ -71,6 +73,13 @@ class FiguresController < ApplicationController
   end
 
   def figure_params
-    params.require(:figure).permit(:name, :description, :image)
+    # FIXME: Is it possible to put this into a concern?
+    dispatch_tags_param!(params[:figure][:tag_attributes])
+    dispatch_traits_param!(params[:figure][:trait_attributes])
+    params.require(:figure)
+      .permit(:name, :description, :image,
+              tag_attributes: [ :id, tagset: [] ],
+              trait_attributes: [:id, attributeset: {},
+                                 trait: [:new_key, :new_value]])
   end
 end

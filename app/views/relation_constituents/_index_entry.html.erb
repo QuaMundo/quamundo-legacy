@@ -1,0 +1,94 @@
+<%# Relation Constituent Index Entry %>
+<%# FIXME: Is it possible to extract common parts to partial? %>
+<%= tag.li(
+  class: ['media', 'mb-4', 'index_entry'],
+  id: element_id(index_entry.fact_constituent, 'index-entry')) do %>
+
+  <%# Image - Thumbnail %>
+  <%= tag.a(
+    href: world_fact_relation_path(
+      index_entry.relation.fact.world,
+      index_entry.relation.fact,
+      index_entry.relation
+    )) do %>
+    <%= default_image(
+      :relation, 'mr-3 q-media-img-default index_entry_thumbnail') %>
+  <% end %>
+
+  <%# body%>
+  <div class="media-body">
+    <%# Header %>
+    <h5 class="mb-q index_entry_name">
+      <span class="text-muted">
+        <%# icon(index_entry.subject.fact_constituent.constituable) %>
+        <%= index_entry.subject.fact_constituent.constituable.name %>
+      </span>
+      <%= index_entry.name %>
+      <span class="text-muted">
+        <%# icon(index_entry.relative.fact_constituent.constituable) %>
+        <%= index_entry.relative.fact_constituent.constituable.name %>
+      </span>
+    </h5>
+
+    <%# Description %>
+    <div class="small index_entry_description">
+      <% if index_entry.relation.description.present? %>
+        <%= index_entry.relation.description %><br />
+      <% end %>
+    </div>
+    <%# Stats %>
+    <div class="small index_entry_stats">
+      <span class="text-muted">
+        <% if index_entry.relation.fact.start_date.present? %>
+          <%= icon(:start_date) %>
+          <%= l(index_entry.relation.fact.start_date) %>&nbsp;
+        <% end %>
+        <% if index_entry.relation.fact.end_date.present? %>
+          <%= icon(:end_date) %>
+          <%= l(index_entry.relation.fact.end_date) %>
+        <% end %><br />
+        <%= icon(:world) %>
+        <%= index_entry.relation.fact.world.name %>&nbsp;
+        <%= icon(:fact) %>
+        <%= index_entry.relation.fact.name %>
+      </span>
+    </div>
+    <%# Nav %>
+    <div class="index_entry_nav">
+      <nav class="nav small">
+        <%= link_to(
+          t('show'),
+          world_fact_relation_path(
+            index_entry.relation.fact.world,
+            index_entry.relation.fact,
+            index_entry.relation
+          ),
+          class: 'nav-link pr-2 pl-0 py-0') %>
+        <%= link_to(
+          icon(:edit),
+          edit_world_fact_relation_path(
+            index_entry.relation.fact.world,
+            index_entry.relation.fact,
+            index_entry.relation
+          ),
+          class: 'nav-link px-2 py-0',
+          id: element_id(index_entry.fact_constituent, 'edit')) %>
+        <%= link_to(
+          icon(:delete),
+          world_relation_constituent_path(
+            index_entry.relation.fact.world,
+            index_entry.relative
+          ),
+          id: element_id(index_entry.relative, 'delete'),
+          class: 'nav-link px-2 py-0',
+          method: :delete,
+          data: { confirm: t(
+            '.confirm_delete',
+            constituent: index_entry.subject.fact_constituent.constituable.name
+          ) })%>
+      </nav>
+    </div>
+  </div>
+<% end %>
+
+

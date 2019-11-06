@@ -20,27 +20,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
-
-require 'support/factory_bot'
-require 'support/user_login'
-require 'support/session'
-require 'support/quamundo_test_helpers'
-require 'support/valid_view'
-require 'support/associated_with_world'
-require 'support/inventory'
-require 'support/noteable'
-require 'support/tagable'
-require 'support/traitable'
-require 'support/dossierable'
-require 'support/relatable'
-require 'support/associated_note'
-require 'support/associated_tag'
-require 'support/associated_trait'
-require 'support/associated_dossier'
-require 'support/associated_facts'
-require 'support/associated_relations'
-require 'support/updates_parent'
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -103,9 +83,6 @@ RSpec.configure do |config|
     driven_by(:rack_test)
   end
   config.before(:example, type: :system, js: true) do
-    # FIXME: Usually I use chrome_headless, which is buggy for the moment
-    # so temporarily use this one
-    # driven_by(:selenium_headless)
     driven_by(:selenium_chrome_headless)
   end
 end

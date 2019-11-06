@@ -1,5 +1,6 @@
 class LocationsController < ApplicationController
   include WorldAssociationController
+  include ProcessParams
 
   before_action :set_location, only: [:show, :edit, :update, :destroy]
   before_action :set_lonlat_param, only: [:create, :update]
@@ -9,7 +10,8 @@ class LocationsController < ApplicationController
   end
 
   def new
-    @location = Location.new
+    @location = Location.new(tag_attributes: {},
+                             trait_attributes: {})
   end
 
   def create
@@ -82,6 +84,13 @@ class LocationsController < ApplicationController
   end
 
   def location_params
-    params.require(:location).permit(:name, :description, :image, :lonlat)
+    # FIXME: Is it possible to put this into a concern?
+    dispatch_tags_param!(params[:location][:tag_attributes])
+    dispatch_traits_param!(params[:location][:trait_attributes])
+    params.require(:location)
+      .permit(:name, :description, :image, :lonlat,
+              tag_attributes: [ :id, tagset: [] ],
+              trait_attributes: [:id, attributeset: {},
+                                 trait: [:new_key, :new_value]])
   end
 end

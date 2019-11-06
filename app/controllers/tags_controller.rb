@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
   include PolymorphicController
+  include TagsParams
 
   before_action :set_tag, only: [:destroy, :edit, :update, :show]
   before_action -> { assoc_obj(@tag, :tagable) }
@@ -46,15 +47,7 @@ class TagsController < ApplicationController
   end
 
   def tag_params
-    dispatch_tagset
+    dispatch_tags_param!(params[:tag])
     params.require(:tag).permit({ tagset: [] })
-  end
-
-  def dispatch_tagset
-    if params[:tag][:tagset].kind_of? String
-      tagset = params[:tag][:tagset]
-      # FIXME: Uniq ist not testet!
-      params[:tag][:tagset] = tagset.split(',').map(&:strip).uniq
-    end
   end
 end

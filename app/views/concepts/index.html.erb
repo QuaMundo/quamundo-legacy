@@ -18,54 +18,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-unstyled">
-          <% @concepts.each do |concept| %>
-            <%= tag.li(class: 'media mb-4', id: element_id(concept)) do %>
-
-              <%# Image - Thumbnail %>
-              <%= tag.a(href: world_concept_path(concept.world, concept)) do %>
-                <% if concept.image.attached? %>
-                  <%= tag.img(src: attached_img_path(concept.image, 64, 64), class: 'mr-3 q-media-img') %>
-                <% else %>
-                  <%= default_image(concept, 'mr-3 q-media-img-default') %>
-                <% end %>
-              <% end %>
-
-              <%# FIXME: Body must be below li ^^ %>
-              <%# body%>
-              <div class="media-body">
-                <h5 class="mb-q">
-                  <%= icon(:concept) { concept.name } %>
-                </h5>
-                <div class="small">
-                  <% if concept.description.present? %>
-                    <%= concept.description %><br />
-                  <% end %>
-                  <span class="text-muted">
-                    <%= icon(:fact) %>&nbsp;
-                    <%= concept.facts.count %>
-                  </span>
-                  <nav class="nav small">
-                    <%= link_to(
-                      t('show'),
-                      world_concept_path(concept.world, concept),
-                      class: 'nav-link pr-2 pl-0 py-0') %>
-                    <%= link_to(
-                      icon(:edit),
-                      edit_world_concept_path(concept.world, concept),
-                      class: 'nav-link px-2 py-0',
-                      id: element_id(concept, 'edit')) %>
-                    <%= link_to(
-                      icon(:delete),
-                      world_concept_path(concept.world, concept),
-                      id: element_id(concept, 'delete'),
-                      class: 'nav-link px-2 py-0',
-                      method: :delete,
-                      data: { confirm: t('.confirm_delete', concept:concept.name) })%>
-                  </nav>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
+          <%= render partial: 'concepts/index_entry', collection: @concepts %>
         </ul>
       </div>
     </div>

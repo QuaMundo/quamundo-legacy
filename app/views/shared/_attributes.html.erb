@@ -78,10 +78,8 @@
                   data-target="#dossiers-collection"
                   aria-expanded="true"
                   aria-controls="dossiers-collection">
-            <%= icon(:dossier) %>
-            &nbsp;
-            <%= obj.dossiers.count %>
-            &nbsp;
+            <%= icon(:dossier) %>&nbsp;
+            <%= obj.dossiers.count %>&nbsp;
             <%= Dossier.model_name.human(count: obj.dossiers.count).capitalize %>
           </button>
         </div>

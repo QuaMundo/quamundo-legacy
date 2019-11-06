@@ -28,6 +28,14 @@ RSpec.describe 'Creating an item', type: :system do
     it_behaves_like 'valid_view' do
       let(:subject) { new_world_item_path(world) }
     end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { new_world_item_path(world) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)    { new_world_item_path(world) }
+    end
   end
 
   context 'in other users world' do

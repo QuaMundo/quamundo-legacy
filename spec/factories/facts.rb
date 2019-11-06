@@ -16,7 +16,7 @@ FactoryBot.define do
       after(:build) do |fact, evaluator|
         [:item, :location, :figure, :concept].each do |inventory|
           evaluator.fact_constituents_count.times do
-            build(:fact_constituent,
+            create(:fact_constituent,
                   inventory_type: inventory, fact: fact)
           end
         end

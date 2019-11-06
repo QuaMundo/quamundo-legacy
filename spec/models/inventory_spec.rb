@@ -18,9 +18,16 @@ RSpec.describe Inventory, type: :model do
       create(:world_with_all, user: user)
     end
 
+    it 'has an type_id containing type and id' do
+      refresh_materialized_views(Inventory)
+      Inventory.all.each do |i|
+        expect(i.type_id).to eq "#{i.inventory_type}.#{i.inventory_id}"
+      end
+    end
+
     it 'contains all types of inventories' do
       refresh_materialized_views(Inventory)
-      available_types = %w(Item Figure Location Fact Concept)
+      available_types = %w(Item Figure Location Concept)
       types = Inventory.pluck(:inventory_type).uniq
       expect(types).to include(*available_types)
     end

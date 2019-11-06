@@ -15,7 +15,7 @@ RSpec.describe 'Removing a relation constituent', type: :system do
       page.find('div#relatives-header button').click
       page.accept_confirm do
         click_link(href: world_relation_constituent_path(world, relative),
-                   title: 'destroy')
+                   id: element_id(relative, 'delete'))
       end
       expect(page)
         .to have_current_path(world_fact_relation_path(world, fact, relation))

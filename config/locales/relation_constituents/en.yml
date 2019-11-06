@@ -4,6 +4,7 @@ en:
       new_relation_constituent: 'New relation constituent'
       subject: 'Subject'
       relative: 'Relative'
+      no_candidates: 'No candidates left for relation "%{relation}"'
     destroy:
       destroyed: 'Relation was removed'
     create:
@@ -16,4 +17,10 @@ en:
     update:
       updated: 'Relation successfully updated'
       update_failed: 'Failed to update relation'
+    index_entry:
+      confirm_delete: 'Should link to "%{constituent}" really be removed?'
+    relation_constituent_input:
+      subject: 'Subject'
+      relative: 'Relative'
+      choose: 'Choose relation partner'
 

@@ -28,7 +28,7 @@ RSpec.describe 'Creating a relation', type: :system do
       end
     end
 
-    context 'bidirectional'
+    context 'bidirectional' do
       it 'is successfully with completed form' do
         fill_in('Name', with: 'name of relation')
         fill_in('Reverse name', with: 'reverse name of relation')
@@ -41,6 +41,7 @@ RSpec.describe 'Creating a relation', type: :system do
         expect(page).to have_content('bidirectional')
         expect(page).to have_content('Description of relates to')
       end
+    end
   end
 
   context 'in another users world' do

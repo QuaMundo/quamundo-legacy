@@ -65,6 +65,13 @@ FactoryBot.define do
     factory :world_with_locations, traits: [:with_locations]
     factory :world_with_concepts, traits: [:with_concepts]
     factory :world_with_facts, traits: [:with_facts]
+    factory :world_with_inventories, traits: [
+      :with_concepts,
+      :with_figures,
+      :with_items,
+      :with_locations,
+      :with_facts
+    ]
 
     factory :world_with_all, traits: [
       :with_notes,

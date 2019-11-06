@@ -1,47 +1,50 @@
 module FactConstituentHelper
-  def self.select_options(fact_constituent)
-    FactConstituentsSelector
-      .new(fact_constituent)
-      .selectable_constituents.collect { |c|
-      [
-        "#{c.inventory_type}: #{c.name}",
-        [c.inventory_type, c.inventory_id].join('.')
-      ]
-    }
+  class << self
+    def selectable_constituents(fact)
+      FactConstituentsSelector
+        .new(fact)
+        .selectable_constituents
+    end
+
+    def select_group_options(fact)
+      selectable_constituents(fact).inject({}) do |memo, current|
+        (memo[current.inventory_type] ||= [])
+          .push([current.name, current.type_id])
+        memo
+      end
+    end
   end
 
   class FactConstituentsSelector
     SQL = <<~SQL
-      select
+      SELECT
         i.inventory_type,
         i.inventory_id,
         i.name
-      from
+      FROM
         inventories i
-      left outer join
+      LEFT OUTER JOIN
         fact_constituents c
-      on
+      ON
         i.inventory_id = c.constituable_id
-        and i.inventory_type = c.constituable_type
-      where
-        i.world_id = ?                                       -- insert param here
-      group by
+        AND i.inventory_type = c.constituable_type
+      WHERE
+        i.world_id = ?                                  -- insert world_id here
+      GROUP BY
         i.inventory_type,
         i.inventory_id,
         i.name
-      having
-        i.inventory_type in ('Figure', 'Item', 'Location', 'Concept')
-        and not array_agg(c.fact_id) @> array[?]::bigint[]   -- insert param here
-      order by i.inventory_type asc
+      HAVING
+        NOT array_agg(c.fact_id) @> array[?]::bigint[]  -- insert fact_id here
+      ORDER BY i.inventory_type ASC
     SQL
 
-    def initialize(fact_constituent)
-      @fact = fact_constituent.fact
-      @world = @fact.world
+    def initialize(fact)
+      @fact = fact
     end
 
     def selectable_constituents
-      @consituents ||= Inventory.find_by_sql([SQL, @world.id, @fact.id])
+      @constituents ||= Inventory.find_by_sql([SQL, @fact.world.id, @fact.id])
     end
   end
 end

@@ -35,7 +35,22 @@ RSpec.describe 'Updating/editing a world', type: :system do
     expect(page).to have_selector('.alert')
   end
 
+  it 'lets enter tags', js: true do
+    page.find('input[id$="_tag_attributes_tagset"]')
+      .fill_in(with: 'tag 1, tag 2, tag 3')
+    click_button('submit')
+    within('.tagset') do
+      ['tag 1', 'tag 2', 'tag 3'].each do |tag|
+        expect(page).to have_selector('.tag', text: tag)
+      end
+    end
+  end
+
   it_behaves_like 'valid_view' do
     let(:subject) { edit_world_path(world) }
+  end
+
+  it_behaves_like 'editable traits' do
+    let(:path)    { edit_world_path(world) }
   end
 end

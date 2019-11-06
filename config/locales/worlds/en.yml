@@ -14,7 +14,7 @@ en:
       destroyed: 'World %{world} successfully deleted'
     context_menu:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
-    index:
+    index_entry:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
     show:
       not_allowed: 'You are not allowed to show %{world}'

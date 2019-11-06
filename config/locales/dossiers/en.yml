@@ -14,7 +14,7 @@ en:
       destroyed: 'Deleted dossier %{dossier}'
     context_menu:
       confirm_delete: 'Do you really want to delete dossier %{dossier}'
-    dossiers:
+    index_entry:
       confirm_delete: 'Do you really want to delete dossier %{dossier}'
     form:
       remove_attachments: 'Choose attachments for deletion'

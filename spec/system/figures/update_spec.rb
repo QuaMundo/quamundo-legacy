@@ -50,6 +50,14 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     it_behaves_like 'valid_view' do
       let(:subject) { edit_world_figure_path(world, figure) }
     end
+
+    it_behaves_like 'editable tags' do
+      let(:path) { edit_world_figure_path(world, figure) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path) { new_world_figure_path(world, figure) }
+    end
   end
 
   context 'of another users world' do

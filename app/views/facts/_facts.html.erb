@@ -27,35 +27,7 @@
           <div class="col">
 
             <ul class="list-unstyled">
-              <% obj.each do |fact| %> 
-                <%= tag.li(class: 'media mb-4', id: element_id(fact)) do %>
-
-                  <%# Image - Thumbnail %>
-                  <%= tag.a(href: world_fact_path(fact.world, fact)) do %>
-                    <% if fact.image.attached? %>
-                      <%=
-                        tag.img(
-                          src: attached_img_path(fact.image, 64, 64),
-                          class: 'mr-3 q-media-img'
-                        ) %>
-                    <% else %>
-                      <%= default_image(fact, 'mr-3 q-media-img-default') %>
-                    <% end %>
-                  <% end %>
-
-                  <%# Body %>
-                  <div class="media-body">
-                    <h5 class="mb-1">
-                      <%= icon(fact) { fact.name } %>
-                    </h5>
-                    <div class="small">
-                      <%= fact.description %><br />
-                      <%= link_to(t('show'), world_fact_path(fact.world, fact)) %>
-                    </div>
-                  </div>
-
-                <% end %>
-              <% end %>
+              <%= render partial: 'facts/index_entry', collection: obj %>
             </ul>
 
           </div> 

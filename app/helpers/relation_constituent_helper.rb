@@ -1,14 +1,34 @@
+# FIXME: This helper needs refactoring!
 module RelationConstituentHelper
-  def self.select_options(relation_constituent)
-    RelationConstituentsSelector
-      .new(relation_constituent)
-      .selectable_constituents.collect { |c|
-      ["#{c.constituable_type}: #{c.constituable_name}", c.id]
-    }
+  class << self
+    def selectable_constituents(relation)
+      # FIXME: Is it save to use a cache here?
+      # ... seems there have been problems in
+      # `app/helpers/fact_constituent_helper.rb`,
+      # fixed in commit b67c0c5cde0504c318371ebf9f753e6cf9dc1f2b
+      # (Also check additional test examples of this commit!)
+      # See also redmine ticket #454
+      # @cache ||= {}
+      # @cache[relation_constituent] ||= RelationConstituentsSelector
+      # FIXME: Commit this an write a test!
+      RelationConstituentsSelector
+        .new(relation)
+        .selectable_constituents
+    end
+
+    # FIXME: Make this conform to app/helpers/fact_constituent_helper.rb:9
+    def select_group_options(relation)
+      selectable_constituents(relation).inject({}) do |memo, current|
+        (memo[current.constituable_type] ||= [])
+          .push([current.constituable_name, current.id])
+        memo
+      end
+    end
   end
 
   class RelationConstituentsSelector
-    SQL = <<~SQL
+    # If a relation exists (i.e. relation.id is not nil) use this query
+    SQL_EDIT = <<~SQL
       SELECT
         fc.*,
         i.name as constituable_name,
@@ -40,13 +60,40 @@ module RelationConstituentHelper
       ORDER BY
         i.inventory_type ASC, i.name ASC
     SQL
+
+    # If relation is new (i.e. hasn't an id yet) query all fact_constituents
+    # of given fact.
+    SQL_NEW = <<~SQL
+      SELECT
+        fc.*,
+        i.name as constituable_name,
+        i.inventory_type as constituable_type
+      FROM
+        fact_constituents fc
+      JOIN
+        inventories i
+      ON
+        i.inventory_type = fc.constituable_type
+      AND
+        i.inventory_id = fc.constituable_id
+      WHERE
+        fc.fact_id = ?      -- insert param fact_id
+      ORDER BY i.inventory_type ASC
+    SQL
     
-    def initialize(relation_constituent)
-      @relation_id = relation_constituent.relation.id
+    def initialize(relation)
+      @relation = relation
+      if relation.id.nil?
+        @param = relation.fact_id
+        @sql = SQL_NEW
+      else
+        @param = relation.id
+        @sql = SQL_EDIT
+      end
     end
 
     def selectable_constituents
-      @consituents ||= FactConstituent.find_by_sql([SQL, @relation_id])
+      @consituents ||= FactConstituent.find_by_sql([@sql, @param])
     end
   end
 end

@@ -196,7 +196,7 @@ $$;
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: active_storage_attachments; Type: TABLE; Schema: public; Owner: -
@@ -503,8 +503,7 @@ CREATE MATERIALIZED VIEW public.inventories AS
     i.name,
     i.description,
     i.updated_at,
-    wi.id AS world_id,
-    wi.user_id
+    wi.id AS world_id
    FROM (public.items i
      LEFT JOIN public.worlds wi ON ((wi.id = i.world_id)))
 UNION
@@ -513,8 +512,7 @@ UNION
     f.name,
     f.description,
     f.updated_at,
-    wf.id AS world_id,
-    wf.user_id
+    wf.id AS world_id
    FROM (public.figures f
      LEFT JOIN public.worlds wf ON ((wf.id = f.world_id)))
 UNION
@@ -523,28 +521,16 @@ UNION
     l.name,
     l.description,
     l.updated_at,
-    wl.id AS world_id,
-    wl.user_id
+    wl.id AS world_id
    FROM (public.locations l
      LEFT JOIN public.worlds wl ON ((wl.id = l.world_id)))
-UNION
- SELECT fa.id AS inventory_id,
-    'Fact'::text AS inventory_type,
-    fa.name,
-    fa.description,
-    fa.updated_at,
-    wfa.id AS world_id,
-    wfa.user_id
-   FROM (public.facts fa
-     LEFT JOIN public.worlds wfa ON ((wfa.id = fa.world_id)))
 UNION
  SELECT c.id AS inventory_id,
     'Concept'::text AS inventory_type,
     c.name,
     c.description,
     c.updated_at,
-    wc.id AS world_id,
-    wc.user_id
+    wc.id AS world_id
    FROM (public.concepts c
      LEFT JOIN public.worlds wc ON ((wc.id = c.world_id)))
   ORDER BY 5 DESC
@@ -1343,119 +1329,119 @@ CREATE INDEX index_worlds_on_user_id ON public.worlds USING btree (user_id);
 -- Name: concepts concept_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER concept_world_change BEFORE UPDATE OF world_id ON public.concepts FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+CREATE TRIGGER concept_world_change BEFORE UPDATE OF world_id ON public.concepts FOR EACH ROW EXECUTE FUNCTION public.freeze_world_ref();
 
 
 --
 -- Name: fact_constituents fact_constituent_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER fact_constituent_change BEFORE UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE PROCEDURE public.freeze_fact_constituent_constituable();
+CREATE TRIGGER fact_constituent_change BEFORE UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE FUNCTION public.freeze_fact_constituent_constituable();
 
 
 --
 -- Name: facts fact_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER fact_world_change BEFORE UPDATE OF world_id ON public.facts FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+CREATE TRIGGER fact_world_change BEFORE UPDATE OF world_id ON public.facts FOR EACH ROW EXECUTE FUNCTION public.freeze_world_ref();
 
 
 --
 -- Name: figures figure_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER figure_world_change BEFORE UPDATE OF world_id ON public.figures FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+CREATE TRIGGER figure_world_change BEFORE UPDATE OF world_id ON public.figures FOR EACH ROW EXECUTE FUNCTION public.freeze_world_ref();
 
 
 --
 -- Name: fact_constituents foreign_fact_constituent; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER foreign_fact_constituent AFTER INSERT OR UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE PROCEDURE public.fact_constituents_common_world();
+CREATE TRIGGER foreign_fact_constituent AFTER INSERT OR UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE FUNCTION public.fact_constituents_common_world();
 
 
 --
 -- Name: relation_constituents foreign_relation_constituent; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER foreign_relation_constituent BEFORE INSERT ON public.relation_constituents FOR EACH ROW EXECUTE PROCEDURE public.relation_constituent_common_fact();
+CREATE TRIGGER foreign_relation_constituent BEFORE INSERT ON public.relation_constituents FOR EACH ROW EXECUTE FUNCTION public.relation_constituent_common_fact();
 
 
 --
 -- Name: items item_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER item_world_change BEFORE UPDATE OF world_id ON public.items FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+CREATE TRIGGER item_world_change BEFORE UPDATE OF world_id ON public.items FOR EACH ROW EXECUTE FUNCTION public.freeze_world_ref();
 
 
 --
 -- Name: locations location_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER location_world_change BEFORE UPDATE OF world_id ON public.locations FOR EACH ROW EXECUTE PROCEDURE public.freeze_world_ref();
+CREATE TRIGGER location_world_change BEFORE UPDATE OF world_id ON public.locations FOR EACH ROW EXECUTE FUNCTION public.freeze_world_ref();
 
 
 --
 -- Name: concepts refresh_concept_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_concept_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.concepts FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+CREATE TRIGGER refresh_concept_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.concepts FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_inventories();
 
 
 --
 -- Name: relation_constituents refresh_constituent_on_subject_relative_relations; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_constituent_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relation_constituents FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_subject_relative_relations();
+CREATE TRIGGER refresh_constituent_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relation_constituents FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_subject_relative_relations();
 
 
 --
 -- Name: facts refresh_fact_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_fact_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.facts FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+CREATE TRIGGER refresh_fact_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.facts FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_inventories();
 
 
 --
 -- Name: figures refresh_figure_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_figure_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.figures FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+CREATE TRIGGER refresh_figure_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.figures FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_inventories();
 
 
 --
 -- Name: items refresh_item_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_item_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.items FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+CREATE TRIGGER refresh_item_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.items FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_inventories();
 
 
 --
 -- Name: locations refresh_location_inventories; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_location_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.locations FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_inventories();
+CREATE TRIGGER refresh_location_inventories AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.locations FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_inventories();
 
 
 --
 -- Name: relations refresh_relation_on_subject_relative_relations; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER refresh_relation_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relations FOR EACH STATEMENT EXECUTE PROCEDURE public.refresh_subject_relative_relations();
+CREATE TRIGGER refresh_relation_on_subject_relative_relations AFTER INSERT OR DELETE OR UPDATE OR TRUNCATE ON public.relations FOR EACH STATEMENT EXECUTE FUNCTION public.refresh_subject_relative_relations();
 
 
 --
 -- Name: relation_constituents relation_constituent_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER relation_constituent_change BEFORE UPDATE OF fact_constituent_id, relation_id ON public.relation_constituents FOR EACH ROW EXECUTE PROCEDURE public.freeze_relation_constituent_references();
+CREATE TRIGGER relation_constituent_change BEFORE UPDATE OF fact_constituent_id, relation_id ON public.relation_constituents FOR EACH ROW EXECUTE FUNCTION public.freeze_relation_constituent_references();
 
 
 --
 -- Name: relations relation_fact_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER relation_fact_change BEFORE UPDATE OF fact_id ON public.relations FOR EACH ROW EXECUTE PROCEDURE public.freeze_relation_fact();
+CREATE TRIGGER relation_fact_change BEFORE UPDATE OF fact_id ON public.relations FOR EACH ROW EXECUTE FUNCTION public.freeze_relation_fact();
 
 
 --
@@ -1579,6 +1565,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190927153349'),
 ('20190930151242'),
 ('20191001121919'),
-('20191005215006');
+('20191005215006'),
+('20200122155154');
 
 

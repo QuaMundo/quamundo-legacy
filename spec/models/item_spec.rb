@@ -23,11 +23,11 @@ RSpec.describe Item, type: :model do
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { build(:item_with_tags) }
+    let(:subject) { build(:item) }
   end
 
   it_behaves_like 'traitable' do
-    let(:subject) { build(:item_with_traits) }
+    let(:subject) { build(:item) }
   end
 
   it_behaves_like 'dossierable' do

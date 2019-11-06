@@ -6,7 +6,8 @@
 
   <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description, autocomplete: :description, class: 'form-control' %>
+    <%= f.text_area(
+      :description, autocomplete: :description, class: 'form-control') %>
   </div>
 
   <div class="form-group">
@@ -21,6 +22,15 @@
     <%= f.label :image %>
     <%= f.file_field :image, class: 'form-control-file' %>
   </div>
+
+  <%# Add/edit tags %>
+  <%= render(
+    partial: 'tags/tag_input', locals: { form: f, tagable: @concept } ) %>
+
+  <%# Add/edit traits %>
+  <%= render(
+    partial: 'traits/trait_input',
+    locals: { form: f, traitable: @concept } ) %>
 
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
 <% end %>

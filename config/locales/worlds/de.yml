@@ -14,7 +14,7 @@ de:
       destroyed: 'Welt %{world} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
-    index:
+    index_entry:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
     show:
       not_allowed: 'Keine Berechtigung für Welt %{world}'

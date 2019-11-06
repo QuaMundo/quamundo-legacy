@@ -10,7 +10,7 @@ RSpec.describe 'Removing a constituent from a fact', type: :system do
     page.find('div#fact_constituents-header button').click
     page.accept_confirm do
       click_link(href: world_fact_fact_constituent_path(world, fact, const),
-                 title: 'destroy')
+                 id: /delete-.+/)
     end
     expect(page).to have_current_path(world_fact_path(world, fact))
     expect(page).not_to have_content(const.constituable.name)

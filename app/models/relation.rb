@@ -9,6 +9,13 @@ class Relation < ApplicationRecord
     -> { where(role: :relative) },
     class_name: 'RelationConstituent'
 
+  accepts_nested_attributes_for :relation_constituents,
+    update_only: true,
+    allow_destroy: true,
+    reject_if: ->(attr) {
+      attr[:fact_constituent_id].blank? && attr[:id].blank?
+    }
+
   attr_readonly :fact_id
 
   validates :name, presence: true

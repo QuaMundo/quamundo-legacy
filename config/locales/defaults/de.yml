@@ -8,6 +8,7 @@ de:
   submit: 'absenden'
   cancel: 'abbrechen'
   update: 'aktualisieren'
+  choose: 'Bitte wählen'
   hello: 'Hallo %{nick}'
   show: 'anzeigen'
   dashboard: 'Übersicht'

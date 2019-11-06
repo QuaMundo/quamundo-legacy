@@ -3,7 +3,7 @@ RSpec.shared_examples 'tagable', type: :model do
 
   it 'has a tagset' do
     subject.save
-    expect(subject.tag.tagset).to eq([])
+    expect(subject.tag.tagset).not_to be_nil
   end
 
   it 'deletes tagset when subject is deleted' do

@@ -15,7 +15,10 @@
     <div class="input-group date"
          id="datetimepicker_start_date"
          data-target-input="nearest">
-      <%= f.datetime_field :start_date, class: 'form-control' %>
+      <%= f.datetime_field(
+        :start_date,
+        class: 'form-control',
+        placeholder: 'YYYY-MM-DD hh:mm') %>
       <div id="datetimepicker_start_date_picker"
            class="d-none input-group-append"
            data-target="#datetimepicker_start_date"
@@ -32,7 +35,10 @@
     <div class="input-group date"
          id="datetimepicker_end_date"
          data-target-input="nearest">
-      <%= f.datetime_field :end_date, class: 'form-control' %>
+      <%= f.datetime_field(
+        :end_date,
+        class: 'form-control',
+        placeholder: 'YYYY-MM-DD hh:mm') %>
       <div id="datetimepicker_end_date_picker"
            class="d-none input-group-append"
            data-target="#datetimepicker_end_date"
@@ -43,10 +49,6 @@
       </div>
     </div>
   </div>
-
-  <%# FIXME: Insert start and end date %>
-
-  <%# FIXME: Add constituents (multiselect!?) %>
 
   <div class="form-group">
     <%# FIXME: DRY up - this is same in all inventory forms %>
@@ -60,6 +62,20 @@
     <%= f.label :image %>
     <%= f.file_field :image, class: 'form-control-file' %>
   </div>
+
+  <%# add fact constituents %>
+  <%= render(
+    partial: 'fact_constituents/fact_constituent_input',
+    locals: { form: f, fact: @fact }) %>
+  <%# /add fact constituents %>
+
+  <%# Add/edit tags %>
+  <%= render partial: 'tags/tag_input', locals: { form: f, tagable: @fact } %>
+
+  <%# Add/edit traits %>
+  <%= render(
+    partial: 'traits/trait_input',
+    locals: { form: f, traitable: @fact } ) %>
 
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
 <% end %>

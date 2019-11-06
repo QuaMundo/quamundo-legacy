@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   include WorldAssociationController
+  include ProcessParams
 
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
@@ -8,7 +9,8 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item = Item.new
+    @item = Item.new(tag_attributes: {},
+                     trait_attributes: {})
   end
 
   def create
@@ -72,6 +74,13 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:name, :description, :image)
+    # FIXME: Is it possible to put this into a concern?
+    dispatch_tags_param!(params[:item][:tag_attributes])
+    dispatch_traits_param!(params[:item][:trait_attributes])
+    params.require(:item)
+      .permit(:name, :description, :image,
+              tag_attributes: [ :id, tagset: [] ],
+              trait_attributes: [:id, attributeset: {},
+                                 trait: [:new_key, :new_value]])
   end
 end

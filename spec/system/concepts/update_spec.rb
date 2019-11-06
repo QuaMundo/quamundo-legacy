@@ -48,6 +48,14 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     it_behaves_like 'valid_view' do
       let(:subject) { edit_world_concept_path(world, concept) }
     end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { edit_world_concept_path(world, concept) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)    { edit_world_concept_path(world, concept) }
+    end
   end
 
   context 'of another users world' do

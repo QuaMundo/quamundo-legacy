@@ -3,13 +3,12 @@ class Tag < ApplicationRecord
   after_validation :normalize_tagset
 
   # TODO: Check costs of `touch: true`
-  belongs_to :tagable, polymorphic: true, touch: true
+  belongs_to :tagable, polymorphic: true, touch: true, autosave: true
 
   private
   def normalize_tagset
     unless tagset.nil? || tagset.empty?
-      tagset.map! { |t| t.parameterize(separator: '_') }
-        .sort!.uniq!
+      tagset.sort!.uniq!
     end
   end
 end

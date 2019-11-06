@@ -23,11 +23,11 @@ RSpec.describe Concept, type: :model do
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { build(:concept_with_tags) }
+    let(:subject) { build(:concept) }
   end
 
   it_behaves_like 'traitable' do
-    let(:subject) { build(:concept_with_traits) }
+    let(:subject) { build(:concept) }
   end
 
   it_behaves_like 'dossierable' do

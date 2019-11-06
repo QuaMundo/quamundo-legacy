@@ -20,59 +20,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-unstyled">
-          <% @relations.each do |relation| %>
-            <%= tag.li(class: 'media mb-4', id: element_id(relation)) do %>
-
-              <%# Image/Icon %>
-              <%= default_image(relation, 'mr-3 q-media-img-default') %>
-
-              <%# FIXME: Body must be below li ^^ %>
-              <%# body %>
-              <div class="media-body">
-                <h5 class="mb-1">
-                  <%= icon(:relation) { relation.name } %>
-                </h5>
-                <div class="small">
-                  <% if relation.description.present? %>
-                    <%= relation.description %>
-                  <% end %>
-                  <span class="text-muted">
-                    <%= relation.subjects.count %>
-                    <%= t('.subjects', count: relation.subjects.count) %>&nbsp;
-                    <%= relation.relatives.count %>
-                    <%= t('.relatives', count: relation.relatives.count) %>
-                  </span>
-                  <nav class="nav small">
-                    <%= link_to(
-                      t('.show'),
-                      world_fact_relation_path(
-                        relation.fact.world, relation.fact, relation
-                      ),
-                      class: 'nav-link pr-2 pl-0 py-0') %>
-                    <%= link_to(
-                      icon(:edit),
-                      edit_world_fact_relation_path(
-                        relation.fact.world, relation.fact, relation
-                      ),
-                      class: 'nav-link px-2 py-0',
-                      id: element_id(relation, 'edit')) %>
-                    <%= link_to(
-                      icon(:delete),
-                      world_fact_relation_path(
-                        relation.fact.world, relation.fact, relation
-                      ),
-                      id: element_id(relation, 'delete'),
-                      class: 'nav-link px-2 py-0',
-                      method: :delete,
-                      data: {
-                        confirm: t('.confirm_delete', relation: relation.name)
-                      }) %>
-                  </nav>
-                </div>
-              </div>
-
-            <% end %>
-          <% end %>
+          <%= render partial: 'relations/index_entry', collection: @relations %>
         </ul>
       </div>
     </div>

@@ -27,35 +27,7 @@
           <div class="col">
 
             <ul class="list-unstyled">
-              <% obj.each do |figure| %> 
-                <%= tag.li(class: 'media mb-4', id: element_id(figure)) do %>
-
-                  <%# Image - Thumbnail %>
-                  <%= tag.a(href: world_figure_path(figure.world, figure)) do %>
-                    <% if figure.image.attached? %>
-                      <%=
-                        tag.img(
-                          src: attached_img_path(figure.image, 64, 64),
-                          class: 'mr-3 q-media-img'
-                        ) %>
-                    <% else %>
-                      <%= default_image(figure, 'mr-3 q-media-img-default') %>
-                    <% end %>
-                  <% end %>
-
-                  <%# Body %>
-                  <div class="media-body">
-                    <h5 class="mb-1">
-                      <%= icon(figure) { figure.name } %>
-                    </h5>
-                    <div class="small">
-                      <%= figure.description %><br />
-                      <%= link_to(t('show'), world_figure_path(figure.world, figure)) %>
-                    </div>
-                  </div>
-
-                <% end %>
-              <% end %>
+              <%= render partial: 'figures/index_entry', collection: obj %>
             </ul>
 
           </div> 

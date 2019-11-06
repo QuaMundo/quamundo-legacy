@@ -1,11 +1,16 @@
 class Inventory < ApplicationRecord
-  belongs_to :user
   belongs_to :world
   belongs_to :inventory, polymorphic: true
 
   # this is a read-only model!
   def readonly?
     true
+  end
+
+  # FIXME: Turn this to a common helper available to all Models
+  # custom id is <inventory_type>.<inventory_id>
+  def type_id
+    "#{inventory_type}.#{inventory_id}"
   end
 
   # in case one wants to refresh the materialized view

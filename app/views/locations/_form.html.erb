@@ -1,6 +1,9 @@
-<%= javascript_pack_tag 'location' %>
+<%= form_with(
+  url: [@world, @location],
+  model: @location,
+  local: true,
+  data: {controller: 'location'}) do |f| %>
 
-<%= form_with url: [@world, @location], model: @location, local: true do |f| %>
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, autofocus: true, class: 'form-control' %>
@@ -8,24 +11,35 @@
 
   <div class="form-group">
     <%= f.label :description %>
-    <%= f.text_area :description, autocomplete: :description, class: 'form-control' %>
+    <%= f.text_area(
+      :description,
+      autocomplete: :description,
+      class: 'form-control') %>
   </div>
 
   <div class="form-group">
     <%= f.label :lonlat %>
     <div class="input-group">
-      <%= f.text_field :lonlat, autocomplete: :lonlat, class: 'form-control', value: get_lonlat(@location.lonlat) %>
+      <%= f.text_field(
+        :lonlat,
+        autocomplete: :lonlat,
+        class: 'form-control',
+        data: { target: 'location.coords' },
+        value: get_lonlat(@location.lonlat)) %>
       <div class="input-group-append">
         <%# Get current position by button click %>
-        <%# Button is hidden by default and gets activated via javascript %>
-        <button id="get_device_pos" class="input-group-text btn btn-outline-primary d-none" type="button">
+        <button id="get_device_pos"
+                class="input-group-text btn btn-outline-primary"
+                data-action="location#getPosition"
+                type="button">
           <%= icon(:location) %>
         </button>
 
         <%# Get position from exif data of image %>
-        <%# Button is hidden by default and gets activated via javascript %>
-        <%# FIXME: Not implemented yet %>
-        <button id="get_img_pos" class="input-group-text btn btn-outline-primary d-none" type="button">
+        <%# FIXME: Not implemented yet (disabled via .d-none) %>
+        <button id="get_img_pos"
+                class="input-group-text btn btn-outline-primary d-none"
+                type="button">
           <%= icon(:image) %>
         </button>
       </div>
@@ -44,6 +58,16 @@
     <%= f.label :image %>
     <%= f.file_field :image, class: 'form-control-file' %>
   </div>
+
+  <%# Add/edit tags %>
+  <%= render(
+    partial: 'tags/tag_input',
+    locals: { form: f, tagable: @location }) %>
+
+  <%# Add/edit traits %>
+  <%= render(
+    partial: 'traits/trait_input',
+    locals: { form: f, traitable: @location } ) %>
 
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
 <% end %>

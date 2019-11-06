@@ -25,9 +25,9 @@ if (!modernizr.inputtypes['datetime-local']) {
         close: 'fas fa-times',
       },
       // FIXME: Dates after year 9999 are not shown in datetimepicker
-      //format: 'DD.MM.YYYY HH:mm',
       // locale is set via `data-locale` attr in body tag 
       // in views/layouts/application.html.erb
+      format: 'YYYY-MM-DD HH:mm',
       locale: $('body').data('locale') || 'de'
     });
 
@@ -40,9 +40,16 @@ if (!modernizr.inputtypes['datetime-local']) {
   // div is not rendered by using class 'd-none' - use js to make it visible
   $('#datetimepicker_start_date_picker').removeClass('d-none');
 
-  $(function () { $('#datetimepicker_start_date')
-      .datetimepicker({date: $('#fact_start_date')
-        .val()}) });
+  $(function () {
+    $('#datetimepicker_start_date')
+      .datetimepicker({
+        date: $('#fact_start_date').val()
+      });
+    $('#datetimepicker_start_date')
+      .on('change.datetimepicker', function(e) {
+        $('#datetimepicker_end_date').datetimepicker('minDate', e.date);
+      });
+  });
 
   // end date
   // add classes and target
@@ -54,8 +61,15 @@ if (!modernizr.inputtypes['datetime-local']) {
   $('#datetimepicker_end_date_picker').removeClass('d-none');
 
   $(function () { $('#datetimepicker_end_date')
-      .datetimepicker({date: $('#fact_end_date')
-        .val()}); });
+      .datetimepicker({
+        date: $('#fact_end_date').val(),
+        useCurrent: false
+      });
+    $('#datetimepicker_end_date')
+      .on('change.datetimepicker', function(e) {
+        $('#datetimepicker_start_date').datetimepicker('maxDate', e.date);
+      });
+  });
 
 } // else {
 // Use native input type datetime-local

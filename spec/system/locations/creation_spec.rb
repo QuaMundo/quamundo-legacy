@@ -6,16 +6,11 @@ RSpec.describe 'Creating a location', type: :system do
   context 'in own world' do
     before(:example) { visit new_world_location_path(world) }
 
-    # FIXME: Following 2 examples are duplicate in
-    # `spec/system/location/create_spec.rb` and
-    # `spec/system/location/update_spec.rb`
-    it 'has no button to get current position without javascript' do
-      expect(page).to have_selector('#get_device_pos.d-none')
-    end
-
     it 'has button to get current position via javascript', :js, :comprehensive do
       page
-        .execute_script('navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }')
+        .execute_script(
+          'navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }'
+      )
       page.find('#get_device_pos').click
       expect(page.find('#location_lonlat').value).to eq '12, 34'
     end
@@ -51,6 +46,14 @@ RSpec.describe 'Creating a location', type: :system do
 
     it_behaves_like 'valid_view' do
       let(:subject) { new_world_location_path(world) }
+    end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { new_world_location_path(world) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)    { new_world_location_path(world) }
     end
   end
 

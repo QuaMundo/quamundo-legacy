@@ -1,5 +1,6 @@
 class ConceptsController < ApplicationController
   include WorldAssociationController
+  include ProcessParams
 
   before_action :set_concept, only: [:show, :edit, :update, :destroy]
 
@@ -8,7 +9,8 @@ class ConceptsController < ApplicationController
   end
 
   def new
-    @concept = Concept.new
+    @concept = Concept.new(tag_attributes: {},
+                           trait_attributes: {})
   end
 
   def create
@@ -72,6 +74,13 @@ class ConceptsController < ApplicationController
   end
 
   def concept_params
-    params.require(:concept).permit(:name, :description, :image)
+    # FIXME: Is it possible to put this into a concern?
+    dispatch_tags_param!(params[:concept][:tag_attributes])
+    dispatch_traits_param!(params[:concept][:trait_attributes])
+    params.require(:concept)
+      .permit(:name, :description, :image,
+              tag_attributes: [ :id, tagset: [] ],
+              trait_attributes: [:id, attributeset: {},
+                                 trait: [:new_key, :new_value]])
   end
 end

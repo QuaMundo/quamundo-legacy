@@ -19,13 +19,24 @@ RSpec.describe 'Creating a fact', type: :system do
       )
     end
 
-    it 'can have a start and/or an end date' do
-      fill_in('Name', with: 'New Fact')
-      fill_in('Start date', with: '2018-01-01 10:25')
-      fill_in('End date', with: '2019-01-01 10:25')
-      click_button('submit')
-      expect(page).to have_content(/January 01, 2018 10:25/)
-      expect(page).to have_content(/January 01, 2019 10:25/)
+    context 'with given start and end date' do
+      it 'can process format "yyyy-mm-dd hh:MM"' do
+        fill_in('Name', with: 'New Fact')
+        fill_in('Start date', with: '2018-01-01 10:25')
+        fill_in('End date', with: '2019-01-01 10:25')
+        click_button('submit')
+        expect(page).to have_content(/January 01, 2018 10:25/)
+        expect(page).to have_content(/January 01, 2019 10:25/)
+      end
+
+      it 'can process format "dd.mm.yyyy hh:MM"' do
+        fill_in('Name', with: 'New Fact')
+        fill_in('Start date', with: '01.01.2018 10:25')
+        fill_in('End date', with: '01.01.2019 10:25')
+        click_button('submit')
+        expect(page).to have_content(/January 01, 2018 10:25/)
+        expect(page).to have_content(/January 01, 2019 10:25/)
+      end
     end
 
     it 'refuses creation if start date is after end date' do
@@ -42,6 +53,18 @@ RSpec.describe 'Creating a fact', type: :system do
     it 'redirects to new if name is missing' do
       click_button('submit')
       expect(page).to have_css('.alert', text: /failed to create/i)
+    end
+
+    it_behaves_like 'valid_view' do
+      let(:subject) { new_world_fact_path(world) }
+    end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { new_world_fact_path(world) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)      { new_world_fact_path(world) }
     end
   end
 

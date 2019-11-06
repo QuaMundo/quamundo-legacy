@@ -41,8 +41,8 @@ RSpec.shared_examples 'associated tags', type: :system do
       click_button('submit')
       expect(page).to have_current_path(polymorphic_path(path))
       subject.reload
-      expect(subject.tag.tagset).to eq(['a_new_tag', 'another_new_tag'])
-      expect(page).to have_selector('.tag', text: 'a_new_tag')
+      expect(subject.tag.tagset).to eq(['A neW tAg', 'another new tag'])
+      expect(page).to have_selector('.tag', text: 'A neW tAg')
     end
   end
 end

@@ -43,20 +43,6 @@ group :development, :test do
   gem 'foreman'
   # Selenium driver for accetpance testing
   gem 'selenium-webdriver'
-end
-
-group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console'
-  gem 'ffi'
-  gem 'listen'
-end
-
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-group :test, :development do
   gem 'capybara'
   gem 'webmock'
   gem 'factory_bot_rails'
@@ -66,7 +52,15 @@ group :test, :development do
 end
 
 group :development do
+  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'web-console'
+  gem 'ffi'
+  gem 'listen'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'pry-stack_explorer'
 end
+
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

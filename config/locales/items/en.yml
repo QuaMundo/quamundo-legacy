@@ -14,7 +14,7 @@ en:
       destroyed: 'Item %{item} successfully deleted'
     context_menu:
       confirm_delete: 'Should item %{item} really be removed?'
-    index:
+    index_entry:
       confirm_delete: 'Should item %{item} really be removed?'
     show:
       part_of_facts:

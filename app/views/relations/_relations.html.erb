@@ -27,38 +27,7 @@
           <div class="col">
 
             <ul class="list-unstyled">
-              <% obj.each do |relation| %> 
-                <%= tag.li(class: 'media mb-4', id: element_id(relation)) do %>
-                  <%= tag.a(
-                    href: world_fact_relation_path(@world, @fact, relation)) do %>
-                    <%= default_image(:relation, 'mr-3 q-media-img-default') %>
-                  <% end %>
-
-                  <%# Body %>
-                  <div class="media-body">
-                    <h5 class="mb-1">
-                      <%= relation.name %>
-                    </h5>
-                    <div class="small">
-                      <%= relation.description %><br />
-                      <%= link_to(
-                        t('show'),
-                        world_fact_relation_path(@world, @fact, relation)) %>
-                      <%= link_to(
-                        t('edit'),
-                        edit_world_fact_relation_path(@world, @fact, relation)) %>
-                      <%= link_to(
-                        t('delete'),
-                        world_fact_relation_path(@world, @fact, relation),
-                        title: 'destroy',
-                        method: :delete,
-                        data: { confirm: t('.confirm_delete',
-                                           relation: relation.name) } ) %>
-                    </div>
-                  </div>
-
-                <% end %>
-              <% end %>
+              <%= render partial: 'relations/index_entry', collection: obj %>
             </ul>
 
           </div> 

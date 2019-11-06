@@ -22,12 +22,13 @@ en:
       destroyed: 'Fact %{fact} successfully deleted'
     context_menu:
       confirm_delete: 'Should fact %{fact} really be removed'
-    index:
+    index_entry:
       confirm_delete: 'Should fact %{fact} really be removed'
 
   fact_constituents:
     new:
       new_fact_constituent: 'New fact constituent'
+      no_candidates: 'No constituent candidates left for fact "%{fact}"'
     create:
       created: 'Fact constituent successfully created'
       create_failed: 'Failed to create fact constituent'
@@ -40,7 +41,12 @@ en:
     fact_constituents:
       edit_roles: 'Edit roles'
       remove_from_fact: 'Remove from fact'
+    index_entry:
       confirm_delete: 'Should %{constituent} really be unlinked?'
+
+    fact_constituent_input:
+      choose: 'Please choose constituent'
+      roles: 'Roles'
 
   activerecord:
     models:

@@ -2,25 +2,27 @@
   "name": "quamundo",
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.8.0",
-    "@rails/webpacker": "^4.0.1",
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "@popperjs/core": "^2.0.5",
+    "@rails/webpacker": "^4.2.0",
     "activestorage": "^5.2.3",
     "bootstrap": "^4.3.1",
     "core-js": "3",
-    "eslint": "^5.16.0",
-    "jquery": "^3.3.1",
-    "modernizr": "^3.7.1",
+    "jquery": "^3.4.1",
+    "modernizr": "^3.8.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.26",
-    "popper.js": "^1.14.7",
+    "moment-timezone": "^0.5.27",
+    "popper": "^1.0.1",
+    "popper.js": "1.16.1",
     "rails-ujs": "^5.2.3",
+    "sharp": "^0.23.3",
+    "stimulus": "^1.1.1",
     "tempusdominus-bootstrap-4": "^5.1.2",
     "tempusdominus-core": "^5.0.3",
-    "webpack": "^4.29.6",
-    "webpack-modernizr-loader": "^5.0.0",
-    "webpacker": "^4.2.2"
+    "webpack": "^4.41.2",
+    "webpack-modernizr-loader": "^5.0.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.9.0"
   }
 }

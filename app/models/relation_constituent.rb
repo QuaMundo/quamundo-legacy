@@ -17,7 +17,7 @@ class RelationConstituent < ApplicationRecord
 
   private
   def common_fact
-    if fact_constituent.nil? || fact != fact_constituent.fact
+    if fact_constituent.nil? || relation.fact != fact_constituent.fact
       errors.add(:fact_constituent, I18n.t('relation_common_fact'))
     end
   end

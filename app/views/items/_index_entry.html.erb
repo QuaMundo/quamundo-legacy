@@ -1,0 +1,67 @@
+<%# Item Index Entry %>
+<%# FIXME: Is it possible to extract common parts to partial? %>
+<%= tag.li(
+  class: ['media', 'mb-4', 'index_entry'],
+  id: element_id(index_entry, 'index-entry')) do %>
+
+  <%# Image - Thumbnail %>
+  <%= tag.a(href: world_item_path(index_entry.world, index_entry)) do %>
+    <% if index_entry.image.attached? %>
+      <%= tag.img(
+        src: attached_img_path(index_entry.image, 64, 64),
+        class: ['mr-3', 'q-media-img', 'index_entry_thumbnail']) %>
+    <% else %>
+      <%= default_image(
+        index_entry,
+        'mr-3 q-media-img-default index_entry_thumbnail') %>
+    <% end %>
+  <% end %>
+
+  <%# body%>
+  <div class="media-body">
+    <%# Header %>
+    <h5 class="mb-q index_entry_name">
+      <%= icon(:item) { index_entry.name } %>
+    </h5>
+
+    <%# Description %>
+    <div class="small index_entry_description">
+      <% if index_entry.description.present? %>
+        <%= index_entry.description %><br />
+      <% end %>
+    </div>
+    <%# Stats %>
+    <div class="small index_entry_stats">
+      <span class="text-muted">
+        <%= icon(:world) %>
+        <%= index_entry.world.name %>&nbsp;
+        <%= icon(:fact) %>
+        <%= index_entry.facts.count %>&nbsp;
+        <%= icon(:relation) %>
+        <%= index_entry.relatives.count %>
+      </span>
+    </div>
+    <%# Nav %>
+    <div class="index_entry_nav">
+      <nav class="nav small">
+        <%= link_to(
+          t('show'),
+          world_item_path(index_entry.world, index_entry),
+          class: 'nav-link pr-2 pl-0 py-0') %>
+        <%= link_to(
+          icon(:edit),
+          edit_world_item_path(index_entry.world, index_entry),
+          class: 'nav-link px-2 py-0',
+          id: element_id(index_entry, 'edit')) %>
+        <%= link_to(
+          icon(:delete),
+          world_item_path(index_entry.world, index_entry),
+          id: element_id(index_entry, 'delete'),
+          class: 'nav-link px-2 py-0',
+          method: :delete,
+          data: { confirm: t('.confirm_delete', item: index_entry.name) })%>
+      </nav>
+    </div>
+  </div>
+<% end %>
+

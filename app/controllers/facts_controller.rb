@@ -1,5 +1,7 @@
 class FactsController < ApplicationController
   include WorldAssociationController
+  include ProcessParams
+  include FactConstituentsParams
 
   before_action :set_fact, only: [:show, :edit, :update, :destroy]
 
@@ -8,7 +10,8 @@ class FactsController < ApplicationController
   end
 
   def new
-    @fact = Fact.new
+    @fact = @world.facts.new(tag_attributes: {},
+                             trait_attributes: {})
   end
 
   def create
@@ -75,8 +78,24 @@ class FactsController < ApplicationController
   end
 
   def fact_params
+    dispatch_tags_param!(params[:fact][:tag_attributes])
+    dispatch_traits_param!(params[:fact][:trait_attributes])
+    dispatch_fact_constituents_param!(
+      params[:fact][:fact_constituents_attributes])
+
     params
       .require(:fact)
-      .permit(:name, :description, :image, :start_date, :end_date)
+      .permit(:name, :description, :image, :start_date, :end_date,
+              tag_attributes:               [:id,
+                                             tagset: [] ],
+              trait_attributes:             [:id,
+                                             attributeset: {},
+                                             trait: [:new_key, :new_value]],
+              fact_constituents_attributes: [:id,
+                                             :constituable_id, 
+                                             :constituable_type,
+                                             :_destroy,
+                                             roles: [] ]
+             )
   end
 end

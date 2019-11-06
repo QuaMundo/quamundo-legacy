@@ -7,6 +7,15 @@ class RelationConstituentsController < ApplicationController
 
   def new
     @relation_constituent = @relation.relation_constituents.build
+    # FIXME: Prove that this only takes one DB query for controller and view!
+    unless RelationConstituentHelper
+      .selectable_constituents(@relation).any?
+
+      redirect_to(
+        world_fact_relation_path(@relation.fact.world, @relation.fact, @relation),
+        notice: t('.no_candidates', relation: @relation.name)
+      )
+    end
   end
 
   def create

@@ -18,55 +18,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-unstyled">
-          <% @items.each do |item| %>
-            <%= tag.li(class: 'media mb-4', id: element_id(item)) do %>
-
-              <%# Image - Thumbnail %>
-              <%= tag.a(href: world_item_path(item.world, item)) do %>
-                <% if item.image.attached? %>
-                  <%= tag.img(src: attached_img_path(item.image, 64, 64),
-                              class: 'mr-3 q-media-img') %>
-                <% else %>
-                  <%= default_image(item, 'mr-3 q-media-img-default') %>
-                <% end %>
-              <% end %>
-
-              <%# FIXME: Body must be below li ^^ %>
-              <%# body%>
-              <div class="media-body">
-                <h5 class="mb-q">
-                  <%= icon(:item) { item.name } %>
-                </h5>
-                <div class="small">
-                  <% if item.description.present? %>
-                    <%= item.description %><br />
-                  <% end %>
-                  <span class="text-muted">
-                    <%= icon(:fact) %>&nbsp;
-                    <%= item.facts.count %>
-                  </span>
-                  <nav class="nav small">
-                    <%= link_to(
-                      t('show'),
-                      world_item_path(item.world, item),
-                      class: 'nav-link pr-2 pl-0 py-0') %>
-                    <%= link_to(
-                      icon(:edit),
-                      edit_world_item_path(item.world, item),
-                      class: 'nav-link px-2 py-0',
-                      id: element_id(item, 'edit')) %>
-                    <%= link_to(
-                      icon(:delete),
-                      world_item_path(item.world, item),
-                      id: element_id(item, 'delete'),
-                      class: 'nav-link px-2 py-0',
-                      method: :delete,
-                      data: { confirm: t('.confirm_delete', item:item.name) })%>
-                  </nav>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
+          <%= render partial: 'items/index_entry', collection: @items %>
         </ul>
       </div>
     </div>

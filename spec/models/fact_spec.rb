@@ -36,6 +36,16 @@ RSpec.describe Fact, type: :model do
       expect { fact.save!(validate: false) }
         .to raise_error ActiveRecord::StatementInvalid
     end
+
+    it 'cannot have a start date equal to end date' do
+      date = DateTime.current
+      fact = build(:fact, world: world,
+                   start_date: date,
+                   end_date: date)
+      expect(fact).not_to be_valid
+      expect { fact.save!(validate: false) }
+        .to raise_error ActiveRecord::StatementInvalid
+    end
   end
 
   it_behaves_like 'noteable' do

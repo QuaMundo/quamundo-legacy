@@ -22,11 +22,11 @@ RSpec.describe Figure, type: :model do
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { build(:figure_with_tags) }
+    let(:subject) { build(:figure) }
   end
 
   it_behaves_like 'traitable' do
-    let(:subject) { build(:figure_with_traits) }
+    let(:subject) { build(:figure) }
   end
 
   it_behaves_like 'dossierable' do

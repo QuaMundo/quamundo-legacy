@@ -14,7 +14,7 @@ de:
       destroyed: 'Figur %{figure} erfoglreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
-    index:
+    index_entry:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
     show:
       part_of_facts:

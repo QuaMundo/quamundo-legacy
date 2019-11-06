@@ -22,5 +22,13 @@
     <%= f.file_field :image, class: 'form-control-file' %>
   </div>
 
+  <%# Add/edit tags %>
+  <%= render partial: 'tags/tag_input', locals: { form: f, tagable: @item } %>
+
+  <%# Add/edit traits %>
+  <%= render(
+    partial: 'traits/trait_input',
+    locals: { form: f, traitable: @item } ) %>
+
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
 <% end %>

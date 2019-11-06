@@ -1,4 +1,4 @@
-RSpec.describe 'Listint facts', type: :system do
+RSpec.describe 'Listing facts', type: :system do
   include_context 'Session'
 
   let(:world) { create(:world_with_facts, user: user) }
@@ -8,9 +8,8 @@ RSpec.describe 'Listint facts', type: :system do
 
     it 'shows a list of facts' do
       world.facts.each do |fact|
-        expect(page).to have_content(fact.name)
-        expect(page).to have_content(fact.description)
-        expect(page).to have_link(href: world_fact_path(world, fact))
+        expect(page)
+          .to have_selector("[id=\"index-entry-fact-#{fact.id}\"]")
       end
     end
 

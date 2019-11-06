@@ -8,13 +8,8 @@ RSpec.describe 'Listing figures', type: :system do
 
     it 'shows cards of each figure' do
       world.figures.each do |figure|
-        page
-          .within("[id=\"figure-#{figure.id}\"]") do
-          expect(page).to have_content(figure.name)
-          expect(page).to have_content(figure.description)
-          expect(page).to have_link(href: world_figure_path(world, figure))
-          expect(page).to have_selector("img")
-        end
+        expect(page)
+          .to have_selector("[id=\"index-entry-figure-#{figure.id}\"]")
       end
     end
 

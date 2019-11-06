@@ -14,6 +14,11 @@ class Fact < ApplicationRecord
 
   has_many :relations, dependent: :destroy
 
+  accepts_nested_attributes_for :fact_constituents,
+    update_only: true,
+    allow_destroy: true,
+    reject_if: ->(attr) { attr[:constituable_id].blank? }
+
   validate :end_after_start_date
 
   scope :chronological, -> {
@@ -22,7 +27,7 @@ class Fact < ApplicationRecord
 
   private
   def end_after_start_date
-    if start_date.present? && end_date.present? && start_date > end_date
+    if start_date.present? && end_date.present? && start_date >= end_date
       errors.add(:end_date, I18n.t('.end_before_start_date'))
     end
   end

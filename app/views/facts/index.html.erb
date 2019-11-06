@@ -18,62 +18,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-unstyled">
-          <% @facts.each do |fact| %>
-            <%= tag.li(class: 'media mb-4', id: element_id(fact)) do %>
-
-              <%# Image - Thumbnail %>
-              <%= tag.a(href: world_fact_path(fact.world, fact)) do %>
-                <% if fact.image.attached? %>
-                  <%= tag.img(src: attached_img_path(fact.image, 64, 64),
-                              class: 'mr-3 q-media-img') %>
-                <% else %>
-                  <%= default_image(fact, 'mr-3 q-media-img-default') %>
-                <% end %>
-              <% end %>
-
-              <%# FIXME: Body must be below li ^^ %>
-              <%# body%>
-              <div class="media-body">
-                <h5 class="mb-1">
-                  <%= icon(:fact) { fact.name } %>
-                </h5>
-                <div class="small">
-                  <% if fact.description.present? %>
-                    <%= fact.description %><br />
-                  <% end %>
-                  <span class="text-muted">
-                    <%= icon(:figure) %>&nbsp;
-                    <%= fact.fact_constituents.select { |c| c.constituable_type == 'Figure' }.count %>
-                    <%= icon(:item) %>&nbsp;
-                    <%= fact.fact_constituents.select { |c| c.constituable_type == 'Item' }.count %>
-                    <%= icon(:location) %>&nbsp;
-                    <%= fact.fact_constituents.select { |c| c.constituable_type == 'Location' }.count %>
-                    <%= icon(:concept) %>&nbsp;
-                    <%= fact.fact_constituents.select { |c| c.constituable_type == 'Concept' }.count %>
-                  </span>
-                  <nav class="nav small">
-                    <%= link_to(
-                      t('show'),
-                      world_fact_path(fact.world, fact),
-                      class: 'nav-link pr-2 pl-0 py-0') %>
-                    <%= link_to(
-                      icon(:edit),
-                      edit_world_fact_path(fact.world, fact),
-                      class: 'nav-link px-2 py-0',
-                      id: element_id(fact, 'edit')) %>
-                    <%= link_to(
-                      icon(:delete),
-                      world_fact_path(fact.world, fact),
-                      id: element_id(fact, 'delete'),
-                      class: 'nav-link px-2 py-0',
-                      method: :delete,
-                      data: { confirm: t('.confirm_delete', fact:fact.name) })%>
-                  </nav>
-                </div>
-              </div>
-
-            <% end %>
-          <% end %>
+          <%= render partial: 'facts/index_entry', collection: @facts %>
         </ul>
       </div>
     </div>

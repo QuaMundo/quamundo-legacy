@@ -1,0 +1,76 @@
+<%# World Index Entry %>
+<%# FIXME: Is it possible to extract common parts to partial? %>
+<%= tag.li(
+  class: ['media', 'mb-4', 'index_entry'],
+  id: element_id(index_entry, 'index-entry')) do %>
+
+  <%# Image - Thumbnail %>
+  <%= tag.a(href: world_path(index_entry)) do %>
+    <% if index_entry.image.attached? %>
+      <%= tag.img(
+        src: attached_img_path(index_entry.image, 64, 64),
+        class: ['mr-3', 'q-media-img', 'index_entry_thumbnail']) %>
+    <% else %>
+      <%= default_image(
+        index_entry,
+        'mr-3 q-media-img-default index_entry_thumbnail') %>
+    <% end %>
+  <% end %>
+
+  <%# body%>
+  <div class="media-body">
+    <%# Header %>
+    <h5 class="mb-q index_entry_name">
+      <%= icon(:world) { index_entry.name } %>
+    </h5>
+
+    <%# Description %>
+    <div class="small index_entry_description">
+      <% if index_entry.description.present? %>
+        <%= index_entry.description %><br />
+      <% end %>
+    </div>
+    <%# Stats %>
+    <div class="small index_entry_stats">
+      <span class="text-muted">
+        <% if index_entry.begin_of_time.present? %>
+          <%= icon(:start_date) %>
+          <%= l(index_entry.begin_of_time) %>&nbsp;
+        <% end %>
+        <% if index_entry.end_of_time.present? %>
+          <%= icon(:end_date) %>
+          <%= l(index_entry.end_of_time) %>
+        <% end %><br />
+        <%= icon(:figure) %>&nbsp;<%= index_entry.figures.count %>&nbsp;
+        <%= icon(:item) %>&nbsp;<%= index_entry.items.count %>&nbsp;
+        <%= icon(:location) %>&nbsp;<%= index_entry.locations.count %>&nbsp;
+        <%= icon(:concept) %>&nbsp;<%= index_entry.concepts.count %>&nbsp;
+        <%= icon(:fact) %>&nbsp;<%= index_entry.facts.count %>&nbsp;
+      </span>
+    </div>
+    <%# Nav %>
+    <div class="index_entry_nav">
+      <nav class="nav small">
+        <%= link_to(
+          t('show'),
+          world_path(index_entry),
+          class: 'nav-link pr-2 pl-0 py-0') %>
+        <%= link_to(
+          icon(:edit),
+          edit_world_path(index_entry),
+          class: 'nav-link px-2 py-0',
+          id: element_id(index_entry, 'edit')) %>
+        <%= link_to(
+          icon(:delete),
+          world_path(index_entry),
+          id: element_id(index_entry, 'delete'),
+          class: 'nav-link px-2 py-0',
+          method: :delete,
+          data: { confirm: t('.confirm_delete', world: index_entry.name) })%>
+      </nav>
+    </div>
+  </div>
+<% end %>
+
+
+

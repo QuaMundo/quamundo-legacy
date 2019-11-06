@@ -5,6 +5,7 @@
 <h5><%= associated_object_info(@trait.traitable) %></h5>
 <%= form_with url: @form_url, model: @trait, local: true do |f| %>
 
+  <%# FIXME: Duplicate code! See _trait_input; maybe refactor %>
   <%= f.fields_for :attributeset do |a| %>
 
     <% @trait.attributeset.each do |key, value| %>
@@ -27,10 +28,18 @@
 
   <div class="form-group row">
     <div class="col-4 input-group">
-      <%= f.text_field :new_key, autofocus: true, class: 'form-control', placeholder: t('.new_key') %>
+      <%= f.text_field(
+        :new_key, autofocus: true,
+        data: { id: 'trait_new_key' },
+        class: 'form-control',
+        placeholder: t('.new_key')) %>
     </div>
     <div class="col-8 input-group">
-      <%= f.text_field :new_value, class: 'form-control', placeholder: t('.new_value') %>
+      <%= f.text_field(
+        :new_value,
+        data: { id: 'trait_new_value' },
+        class: 'form-control',
+        placeholder: t('.new_value')) %>
       <div class="input-group-append">
         <button id="add-trait"
                 class="btn input-group-text btn-outline-primary"

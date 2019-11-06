@@ -12,10 +12,8 @@ RSpec.describe 'Listing relations', type: :system do
   context 'of an own world' do
     it 'shows a list af a facts relations' do
       fact.relations.each do |relation|
-        expect(page).to have_content(relation.name)
-        expect(page).to have_content(relation.description)
         expect(page)
-          .to have_link(href: world_fact_relation_path(world, fact, relation))
+          .to have_selector("[id=\"index-entry-relation-#{relation.id}\"]")
       end
     end
 

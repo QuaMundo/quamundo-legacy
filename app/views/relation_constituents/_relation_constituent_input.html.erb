@@ -1,0 +1,120 @@
+<%= field_set_tag(
+  RelationConstituent.model_name.human(count: 2),
+  data: { controller: 'relation-constituents' },
+  id: 'relation_constituents-input') do %>
+
+  <%= form.fields_for(
+    :relation_constituents,
+    @relation.relation_constituents) do |constituent_form| %>
+    <div class="form-group row relation_constituent_entry">
+      <div class="col-md-8 col-12 input-group">
+        <%= constituent_form.hidden_field(:id) %>
+        <%= constituent_form.hidden_field('_destroy', value: false) %>
+       <%= text_field_tag(
+         nil, # FIXME: Shorten line.
+         "#{constituent_form.object.fact_constituent.constituable.name} (#{constituent_form.object.fact_constituent.constituable_type})",
+         class: 'form-control',
+         id: nil,
+         readonly: true) %>
+      </div>
+      <div class="col-md-4 col-12 input-group">
+        <%= constituent_form.select(
+          :role,
+          [
+            [t('.subject'), :subject],
+            [t('.relative'), :relative]
+          ],
+          {},
+          class: 'form-control') %>
+        <button class="btn input-group-text btn-outline-primary"
+                data-action="relation-constituents#deleteItem"
+                type="button">
+          <%= icon(:delete) %>
+        </button>
+      </div>
+    </div>
+  <% end %>
+
+  <%= form.fields_for(
+    :relation_constituents,
+    @relation.relation_constituents.new,
+    child_index: -1) do |constituent_form| %>
+
+    <%# select new constituent %>
+    <div class="form-group row relation_constituent_entry"
+         data-target="relation-constituents.input">
+      <div class="col-md-8 col-12 input-group">
+        <%= constituent_form.select(
+          :fact_constituent_id,
+          nil,
+          {},
+          class: 'form-control',
+          data: { target: 'relation-constituents.constituent' }) do%>
+
+          <%= grouped_options_for_select(
+            RelationConstituentHelper.select_group_options(@relation),
+            nil,
+            prompt: t('.choose')) %>
+
+        <% end %>
+      </div>
+      <div class="col-md-4 col-12 input-group">
+        <%= constituent_form.select(
+          :role,
+          [
+            [t('.subject'), :subject],
+            [t('.relative'), :relative]
+          ],
+          {},
+          class: 'form-control',
+          data: { target: 'relation-constituents.role' }) %>
+        <button class="btn input-group-text btn-outline-primary"
+                id="add-constituent"
+                data-action="relation-constituents#addItem"
+                type="button">
+          <%= icon(:new) %>
+        </button>
+      </div>
+    </div>
+
+  <% end %>
+
+  <%# Template for newly added constituents %>
+  <template id="new-constituent-input"
+            data-target="relation-constituents.template">
+    <%= form.fields_for(
+      :relation_constituents,
+      @relation.relation_constituents.new,
+      child_index: 'TPL_NEW_INPUT') do |constituent_form| %>
+      <div class="form-group row relation_constituent_entry">
+        <div class="col-md-8 col-12 input-group">
+          <%= constituent_form.hidden_field(
+            :fact_constituent_id,
+            value: 'TPL_NEW_VAL') %>
+          <%= text_field_tag(
+            nil, # FIXME: Shorten line.
+            'TPL_NEW_TEXT',
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+        </div>
+        <div class="col-md-4 col-12 input-group">
+          <%= constituent_form.select(
+            :role,
+            [
+              [t('.subject'), :subject],
+              [t('.relative'), :relative]
+            ],
+            {},
+            class: 'form-control') %> 
+          <button class="btn input-group-text btn-outline-primary"
+                  data-action="relation-constituents#removeItem"
+                  type="button">
+            <%= icon(:delete) %>
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </template>
+
+<% end %>

@@ -1,15 +1,25 @@
 class FactConstituentsController < ApplicationController
   include WorldAssociationController
+  include FactConstituentsParams
 
-  before_action :set_fact_constituent, only: [:edit, :update, :destroy]
   before_action :set_fact
+  before_action :set_fact_constituent, only: [:edit, :update, :destroy]
 
   def new
     @fact_constituent = @fact.fact_constituents.new
+    # FIXME: Prove that this only takes one DB query for controller and view!
+    unless FactConstituentHelper
+      .selectable_constituents(@fact).any?
+
+      redirect_to(
+        world_fact_path(@world, @fact),
+        notice: t('.no_candidates', fact: @fact.name)
+      )
+    end
   end
 
   def create
-    strip_inventory_param
+    strip_inventory_param!(params[:fact_constituent])
     @fact_constituent = @fact.fact_constituents.new(fact_constituent_params)
 
     respond_to do |format|
@@ -76,27 +86,9 @@ class FactConstituentsController < ApplicationController
   end
 
   def fact_constituent_params
-    dispatch_roles
+    dispatch_constituent_roles!(params[:fact_constituent])
     params
       .require(:fact_constituent)
       .permit(:constituable_id, :constituable_type, roles: [])
-  end
-
-  def strip_inventory_param
-    # FIXME: This is not clean - check if better a helper
-    c_type, c_id = params[:fact_constituent].delete(:inventory).split('.')
-    params[:fact_constituent][:constituable_id] = c_id
-    params[:fact_constituent][:constituable_type] = c_type
-  end
-
-  def dispatch_roles
-    if params[:fact_constituent][:roles].present? &&
-        params[:fact_constituent][:roles].kind_of?(String)
-
-      roles = params[:fact_constituent][:roles]
-      params[:fact_constituent][:roles] = roles.split(',').map(&:strip).uniq
-    else
-      params[:fact_constituent][:roles] = []
-    end
   end
 end

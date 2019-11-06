@@ -4,6 +4,7 @@ de:
       new_relation_constituent: 'Neues Bezugsobjekt'
       subject: 'Subjekt'
       relative: 'verwandtes Objekt'
+      no_candidates: 'Keine weiteren Relationspartner für Relation "%{relation}" verfügbar'
     destroy:
       destroyed: 'Die Verküpfung wurde gelöscht'
     create:
@@ -16,4 +17,10 @@ de:
     update:
       updated: 'Verknüpfung aktualisiert'
       update_failed: 'Verknüpfung konnte nicht aktualisiert werden'
+    index_entry:
+      confirm_delete: 'Soll die Verknüpfung mit "%{constituent}" wirklich entfernt werden?'
+    relation_constituent_input:
+      subject: 'Subjekt'
+      relative: 'Verwandtes Objekt'
+      choose: 'Beziehungspartner wählen'
 

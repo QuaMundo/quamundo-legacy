@@ -19,7 +19,6 @@ module ApplicationHelper
       underline: true,
       highlight: true
     )
-
     @markdown.render(text).html_safe
   end
 end

@@ -14,7 +14,7 @@ de:
       destroyed: 'Gegenstand %{item} erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
-    index:
+    index_entry:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
     show:
       part_of_facts:

@@ -13,7 +13,7 @@ module IconHelper
       fact_constituent: { icon: 'random',               style: 'fas' },
       relation:         { icon: 'link',                 style: 'fas' },
 
-      # Attribut        es
+      # Attributes
       note:             { icon: 'sticky-note',          style: 'far' },
       dossier:          { icon: 'folder-open',          style: 'fas' },
       trait:            { icon: 'tag',                  style: 'fas' },
@@ -29,7 +29,11 @@ module IconHelper
       edit:             { icon: 'edit',                 style: 'fas' },
       index:            { icon: 'list',                 style: 'fas' },
       new:              { icon: 'plus',                 style: 'fas' },
-      delete:           { icon: 'trash',                style: 'fas' }
+      delete:           { icon: 'trash',                style: 'fas' },
+
+      # Misc
+      start_date:       { icon: 'step-forward',         style: 'fas' },
+      end_date:         { icon: 'step-backward',        style: 'fas' }
     }
   end
 end

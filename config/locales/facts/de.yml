@@ -22,12 +22,13 @@ de:
       destroyed: 'Fakt %{fact} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'
-    index:
+    index_entry:
       confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'
 
   fact_constituents:
     new:
       new_fact_constituent: 'Neuer Faktenaspekt'
+      no_candidates: 'Keine weiteren Aspekte für Fakt "%{fact}" vorhanden'
     create:
       created: 'Faktenaspekt erfolgreich erstellt'
       create_failed: 'Faktenaspekt konnte nicht erstellt werden'
@@ -40,7 +41,12 @@ de:
     fact_constituents:
       edit_roles: 'Rollen bearbeiten'
       remove_from_fact: 'Von Fakt entfernen'
+    index_entry:
       confirm_delete: 'Soll Aspekt %{constituent} wirklich entfernt werden?'
+
+    fact_constituent_input:
+      choose: 'Bitte Aspekt wählen'
+      roles: 'Rollen'
 
   activerecord:
     models:

@@ -46,6 +46,14 @@ RSpec.describe 'Updating/Editing a fact', type: :system do
     it_behaves_like 'valid_view' do
       let(:subject) { edit_world_fact_path(world, fact) }
     end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { edit_world_fact_path(world, fact) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)    { edit_world_fact_path(world, fact) }
+    end
   end
 
   context 'of another users world' do

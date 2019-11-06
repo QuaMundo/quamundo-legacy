@@ -46,6 +46,14 @@ RSpec.describe 'Updating/Editing an item', type: :system do
     it_behaves_like 'valid_view' do
       let(:subject) { edit_world_item_path(world, item) }
     end
+
+    it_behaves_like 'editable tags' do
+      let(:path)    { edit_world_item_path(world, item) }
+    end
+
+    it_behaves_like 'editable traits' do
+      let(:path)    { edit_world_item_path(world, item) }
+    end
   end
 
   context 'of another users world' do

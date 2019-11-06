@@ -45,7 +45,7 @@ RSpec.describe 'Showing a fact', type: :system do
             .to have_link(href: world_fact_relation_path(world, fact, relation))
           expect(page)
             .to have_link(href: world_fact_relation_path(world, fact, relation),
-                          title: 'destroy')
+                          id: /delete-.*/)
           expect(page)
             .to have_link(href: edit_world_fact_relation_path(
               world, fact, relation))

@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
 
   private
   def set_locale
-    I18n.locale = params[:l] || params[:locale] || I18n.default_locale
+    I18n.locale = params[:l] || params[:locale] || get_locale_from_tld || I18n.default_locale
+  end
+
+  def get_locale_from_tld
+    tld = request.host.split('.').last
+    I18n.available_locales.map(&:to_s).include?(tld) ? tld : nil
   end
 end

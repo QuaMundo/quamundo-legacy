@@ -15,30 +15,17 @@ RSpec.shared_examples 'associated relations',
   it 'shows relatives of the inventory' do
     expect(subject.relatives.count).to be > 1
     subject.relatives.each do |relative|
-      inventory = relative.fact_constituent.constituable
-      expect(page).to have_content(inventory.name)
-      expect(page).to have_content(inventory.description)
-      expect(page).to have_content(relative.name)
+      rid = relative.fact_constituent.id
       expect(page)
-        .to have_link(href: polymorphic_path([fact.world, inventory]))
-      expect(page)
-        .to have_link(
-          href: edit_world_fact_relation_path(fact.world, fact, relation)
-      )
-      expect(page)
-        .to have_link(
-          title: 'destroy',
-          href: world_relation_constituent_path(fact.world, relative.relative)
-      )
+        .to have_selector("[id=\"index-entry-fact_constituent-#{rid}\"]")
     end
   end
 
   it 'can edit a relation' do
-    relative = relation.relatives.first
-    page.find("##{element_id(relative)}")
-      .click_link(
-        href: edit_world_fact_relation_path(fact.world, fact, relation)
-    )
+    constituent = relation.relatives.first.fact_constituent
+    click_link(id: "#{element_id(constituent, 'edit')}",
+               href: edit_world_fact_relation_path(fact.world, fact, relation))
+
     expect(page)
       .to have_current_path(
         edit_world_fact_relation_path(fact.world, fact, relation)
@@ -47,9 +34,8 @@ RSpec.shared_examples 'associated relations',
 
   it 'can delete a relation to an inventory' do
     relative = relation.relatives.first
-    page.find("##{element_id(relative)}")
-      .click_link(title: 'destroy',
-                  href: world_relation_constituent_path(fact.world, relative))
+    click_link(href: world_relation_constituent_path(fact.world, relative),
+               id: "#{element_id(relative, 'delete')}")
     expect(page)
       .to have_current_path(
         world_fact_relation_path(fact.world, fact, relative.relation)

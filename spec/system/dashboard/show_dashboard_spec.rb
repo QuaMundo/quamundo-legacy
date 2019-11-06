@@ -35,23 +35,21 @@ RSpec.describe 'Dashboard', type: :system do
       refresh_materialized_views(Inventory)
       visit root_path
       expect(page).to have_selector('#last-activities ul li', count: 15)
-      user.inventories.limit(15).each do |entry|
-        check_attrs(entry)
+    end
+
+    context 'having other users' do
+      let!(:other_user)  { create(:user_with_worlds_wo_img, worlds_count: 1) }
+      let!(:other_item)  { create(:item, world: other_user.worlds.first) }
+
+      it 'does not show items of other users' do
+        refresh_materialized_views(Inventory)
+        visit(root_path)
+        expect(page).not_to have_content(other_item.name)
       end
     end
 
     it_behaves_like "valid_view" do
       let(:subject) { root_path }
-    end
-
-    private
-    def check_attrs(item)
-      expect(page).to have_content(item.name)
-      expect(page).to have_content(item.description)
-      expect(page).to have_link(
-        href: polymorphic_path([item.world, item.inventory])
-      )
-      expect(page).to have_selector('img')
     end
   end
 end

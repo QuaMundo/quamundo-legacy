@@ -1,6 +1,4 @@
 RSpec.describe Tag, type: :model do
-  #include_context 'Session'
-
   let(:world) { build(:world_with_tags) }
   let(:tag) { world.tag }
 
@@ -13,10 +11,10 @@ RSpec.describe Tag, type: :model do
   end
 
   context 'validation fo tags' do
-    it 'ensures all tags are in lower and snake-case' do
-      tag.tagset = %w{ hAllo\ wElT one double tWo THREE double aüöä-= }
+    it 'ensures tags are sorted and do not have doubles' do
+      tag.tagset = %w{ hAllo\ wElT one double tWo THREE double aüöä-= one }
       tag.validate
-      expect(tag.tagset).to eq(%w{ auoa- double hallo_welt one three two })
+      expect(tag.tagset).to eq(%w{ THREE aüöä-= double hAllo\ wElT one tWo })
     end
 
     it 'is true for empty tagset' do

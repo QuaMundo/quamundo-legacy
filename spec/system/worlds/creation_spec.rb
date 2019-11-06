@@ -29,4 +29,12 @@ RSpec.describe 'Creating a world', type: :system do
   it_behaves_like 'valid_view' do
     let(:subject) { new_world_path }
   end
+
+  it_behaves_like 'editable tags' do
+    let(:path)    { new_world_path }
+  end
+
+  it_behaves_like 'editable traits' do
+    let(:path)    { new_world_path }
+  end
 end

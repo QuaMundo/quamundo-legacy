@@ -7,7 +7,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :worlds, dependent: :destroy
-  has_many :inventories
+  has_many :inventories, through: :worlds
 
   # FIXME: Can this put in a concern?
   with_options through: :worlds do |assoc|

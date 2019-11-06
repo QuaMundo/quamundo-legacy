@@ -1,4 +1,6 @@
 class WorldsController < ApplicationController
+  include ProcessParams
+
   before_action :set_world, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -9,7 +11,8 @@ class WorldsController < ApplicationController
   end
 
   def new
-    @world = World.new
+    @world = World.new(tag_attributes: {},
+                       trait_attributes: {})
   end
 
   def create
@@ -63,10 +66,21 @@ class WorldsController < ApplicationController
 
   private
   def world_params
+    # FIXME: Is it possible to put this into a concern?
+    dispatch_tags_param!(params[:world][:tag_attributes])
+    dispatch_traits_param!(params[:world][:trait_attributes])
     if params[:action] == 'create'
-      params.require(:world).permit(:name, :description, :image)
+      params.require(:world)
+        .permit(:name, :description, :image,
+                tag_attributes: [:id, tagset: []],
+                trait_attributes: [:id, attributeset: {},
+                                   trait: [:new_key, :new_value]])
     else
-      params.require(:world).permit(:description, :image)
+      params.require(:world)
+        .permit(:description, :image,
+                tag_attributes: [:id, tagset: []],
+                trait_attributes: [:id, attributeset: {},
+                                   trait: [:new_key, :new_value]])
     end
   end
 

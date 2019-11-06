@@ -1,15 +1,25 @@
-<h2><%= t('.new_fact_constituent') %></h2>
-<%= form_with url: [@world, @fact, @fact_constituent], model: @fact_constituent, local: true do |f| %>
+<h2>
+  <%= t('.new_fact_constituent') %>&nbsp;
+  <span class="small text-muted">
+    <%= icon(:fact) %>
+    <%= @fact.name %>
+  </span>
+</h2>
+<%= form_with(
+  url: [@world, @fact, @fact_constituent],
+  model: @fact_constituent,
+  local: true) do |f| %>
+
   <div class="form-group">
-    <%= f.label :roles %>
-    <%= f.text_field :roles, class: 'form-control', value: @fact_constituent.roles.join(', ') %>
+    <%= f.label :constituable %> 
+    <%= f.select(:constituable,
+                 FactConstituentHelper.select_group_options(@fact),
+                 { include_blank: true, multiple: true }) %>
   </div>
 
   <div class="form-group">
-    <%= f.label :inventory %> 
-    <%= f.select(:inventory,
-                 FactConstituentHelper.select_options(@fact_constituent),
-                 { include_blank: true, multiple: true }) %>
+    <%= f.label :roles %>
+    <%= f.text_field :roles, class: 'form-control', value: @fact_constituent.roles.join(', ') %> 
   </div>
 
   <%= f.submit t('submit'), class: 'btn btn-primary btn-lg' %>

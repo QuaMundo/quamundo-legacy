@@ -33,7 +33,7 @@ RSpec.describe Location, type: :model do
   end
 
   it_behaves_like 'traitable' do
-    let(:subject) { build(:location_with_traits) }
+    let(:subject) { build(:location) }
   end
 
   it_behaves_like 'dossierable' do
@@ -41,7 +41,7 @@ RSpec.describe Location, type: :model do
   end
 
   it_behaves_like 'tagable' do
-    let(:subject) { build(:location_with_tags) }
+    let(:subject) { build(:location) }
   end
 
   it_behaves_like 'updates parents' do

@@ -8,18 +8,18 @@ de:
       relatives: 'Die Beziehung verbindet mit'
       confirm_delete: 'Soll diese Verknüpfung tatsächlich gelöscht werden?'
     new:
-      new_relation: 'Neue Beziehung'
+      new_relation: 'Neue Beziehung für Fakt "%{fact}"'
     create:
       created: 'Relation "%{relation}" erfolgreich erstellt'
       create_failed: 'Relation "%{relation}" konnte nicht erstellt werden'
     edit:
-      edit_relation: 'Relation bearbeiten'
+      edit_relation: 'Relation für Fakt "%{fact}" bearbeiten'
     update:
       updated: 'Relation "%{relation}" wurde erfolgreich aktualisiert'
       update_failed: 'Relation "%{relation}" konnte nicht aktualisiert werden'
     context_menu:
       confirm_delete: 'Soll die Relation "%{relation}" wirklich geläscht werden?'
-    index:
+    index_entry:
       subjects:
         one: 'Subjekt'
         other: 'Subjekte'

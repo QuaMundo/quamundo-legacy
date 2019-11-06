@@ -6,7 +6,7 @@ RSpec.describe 'Select options for fact constituents',
   let(:fact)        { create(:fact, user: user) }
   let(:world)       { fact.world }
   let(:other_fact)  { create(:fact, world: world) }
-  let(:item)        { create(:item, world: world) }
+  let!(:item)        { create(:item, world: world) }
   let!(:figure)     { create(:figure, world: world) }
   let!(:concept)    { create(:concept, world: world) }
   let!(:location)   { create(:location, world: world) }
@@ -14,10 +14,19 @@ RSpec.describe 'Select options for fact constituents',
   before(:example) { other_fact.fact_constituents.create(constituable: location) }
 
   context 'in creation form' do
+    it 'has an option group for every inventory type' do
+      visit new_world_fact_fact_constituent_path(world, fact)
+      page.within('select#fact_constituent_constituable') do
+        %w(Concept Figure Item Location).each do |t|
+          expect(page).to have_selector("optgroup[label=\"#{t}\"]")
+        end
+      end
+    end
+
     it 'does not contain facts' do
       other_fact.fact_constituents.create(constituable: item)
       visit new_world_fact_fact_constituent_path(world, fact)
-      page.within('select#fact_constituent_inventory') do
+      page.within('select#fact_constituent_constituable') do
         expect(page).to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')
@@ -30,7 +39,7 @@ RSpec.describe 'Select options for fact constituents',
       fact.fact_constituents.create(constituable: item)
       other_fact.fact_constituents.create(constituable: item)
       visit new_world_fact_fact_constituent_path(world, fact)
-      page.within('select#fact_constituent_inventory') do
+      page.within('select#fact_constituent_constituable') do
         expect(page).not_to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')
@@ -46,7 +55,7 @@ RSpec.describe 'Select options for fact constituents',
     it 'does not contain facts' do
       visit new_world_fact_fact_constituent_path(world, fact)
       other_fact.fact_constituents.create(constituable: item)
-      page.within('select#fact_constituent_inventory') do
+      page.within('select#fact_constituent_constituable') do
         expect(page).not_to have_selector('option[value^="Item"]')
         expect(page).to have_selector('option[value^="Figure"]')
         expect(page).to have_selector('option[value^="Location"]')

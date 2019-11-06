@@ -85,7 +85,12 @@ class RelationsController < ApplicationController
     strip_empty_params
     params
       .require(:relation)
-      .permit(:name, :description, :reverse_name)
+      .permit(
+        :name, :description, :reverse_name, :fact_id,
+        relation_constituents_attributes: [
+          :id, :role, :_destroy, :fact_constituent_id
+        ]
+    )
   end
 
   # FIXME: Put this into a helper method

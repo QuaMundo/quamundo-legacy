@@ -3,12 +3,13 @@ module Tagable
 
   included do
     has_one :tag, as: :tagable, dependent: :destroy
+    accepts_nested_attributes_for :tag, update_only: true
 
-    after_create :set_tagset
+    after_validation :set_tagset
 
     private
     def set_tagset
-      self.create_tag
+      self.build_tag if self.tag.nil?
     end
   end
 end

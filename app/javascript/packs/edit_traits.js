@@ -10,8 +10,10 @@ $(document).ready(function() {
 
 // FIXME: Refactor this; function body too large
 function create_new_input_pair() {
-  var new_key = $('#trait_new_key').val();
-  var new_val = $('#trait_new_value').val();
+
+  var new_key = $('[data-id="trait_new_key"]').val();
+  var new_val = $('[data-id="trait_new_value"]').val();
+
   if (new_key != '' && new_val != '') {
     var input_group = $('#add-trait')
       .closest('div[class="form-group row"]');
@@ -20,7 +22,7 @@ function create_new_input_pair() {
       .append(
         $('<label/>', {
           class: 'col-form-label col-4',
-          for: 'trait_attributeset_' + new_key,
+          for: build_id(),
           text: new_key
         })
       )
@@ -29,10 +31,10 @@ function create_new_input_pair() {
         .append(
           $('<input/>', {
             class: 'form-control',
-            id: 'trait_attributeset_' + new_key,
+            id: build_id(),
             type: 'text',
             value: new_val,
-            name: 'trait[attributeset][' + new_key + ']'
+            name: build_name()
           })
         )
         .append(
@@ -48,11 +50,44 @@ function create_new_input_pair() {
         )
       )
     );
-    $('#trait_new_key').val('');
-    $('#trait_new_value').val('');
-  }
+
+    $('[data-id="trait_new_key"]').val('');
+    $('[data-id="trait_new_value"]').val('');
+  };
+
+   function get_traitable_type() {
+    return $('#traits-input').data('type') || 'trait';
+   };
+
+  function get_attributes_params() {
+    if (get_traitable_type() != 'trait') {
+      return 'trait_attributes';
+    };
+    return undefined;
+  };
+
+  function build_name() {
+    res = get_traitable_type();
+    if (get_attributes_params() != undefined) {
+      res += '[' + get_attributes_params() + ']'
+    };
+    res += '[attributeset][' + new_key + ']';
+    console.log(res);
+    return res;
+  };
+
+  function build_id() {
+    res = get_traitable_type();
+    if (get_attributes_params() != undefined) {
+      res += '_trait_attributes';
+    };
+    res += '_attributeset_' + new_key;
+    console.log(res);
+    return res;
+  };
 };
 
 function remove_trait(elem) {
   elem.closest('div[class="form-group row"]').remove();
-}
+};
+

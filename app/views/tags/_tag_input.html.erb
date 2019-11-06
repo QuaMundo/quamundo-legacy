@@ -1,0 +1,16 @@
+<%= form.fields_for :tag do |tag_form| %>
+  <%= field_set_tag(
+    Tag.model_name.human(count: 2),
+    id: 'tags-input',
+    data: { type: tagable.model_name.param_key }) do %>
+
+    <div class="form-group">
+      <%= tag_form.label :tagset %>
+      <%= tag_form.text_field(
+        :tagset,
+        class: 'form-control',
+        value: tagable.tag.tagset.join(', ')
+      ) %>
+    </div>
+  <% end %>
+<% end %>

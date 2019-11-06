@@ -18,55 +18,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-unstyled">
-          <% @figures.each do |figure| %>
-            <%= tag.li(class: 'media mb-4', id: element_id(figure)) do %>
-
-              <%# Image - Thumbnail %>
-              <%= tag.a(href: world_figure_path(figure.world, figure)) do %>
-                <% if figure.image.attached? %>
-                  <%= tag.img(src: attached_img_path(figure.image, 64, 64),
-                              class: 'mr-3 q-media-img') %>
-                <% else %>
-                  <%= default_image(figure, 'mr-3 q-media-img-default') %>
-                <% end %>
-              <% end %>
-
-              <%# FIXME: Body must be below li ^^ %>
-              <%# body%>
-              <div class="media-body">
-                <h5 class="mb-q">
-                  <%= icon(:figure) { figure.name } %>
-                </h5>
-                <div class="small">
-                  <% if figure.description.present? %>
-                    <%= figure.description %><br />
-                  <% end %>
-                  <span class="text-muted">
-                    <%= icon(:fact) %>&nbsp;
-                    <%= figure.facts.count %>
-                  </span>
-                  <nav class="nav small">
-                    <%= link_to(
-                      t('show'),
-                      world_figure_path(figure.world, figure),
-                      class: 'nav-link pr-2 pl-0 py-0') %>
-                    <%= link_to(
-                      icon(:edit),
-                      edit_world_figure_path(figure.world, figure),
-                      class: 'nav-link px-2 py-0',
-                      id: element_id(figure, 'edit')) %>
-                    <%= link_to(
-                      icon(:delete),
-                      world_figure_path(figure.world, figure),
-                      id: element_id(figure, 'delete'),
-                      class: 'nav-link px-2 py-0',
-                      method: :delete,
-                      data: { confirm: t('.confirm_delete', figure:figure.name) })%>
-                  </nav>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
+          <%= render partial: 'figures/index_entry', collection: @figures %>
         </ul>
       </div>
     </div>

@@ -1,0 +1,55 @@
+<%= javascript_pack_tag 'edit_traits' %>
+
+<%= form.fields_for :trait do |trait_form| %>
+  <%= field_set_tag(
+    Trait.model_name.human(count: 2),
+    id: 'traits-input',
+    data: { type: traitable.model_name.param_key }) do %>
+    <%= trait_form.fields_for :attributeset do |attribute| %>
+      <% traitable.trait.attributeset.each do |key, value| %>
+        <div class="form-group row">
+          <%= attribute.label key, key, class: 'col-form-label col-4' %>
+          <div class="col-8 input-group">
+            <%= attribute.text_field(
+              key, value: value,
+              class: 'form-control') %>
+            <div class="input-group-append">
+              <button
+                class="btn input-group-text btn-outline-primary remove-trait"
+                type="button">
+                <%= icon(:delete) %>
+              </button>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <%= trait_form.fields_for :trait do |a| %>
+    <div class="form-group row">
+      <div class="col-4 input-group">
+        <%= a.text_field(
+          :new_key,
+          data: { id: 'trait_new_key' },
+          class: 'form-control',
+          placeholder: t('traits.form.new_key')) %>
+      </div>
+      <div class="col-8 input-group">
+        <%= a.text_field(
+          :new_value,
+          data: { id: 'trait_new_value' },
+          class: 'form-control',
+          placeholder: t('traits.form.new_value')) %>
+        <div class="input-group-append">
+          <button id="add-trait"
+                  class="btn input-group-text btn-outline-primary"
+                  type="button">
+            <%= icon(:new) %>
+          </button> 
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% end %>
+<% end %>

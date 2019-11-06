@@ -14,7 +14,7 @@ de:
       destroyed: 'Konzept %{concept} wurde gelöscht'
     context_menu:
       confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
-    index:
+    index_entry:
       confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
     show:
       part_of_facts:

@@ -14,7 +14,7 @@ de:
       destroyed: 'Dossier %{dossier} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
-    dossiers:
+    index_entry:
       confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'
     form:
       remove_attachments: 'Dateianhänge zum Löschen auswählen'

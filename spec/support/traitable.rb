@@ -3,7 +3,7 @@ RSpec.shared_examples 'traitable', type: :model do
 
   it 'has a set of traits' do
     subject.save
-    expect(subject.trait.attributeset).to eq({})
+    expect(subject.trait.attributeset).not_to be_nil
   end
 
   it 'deletes traits when subject is deleted' do
