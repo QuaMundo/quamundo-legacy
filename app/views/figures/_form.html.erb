@@ -22,8 +22,15 @@
     <%= f.file_field :image, class: "form-control-file" %>
   </div>
 
+  <%# Add ancestors %>
+  <%= render(
+    partial: 'figure_ancestors/figure_ancestors_input',
+    locals: { form: f, figure: @figure }) %>
+
   <%# Add/edit tags %>
-  <%= render partial: 'tags/tag_input', locals: { form: f, tagable: @figure } %>
+  <%= render(
+    partial: 'tags/tag_input',
+    locals: { form: f, tagable: @figure }) %>
 
   <%# Add/edit traits %>
   <%= render(

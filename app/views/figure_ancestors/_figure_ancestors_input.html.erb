@@ -1,0 +1,115 @@
+<%= field_set_tag(
+  t('.ancestors'),
+  data: { controller: 'figure-ancestors' },
+  id: 'figure_ancestors-input') do %>
+
+  <%# List existing ancestors %>
+  <%= form.fields_for(
+    :figure_ancestors,
+    figure.figure_ancestors) do |ancestor_form| %>
+
+    <div class="form-group row figure_ancestor_entry">
+      <div class="col-md-4 col-12 input-group">
+        <%= ancestor_form.hidden_field(:ancestor_id) %>
+        <%= ancestor_form.hidden_field('_destroy', value: false) %>
+        <%= text_field_tag(
+          nil,
+          ancestor_form.object.ancestor.name,
+          class: 'form-control',
+          id: nil,
+          readonly: true) %>
+      </div>
+      <div class="col-md-8 col-12 input-group">
+        <%= ancestor_form.text_field(:name, class: 'form-control') %> 
+        <div class="input-group-append">
+          <button class="btn input-group-text btn-outline-primary"
+                  data-action="figure-ancestors#deleteItem"
+                  type="button">
+            <%= icon(:delete) %>
+          </button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%# /List existing ancestors %>
+
+  <%# Select new ancestor %>
+  <%= form.fields_for(
+    :figure_ancestors,
+    figure.figure_ancestors.new,
+    child_index: -1) do |ancestor_form| %>
+
+    <div class="form-group row figure_ancestor_entry"
+         data-target="figure-ancestors.input">
+      <div class="col-md-4 col-12 input-group">
+        <%= ancestor_form.select(
+          :ancestor_id,
+          nil,
+          { include_blank: t('.choose') },
+          { class: 'form-control',
+            data: { target: 'figure-ancestors.ancestor' }}) do %>
+
+            <%= options_from_collection_for_select(
+              FigureAncestorHelper.selectable_ancestors(figure),
+              :id, :name) %>
+          <% end %>
+      </div>
+      <div class="col-md-8 col-12 input-group">
+        <%= ancestor_form.text_field(
+          :name,
+          placeholder: t('.name'),
+          data: { target: 'figure-ancestors.name' },
+          class: 'form-control') %>
+        <div class="input-group-append">
+          <button id="add-ancestor"
+                  class="btn input-group-text btn-outline-primary"
+                  data-action="figure-ancestors#addItem"
+                  type="button">
+            <%= icon(:new) %>
+          </button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%# /Select new ancestor %>
+
+  <%# Template for newly added ancestors %>
+  <template id="new-ancestor-input"
+            data-target="figure-ancestors.template">
+    <%= form.fields_for(
+      :figure_ancestors,
+      figure.figure_ancestors.new,
+      child_index: 'TPL_NEW_INPUT') do |ancestor_form| %>
+      <div class="form-group row figure_ancestor_entry">
+        <div class="col-md-4 col-12 input-group">
+          <%# FIXME: Is there a better way than to use placeholders!? %>
+          <%= ancestor_form.hidden_field(
+            :ancestor_id,
+            value: 'TPL_NEW_VAL') %>
+          <%= text_field_tag(
+            nil,
+            'TPL_NEW_TEXT',
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+        </div>
+        <div class="col-md-8 col-12 input-group">
+          <%= ancestor_form.text_field(
+            :name,
+            value: 'TPL_NEW_NAME',
+            class: 'form-control') %>
+          <div class="input-group-append">
+            <button class="btn input-group-text btn-outline-primary"
+                    data-action="figure-ancestors#removeItem"
+                    type="button">
+              <%= icon(:delete) %>
+            </button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </template>
+  <%# /Template for newly added ancestors %>
+
+<% end %>
+

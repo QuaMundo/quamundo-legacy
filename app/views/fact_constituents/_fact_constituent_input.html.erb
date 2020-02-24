@@ -3,6 +3,7 @@
   data: { controller: 'fact-constituents' },
   id: 'fact_constituents-input') do %>
 
+  <%# List existing constituents %>
   <%= form.fields_for(
     :fact_constituents,
     @fact.fact_constituents) do |constituent_form| %>
@@ -36,6 +37,7 @@
      </div>
     </div>
   <% end %>
+  <%# /List existing constituents %>
 
   <%= form.fields_for(
     :fact_constituents,
@@ -75,6 +77,7 @@
         </div>
       </div>
     </div>
+    <%# /Select new constituent %>
 
   <% end %>
 
@@ -104,8 +107,7 @@
             value: 'TPL_NEW_ROLES',
             class: 'form-control') %>
           <div class="input-group-append">
-            <button id="remove-constituent"
-                    class="btn input-group-text btn-outline-primary"
+            <button class="btn input-group-text btn-outline-primary"
                     data-action="fact-constituents#removeItem"
                     type="button">
               <%= icon(:delete) %>
@@ -115,5 +117,6 @@
       </div>
     <% end %>
   </template>
+  <%# /Template for newly added constituent %>
 
 <% end %>

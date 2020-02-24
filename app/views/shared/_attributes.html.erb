@@ -116,6 +116,11 @@
         <%= yield :concepts %>
       <% end %>
 
+      <%# Figure ancestors/pedigree %>
+      <% if content_for? :pedigree %>
+        <%= yield :pedigree %>
+      <% end %>
+
       <%# Relatives %>
       <% if content_for? :relatives %>
         <%= yield :relatives %>

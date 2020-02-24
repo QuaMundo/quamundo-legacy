@@ -1,0 +1,17 @@
+de:
+  figure_ancestors:
+    no_self_references: 'Eine Figur kann nicht ihr eigener Vorfahre sein.'
+    no_doubles: 'Ein Vorfahre kann nur einmal angegeben werden.'
+
+    figure_ancestors_input:
+      name: 'Bezeichnung (optional)'
+      choose: 'Vorfahre wählen'
+      ancestors: 'Vorfahren'
+
+    pedigree:
+      pedigree: 'Ahnentafel'
+
+    index_entry:
+      ancestor: 'Vorfahre %{degree}. Grades'
+      descendant: 'Nachkomme %{degree}. Grades'
+      confirm_delete: 'Soll Figur "%{figure}" wirklich gelöscht werden?'

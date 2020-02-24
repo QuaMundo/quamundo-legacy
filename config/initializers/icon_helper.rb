@@ -9,9 +9,10 @@ module IconHelper
       item:             { icon: 'wrench',               style: 'fas' },
       location:         { icon: 'map-marker-alt',       style: 'fas' },
       concept:          { icon: 'comment',              style: 'far' },
-      fact:             { icon: 'exclamation-triangle', style: 'fas' },
+      fact:             { icon: 'exclamation-circle',   style: 'fas' },
       fact_constituent: { icon: 'random',               style: 'fas' },
       relation:         { icon: 'link',                 style: 'fas' },
+      ancestors:        { icon: 'users',                style: 'fas' },
 
       # Attributes
       note:             { icon: 'sticky-note',          style: 'far' },

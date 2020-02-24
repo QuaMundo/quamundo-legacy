@@ -17,7 +17,7 @@ import '@fortawesome/fontawesome-free/svgs/solid/history.svg'
 import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 //import '@fortawesome/fontawesome-free/svgs/solid/map-marker-alt.svg'
 // fact
-import '@fortawesome/fontawesome-free/svgs/solid/exclamation-triangle.svg'
+import '@fortawesome/fontawesome-free/svgs/solid/exclamation-circle.svg'
 // fact constituent
 import '@fortawesome/fontawesome-free/svgs/solid/random.svg'
 // relation

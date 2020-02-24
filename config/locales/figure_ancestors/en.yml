@@ -1,0 +1,17 @@
+en:
+  figure_ancestors:
+    no_self_references: 'A figure cannot be its own ancestor'
+    no_doubles: 'A parent must not applied twice'
+
+    figure_ancestors_input:
+      name: 'Description (optional)'
+      choose: 'Choose ancestor'
+      ancestors: 'Ancestors'
+
+    pedigree:
+      pedigree: 'Pedigree'
+
+    index_entry:
+      ancestor: '%{degree} degree ancestor'
+      descendant: '%{degree} degree descendant'
+      confirm_delete: 'Should figure "%{figure}" really be deleted?'

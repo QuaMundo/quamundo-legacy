@@ -417,6 +417,40 @@ ALTER SEQUENCE public.facts_id_seq OWNED BY public.facts.id;
 
 
 --
+-- Name: figure_ancestors; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.figure_ancestors (
+    id bigint NOT NULL,
+    figure_id bigint NOT NULL,
+    ancestor_id bigint NOT NULL,
+    name character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT no_figure_ancestors_self_references CHECK ((figure_id <> ancestor_id))
+);
+
+
+--
+-- Name: figure_ancestors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.figure_ancestors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: figure_ancestors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.figure_ancestors_id_seq OWNED BY public.figure_ancestors.id;
+
+
+--
 -- Name: figures; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -867,6 +901,13 @@ ALTER TABLE ONLY public.facts ALTER COLUMN id SET DEFAULT nextval('public.facts_
 
 
 --
+-- Name: figure_ancestors id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_ancestors ALTER COLUMN id SET DEFAULT nextval('public.figure_ancestors_id_seq'::regclass);
+
+
+--
 -- Name: figures id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -990,6 +1031,14 @@ ALTER TABLE ONLY public.fact_constituents
 
 ALTER TABLE ONLY public.facts
     ADD CONSTRAINT facts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: figure_ancestors figure_ancestors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_ancestors
+    ADD CONSTRAINT figure_ancestors_pkey PRIMARY KEY (id);
 
 
 --
@@ -1155,6 +1204,27 @@ CREATE INDEX index_fact_constituents_on_roles ON public.fact_constituents USING 
 --
 
 CREATE INDEX index_facts_on_world_id ON public.facts USING btree (world_id);
+
+
+--
+-- Name: index_figure_ancestors_on_ancestor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_figure_ancestors_on_ancestor_id ON public.figure_ancestors USING btree (ancestor_id);
+
+
+--
+-- Name: index_figure_ancestors_on_figure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_figure_ancestors_on_figure_id ON public.figure_ancestors USING btree (figure_id);
+
+
+--
+-- Name: index_figure_ancestors_on_figure_id_and_ancestor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_figure_ancestors_on_figure_id_and_ancestor_id ON public.figure_ancestors USING btree (figure_id, ancestor_id);
 
 
 --
@@ -1485,6 +1555,14 @@ ALTER TABLE ONLY public.worlds
 
 
 --
+-- Name: figure_ancestors fk_rails_8993a011f6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_ancestors
+    ADD CONSTRAINT fk_rails_8993a011f6 FOREIGN KEY (figure_id) REFERENCES public.figures(id);
+
+
+--
 -- Name: items fk_rails_b5ae10593b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1506,6 +1584,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.concepts
     ADD CONSTRAINT fk_rails_d1ab849943 FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
+-- Name: figure_ancestors fk_rails_dad7936bbe; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.figure_ancestors
+    ADD CONSTRAINT fk_rails_dad7936bbe FOREIGN KEY (ancestor_id) REFERENCES public.figures(id);
 
 
 --
@@ -1566,6 +1652,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190930151242'),
 ('20191001121919'),
 ('20191005215006'),
-('20200122155154');
+('20200122155154'),
+('20200225122524'),
+('20200225144514');
 
 

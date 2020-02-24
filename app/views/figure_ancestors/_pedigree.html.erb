@@ -1,0 +1,48 @@
+<%= content_for :pedigree do %>
+  <div id="pedigree" class="card">
+
+    <div id="pedigree-header" class="card-header">
+      <button class="btn btn-link"
+              type="button"
+              data-toggle="collapse"
+              data-target="#pedigree-collection"
+              aria-expanded="true"
+              aria-controls="pedigree-collection">
+        <%= icon(:ancestors) %>&nbsp;
+        <%= figures.count %>&nbsp;
+        <%= t('.pedigree') %>
+      </button>
+    </div>
+
+    <div id="pedigree-collection"
+         class="collapse"
+         aria-labeled-by="pedigree-header"
+         data-parent="#attributes">
+      <div class="card-body">
+        
+        <%# Actual index list goes here %>
+        <div class="row">
+          <div class="col">
+
+            <ul class="list-unstyled">
+              <%= render(
+                partial: 'figure_ancestors/index_entry',
+                collection: figures) %>
+            </ul>
+
+          </div> 
+        </div>
+        <%# Actual index list ends here %>
+
+        <div class="row">
+          <div class="col text-right">
+            <%= link_to(
+              icon(:edit),
+              edit_world_figure_path(@world, @figure)) %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<% end %>

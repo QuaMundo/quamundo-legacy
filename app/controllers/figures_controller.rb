@@ -12,8 +12,8 @@ class FiguresController < ApplicationController
   end
 
   def new
-    @figure = Figure.new(tag_attributes: {},
-                         trait_attributes: {})
+    @figure = @world.figures.new(tag_attributes: {},
+                                 trait_attributes: {})
   end
 
   def create
@@ -78,7 +78,11 @@ class FiguresController < ApplicationController
     dispatch_traits_param!(params[:figure][:trait_attributes])
     params.require(:figure)
       .permit(:name, :description, :image,
-              tag_attributes: [ :id, tagset: [] ],
+              figure_ancestors_attributes: [:id,
+                                            :ancestor_id,
+                                            :name,
+                                            :_destroy],
+              tag_attributes: [:id, tagset: []],
               trait_attributes: [:id, attributeset: {},
                                  trait: [:new_key, :new_value]])
   end
