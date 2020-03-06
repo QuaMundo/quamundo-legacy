@@ -14,14 +14,13 @@ module FigurePedigree
   class Pedigree
     SQL = <<~SQL
       WITH pedigree AS (
-        WITH RECURSIVE ancestor_tree(id, figure_id, ancestor_id, degree, name)
+        WITH RECURSIVE ancestor_tree(id, figure_id, ancestor_id, degree)
         AS (
           SELECT
             f.id,
             f.figure_id,
             f.ancestor_id,
-            -1::bigint,
-            f.name
+            -1::bigint
           FROM figure_ancestors f
           WHERE
             f.figure_id = :figure_id                  -- param figure_id
@@ -29,20 +28,18 @@ module FigurePedigree
             a.id,
             a.figure_id,
             a.ancestor_id,
-            degree - 1,
-            a.name
+            degree - 1
           FROM figure_ancestors a
           JOIN ancestor_tree
           ON ancestor_tree.ancestor_id = a.figure_id
         ),
-        descendant_tree(id, figure_id, ancestor_id, degree, name)
+        descendant_tree(id, figure_id, ancestor_id, degree)
         AS (
           SELECT
             f.id,
             f.figure_id,
             f.ancestor_id,
-            1::bigint,
-            f.name
+            1::bigint
           FROM figure_ancestors f
           WHERE
             f.ancestor_id = :figure_id                  -- param figure_id
@@ -50,8 +47,7 @@ module FigurePedigree
             a.id,
             a.figure_id,
             a.ancestor_id,
-            degree + 1,
-            a.name
+            degree + 1
           FROM figure_ancestors a
           JOIN descendant_tree
           ON descendant_tree.figure_id = a.ancestor_id
@@ -60,23 +56,19 @@ module FigurePedigree
           ancestor_tree.id,
           ancestor_tree.figure_id,
           ancestor_tree.ancestor_id,
-          ancestor_tree.degree,
-          ancestor_tree.name
+          ancestor_tree.degree
         FROM ancestor_tree
         UNION SELECT
           descendant_tree.id,
           descendant_tree.ancestor_id,
           descendant_tree.figure_id,
-          descendant_tree.degree,
-          descendant_tree.name
+          descendant_tree.degree
         FROM descendant_tree
       )
       SELECT
         p.*,
         pedigree.degree
       FROM pedigree
-      JOIN figures f
-      ON pedigree.figure_id = f.id
       JOIN figures p
       ON pedigree.ancestor_id = p.id
       ORDER BY ABS(degree) ASC;

@@ -1,5 +1,4 @@
 RSpec.describe 'CRUD actions on dossiers', type: :system do
-  # FIXME: Refactor `Session`
   include_context 'Session'
 
   context 'create a dossier' do
@@ -51,10 +50,8 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
       click_button('submit')
       expect(page).to have_content('New Dossier')
       expect(page).to have_content('Description of new dossier')
-      # FIXME: Test this for html rendered markdown
       expect(page).to have_content('Content of new dossier')
       expect(page).to have_link(href: polymorphic_path(dossier.dossierable))
-      # expect(page).to have_current_path(%r(dossiers/#{dossier.id}))
     end
 
     it_behaves_like 'valid_view' do

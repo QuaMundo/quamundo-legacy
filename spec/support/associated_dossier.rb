@@ -14,10 +14,8 @@ RSpec.shared_examples 'associated dossiers', type: :system do
   it 'show up in details view' do
     expect(page)
       .to have_selector('[id^="index-entry-dossier-"]', count: subject.dossiers.count)
-    # FIXME: Avoid each loops!
     subject.dossiers.each do |d|
       expect(page).to have_content(d.name)
-      # FIXME: Description may be empty
       expect(page).to have_content(d.description)
       expect(page).to have_link(href: polymorphic_path(path))
     end

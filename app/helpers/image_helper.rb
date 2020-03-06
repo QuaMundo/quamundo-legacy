@@ -3,7 +3,11 @@ module ImageHelper
   # FIXME: Should ensure null or both args are provided
   def attached_img_path(attached, x = 800, y = 600)
     return '' unless attached.image?
-    url_for(attached.variant(resize_to_fill: [x, y]).processed)
+    begin
+      url_for(attached.variant(resize_to_fill: [x, y]).processed)
+    rescue
+      ''
+    end
   end
 
   # Get image variant path for overview cards

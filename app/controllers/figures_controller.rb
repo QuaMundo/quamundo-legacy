@@ -83,7 +83,6 @@ class FiguresController < ApplicationController
                                             :name,
                                             :_destroy],
               tag_attributes: [:id, tagset: []],
-              trait_attributes: [:id, attributeset: {},
-                                 trait: [:new_key, :new_value]])
+              trait_attributes: [:id, attributeset: {}])
   end
 end

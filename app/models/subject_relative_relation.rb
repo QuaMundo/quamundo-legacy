@@ -1,5 +1,5 @@
 class SubjectRelativeRelation < ApplicationRecord
-  belongs_to :relation
+  belongs_to :relation, inverse_of: :subject_relative_relations
   belongs_to :subject,
     class_name: 'RelationConstituent',
     foreign_key: :subject_id
@@ -8,6 +8,8 @@ class SubjectRelativeRelation < ApplicationRecord
     foreign_key: :relative_id
 
   has_one :fact_constituent, through: :relative
+
+  validates :subject_id, uniqueness: { scope: :relative_id }
 
   # this is a read-only model!
   def readonly?

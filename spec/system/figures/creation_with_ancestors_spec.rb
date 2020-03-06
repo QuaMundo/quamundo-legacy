@@ -21,7 +21,8 @@ RSpec.describe 'Creating a figure with ancestors',
     page.find('button#add-ancestor').click
     expect(page).to have_selector("input[value=\"#{father.name}\"]")
     expect(page).to have_selector('input[value="Father"]')
-    # FIXME: Check options
+    expect(page)
+      .to have_selector("option[value=\"#{father.id}\"][disabled=\"\"]")
     # add an ancestor (other)
     page.find(asel).select(other.name)
     page.find(nsel).fill_in(with: 'Other')
@@ -33,6 +34,8 @@ RSpec.describe 'Creating a figure with ancestors',
     page.find(nsel).fill_in(with: 'Mother')
     # remove ancestor (other)
     page.find('input[value="Other"]+div button').click
+    expect(page)
+      .not_to have_selector("option[value=\"#{other.id}\"][disabled=\"\"]")
     expect(page).not_to have_selector("input[value=\"#{other.name}\"]")
     expect(page).not_to have_selector('input[value="Other"]')
     # submit

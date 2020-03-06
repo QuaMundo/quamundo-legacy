@@ -17,33 +17,38 @@
           <%= tag.li(class: 'media mb-4', id: element_id(entry.inventory)) do %>
 
             <%# Image - thumbnail %>
-            <%= tag.a(href: polymorphic_path([entry.world, entry.inventory])) do %>
+            <%= tag.a(
+              href: polymorphic_path([entry.world, entry.inventory])) do %>
+
               <% if entry.inventory.image.attached? %>
-                <%= tag.img(src: attached_img_path(entry.inventory.image, 64, 64),
-                class: 'mr-3 q-media-img') %>
-            <% else %>
-              <%= default_image(entry.inventory, 'mr-3 q-media-img-default') %>
+                <%= tag.img(
+                  src: attached_img_path(entry.inventory.image, 64, 64),
+                  class: 'mr-3 q-media-img') %>
+              <% else %>
+                <%= default_image(entry.inventory, 'mr-3 q-media-img-default') %>
+              <% end %>
             <% end %>
-          <% end %>
 
-          <%# FIXME: Body must be below li ^^ %>
-          <%# body %>
-          <div class="media-body">
-            <h5 class="mb-1">
-              <%= icon(entry.inventory) { entry.name.capitalize } %>
-            </h5>
-            <div class="small">
-              <%= entry.description %><br />
-              <span class="text-muted">
-                <%= icon(:world) { entry.world.name } %>&nbsp;
-                <%= icon(:edit) { time_ago_in_words(entry.updated_at) } %>
-              </span>&nbsp;
-              <%= link_to(t('show'), polymorphic_path([entry.world, entry.inventory])) %>
+            <%# FIXME: Body must be below li ^^ %>
+            <%# body %>
+            <div class="media-body">
+              <h5 class="mb-1">
+                <%= icon(entry.inventory) { entry.name } %>
+              </h5>
+              <div class="small">
+                <%= entry.description %><br />
+                <span class="text-muted">
+                  <%= icon(:world) { entry.world.name } %>&nbsp;
+                  <%= icon(:edit) { time_ago_in_words(entry.updated_at) } %>
+                </span>&nbsp;
+                <%= link_to(
+                  t('show'),
+                  polymorphic_path([entry.world, entry.inventory])) %>
+              </div>
             </div>
-          </div>
 
+          <% end %>
         <% end %>
-      <% end %>
       </ul> 
     </div> 
   </div>

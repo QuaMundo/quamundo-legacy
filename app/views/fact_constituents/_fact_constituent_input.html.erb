@@ -4,82 +4,86 @@
   id: 'fact_constituents-input') do %>
 
   <%# List existing constituents %>
-  <%= form.fields_for(
-    :fact_constituents,
-    @fact.fact_constituents) do |constituent_form| %>
-    <div class="form-group row fact_constituent_entry">
-     <div class="col-md-4 col-12 input-group">
-       <%= constituent_form.hidden_field(
-         :constituable, # FIXME: Shorten line.
-         value: "#{constituent_form.object.constituable_type}.#{constituent_form.object.constituable_id.to_s}") %>
-       <%= constituent_form.hidden_field(
-         '_destroy',
-         value: false) %>
-       <%= text_field_tag(
-         nil, # FIXME: Shorten line.
-         "#{constituent_form.object.constituable.name} (#{constituent_form.object.constituable_type})",
-         class: 'form-control',
-         id: nil,
-         readonly: true) %>
-     </div> 
-     <div class="col-md-8 col-12 input-group">
-       <%= constituent_form.text_field(
-         :roles,
-         class: 'form-control',
-         value: constituent_form.object.roles.join(', ')) %>
-       <div class="input-group-append">
-         <button class="btn input-group-text btn-outline-primary"
-                 data-action="fact-constituents#deleteItem"
-                 type="button">
-           <%= icon(:delete) %>
-         </button>
-       </div>
-     </div>
-    </div>
-  <% end %>
-  <%# /List existing constituents %>
-
-  <%= form.fields_for(
-    :fact_constituents,
-    @fact.fact_constituents.new,
-    child_index: -1) do |constituent_form| %>
-
-    <%# Select new constituent %>
-    <div class="form-group row fact_constituent_entry"
-      data-target="fact-constituents.input">
-      <div class="col-md-4 col-12 input-group">
-        <%= constituent_form.select(
-          :constituable,
-          nil,
-          {},
-          class: 'form-control',
-          data: { target: 'fact-constituents.constituent' }) do %>
-
-          <%= grouped_options_for_select(
-            FactConstituentHelper.select_group_options(fact),
-            nil,
-            prompt: t('.choose')) %>
-        <% end %>
-      </div>
-      <div class="col-md-8 col-12 input-group">
-        <%= constituent_form.text_field(
-          :roles,
-          placeholder: t('.roles'),
-          data: { target: 'fact-constituents.roles' },
-          class: 'form-control') %>
-        <div class="input-group-append">
-          <button id="add-constituent"
-                  class="btn input-group-text btn-outline-primary"
-                  data-action="fact-constituents#addItem"
-                  type="button">
-            <%= icon(:new) %>
-          </button>
+  <div id="selected-fact_consitutents">
+    <%= form.fields_for(
+      :fact_constituents,
+      @fact.fact_constituents) do |constituent_form| %>
+      <div class="form-group row fact_constituent_entry">
+        <div class="col-md-4 col-12 input-group">
+          <%= constituent_form.hidden_field(
+            :constituable, # FIXME: Shorten line.
+            value: "#{constituent_form.object.constituable_type}.#{constituent_form.object.constituable_id.to_s}") %>
+          <%= constituent_form.hidden_field(
+            '_destroy',
+            value: false) %>
+          <%= text_field_tag(
+            nil, # FIXME: Shorten line.
+            "#{constituent_form.object.constituable.name} (#{constituent_form.object.constituable_type})",
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+        </div> 
+        <div class="col-md-8 col-12 input-group">
+          <%= constituent_form.text_field(
+            :roles,
+            class: 'form-control',
+            value: constituent_form.object.roles.join(', ')) %>
+          <div class="input-group-append">
+            <button class="btn input-group-text btn-outline-primary"
+                    data-action="fact-constituents#deleteItem"
+                    type="button">
+              <%= icon(:delete) %>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <%# /Select new constituent %>
+    <% end %>
+  </div>
+  <%# /List existing constituents %>
 
-  <% end %>
+  <%# Select new constituent %>
+  <div id="new-fact_consitutents">
+    <%= form.fields_for(
+      :fact_constituents,
+      @fact.fact_constituents.new,
+      child_index: -1) do |constituent_form| %>
+
+      <div class="form-group row fact_constituent_entry"
+           data-target="fact-constituents.input">
+        <div class="col-md-4 col-12 input-group">
+          <%= constituent_form.select(
+            :constituable,
+            nil,
+            {},
+            class: 'form-control',
+            data: { target: 'fact-constituents.constituent' }) do %>
+
+            <%= grouped_options_for_select(
+              FactConstituentHelper.select_group_options(fact),
+              nil,
+              prompt: t('.choose')) %>
+          <% end %>
+        </div>
+        <div class="col-md-8 col-12 input-group">
+          <%= constituent_form.text_field(
+            :roles,
+            placeholder: t('.roles'),
+            data: { target: 'fact-constituents.roles' },
+            class: 'form-control') %>
+          <div class="input-group-append">
+            <button id="add-constituent"
+                    class="btn input-group-text btn-outline-primary"
+                    data-action="fact-constituents#addItem"
+                    type="button">
+              <%= icon(:new) %>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+  <%# /Select new constituent %>
 
   <%# Template for newly added constituent %>
   <template id="new-constituent-input"

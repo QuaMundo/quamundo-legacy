@@ -18,7 +18,7 @@ RSpec.describe 'Creating a relation with constituents',
     page.find(csel).select(fc_1.constituable.name)
     page.find(rsel).select('Relative')
     click_button(id: 'add-constituent')
-    # Skipping samoe tests as they are tested in
+    # Skipping same tests as they are tested in
     # update_with_constituents_spec.rb
 
     # Add 2nd constituent

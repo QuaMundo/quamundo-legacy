@@ -1,55 +1,136 @@
-<%= javascript_pack_tag 'edit_traits' %>
+<%= field_set_tag(
+  Trait.model_name.human(count: 2),
+  id: 'traits-input',
+  data: { controller: 'traits'} ) do %>
 
-<%= form.fields_for :trait do |trait_form| %>
-  <%= field_set_tag(
-    Trait.model_name.human(count: 2),
-    id: 'traits-input',
-    data: { type: traitable.model_name.param_key }) do %>
-    <%= trait_form.fields_for :attributeset do |attribute| %>
-      <% traitable.trait.attributeset.each do |key, value| %>
-        <div class="form-group row">
-          <%= attribute.label key, key, class: 'col-form-label col-4' %>
-          <div class="col-8 input-group">
-            <%= attribute.text_field(
-              key, value: value,
-              class: 'form-control') %>
+  <%= form.fields_for :trait do |traits_form| %>
+
+    <%= traits_form.fields_for :attributeset do |attributeset_form| %>
+      <%# List existing traits %>
+      <% traitable.trait.attributeset.each_with_index do |(key, value), i| %>
+        <div class="form-group row trait_entry">
+          <%#
+              FIXME: Can this be done simpler? I want for input a name like this:
+              '<model>[trait_attributes][attributeset][key|value][<number>]'
+            %>
+          <%= attributeset_form.fields_for :key do |key_form| %>
+            <div class="col-md-4 col-12 input-group">
+              <%= key_form.text_field(
+                i,
+                value: key,
+                class: 'form-control',
+                readonly: true) %>
+            </div>
+          <% end %>
+          <%#
+              FIXME: Can this be done simpler? I want for input a name like this:
+              '<model>[trait_attributes][attributeset][key|value][<number>]'
+            %>
+          <%= attributeset_form.fields_for :value do |value_form| %>
+            <div class="col-md-8 col-12 input-group">
+              <%= value_form.text_field(
+                i,
+                value: value,
+                class: 'form-control') %>
+              <div class="input-group-append">
+                <button class="btn input-group-text button-outline-priary"
+                        data-action="traits#removeItem"
+                        type="button">
+                  <%= icon(:delete) %>
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <%# /List existing traits %>
+
+      <%# Add new trait %>
+      <div class="form-group row trait_entry"
+           data-target="traits.input">
+        <%#
+            FIXME: Can this be done simpler? I want for input a name like this:
+            '<model>[trait_attributes][attributeset][key|value][<number>]'
+          %>
+        <%= attributeset_form.fields_for :key do |key_form| %>
+          <div class="col-md-4 col-12 input-group">
+            <%= key_form.text_field(
+              'new_key',
+              data: { target: 'traits.key' },
+              class: 'form-control',
+              placeholder: t('traits.form.new_key')) %>
+          </div>
+        <% end %>
+        <%#
+            FIXME: Can this be done simpler? I want for input a name like this:
+            '<model>[trait_attributes][attributeset][key|value][<number>]'
+          %>
+        <%= attributeset_form.fields_for :value do |value_form| %>
+          <div class="col-md-8 col-12 input-group">
+            <%= value_form.text_field(
+              'new_value',
+              data: { target: 'traits.value' },
+              class: 'form-control',
+              placeholder: t('traits.form.new_value')) %>
             <div class="input-group-append">
-              <button
-                class="btn input-group-text btn-outline-primary remove-trait"
-                type="button">
-                <%= icon(:delete) %>
+              <button class="btn input-group-text button-outline-primary"
+                      id="add-trait"
+                      data-action="traits#addItem"
+                      type="button">
+                <%= icon(:new) %>
               </button>
             </div>
           </div>
+        <% end %>
+      </div>
+      <%# /Add new trait %>
+
+    <% end %>
+
+  <% end %>
+
+  <%# Template for newly added traits %>
+  <template id="new-trait-input"
+            data-target="traits.template">
+    <%= form.fields_for :trait do |traits_form| %>
+      <%= traits_form.fields_for :attributeset do |attributeset_form| %>
+        <div class="form-group row trait_entry">
+          <%#
+              FIXME: Can this be done simpler? I want for input a name like this:
+              '<model>[trait_attributes][attributeset][key|value][<number>]'
+            %>
+          <%= attributeset_form.fields_for :key do |key_form| %>
+            <div class="col-md-4 col-12 input-group">
+              <%= key_form.text_field(
+                'TPL_NEW_INDEX',
+                value: 'TPL_NEW_KEY',
+                class: 'form-control',
+                readonly: true) %>
+            </div>
+          <% end %>
+          <%#
+              FIXME: Can this be done simpler? I want for input a name like this:
+              '<model>[trait_attributes][attributeset][key|value][<number>]'
+            %>
+          <%= attributeset_form.fields_for :value do |value_form| %>
+            <div class="col-md-8 col-12 input-group">
+              <%= value_form.text_field(
+                'TPL_NEW_INDEX',
+                value: 'TPL_NEW_VAL',
+                class: 'form-control') %>
+              <div class="input-group-append">
+                <button class="btn input-group-text btn-outline-primary"
+                        data-action="traits#removeItem"
+                        type="button">
+                  <%= icon(:delete) %>
+                </button>
+              </div>
+            </div>
+          <% end %>
         </div>
       <% end %>
     <% end %>
+  </template>
+  <%# /Template for newly added traits %>
 
-    <%= trait_form.fields_for :trait do |a| %>
-    <div class="form-group row">
-      <div class="col-4 input-group">
-        <%= a.text_field(
-          :new_key,
-          data: { id: 'trait_new_key' },
-          class: 'form-control',
-          placeholder: t('traits.form.new_key')) %>
-      </div>
-      <div class="col-8 input-group">
-        <%= a.text_field(
-          :new_value,
-          data: { id: 'trait_new_value' },
-          class: 'form-control',
-          placeholder: t('traits.form.new_value')) %>
-        <div class="input-group-append">
-          <button id="add-trait"
-                  class="btn input-group-text btn-outline-primary"
-                  type="button">
-            <%= icon(:new) %>
-          </button> 
-        </div>
-      </div>
-    </div>
-  <% end %>
-
-  <% end %>
 <% end %>

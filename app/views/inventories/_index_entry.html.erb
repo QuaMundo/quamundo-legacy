@@ -1,0 +1,47 @@
+<%= tag.li(
+  class: ['media', 'mb-4', 'index_index_entry'],
+  id: element_id(index_entry.fact_constituent.constituable)) do %>
+
+  <%# Image - thumbnail %>
+  <%= tag.a(
+    href: polymorphic_path(
+      [index_entry.fact_constituent.constituable.world,
+       index_entry.fact_constituent.constituable])) do %>
+
+    <% if index_entry.fact_constituent.constituable.image.attached? %>
+      <%= tag.img(
+        src: attached_img_path(
+          index_entry.fact_constituent.constituable.image, 64, 64),
+        class: 'mr-3 q-media-img') %>
+    <% else %>
+      <%= default_image(
+        index_entry.fact_constituent.constituable,
+        'mr-3 q-media-img-default') %>
+    <% end %>
+  <% end %>
+
+  <%# FIXME: Body must be below li ^^ %>
+  <%# body %>
+  <div class="media-body">
+    <h5 class="mb-1">
+      <%= icon(
+        index_entry.fact_constituent.constituable) {
+          index_entry.fact_constituent.constituable.name
+        } %>
+    </h5>
+    <div class="small">
+      <%= index_entry.fact_constituent.constituable.description %><br />
+      <span class="text-muted">
+        <%= icon(:world) {
+          index_entry.fact_constituent.constituable.world.name
+        } %>&nbsp;
+      </span>&nbsp;
+      <%= link_to(
+        t('show'),
+        polymorphic_path(
+          [index_entry.fact_constituent.constituable.world,
+           index_entry.fact_constituent.constituable])) %>
+    </div>
+  </div>
+
+<% end %>

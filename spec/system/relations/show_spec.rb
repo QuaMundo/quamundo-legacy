@@ -1,18 +1,18 @@
 RSpec.describe 'Showing a relation', type: :system do
   include_context 'Session'
 
-  let(:relation)  { create(:relation, user: user) }
-  let(:fact)      { relation.fact }
-  let(:world)     { fact.world }
-
   context 'in own world' do
     context 'unidirectional' do
+      let(:relation)  { create(:relation_with_constituents, user: user) }
+      let(:fact)      { relation.fact }
+      let(:world)     { fact.world }
+
       it 'shows details of the relation including constituents' do
         visit(world_fact_relation_path(world, fact, relation))
-        expect(page).to have_content(relation.name)
         expect(page).to have_content(relation.description)
         # subjects
         page.within('#subjects') do
+          expect(page).to have_content(relation.name)
           relation.subjects.each do |subject|
             expect(page)
               .to have_content(subject.fact_constituent.constituable.name)
@@ -22,35 +22,43 @@ RSpec.describe 'Showing a relation', type: :system do
                   [relation.fact.world, subject.fact_constituent.constituable]
                 )
             )
+          end
+        end
+        # relatives
+        page.within('#relatives') do
+          # FIXME: Ensure there's no reverse_name
+          expect(page).not_to have_selector('h3+h4')
+          relation.relatives.each do |relative|
+            expect(page)
+              .to have_content(relative.fact_constituent.constituable.name)
             expect(page)
               .to have_link(
-                href: world_relation_constituent_path(fact.world, subject),
-                title: 'destroy'
-            )
-            expect(page)
-              .to have_link(
-                href: edit_world_relation_constituent_path(
-                  fact.world, subject,
-                  relation_constituent: { relation_id: relation.id }
+                href: polymorphic_path(
+                  [relation.fact.world, relative.fact_constituent.constituable]
                 )
             )
           end
         end
       end
 
-      it 'has a link to add relation constituents' do
-        visit(world_fact_relation_path(world, fact, relation))
-        expect(page).to have_link(
-          href: new_world_relation_constituent_path(
-            world, relation_constituent: { relation_id: relation.id }
-          ))
+      it_behaves_like 'valid_view' do
+        let(:subject) { world_fact_relation_path(world, relation.fact, relation) }
       end
     end
 
-    context 'bidirectional'
+    context 'bidirectional' do
+      let(:relation)  { create(:relation_with_constituents,
+                               user: user,
+                               bidirectional: true) }
+      let(:fact)      { relation.fact }
+      let(:world)     { fact.world }
 
-    it_behaves_like 'valid_view' do
-      let(:subject) { world_fact_relation_path(world, relation.fact, relation) }
+      it 'also shows reverse name of relation' do
+        visit(world_fact_relation_path(world, fact, relation))
+        page.within('#relatives') do
+          expect(page).to have_selector('h4', text: relation.reverse_name)
+        end
+      end
     end
   end
 

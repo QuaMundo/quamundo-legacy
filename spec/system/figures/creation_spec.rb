@@ -32,7 +32,7 @@ RSpec.describe 'Creating a figure', type: :system do
       let(:path) { new_world_figure_path(world) }
     end
 
-    it_behaves_like 'editable traits' do
+    it_behaves_like 'creatable traits' do
       let(:path) { new_world_figure_path(world) }
     end
   end

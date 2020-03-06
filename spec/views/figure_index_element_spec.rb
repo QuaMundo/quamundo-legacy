@@ -12,7 +12,6 @@ RSpec.describe 'figures/index', type: :view do
       .to have_selector('.index_entry_description',
                         text: /#{figure.description}/)
     expect(rendered).to match /#{figure.world.name}/
-    # FIXME: Better testing for stats!
     expect(rendered).to match /#{figure.facts.count}/
     expect(rendered).to match /#{figure.relatives.count}/
 

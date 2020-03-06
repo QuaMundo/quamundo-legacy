@@ -34,7 +34,7 @@ RSpec.describe 'Creating a world', type: :system do
     let(:path)    { new_world_path }
   end
 
-  it_behaves_like 'editable traits' do
+  it_behaves_like 'creatable traits' do
     let(:path)    { new_world_path }
   end
 end

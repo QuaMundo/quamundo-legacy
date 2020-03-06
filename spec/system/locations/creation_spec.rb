@@ -52,7 +52,7 @@ RSpec.describe 'Creating a location', type: :system do
       let(:path)    { new_world_location_path(world) }
     end
 
-    it_behaves_like 'editable traits' do
+    it_behaves_like 'creatable traits' do
       let(:path)    { new_world_location_path(world) }
     end
   end

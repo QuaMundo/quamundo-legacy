@@ -16,7 +16,6 @@ RSpec.describe 'worlds/index', type: :view do
       .to have_selector('.index_entry_name', text: /#{world.name}/)
     expect(rendered)
       .to have_selector('.index_entry_description', text: /#{world.description}/)
-    # FIXME: Better testing for stats!
     expect(rendered).to match /Wed, 01 Jan 1800 00:00:00/
     expect(rendered).to match /Wed, 31 Dec 2200 00:00:00/
     # FIXME: Testing world stats missing

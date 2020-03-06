@@ -18,9 +18,18 @@ en:
       confirm_delete: 'Should figure %{figure} really be deleted?'
     show:
       part_of_facts:
+        zero: 'This figure is not part of any fact'
         one: 'This figure ist part of one fact.'
         other: 'This figure is part of %{count} facts.'
       world: '%{name} is inhabitant of world: '
+      has_ancestors:
+        zero: 'This figure has no known ancestors'
+        one: 'This figure has one known ancestor'
+        other: 'This figure has %{count} known ancestors'
+      has_descendants:
+        zero: 'This figure has no known descendants'
+        one: 'This figure has one known descendant'
+        other: 'This figure has %{count} known descendants'
 
   activerecord:
     models:

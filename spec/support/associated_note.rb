@@ -10,7 +10,6 @@ RSpec.shared_examples 'associated note', type: :system do
 
   it 'show up in details view' do
     expect(page).to have_selector('.note', count: subject.notes.count)
-    # FIXME: Avoid each loops!
     subject.notes.each { |n| expect(page).to have_text(n.content) }
   end
 

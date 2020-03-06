@@ -30,7 +30,8 @@ FactoryBot.define do
 
   trait :with_traits do
     transient do
-      attributeset    { { a_key: 'a value', another_key: 'another value' } }
+      attributeset    { { 'key 1' => 'value 1',
+                          'key 2' => 'value 2' } }
     end
 
     after(:build) do |obj, evaluator|

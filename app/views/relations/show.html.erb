@@ -8,7 +8,7 @@
           <%= icon(:relation) %>
           <%= Relation.model_name.human.capitalize %>
           <span class="text-muted small">
-            "<%= @relation.name %>"
+            <%= icon(:fact) { @relation.fact.name } %>
           </span>
         </h2>
       </div>
@@ -20,92 +20,46 @@
 
   <%# card body %>
   <div class="card-body">
-    <%# title and description %>
     <div class="row">
-      <div class="col">
-        <div>
-          <%= @relation.description %>
-        </div>
-        <div class="small">
-          <p><%= t('.belongs_to_fact', fact: @relation.fact.name) %></p>
-          <p>
-          <% if @relation.bidirectional? %>
-            <%= t('.bidirectional') %>
-          <% else %>
-            <%= t('.unidirectional') %>
-          <% end %>
-          </p>
-        </div>
+      <div class="col-12">
+        <p><%= @relation.description %></p>
+        <p class="small text-muted">
+        <%= t('.belongs_to_fact', fact: @relation.fact.name) %>
+        <br />
+        <% if @relation.bidirectional? %>
+          <%= t('.bidirectional') %>
+        <% else %>
+          <%= t('.unidirectional') %>
+        <% end %>
+        </p>
       </div>
-    </div>
-    <div class="row">
 
-        <%# subjects %>
-        <div id="subjects" class="col-md-6 col-12">
-          <h3><%= t('.subjects') %></h3>
-          <ul>
-            <% @relation.subjects.each do |subject| %>
-              <li>
-                <%= link_to(
-                  subject.fact_constituent.constituable.name,
-                  polymorphic_path([@relation.fact.world, 
-                                    subject.fact_constituent.constituable])
-                ) %>
-                <%= link_to(
-                  icon(:delete),
-                  world_relation_constituent_path(@relation.fact.world, subject),
-                  method: :delete,
-                  title: 'destroy',
-                  data: { confirm: t('.confirm_delete') }) %>
-                <%= link_to(
-                  icon(:edit),
-                  edit_world_relation_constituent_path(
-                    @relation.fact.world,
-                    subject,
-                    relation_constituent: { relation_id: @relation.id })
-                ) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-        <%# relatives %>
-        <div id="relatives" class="col-md-6 col-13">
-          <h3><%= t('.relatives') %></h3>
-          <ul>
-            <% @relation.relatives.each do |relative| %>
-              <li>
-                <%= link_to(
-                  relative.fact_constituent.constituable.name,
-                  polymorphic_path([@relation.fact.world, 
-                                    relative.fact_constituent.constituable])
-                ) %>
-                <%= link_to(
-                  icon(:delete),
-                  world_relation_constituent_path(@relation.fact.world, relative),
-                  method: :delete,
-                  title: 'destroy',
-                  data: { confirm: t('.confirm_delete') }) %>
-                <%= link_to(
-                  icon(:edit),
-                  edit_world_relation_constituent_path(
-                    @relation.fact.world,
-                    relative,
-                    relation_constituent: { relation_id: @relation.id })
-                ) %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
-    </div>
-
-    <div class="row">
-      <div class="col text-right">
-        <%= link_to(
-          icon(:new),
-          new_world_relation_constituent_path(
-            @relation.fact.world, relation_constituent: { relation_id: @relation.id }
-          )) %>
+      <%# subjects %>
+      <div id="subjects" class="col-lg-6 col-12">
+        <h3><%= t('.subjects') %></h3>
+        <h4 class="text-muted">"<%= @relation.name %>"</h4>
+        <ul class="list-unstyled">
+          <%= render(
+            partial: 'inventories/index_entry',
+            collection: @relation.subjects) %>
+        </ul>
       </div>
+      <%# /subjects %>
+
+      <%# relatives %>
+      <div id="relatives" class="col-lg-6 col-12">
+        <h3><%= t('.relatives') %></h3>
+        <% if @relation.bidirectional? %>
+          <h4 class="text-muted">"<%= @relation.reverse_name %>"</h4>
+        <% end %>
+        <ul class="list-unstyled">
+          <%= render(
+            partial: 'inventories/index_entry',
+            collection: @relation.relatives) %>
+        </ul>
+      </div>
+      <%# /relatives %>
+
     </div>
 
   </div>

@@ -1,0 +1,78 @@
+<%= tag.div(id: element_id(@relation), class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-10">
+        <h2 class="card-title mt-2">
+          <%# FIXME: Title %>
+          <%= icon(:relation) %>
+          <%= Relation.model_name.human.capitalize %>
+          <span class="text-muted small">
+            "<%= @relation.name %>"
+          </span>
+        </h2>
+      </div>
+      <div class="col-2 text-right">
+        <%= render partial: 'context_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <%# title and description %>
+    <div class="row">
+      <div class="col">
+        <div>
+          <%= @relation.description %>
+        </div>
+        <div class="small">
+          <p><%= link_to(
+            t('.belongs_to_fact', fact: @relation.fact.name),
+            world_fact_path(@relation.fact.world, @relation.fact)) %></p>
+          <p>
+          <% if @relation.bidirectional? %>
+            <%= t('.bidirectional') %>
+          <% else %>
+            <%= t('.unidirectional') %>
+          <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+      <%# subjects %>
+      <div id="subjects" class="col-md-6 col-12">
+        <h3><%= t('.subjects') %></h3>
+        <ul>
+          <% @relation.subjects.each do |subject| %>
+            <li>
+              <%= link_to(
+                subject.fact_constituent.constituable.name,
+                polymorphic_path([@relation.fact.world, 
+                                  subject.fact_constituent.constituable])
+              ) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <%# relatives %>
+      <div id="relatives" class="col-md-6 col-13">
+        <h3><%= t('.relatives') %></h3>
+        <ul>
+          <% @relation.relatives.each do |relative| %>
+            <li>
+              <%= link_to(
+                relative.fact_constituent.constituable.name,
+                polymorphic_path([@relation.fact.world, 
+                                  relative.fact_constituent.constituable])) %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+<% end %>

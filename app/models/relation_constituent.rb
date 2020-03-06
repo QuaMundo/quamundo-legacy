@@ -1,6 +1,6 @@
 class RelationConstituent < ApplicationRecord
-  belongs_to :fact_constituent
-  belongs_to :relation
+  belongs_to :fact_constituent, inverse_of: :relation_constituents
+  belongs_to :relation, inverse_of: :relation_constituents
 
   has_one :fact, through: :relation
 

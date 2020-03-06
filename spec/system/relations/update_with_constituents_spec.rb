@@ -14,18 +14,23 @@ RSpec.describe 'Updating a relation with constituents',
   let!(:rc_2)     { create(:relation_constituent, relation: relation,
                            fact_constituent: fc_2, role: :relative) }
 
-  # FIXME: This needs lots of refactoring …
   it 'can add, remove and edit constituents' do
     visit edit_world_fact_relation_path(world, fact, relation)
-    sel_1 = "input[value=\"#{fc_1.constituable.name} (#{fc_1.constituable_type})\"]"
+
+    # fc_1 should be present with role selected
+    sel_1 = "input[value=\"#{fc_1.constituable.name} "\
+      "(#{fc_1.constituable_type})\"]"
     opt_1 = "option[value=\"#{rc_1.role}\"][selected=\"selected\"]"
-    expect(page).to have_selector("div #{sel_1}")
     page.within("div #{sel_1}") do
       page.within(:xpath, '../..') do
         expect(page).to have_selector("div #{opt_1}")
       end
     end
-    sel_2 = "input[value=\"#{fc_2.constituable.name} (#{fc_2.constituable_type})\"]"
+
+    # also fc_2 should be present with role selected
+    # it is going to be removed
+    sel_2 = "input[value=\"#{fc_2.constituable.name} "\
+      "(#{fc_2.constituable_type})\"]"
     opt_2 = "option[value=\"#{rc_2.role}\"][selected=\"selected\"]"
     expect(page).to have_selector("div #{sel_2}")
     page.within("div #{sel_2}") do
@@ -35,6 +40,7 @@ RSpec.describe 'Updating a relation with constituents',
         page.find("button").click
       end
     end
+
     # row should be hidden now, _destroy should be set true
     page.within("div #{sel_2}", visible: false) do
       expect(page)
@@ -49,7 +55,8 @@ RSpec.describe 'Updating a relation with constituents',
 
     # add constituents
     page.find(
-      'select[id^="relation_relation_constituents_attributes_"][id$="_constituent_id"]'
+      'select[id^="relation_relation_constituents_attributes_"]'\
+      '[id$="_constituent_id"]'
     ).select(fc_3.constituable.name)
     page.all(
       'select[id^="relation_relation_constituents_attributes_"][id$="_role"]'
@@ -60,7 +67,8 @@ RSpec.describe 'Updating a relation with constituents',
 
 
     page.find(
-      'select[id^="relation_relation_constituents_attributes_"][id$="_constituent_id"]'
+      'select[id^="relation_relation_constituents_attributes_"]'\
+      '[id$="_constituent_id"]'
     ).select(fc_4.constituable.name)
     page.all(
       'select[id^="relation_relation_constituents_attributes_"][id$="_role"]'
@@ -78,6 +86,12 @@ RSpec.describe 'Updating a relation with constituents',
     expect(relation.relation_constituents).not_to include(rc_2)
     expect(relation.relation_constituents.map(&:fact_constituent))
       .to contain_exactly(fc_1, fc_4)
-    # FIXME: Roles are not checked!!!
+    expect(
+      relation.relation_constituents.find_by(fact_constituent_id: fc_1.id).role
+    ).to eq(rc_1.role)
+    # fc_4 was added with role 'relative'
+    expect(
+      relation.relation_constituents.find_by(fact_constituent_id: fc_4.id).role
+    ).to eq('relative')
   end
 end

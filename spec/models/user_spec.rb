@@ -24,7 +24,6 @@ RSpec.describe User, type: :model do
     #   .to raise_error ActiveRecord::NotNullViolation
   end
 
-  # FIXME: Refactor next examples to use shaerd examples
   it 'requires nick name to be case insensitive unique' do
     user.save
     other_user = build(:user, nick: user.nick.upcase,

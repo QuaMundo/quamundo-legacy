@@ -90,7 +90,6 @@ class LocationsController < ApplicationController
     params.require(:location)
       .permit(:name, :description, :image, :lonlat,
               tag_attributes: [ :id, tagset: [] ],
-              trait_attributes: [:id, attributeset: {},
-                                 trait: [:new_key, :new_value]])
+              trait_attributes: [:id, attributeset: {}])
   end
 end

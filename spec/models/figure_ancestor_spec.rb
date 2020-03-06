@@ -48,6 +48,20 @@ RSpec.describe FigureAncestor, type: :model do
         expect { fa.save!(validate: false) }
           .to raise_error ActiveRecord::StatementInvalid
       end
+
+      it 'cannot add ancestors of different worlds', db_triggers: true do
+        stranger = build_stubbed(:figure)
+        expect(stranger.world).not_to eq(figure.world)
+        invalid_ancestor = FigureAncestor
+          .new(figure: figure, ancestor: stranger)
+        expect(invalid_ancestor).not_to be_valid
+        expect { invalid_ancestor.save!(validate: false) }
+          .to raise_error ActiveRecord::StatementInvalid
+      end
+
+      # FIXME: Add test for 2nd degree ancestors
+      # Adding an ancestor which in turn is a 2nd degree ancestor of a figure
+      # lists this ancestor twice - as 1st and as 2nd degree
     end
 
     context 'with descendants' do
@@ -98,16 +112,33 @@ RSpec.describe FigureAncestor, type: :model do
       expect((pedigree.find { |i| i == greatgrandmother }).degree).to eq(-3)
     end
 
-    it 'deletes all ancestors if figure is deleted' do
+    it 'deletes all ancestor and descendant entries if figure is deleted' do
       ancestors = figure.ancestors
       descendants = figure.descendants
       expect(ancestors.count).to eq(2)
       expect(descendants.count).to eq(2)
       figure.destroy
-      ancestors.reload
-      descendants.reload
-      expect(ancestors.count).to eq(0)
-      expect(descendants.count).to eq(0)
+      expect(FigureAncestor.find_by(ancestor: figure)).not_to be
+      expect(FigureAncestor.find_by(figure: figure)).not_to be
+      # FIXME: This seems not to be that performant
+      ancestors.each do |ancestor|
+        expect(ancestor.pedigree).not_to include(figure)
+      end
+      descendants.each do |descendant|
+        expect(descendant.pedigree).not_to include(figure)
+      end
+    end
+
+    it_behaves_like 'updates parents' do
+      let(:parent)  { figure }
+      let(:subject) { create(:figure_ancestor, figure: figure) }
+    end
+
+    it_behaves_like 'updates parents' do
+      let(:parent)  { figure }
+      let(:subject) { create(:figure_ancestor,
+                             figure: father,
+                             ancestor: figure) }
     end
   end
 end

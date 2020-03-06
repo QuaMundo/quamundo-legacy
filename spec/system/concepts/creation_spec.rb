@@ -33,7 +33,7 @@ RSpec.describe 'Creating a concept', type: :system do
       let(:path)    { new_world_concept_path(world) }
     end
 
-    it_behaves_like 'editable traits' do
+    it_behaves_like 'creatable traits' do
       let(:path)    { new_world_concept_path(world) }
     end
   end

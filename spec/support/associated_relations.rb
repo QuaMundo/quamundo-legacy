@@ -40,7 +40,6 @@ RSpec.shared_examples 'associated relations',
       .to have_current_path(
         world_fact_relation_path(fact.world, fact, relative.relation)
     )
-    # FIXME: Put this to deletion_spec!
     expect { RelationConstituent.find(relative.id) }
       .to raise_error ActiveRecord::RecordNotFound
   end

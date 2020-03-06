@@ -1,15 +1,10 @@
 RSpec.describe 'Listing worlds', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world, user: user) }
-  let(:other_world) { create(:world) }
+  let!(:world) { create(:world, user: user) }
+  let!(:other_world) { create(:world) }
 
   before(:example) do
-    # Call the worlds to force creation
-    # FIXME: ^^optimize this issue
-    world.save
-    other_world.save
-
     visit worlds_path
   end
 

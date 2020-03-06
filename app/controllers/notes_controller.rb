@@ -19,6 +19,9 @@ class NotesController < ApplicationController
         end
       else
         format.html do
+          # FIXME: Generating @form_url is redundant - maybe put into
+          # a before_action!?
+          @form_url = [@assoc_obj.try(:world), @assoc_obj, @note]
           flash[:alert] = t('.create_failed')
           render :new
         end

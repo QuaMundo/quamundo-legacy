@@ -37,12 +37,6 @@ module QuamundoTestHelpers
     )
   end
 
-  def generate_some_image_paths(world)
-    sizes = %w(10x10 20x20 30x30)
-    [active_storage_path(world.image.key)]
-      .concat(sizes.map { |s| active_storage_path(get_variant(world, s)) })
-  end
-
   def refresh_materialized_views(model = nil)
     if model.nil?
       Inventory.refresh
@@ -66,16 +60,6 @@ module QuamundoTestHelpers
       travel(rand 5.days) { world.facts << build(:fact) }
       travel(rand 5.days) { world.concepts << build(:concept) }
     end
-  end
-
-  protected
-  def get_variant(world, resize_factor)
-    coords = resize_factor.split('x').map(&:to_i)
-    world.image.variant(resize_to_fill: coords).processed.key
-  end
-
-  def active_storage_path(active_storage_key)
-    ActiveStorage::Blob.service.send(:path_for, active_storage_key)
   end
 end
 

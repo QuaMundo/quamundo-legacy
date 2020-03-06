@@ -1,23 +1,21 @@
 RSpec.shared_examples 'dossierable', type: :model do
-  let(:assoc_obj) { subject.model_name.to_s.downcase.to_sym }
+  before(:example) do
+    subject.save!
+    3.times do |i|
+      subject.dossiers.create(name: "Dossier #{i}", content: "Content #{i}")
+    end
+    expect(subject.dossiers.count).to be >= 3
+  end
 
   it 'has a list of dossiers' do
-    dossiers = []
-    3.times do
-      dossier = build(:dossier, dossierable: subject)
-      dossiers << dossier
-      subject.dossiers << dossier
-    end
-    subject.save
-    expect(Dossier.ids).to include(*dossiers.map(&:id))
+    dossiers = subject.dossiers.ids
+    expect(Dossier.ids).to include(*dossiers)
   end
 
   it 'deletes all dossiers when subject is deleted' do
-    obj = create(assoc_obj, world: world)
-    obj.dossiers << create(:dossier, dossierable: obj)
-    dossier_ids = obj.dossier_ids
-    expect(Dossier.ids).to include(*dossier_ids)
-    obj.destroy!
-    expect(Dossier.ids).not_to include(*dossier_ids)
+    dossiers = subject.dossiers.ids
+    expect(Dossier.ids).to include(*dossiers)
+    subject.destroy!
+    expect(Dossier.ids).not_to include(*dossiers)
   end
 end

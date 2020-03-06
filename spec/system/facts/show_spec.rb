@@ -1,21 +1,19 @@
 RSpec.describe 'Showing a fact', type: :system do
   include_context 'Session'
 
-  let(:fact)  { create(:fact, user: user) }
+  let(:fact)  { create(:fact_with_constituents, user: user) }
   let(:world) { fact.world }
 
   context 'of an own world' do
-    before(:example) { visit world_fact_path(world, fact) }
-
     it 'shows fact details' do
+      visit world_fact_path(world, fact)
       expect(page).to have_content(fact.name)
       expect(page).to have_content(fact.description)
       expect(page)
         .to have_link(fact.world.name, href: world_path(world))
-      expect(page).to have_selector('li[id^="fact_constituent"]',
+      expect(page).to have_selector('li[id^="index-entry-fact_constituent"]',
                                     count: fact.fact_constituents.count)
-      expect(page)
-        .to have_link(href: new_world_fact_fact_constituent_path(world, fact))
+      expect(fact.fact_constituents.count).to be > 0
       fact.fact_constituents.each do |fc|
         expect(page).to have_content(fc.constituable.name)
         expect(page)
@@ -23,10 +21,9 @@ RSpec.describe 'Showing a fact', type: :system do
         expect(page).to have_link(
           href: edit_world_fact_fact_constituent_path(world, fact, fc)
         )
-        expect(page).to have_link(
-          href: world_fact_fact_constituent_path(world, fact, fc),
-          title: 'destroy'
-        )
+        path = world_fact_fact_constituent_path(world, fact, fc)
+        expect(page)
+          .to have_selector("a[href=\"#{path}\"][data-method=\"delete\"]")
       end
     end
 
@@ -35,7 +32,6 @@ RSpec.describe 'Showing a fact', type: :system do
       let!(:relation_2)  { create(:relation, fact: fact, name: 'rel 2') }
 
       it 'shows a list of relations' do
-        # FIXME: Visit twice!?
         visit(world_fact_path(world, fact))
         expect(page).to have_selector('#relations')
         [relation_1, relation_2].each do |relation|

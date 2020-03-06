@@ -1,3 +1,33 @@
+module QuamundoRelationConstituentHelper
+  class << self
+    def random_relation_constituent(relation, role)
+      relation
+        .relation_constituents
+        .create(fact_constituent: random_fact_constituent(relation.fact),
+                role: role)
+    end
+
+    private
+    def types
+      [:concept, :figure, :item, :location]
+    end
+
+    def random_type
+      types[rand(types.count)]
+    end
+
+    def random_inventory(world)
+      FactoryBot.create(random_type, world: world)
+    end
+
+    def random_fact_constituent(fact)
+      fact
+        .fact_constituents
+        .create(constituable: random_inventory(fact.world))
+    end
+  end
+end
+
 FactoryBot.define do
   factory :relation do
     transient do
@@ -17,23 +47,14 @@ FactoryBot.define do
       end
 
       after(:build) do |relation, evaluator|
-        relation.fact.save
         relation.save
         evaluator.subjects_count.times do
-          # FIXME: Refactor, not DRY!
-          i_type = [:concept, :figure, :item, :location][rand(4)]
-          i = create(i_type, world: relation.fact.world)
-          fc = relation.fact.fact_constituents.create(constituable: i)
-          relation.relation_constituents.create(
-            fact_constituent: fc, role: :subject)
+          QuamundoRelationConstituentHelper
+            .random_relation_constituent(relation, :subject)
         end
         evaluator.relatives_count.times do
-          # FIXME: Refactor, not DRY!
-          i_type = [:concept, :figure, :item, :location][rand(4)]
-          i = create(i_type, world: relation.fact.world)
-          fc = relation.fact.fact_constituents.create(constituable: i)
-          relation.relation_constituents.create(
-            fact_constituent: fc, role: :relative)
+          QuamundoRelationConstituentHelper
+            .random_relation_constituent(relation, :relative)
         end
       end
     end

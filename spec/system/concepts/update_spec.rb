@@ -7,10 +7,7 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
   let(:other_world)   { other_concept.world }
 
   context 'of own world' do
-    before(:example) { visit edit_world_concept_path(world, concept) }
-
     it 'can update name and description' do
-      # FIXME: Duplicate action below
       QuamundoTestHelpers::attach_file(
         concept.image, fixture_file_name('concept.jpg'))
       visit edit_world_concept_path(world, concept)
@@ -27,6 +24,7 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     end
 
     it 'attaches an image', :comprehensive do
+      visit edit_world_concept_path(world, concept)
       page.attach_file('concept_image', fixture_file_name('concept.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_concept_path(world, concept))
@@ -36,13 +34,12 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     end
 
     it 'refuses to attach non image files', :comprehensive do
+      visit edit_world_concept_path(world, concept)
       page.attach_file('concept_image', fixture_file_name('file.pdf'))
       click_button('submit')
       expect(page).to have_current_path(world_concept_path(world, concept))
       expect(concept.image).not_to be_attached
-      #pending("Show view not yet implemented")
-      # FIXME: Check for proper error msg
-      expect(page).to have_selector('.alert')
+      expect(page).to have_selector('.alert', text: /^Failed to update/)
     end
 
     it_behaves_like 'valid_view' do
@@ -54,14 +51,13 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:path)    { edit_world_concept_path(world, concept) }
+      let(:subject)     { create(:concept, :with_traits, user: user) }
     end
   end
 
   context 'of another users world' do
-    before(:example) { visit edit_world_concept_path(other_world, other_concept) }
-
     it 'refuse other users worlds concept' do
+      visit edit_world_concept_path(other_world, other_concept)
       expect(page).to have_current_path(worlds_path)
     end
   end

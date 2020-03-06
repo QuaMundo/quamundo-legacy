@@ -1,3 +1,8 @@
+# FIXME: The following seems to be way too complicated!
+# The problem is, the notes controller knows nothing about the object it is
+# associated to. So I try to find that object via the params hash, i.e.
+# looking for an id key of any possible model and then find it by its id.
+# Hoping there is another, yet better method for solving this issue ...
 module PolymorphicController
   extend ActiveSupport::Concern
 

@@ -14,25 +14,15 @@ Rails.application.routes.draw do
     resources :dossiers, shallow: true, except: [:index]
   end
 
-  concern :tagable do
-    resources :tags, shallow: true, except: [:new, :create, :show, :index]
-  end
-
-  concern :traitable do
-    resources :traits, shallow: true, except: [:new, :create, :show, :index]
-  end
-
   # Since World is the 'root container' world_slug should be top level part
   # of a path, example:
   # World with slug 'my_world' should be reached via '/my_world'
   resources :worlds, param: :slug, path: '/', except: [:index, :create],
-    concerns: [:noteable, :tagable, :traitable, :dossierable] do
+    concerns: [:noteable, :dossierable] do
 
     resources :concepts, :figures, :items, :locations, :facts do
       concerns :noteable
       concerns :dossierable
-      concerns :tagable
-      concerns :traitable
     end
 
     resources :facts do

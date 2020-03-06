@@ -6,7 +6,7 @@ class World < ApplicationRecord
   include Traitable
   include Dossierable
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :worlds
   has_many :inventories
 
   # FIXME: Can this put in a concern?

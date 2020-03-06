@@ -22,9 +22,12 @@
         <% if @figure.description.present? %>
           <p><%= @figure.description %></p>
         <% end %>
-        <% unless @figure.facts.empty? %>
-          <p><%= t('.part_of_facts', count: @figure.facts.count) %></p>
-        <% end %>
+
+        <p><%= t('.part_of_facts', count: @figure.facts.count) %></p>
+
+        <p><%= t('.has_ancestors', count: @figure.ancestors.count) %></p>
+        <p><%= t('.has_descendants', count: @figure.descendants.count) %></p>
+
         <p>
         <%= t('.world', name: @figure.name) %>
         <%= link_to(@figure.world.name, world_path(@figure.world)) %>
@@ -55,7 +58,11 @@
 <%# Attributes go here %>
 <%= render partial: 'figure_ancestors/pedigree', locals: { figures: @figure.pedigree } %>
 <%# FIXME: Try @figure.relatives.map(&:constituable) - What about eager loading %>
-<%= render partial: 'relations/relatives', locals: { obj: @figure.relatives } %>
-<%= render partial: 'facts/facts', locals: { obj: @figure.facts.chronological } %>
+<%= render(
+  partial: 'relations/relatives',
+  locals: { obj: @figure.relatives.chronological }) %>
+<%= render(
+  partial: 'facts/facts',
+  locals: { obj: @figure.facts.chronological }) %>
 <%= render partial: 'shared/attributes', locals: { obj: @figure } %>
 

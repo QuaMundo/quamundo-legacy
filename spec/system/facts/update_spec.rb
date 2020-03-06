@@ -34,13 +34,12 @@ RSpec.describe 'Updating/Editing a fact', type: :system do
       expect(fact.reload.image).to be_attached
     end
 
-    it 'refuses to attach non image files', :comprehensive do
-      page.attach_file('fact_image', fixture_file_name('file.pdf'))
-      click_button('submit')
-      expect(page).to have_current_path(world_fact_path(world, fact))
-      expect(fact.image).not_to be_attached
-      # FIXME: Check for proper error msg
-      expect(page).to have_selector('.alert')
+  it 'refuses to attach non image files', :comprehensive do
+    page.attach_file('fact_image', fixture_file_name('file.pdf'))
+    click_button('submit')
+    expect(page).to have_current_path(world_fact_path(world, fact))
+    expect(fact.image).not_to be_attached
+      expect(page).to have_selector('.alert', text: /^Failed to update/)
     end
 
     it_behaves_like 'valid_view' do
@@ -52,7 +51,7 @@ RSpec.describe 'Updating/Editing a fact', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:path)    { edit_world_fact_path(world, fact) }
+      let(:subject)     { create(:fact, :with_traits, user: user) }
     end
   end
 

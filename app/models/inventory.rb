@@ -1,5 +1,5 @@
 class Inventory < ApplicationRecord
-  belongs_to :world
+  belongs_to :world, inverse_of: :inventories
   belongs_to :inventory, polymorphic: true
 
   # this is a read-only model!

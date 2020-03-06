@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :figure_ancestor do
-    figure { nil }
-    ancestor { nil }
-    name { "MyString" }
+    figure      { build(:figure) }
+    ancestor    { build(:figure, world: figure.world) }
+    name        { "Mother" }
   end
 end

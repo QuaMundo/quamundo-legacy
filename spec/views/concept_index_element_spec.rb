@@ -12,7 +12,6 @@ RSpec.describe 'concepts/index', type: :view do
       .to have_selector('.index_entry_description',
                         text: /#{concept.description}/)
     expect(rendered).to match /#{concept.world.name}/
-    # FIXME: Better testing for stats!
     expect(rendered).to match /#{concept.facts.count}/
     expect(rendered).to match /#{concept.relatives.count}/
 

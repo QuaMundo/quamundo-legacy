@@ -11,4 +11,11 @@ RSpec.describe 'Image Attachment Tag Helper' do
     attach_file(world.image, 'file.pdf')
     expect(helper.attached_img_path(world.image)).to match /^$/
   end
+
+  it 'returns nothing for invariable images' do
+    attach_file(world.image, 'non-variable.png')
+    expect { helper.attached_img_path(world.image) }
+      .not_to raise_error
+    expect(helper.attached_img_path(world.image)).to match /^$/
+  end
 end

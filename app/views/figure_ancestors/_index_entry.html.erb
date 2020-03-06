@@ -22,15 +22,19 @@
     <%# Header %>
     <h5 class="mb-q index_entry_name">
       <%= icon(:figure) { index_entry.name } %>
+      <span class="text-muted small">
+        &nbsp;-&nbsp;
+        <% if index_entry.degree < 0 %>
+          <%= t('.ancestor', degree: index_entry.degree.abs) %>
+        <% else %>
+          <%= t('.descendant', degree: index_entry.degree) %>
+        <% end %>
+      </span>
     </h5>
 
     <%# Description %>
     <div class="small index_entry_description">
-      <% if index_entry.degree < 0 %>
-        <%= t('.ancestor', degree: index_entry.degree.abs) %>
-      <% else %>
-        <%= t('.descendant', degree: index_entry.degree) %>
-      <% end %>
+      <%= index_entry.description %>
     </div>
     <%# Stats %>
     <div class="small index_entry_stats">

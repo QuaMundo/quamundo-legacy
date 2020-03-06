@@ -49,7 +49,7 @@ RSpec.describe FactConstituent, type: :model do
   end
 
   it 'has an empty list of roles if no roles are given' do
-    fc = create(:fact_constituent,
+    fc = build_stubbed(:fact_constituent,
                 fact: fact,
                 constituable: build(:item, world: fact.world))
     expect(fc.roles).to be_empty
@@ -74,7 +74,7 @@ RSpec.describe FactConstituent, type: :model do
   end
 
   it 'refuses to add another fact as constituable' do
-    other_fact = create(:fact, world: world)
+    other_fact = build_stubbed(:fact, world: world)
     fc = fact.fact_constituents.build(constituable: other_fact)
     expect(fc).not_to be_valid
   end
@@ -89,8 +89,8 @@ RSpec.describe FactConstituent, type: :model do
   it 'refuses creating of constituable that does not belong to facts world',
     db_triggers: true do
 
-    other_world = create(:world, user: user)
-    item = create(:item, world: other_world)
+    other_world = build_stubbed(:world, user: user)
+    item = build_stubbed(:item, world: other_world)
     fc = fact.fact_constituents.build(constituable: item)
     expect(fc).not_to be_valid
     expect { fc.save!(validate: false) }

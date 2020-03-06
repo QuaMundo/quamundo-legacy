@@ -36,16 +36,6 @@ RSpec.describe World, type: :model do
     expect { world.save! }.to raise_error ActiveRecord::RecordInvalid
   end
 
-  # Redundant, see 'case insensitive uniqueness'
-  # it 'has an unique name' do
-  #   user = create(:user_with_worlds)
-  #   world = user.worlds.first
-  #   new_world = build(:world, name: world.name, user: user)
-  #   expect(new_world).not_to be_valid
-  #   expect { new_world.save!(validate: false) }
-  #     .to raise_error ActiveRecord::RecordNotUnique
-  # end
-
   it 'has a case insensitive unique name' do
     user = build(:user)
     world = create(:world, name: 'Test', user: user)
@@ -61,15 +51,6 @@ RSpec.describe World, type: :model do
     expect(world.slug).to eq('a-meaningfull-name')
   end
 
-  # it 'got slug updated when name is updated' do
-  #   world = create(:world, name: 'Title', user: build(:user))
-  #   expect(world.slug).to eq('name')
-  #   world.name = 'New Title'
-  #   world.save!
-  #   world.reload
-  #   expect(world.slug).to eq('new-name')
-  # end
-
   it 'has an unique slug' do
     world = create(:world, user: build(:user), name: 'A Meaningfull Name')
     other_world = build(:world, user: build(:user),
@@ -78,54 +59,20 @@ RSpec.describe World, type: :model do
       .to raise_error ActiveRecord::RecordNotUnique
   end
 
-  # FIXME: Refactor or delete this
-  # This one gives random, non-reproducable failures, so deactivatet
-  # it 'deletion also removes images and variants from storage' do
-  #   world = create(:world)
-  #   paths = generate_some_image_paths(world)
-  #   world.destroy
-  #   expect(paths.none? { |p| File.exist? p } ).to be_truthy
-  # end
-
-  # FIXME: duplicate code in `spec/support/noteable.rb`
-  it 'has a list of notes' do
-    world = build(:world)
-    expect(world).to respond_to(:notes)
-    notes = []
-    2.times do
-      note = build(:note, noteable: world)
-      notes << note
-      world.notes << note
-    end
-    world.save
-    expect(Note.ids).to include(*notes.map(&:id))
+  it_behaves_like 'noteable' do
+    let(:subject) { build(:world) }
   end
 
-  # FIXME: duplicate code in `spec/support/tagable.rb`
-  it 'has tags' do
-    world = build(:world)
-    expect(world).to respond_to(:tag)
+  it_behaves_like 'tagable' do
+    let(:subject) { build(:world) }
   end
 
-  # FIXME: duplicate code in `spec/support/traitable.rb`
-  it 'has traits' do
-    world = build(:world)
-    expect(world).to respond_to(:trait)
+  it_behaves_like 'traitable' do
+    let(:subject) { build(:world) }
   end
 
-  # FIXME: duplicate code in `spec/support/dossierable.rb`
-  it 'has dossiers' do
-    world = build(:world)
-    expect(world).to respond_to(:dossiers)
-  end
-
-  # FIXME: duplicate code in `spec/support/noteable.rb`
-  it 'deletes all notes when subject is deleted' do
-    obj = create(:world)
-    note_ids = obj.note_ids
-    expect(Note.ids).to include(*note_ids)
-    obj.destroy!
-    expect(Note.ids).not_to include(*note_ids)
+  it_behaves_like 'dossierable' do
+    let(:subject) { build(:world_with_dossiers) }
   end
 
   context 'age of world' do

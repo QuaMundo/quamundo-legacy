@@ -13,7 +13,6 @@ RSpec.describe 'facts/index', type: :view do
     expect(rendered)
       .to have_selector('.index_entry_description', text: /#{fact.description}/)
     expect(rendered).to match /#{fact.world.name}/
-    # FIXME: Better testing for stats!
     expect(rendered).to match /Sat, 01 Jan 2000/
     expect(rendered).to match /Sun, 31 Dec 2000/
 

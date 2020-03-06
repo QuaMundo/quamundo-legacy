@@ -11,7 +11,8 @@ RSpec.describe 'Creating a fact', type: :system do
       fill_in('Name', with: 'This new fact')
       fill_in('Description', with: 'Description of new fact')
       page.attach_file('fact_image', fixture_file_name('fact.jpg'))
-      # FIXME: Add start and end date
+      fill_in('Start date', with: '2018-01-01 10:25')
+      fill_in('End date', with: '2019-01-01 10:25')
       click_button('submit')
       expect(world.facts.count).to be > 0
       expect(page).to have_current_path(
@@ -63,7 +64,7 @@ RSpec.describe 'Creating a fact', type: :system do
       let(:path)    { new_world_fact_path(world) }
     end
 
-    it_behaves_like 'editable traits' do
+    it_behaves_like 'creatable traits' do
       let(:path)      { new_world_fact_path(world) }
     end
   end

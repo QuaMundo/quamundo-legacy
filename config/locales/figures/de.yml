@@ -18,9 +18,18 @@ de:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
     show:
       part_of_facts:
+        zero: 'Diese Figur ist an keinem Fakt beteiligt'
         one: 'Diese Figur ist an einem Fakt beteiligt.'
         other: 'Diese Figur ist an %{count} Fakten beteiligt.'
       world: '%{name} ist Bewohner der Welt: '
+      has_ancestors:
+        zero: 'Diese Figur hat keine bekannten Vorfahren'
+        one: 'Diese Figur hat einen bekannten Vorfahren'
+        other: 'Diese Figur hat %{count} bekannte Vorfahren'
+      has_descendants:
+        zero: 'Diese Figure hat keine bekannten Nachkommen'
+        one: 'Diese Figur hat einen bekannten Nachkommen'
+        other: 'Diese Figure hat %{count} bekannte Nachkommen'
 
   activerecord:
     models:

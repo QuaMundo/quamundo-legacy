@@ -7,10 +7,7 @@ RSpec.describe 'Updating/Editing an item', type: :system do
   let(:other_world)   { other_item.world }
 
   context 'of own world' do
-    before(:example) { visit edit_world_item_path(world, item) }
-
     it 'can update name and description' do
-      # FIXME: Duplicate action below
       QuamundoTestHelpers::attach_file(
         item.image, fixture_file_name('item.jpg'))
       visit edit_world_item_path(world, item)
@@ -27,6 +24,7 @@ RSpec.describe 'Updating/Editing an item', type: :system do
     end
 
     it 'attaches an image', :comprehensive do
+      visit edit_world_item_path(world, item)
       page.attach_file('item_image', fixture_file_name('item.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_item_path(world, item))
@@ -35,12 +33,12 @@ RSpec.describe 'Updating/Editing an item', type: :system do
     end
 
     it 'refuses to attach non image files', :comprehensive do
+      visit edit_world_item_path(world, item)
       page.attach_file('item_image', fixture_file_name('file.pdf'))
       click_button('submit')
       expect(page).to have_current_path(world_item_path(world, item))
       expect(item.image).not_to be_attached
-      # FIXME: Check for proper error msg
-      expect(page).to have_selector('.alert')
+      expect(page).to have_selector('.alert', text: /^Failed to update/)
     end
 
     it_behaves_like 'valid_view' do
@@ -52,14 +50,13 @@ RSpec.describe 'Updating/Editing an item', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:path)    { edit_world_item_path(world, item) }
+      let(:subject)     { create(:item, :with_traits, user: user) }
     end
   end
 
   context 'of another users world' do
-    before(:example) { visit edit_world_item_path(other_world, other_item) }
-
     it 'refuse other users worlds item' do
+      visit edit_world_item_path(other_world, other_item)
       expect(page).to have_current_path(worlds_path)
     end
   end

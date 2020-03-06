@@ -8,9 +8,8 @@ RSpec.describe 'Updating/Editing a location', type: :system do
   let(:other_world)     { other_location.world }
 
   context 'of own world' do
-    before(:example) { visit edit_world_location_path(world, location) }
-
     it 'has button to get current position via javascript', :js, :comprehensive do
+      visit edit_world_location_path(world, location)
       page.execute_script(
         'navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }'
       )
@@ -19,6 +18,7 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it 'prefills position field with "lat.x, lon.y"' do
+      visit edit_world_location_path(world, location)
       location.lonlat = 'POINT(8.5 49.5)'
       location.save
       visit edit_world_location_path(world, location)
@@ -27,7 +27,6 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it 'can update name, position and description' do
-      # FIXME: Duplicate action below
       QuamundoTestHelpers::attach_file(
         location.image, fixture_file_name('location.jpg'))
       visit edit_world_location_path(world, location)
@@ -46,6 +45,7 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it 'attaches an image', :comprehensive do
+      visit edit_world_location_path(world, location)
       page.attach_file('location_image', fixture_file_name('location.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_location_path(world, location))
@@ -54,12 +54,12 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it 'refuses to attach non image files', :comprehensive do
+      visit edit_world_location_path(world, location)
       page.attach_file('location_image', fixture_file_name('file.pdf'))
       click_button('submit')
       expect(page).to have_current_path(world_location_path(world, location))
       expect(location.image).not_to be_attached
-      # FIXME: Check for proper error msg
-      expect(page).to have_selector('.alert')
+      expect(page).to have_selector('.alert', text: /^Failed to update/)
     end
 
     it_behaves_like 'valid_view' do
@@ -71,14 +71,13 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:path)    { edit_world_location_path(world, location) }
+      let(:subject)     { create(:location, :with_traits, user: user) }
     end
   end
 
   context 'of another users world' do
-    before(:example) { visit edit_world_location_path(other_world, other_location) }
-
     it 'refuses to update another users worlds locations' do
+      visit edit_world_location_path(other_world, other_location)
       expect(page).to have_current_path(worlds_path)
     end
   end

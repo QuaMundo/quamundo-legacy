@@ -11,6 +11,17 @@ RSpec.describe SubjectRelativeRelation, type: :model do
     expect(sub_rel.readonly?).to be_truthy
   end
 
+  it 'does not allow constituents to be added twice' do
+    srr = relation
+      .subject_relative_relations.new(subject: subject, relative: relative)
+    expect(srr).not_to be_valid
+    # Attention: This does not check unique index on subject_id and relative_id
+    # in DB, since model is marked as readonly.
+    # Index is created in DB but not covered by tests.
+    expect { srr.save!(validate: false) }
+      .to raise_error ActiveRecord::ReadOnlyRecord
+  end
+
   it 'has a relation, a subject and a relative associated' do
     expect(sub_rel.relation).to eq(relation)
     expect(relation.subjects).to include(sub_rel.subject)

@@ -5,7 +5,6 @@ module AssociatedObjectInfoHelper
 
   private
   def get_title(obj)
-    # FIXME: Should be obsolete since title everywhere has changed to name
-    obj.try(:name) || obj.try(:title)
+    obj.try(:name) || ''
   end
 end

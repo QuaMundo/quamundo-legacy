@@ -8,10 +8,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
   let(:other_world)   { other_figure.world }
 
   context 'of own world' do
-    before(:example) { visit edit_world_figure_path(world, figure) }
-
     it 'can update description' do
-      # FIXME: Duplicate action below
       QuamundoTestHelpers::attach_file(
         figure.image, fixture_file_name('location.jpg'))
       visit edit_world_figure_path(world, figure)
@@ -24,6 +21,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     end
 
     it 'can change name' do
+      visit edit_world_figure_path(world, figure)
       fill_in('Name', with: 'A new name')
       click_button('submit')
       expect(page).to have_content('A new name')
@@ -31,6 +29,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     end
 
     it 'attaches an image', :comprehensive do
+      visit edit_world_figure_path(world, figure)
       page.attach_file('figure_image', fixture_file_name('figure.jpg'))
       click_button('submit')
       expect(page).to have_current_path(world_figure_path(world, figure))
@@ -39,12 +38,12 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     end
 
     it 'refuse to attach non image files', :comprehensive do
+      visit edit_world_figure_path(world, figure)
       page.attach_file('figure_image', fixture_file_name('file.pdf'))
       click_button('submit')
       expect(page).to have_current_path(world_figure_path(world, figure))
       expect(figure.image).not_to be_attached
-      # FIXME: Check for proper error msg
-      expect(page).to have_selector('.alert')
+      expect(page).to have_selector('.alert', text: /^Failed to update/)
     end
 
     it_behaves_like 'valid_view' do
@@ -56,7 +55,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:path) { new_world_figure_path(world, figure) }
+      let(:subject)     { create(:figure, :with_traits, user: user) }
     end
   end
 

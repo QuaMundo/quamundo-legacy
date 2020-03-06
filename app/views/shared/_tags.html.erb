@@ -8,7 +8,10 @@
         <% if obj.tag.tagset.empty? %>
           <%= t('tags.new.new_tag') %>
         <% end %>
-        <%= link_to(icon(:edit), edit_tag_path(obj.tag), id: element_id(obj.tag, 'edit')) %>
+        <%= link_to(
+          icon(:edit),
+          edit_polymorphic_path([obj.try(:world), obj]),
+          id: element_id(obj.tag, 'edit')) %>
       </span>
     <% end %>
   </div>

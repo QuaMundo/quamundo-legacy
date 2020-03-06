@@ -1,6 +1,6 @@
 class FactConstituent < ApplicationRecord
-  belongs_to :fact, touch: true
-  belongs_to :constituable, polymorphic: true
+  belongs_to :fact, touch: true, inverse_of: :fact_constituents
+  belongs_to :constituable, polymorphic: true, inverse_of: :fact_constituents
 
   has_many :relation_constituents, dependent: :destroy
   has_many :relatives, through: :relation_constituents

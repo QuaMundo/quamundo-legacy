@@ -80,7 +80,6 @@ class ConceptsController < ApplicationController
     params.require(:concept)
       .permit(:name, :description, :image,
               tag_attributes: [ :id, tagset: [] ],
-              trait_attributes: [:id, attributeset: {},
-                                 trait: [:new_key, :new_value]])
+              trait_attributes: [:id, attributeset: {}])
   end
 end

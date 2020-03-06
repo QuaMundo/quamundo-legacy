@@ -3,9 +3,8 @@ RSpec.describe 'Updating/editing a world', type: :system do
 
   let(:world) { create(:world, user: user) }
 
-  before(:example) { visit edit_world_path(world) }
-
   it 'description can be changed' do
+    visit edit_world_path(world)
     expect(page).to have_selector("img##{element_id(world, 'img')}")
     fill_in('Description', with: 'A new description')
     click_button('submit')
@@ -14,11 +13,13 @@ RSpec.describe 'Updating/editing a world', type: :system do
   end
 
   it 'refuses to change name' do
+    visit edit_world_path(world)
     expect(page)
       .to have_selector('input[type="text"][name="world[name]"][disabled]')
   end
 
   it 'attaches an image' do
+    visit edit_world_path(world)
     page.attach_file('world_image', fixture_file_name('earth.jpg'))
     click_button('submit')
     expect(page).to have_current_path(world_path(world))
@@ -27,15 +28,16 @@ RSpec.describe 'Updating/editing a world', type: :system do
   end
 
   it 'refuse to attach non image files' do
+    visit edit_world_path(world)
     page.attach_file('world_image', fixture_file_name('file.pdf'))
     click_button('submit')
     expect(page).to have_current_path(world_path(world))
     expect(world.image.filename).not_to eq('file.pdf')
-    # FIXME: Check for proper error msg
-    expect(page).to have_selector('.alert')
+    expect(page).to have_selector('.alert', text: /^Failed to update/)
   end
 
-  it 'lets enter tags', js: true do
+  it 'lets enter tags' do
+    visit edit_world_path(world)
     page.find('input[id$="_tag_attributes_tagset"]')
       .fill_in(with: 'tag 1, tag 2, tag 3')
     click_button('submit')
@@ -51,6 +53,6 @@ RSpec.describe 'Updating/editing a world', type: :system do
   end
 
   it_behaves_like 'editable traits' do
-    let(:path)    { edit_world_path(world) }
+    let(:subject)     { create(:world, :with_traits, user: user) }
   end
 end

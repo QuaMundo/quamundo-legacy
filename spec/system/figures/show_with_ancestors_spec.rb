@@ -28,8 +28,15 @@ RSpec.describe 'Showing a figure with ancestors',
   it 'shows ancestors and descendants with degrees' do
     visit world_figure_path(world, figure)
     pedigree = figure.pedigree
-    # FIXME: Don't use hard coded count!
-    expect(pedigree.count).to eq(11)
+    pedigree_figures = [
+      father,                 mother,
+      grandfather_m,          grandmother_m,
+      grandfather_f,          grandmother_f,
+      greatgrandfather,       greatgrandmother,
+      son,                    daughter,
+      grandson
+    ]
+    expect(pedigree).to contain_exactly(*pedigree_figures)
     page.within('div#pedigree') do
       page.find('div#pedigree-header button').click
       pedigree.each do |fig|

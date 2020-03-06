@@ -74,6 +74,31 @@ $$;
 
 
 --
+-- Name: figure_ancestors_common_world(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.figure_ancestors_common_world() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF (SELECT ((f.world_id IS NULL)
+          OR (a.world_id IS NULL)
+          OR (f.world_id <> a.world_id))
+        FROM figure_ancestors fa
+        LEFT JOIN figures f ON fa.figure_id = f.id
+        LEFT JOIN figures a ON fa.ancestor_id = a.id
+        WHERE fa.id = NEW.id)
+    THEN
+       RAISE EXCEPTION 'World mismatch: ancestor % does not belong to world of %',
+        NEW.ancestor_id, NEW.figure_id;
+    ELSE
+      RETURN NEW;
+    END IF;
+  END;
+$$;
+
+
+--
 -- Name: freeze_fact_constituent_constituable(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1396,6 +1421,13 @@ CREATE INDEX index_worlds_on_user_id ON public.worlds USING btree (user_id);
 
 
 --
+-- Name: unique_index_subject_relative_on_sub_rel_relations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_index_subject_relative_on_sub_rel_relations ON public.subject_relative_relations USING btree (subject_id, relative_id);
+
+
+--
 -- Name: concepts concept_world_change; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -1428,6 +1460,13 @@ CREATE TRIGGER figure_world_change BEFORE UPDATE OF world_id ON public.figures F
 --
 
 CREATE TRIGGER foreign_fact_constituent AFTER INSERT OR UPDATE OF constituable_id, constituable_type ON public.fact_constituents FOR EACH ROW EXECUTE FUNCTION public.fact_constituents_common_world();
+
+
+--
+-- Name: figure_ancestors foreign_figure_ancestor; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER foreign_figure_ancestor AFTER INSERT OR UPDATE OF figure_id, ancestor_id ON public.figure_ancestors FOR EACH ROW EXECUTE FUNCTION public.figure_ancestors_common_world();
 
 
 --
@@ -1654,6 +1693,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191005215006'),
 ('20200122155154'),
 ('20200225122524'),
-('20200225144514');
+('20200225144514'),
+('20200306132315'),
+('20200309083810');
 
 

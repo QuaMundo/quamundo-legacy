@@ -54,7 +54,7 @@ RSpec.describe RelationConstituent, type: :model do
     end
 
     it 'cannot change its fact_constituent' do
-      other_fc = create(:fact_constituent,
+      other_fc = build_stubbed(:fact_constituent,
                         fact: build(:fact, world: fact.world),
                         constituable: build(:item, world: fact.world))
       rc = relation.relation_constituents
@@ -70,7 +70,7 @@ RSpec.describe RelationConstituent, type: :model do
     end
 
     it 'cannot change its relation' do
-      other_relation = create(:relation, fact: fact)
+      other_relation = build_stubbed(:relation, fact: fact)
       rc = relation.relation_constituents
         .create(fact_constituent: fact_constituent,
                 role: :subject)

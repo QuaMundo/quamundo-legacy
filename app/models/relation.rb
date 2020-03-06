@@ -1,5 +1,5 @@
 class Relation < ApplicationRecord
-  belongs_to :fact, touch: true
+  belongs_to :fact, touch: true, inverse_of: :relations
   has_many :relation_constituents, dependent: :destroy
   has_many :subject_relative_relations
   has_many :subjects,

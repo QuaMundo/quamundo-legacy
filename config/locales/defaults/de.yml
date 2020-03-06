@@ -25,6 +25,7 @@ de:
   end_time: 'Endet am'
   duration: 'Zeitspanne'
   constituent_common_world: 'Alle Aspekte eines Fakts müssen derselben Welt angehören!'
+  ancestor_common_world: 'Alle Vorfahren und Nachkommen müssen derselben Welt angehören!'
   relation_common_fact: 'Allen Partnern einer Relation muss der gleiche Fakt zugrunde liegen.'
 
   shared:
