@@ -2,24 +2,36 @@ class ConceptsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
+
   before_action :set_concept, only: [:show, :edit, :update, :destroy]
 
+  authorize :world, through: :current_world
+
   def index
-    @concepts = @world.concepts.order(name: :asc)
+    @concepts = current_world.concepts.order(name: :asc)
+    authorize! @concepts
   end
 
   def new
-    @concept = Concept.new(tag_attributes: {},
-                           trait_attributes: {})
+    @concept = current_world.concepts.new(tag_attributes: {},
+                                          trait_attributes: {})
+    authorize! @concept
   end
 
   def create
-    @concept = @world.concepts.new(concept_params)
+    @concept = current_world.concepts.new(concept_params)
+    authorize! @concept
 
     respond_to do |format|
       if @concept.save
         format.html do
-          redirect_to(world_concept_path(@world, @concept),
+          redirect_to(world_concept_path(current_world, @concept),
                                 notice: t('.created'))
         end
       else
@@ -42,7 +54,7 @@ class ConceptsController < ApplicationController
     respond_to do |format|
       if @concept.update(concept_params)
         format.html do
-          redirect_to(world_concept_path(@world, @concept),
+          redirect_to(world_concept_path(current_world, @concept),
                       notice: t('.updated', concept: @concept.name))
         end
       else
@@ -59,7 +71,7 @@ class ConceptsController < ApplicationController
     @concept.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_concepts_path(@world),
+        redirect_to(world_concepts_path(current_world),
                     notice: t('.destroyed', concept: @concept.name))
       end
     end
@@ -67,10 +79,11 @@ class ConceptsController < ApplicationController
 
   private
   def set_concept
-    @concept = @world.concepts
+    @concept = current_world.concepts
       .with_attached_image
       .includes(:tag, :trait, :notes, :dossiers)
       .find(params[:id])
+    authorize! @concept
   end
 
   def concept_params

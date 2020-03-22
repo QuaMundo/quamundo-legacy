@@ -45,8 +45,7 @@
       child_index: -1) do |constituent_form| %>
 
       <%# select new constituent %>
-      <div id="new-relation_constituents"
-           class="form-group row relation_constituent_entry"
+      <div class="form-group row relation_constituent_entry"
            data-target="relation-constituents.input">
         <div class="col-md-8 col-12 input-group">
           <%= constituent_form.select(
@@ -98,7 +97,7 @@
             :fact_constituent_id,
             value: 'TPL_NEW_VAL') %>
           <%= text_field_tag(
-            nil, # FIXME: Shorten line.
+            nil,
             'TPL_NEW_TEXT',
             class: 'form-control',
             id: nil,

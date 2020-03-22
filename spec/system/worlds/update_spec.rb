@@ -53,6 +53,6 @@ RSpec.describe 'Updating/editing a world', type: :system do
   end
 
   it_behaves_like 'editable traits' do
-    let(:subject)     { create(:world, :with_traits, user: user) }
+    let(:subject) { create(:world, :with_traits, user: user) }
   end
 end

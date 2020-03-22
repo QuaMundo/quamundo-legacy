@@ -18,11 +18,12 @@
         icon(:fact) { @fact.name },
         world_fact_path(@fact.world, @fact),
         class: 'dropdown-item') %>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:update?, @fact),
         icon(:new) { t('new') },
         new_world_fact_relation_path(@fact.world, @fact),
         class: 'dropdown-item',
-        title: t(:new)) %>
+        title: t(:new)) {} %>
     </div>
   </li>
 </ul>

@@ -7,6 +7,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+# require ActionPolicy rspec
+require 'action_policy/rspec/dsl'
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -33,7 +36,8 @@ end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.example_status_persistence_file_path = "#{::Rails.root}/tmp/rspec_examples.txt"
+  config.example_status_persistence_file_path =
+    "#{::Rails.root}/tmp/rspec_examples.txt"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -84,6 +88,17 @@ RSpec.configure do |config|
   end
   config.before(:example, type: :system, js: true) do
     driven_by(:selenium_chrome_headless)
+  end
+
+  # Include Devise test helpers for view specs
+  config.include(Devise::Test::ControllerHelpers, type: :view)
+  config.before(:example, type: :view) do
+    # Since ActionPolicy seems not to be available in view specs, stub policies.
+    # See: https://github.com/palkan/action_policy/issues/88
+    # and: https://stackoverflow.com/questions/11651232/how-to-stub-or-mock-authlogic-current-user-in-view-specs#comment66160937_32920982
+    allow(controller)
+      .to receive(:current_user)
+      .and_return(defined?(user) ? user : nil)
   end
 end
 

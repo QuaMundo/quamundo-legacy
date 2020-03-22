@@ -2,6 +2,7 @@ en:
   facts:
     new:
       new_fact: 'New Fact'
+      not_allowed: 'You are not allowed to create a fact in this world'
     create:
       created: 'Fact successfully created'
       create_failed: 'Failed to create fact'

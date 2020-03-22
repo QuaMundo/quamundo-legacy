@@ -2,7 +2,9 @@
 
   <div class="col">
     <ul class="list-unstyled">
-      <%= render partial: 'dossiers/index_entry', collection: obj.dossiers %>
+      <%= render(
+        partial: 'dossiers/index_entry',
+        collection: obj.dossiers) %>
     </ul>
   </div>
 
@@ -10,7 +12,17 @@
 
 <div class="row">
   <div class="col text-right">
-    <%= link_to(icon(:new), new_polymorphic_path([obj.try(:world), obj, Dossier]), id: 'add-dossier') %>
+    <%= link_to_if(
+      allowed_to?(:edit?, obj),
+      icon(:new),
+      new_polymorphic_path(
+        [obj.try(:world), obj, Dossier],
+        dossier: {
+          dossierable_id: obj.id,
+          dossierable_type: obj.model_name.name
+        }
+      ),
+      id: 'add-dossier') {} %>
   </div>
 </div>
 

@@ -17,6 +17,7 @@ RSpec.describe 'Showing a world', type: :system do
                                   title: 'delete')
         expect(page).to have_link(href: edit_world_path(world),
                                   class: 'dropdown-item')
+        expect(page).to have_link(href: edit_world_permissions_path(world))
         expect(page).to have_link(href: worlds_path, class: 'dropdown-item')
         expect(page).to have_link(href: new_world_path, class: 'dropdown-item')
       end

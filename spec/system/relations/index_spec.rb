@@ -27,7 +27,7 @@ RSpec.describe 'Listing relations', type: :system do
   context 'of another users world' do
     let(:other_world) { create(:world) }
     let(:other_fact)  { create(:fact, world: other_world) }
-    let(:relation)    { create(:relation, fact: other_fact) }
+    let!(:relation)    { create(:relation, fact: other_fact) }
 
     it 'does not show relations of another users world' do
       visit world_fact_relations_path(other_world, other_fact)

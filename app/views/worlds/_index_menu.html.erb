@@ -9,12 +9,12 @@
       <%= icon(:menu) %>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:new?, World),
         icon(:new) { t('new') },
         new_world_path,
         class: 'dropdown-item',
-        title: t(:new)
-      ) %>
+        title: t(:new)) {} %>
     </div>
   </li>
 </ul>

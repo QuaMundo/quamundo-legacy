@@ -1,13 +1,20 @@
 RSpec.describe 'CRUD actions on notes', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world) }
+  let(:world) { create(:world, user: user) }
 
   context 'create a note' do
     let(:note) { build(:note, noteable: world) }
 
     it_behaves_like 'valid_view' do
-      let(:path) { new_polymorphic_path([world, Note]) }
+      let(:path) {
+        new_polymorphic_path(
+          [world, Note],
+          note: {
+            noteable_id: world.id,
+            noteable_type: 'World'
+          })
+      }
     end
   end
 

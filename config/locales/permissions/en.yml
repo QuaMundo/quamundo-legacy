@@ -1,0 +1,23 @@
+en:
+  permissions:
+    edit:
+      edit_permissions: 'Permissions of world "%{world}"'
+
+    permission_input:
+      r: 'read only'
+      rw: 'read and write'
+      public: 'public readable'
+      select_permission: 'Choose permisssions'
+      select_user: 'Choose user'
+
+  activerecord:
+    models:
+      permission:
+        one: 'Permission'
+        other: 'Permissions'
+
+    attributes:
+      permission:
+        user: 'User'
+        world: 'World'
+        permissions: 'Permissions'

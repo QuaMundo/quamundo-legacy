@@ -15,7 +15,7 @@ RSpec.shared_examples 'associated note', type: :system do
 
   it 'can be created' do
     page.find('a#add-note').click
-    expect(page).to have_current_path(new_polymorphic_path(path << Note))
+    expect(page).to have_current_path(/#{new_polymorphic_path(path << Note)}/)
     fill_in('note_content', with: 'This is my new note')
     click_button('submit')
     expect(page)
@@ -28,7 +28,8 @@ RSpec.shared_examples 'associated note', type: :system do
     page.find("a#edit-note-#{edited_note.id}").click
     expect(page).to have_current_path(edit_note_path(edited_note))
     expect(page)
-      .to have_content("#{subject.model_name.human.capitalize} \"#{subject.try(:name) || subject.try(:title)}\"")
+      .to have_content("#{subject.model_name.human.capitalize} "\
+                       "\"#{subject.try(:name) || subject.try(:title)}\"")
     fill_in('note_content', with: 'Updated note')
     click_button('submit')
     expect(page).to have_current_path(polymorphic_path(path))

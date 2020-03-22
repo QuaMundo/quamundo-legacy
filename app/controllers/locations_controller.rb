@@ -2,25 +2,37 @@ class LocationsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
+
   before_action :set_location, only: [:show, :edit, :update, :destroy]
   before_action :set_lonlat_param, only: [:create, :update]
 
+  authorize :world, through: :current_world
+
   def index
-    @locations = @world.locations.order(name: :asc)
+    @locations = current_world.locations.order(name: :asc)
+    authorize! @locations
   end
 
   def new
-    @location = Location.new(tag_attributes: {},
-                             trait_attributes: {})
+    @location = current_world.locations.new(tag_attributes: {},
+                                            trait_attributes: {})
+    authorize! @location
   end
 
   def create
-    @location = @world.locations.new(location_params)
+    @location = current_world.locations.new(location_params)
+    authorize! @location
 
     respond_to do |format|
       if @location.save
         format.html do
-          redirect_to(world_location_path(@world, @location),
+          redirect_to(world_location_path(current_world, @location),
                       notice: t('.created'))
         end
       else
@@ -43,7 +55,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.update(location_params)
         format.html do
-          redirect_to(world_location_path(@world, @location),
+          redirect_to(world_location_path(current_world, @location),
                       notice: t('.updated', location: @location.name))
         end
       else
@@ -60,7 +72,7 @@ class LocationsController < ApplicationController
     @location.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_locations_path(@world),
+        redirect_to(world_locations_path(current_world),
                     notice: t('.destroyed', location: @location.name))
       end
     end
@@ -68,10 +80,11 @@ class LocationsController < ApplicationController
 
   private
   def set_location
-    @location = @world.locations
+    @location = current_world.locations
       .with_attached_image
       .includes(:tag, :trait, :notes, :dossiers)
       .find(params[:id])
+    authorize! @location
   end
 
   def set_lonlat_param

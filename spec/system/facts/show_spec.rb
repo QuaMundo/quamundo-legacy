@@ -15,15 +15,11 @@ RSpec.describe 'Showing a fact', type: :system do
                                     count: fact.fact_constituents.count)
       expect(fact.fact_constituents.count).to be > 0
       fact.fact_constituents.each do |fc|
-        expect(page).to have_content(fc.constituable.name)
-        expect(page)
-          .to have_link(href: polymorphic_path([world, fc.constituable]))
-        expect(page).to have_link(
-          href: edit_world_fact_fact_constituent_path(world, fact, fc)
-        )
-        path = world_fact_fact_constituent_path(world, fact, fc)
-        expect(page)
-          .to have_selector("a[href=\"#{path}\"][data-method=\"delete\"]")
+        page.within("##{element_id(fc, 'index-entry')}") do
+          expect(page).to have_content(fc.constituable.name)
+          # CRUD links are tested in
+          # spec/views/fact_constituent_index_element_spec.rb
+        end
       end
     end
 

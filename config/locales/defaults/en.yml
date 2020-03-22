@@ -3,6 +3,7 @@ en:
   list: 'list'
   new: 'new'
   delete: 'delete'
+  permissions_nav: 'Permissions'
   add: 'add'
   edit: 'edit'
   submit: 'submit'
@@ -12,6 +13,7 @@ en:
   hello: 'Hello %{nick}'
   show: 'show'
   dashboard: 'dashboard'
+  login: 'Login'
   logout: 'logout'
   profile: 'profile'
   nick_normalized: 'Nick name may only contain letters, numbers and "._-" and must start and end with a letter or number'
@@ -27,6 +29,7 @@ en:
   constituent_common_world: 'All constituents of a fact must belong to the same world.'
   ancestor_common_world: 'All ancestors and descendants must belong to the same world.'
   relation_common_fact: 'All constituents of a relation must belong to the same fact.'
+  new_user: 'Add user'
 
   shared:
     traits:

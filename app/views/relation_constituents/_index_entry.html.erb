@@ -64,7 +64,8 @@
             index_entry.relation
           ),
           class: 'nav-link pr-2 pl-0 py-0') %>
-        <%= link_to(
+        <%= link_to_if(
+          allowed_to?(:edit?, index_entry.relation),
           icon(:edit),
           edit_world_fact_relation_path(
             index_entry.relation.fact.world,
@@ -72,20 +73,29 @@
             index_entry.relation
           ),
           class: 'nav-link px-2 py-0',
-          id: element_id(index_entry.fact_constituent, 'edit')) %>
-        <%= link_to(
+          id: element_id(index_entry.fact_constituent, 'edit')) {} %>
+        <%= link_to_if(
+          allowed_to?(:edit?, index_entry.relation),
           icon(:delete),
-          world_relation_constituent_path(
+          world_fact_relation_path(
             index_entry.relation.fact.world,
-            index_entry.relative
+            index_entry.relation.fact,
+            index_entry.relation,
+            relation: {
+              relation_constituents_attributes: {
+                id: index_entry.relative.id,
+                _destroy: true
+              }
+            }
           ),
           id: element_id(index_entry.relative, 'delete'),
+          title: 'delete',
           class: 'nav-link px-2 py-0',
-          method: :delete,
+          method: :patch,
           data: { confirm: t(
             '.confirm_delete',
             constituent: index_entry.subject.fact_constituent.constituable.name
-          ) })%>
+          ) }) {} %>
       </nav>
     </div>
   </div>

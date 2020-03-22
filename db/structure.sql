@@ -38,6 +38,17 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 
 
 --
+-- Name: permission_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.permission_type AS ENUM (
+    'public',
+    'r',
+    'rw'
+);
+
+
+--
 -- Name: relation_role; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -165,6 +176,26 @@ CREATE FUNCTION public.freeze_world_ref() RETURNS trigger
       TG_TABLE_NAME;
     END IF;
     RETURN NEW;
+  END;
+$$;
+
+
+--
+-- Name: permission_user_may_not_be_owner(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.permission_user_may_not_be_owner() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    IF ((SELECT count(*) FROM worlds w
+            WHERE w.id = NEW.world_id AND
+            w.user_id = NEW.user_id) > 0)
+    THEN
+      RAISE EXCEPTION 'Permissions: user may not be owner of world';
+    ELSE
+      RETURN NEW;
+    END IF;
   END;
 $$;
 
@@ -668,6 +699,37 @@ ALTER SEQUENCE public.notes_id_seq OWNED BY public.notes.id;
 
 
 --
+-- Name: permissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.permissions (
+    id bigint NOT NULL,
+    world_id bigint NOT NULL,
+    user_id bigint,
+    permissions public.permission_type NOT NULL
+);
+
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.permissions_id_seq OWNED BY public.permissions.id;
+
+
+--
 -- Name: relation_constituents; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -961,6 +1023,13 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 
 
 --
+-- Name: permissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.permissions ALTER COLUMN id SET DEFAULT nextval('public.permissions_id_seq'::regclass);
+
+
+--
 -- Name: relation_constituents id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1096,6 +1165,14 @@ ALTER TABLE ONLY public.locations
 
 ALTER TABLE ONLY public.notes
     ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: permissions permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.permissions
+    ADD CONSTRAINT permissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1299,6 +1376,27 @@ CREATE INDEX index_locations_on_world_id ON public.locations USING btree (world_
 --
 
 CREATE INDEX index_notes_on_noteable_type_and_noteable_id ON public.notes USING btree (noteable_type, noteable_id);
+
+
+--
+-- Name: index_permissions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_permissions_on_user_id ON public.permissions USING btree (user_id);
+
+
+--
+-- Name: index_permissions_on_world_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_permissions_on_world_id ON public.permissions USING btree (world_id);
+
+
+--
+-- Name: index_permissions_on_world_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_permissions_on_world_id_and_user_id ON public.permissions USING btree (world_id, user_id);
 
 
 --
@@ -1554,6 +1652,13 @@ CREATE TRIGGER relation_fact_change BEFORE UPDATE OF fact_id ON public.relations
 
 
 --
+-- Name: permissions user_may_not_be_owner_of_permission; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER user_may_not_be_owner_of_permission AFTER INSERT ON public.permissions FOR EACH ROW EXECUTE FUNCTION public.permission_user_may_not_be_owner();
+
+
+--
 -- Name: facts fk_rails_0610f2844b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1602,6 +1707,14 @@ ALTER TABLE ONLY public.figure_ancestors
 
 
 --
+-- Name: permissions fk_rails_a7a36db1fe; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.permissions
+    ADD CONSTRAINT fk_rails_a7a36db1fe FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
 -- Name: items fk_rails_b5ae10593b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1623,6 +1736,14 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 ALTER TABLE ONLY public.concepts
     ADD CONSTRAINT fk_rails_d1ab849943 FOREIGN KEY (world_id) REFERENCES public.worlds(id);
+
+
+--
+-- Name: permissions fk_rails_d9cfa3c257; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.permissions
+    ADD CONSTRAINT fk_rails_d9cfa3c257 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -1695,6 +1816,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200225122524'),
 ('20200225144514'),
 ('20200306132315'),
-('20200309083810');
+('20200309083810'),
+('20200403165547'),
+('20200403181101');
 
 

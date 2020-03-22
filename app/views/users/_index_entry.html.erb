@@ -1,0 +1,41 @@
+<%# User Index Entry %>
+
+<%= tag.li(
+  class: ['media', 'mb-4', 'index_entry'],
+  id: element_id(index_entry, 'index-entry')) do %>
+
+  <%# User Icon %>
+  <%= default_image(
+    index_entry,
+    'mr-3 q-media-img-default index_entry_thumbnail') %>
+
+  <%# Body %>
+  <div class="media-body">
+    <h5 class="mb-q indey_entry_name">
+      <%= index_entry.nick %>
+    </h5>
+
+    <div class="small index_entry_description">
+      <%= index_entry.email %>
+      <% if index_entry.admin? %>
+        <span class="text-muted small">
+          (admin)
+        </span>
+      <% end %>
+    </div>
+
+    <div class="index_entry_nav">
+      <nav class="nav small">
+        <%# link_to_if(
+          allowed_to?(:destroy?, index_entry),
+          icon(:delete),
+          user_path(index_entry),
+          id: element_id(index_entry, 'delete'),
+          title: 'delete',
+          class: 'nav-link px-2 py-0',
+          method: :delete,
+          data: { confirm: t('.confirm_delete'), user: index_entry.nick }) {} %>
+      </nav>
+    </div>
+  </div>
+<% end %>

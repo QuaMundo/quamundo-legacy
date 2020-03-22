@@ -2,24 +2,39 @@ class ItemsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
+
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
+  authorize :world, through: :current_world
+
   def index
-    @items = @world.items.order(name: :asc)
+    @items = current_world.items.order(name: :asc)
+    authorize! @items
+  end
+
+  def show
   end
 
   def new
-    @item = Item.new(tag_attributes: {},
-                     trait_attributes: {})
+    @item = current_world.items.new(tag_attributes: {},
+                                    trait_attributes: {})
+    authorize! @item
   end
 
   def create
-    @item = @world.items.new(item_params)
+    @item = current_world.items.new(item_params)
+    authorize! @item
 
     respond_to do |format|
       if @item.save
         format.html do
-          redirect_to(world_item_path(@world, @item),
+          redirect_to(world_item_path(current_world, @item),
                       notice: t('.created'))
         end
       else
@@ -32,9 +47,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def edit
   end
 
@@ -42,7 +54,7 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.update(item_params)
         format.html do
-          redirect_to(world_item_path(@world, @item),
+          redirect_to(world_item_path(current_world, @item),
                       notice: t('.updated', item: @item.name))
         end
       else
@@ -59,7 +71,7 @@ class ItemsController < ApplicationController
     @item.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_items_path(@world),
+        redirect_to(world_items_path(current_world),
                     notice: t('.destroyed', item: @item.name))
       end
     end
@@ -67,10 +79,11 @@ class ItemsController < ApplicationController
 
   private
   def set_item
-    @item = @world.items
+    @item = current_world.items
       .with_attached_image
       .includes(:tag, :trait, :notes, :dossiers)
       .find(params[:id])
+    authorize! @item
   end
 
   def item_params

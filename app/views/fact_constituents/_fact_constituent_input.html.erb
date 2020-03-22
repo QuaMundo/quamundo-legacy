@@ -12,13 +12,15 @@
         <div class="col-md-4 col-12 input-group">
           <%= constituent_form.hidden_field(
             :constituable, # FIXME: Shorten line.
-            value: "#{constituent_form.object.constituable_type}.#{constituent_form.object.constituable_id.to_s}") %>
+            value: "#{constituent_form.object.constituable_type}."\
+            "#{constituent_form.object.constituable_id.to_s}") %>
           <%= constituent_form.hidden_field(
             '_destroy',
             value: false) %>
           <%= text_field_tag(
             nil, # FIXME: Shorten line.
-            "#{constituent_form.object.constituable.name} (#{constituent_form.object.constituable_type})",
+            "#{constituent_form.object.constituable.name} "\
+            "(#{constituent_form.object.constituable_type})",
             class: 'form-control',
             id: nil,
             readonly: true) %>

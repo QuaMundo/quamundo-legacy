@@ -2,6 +2,7 @@ de:
   figures:
     new:
       new_figure: 'Neue Figur'
+      not_allowed: 'Keine Berechtigung, eine neue Figure in der Welt "%(world)" zu erstellen'
     create:
       created: 'Figur erfolgreich erstellt'
       create_failed: 'Figur konnte nicht erstellt werden'

@@ -14,23 +14,32 @@
         worlds_path,
         class: 'dropdown-item',
         title: t(:index)) %>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:edit?, @world),
         icon(:edit) { t('edit') },
         edit_world_path(@world),
         class: 'dropdown-item',
-        title: t(:edit)) %>
-      <%= link_to(
+        title: t(:edit)) {} %>
+      <%= link_to_if(
+        allowed_to?(:set_permissions?, @world),
+        icon(:permissions) { t('permissions_nav') },
+        edit_world_permissions_path(@world),
+        class: 'dropdown-item',
+        title: t(:permissions_nav)) {} %>
+      <%= link_to_if(
+        allowed_to?(:new?, World),
         icon(:new) { t('new') },
         new_world_path,
         class: 'dropdown-item',
-        title: t(:new)) %>
-      <%= link_to(
+        title: t(:new)) {} %>
+      <%= link_to_if(
+        allowed_to?(:destroy?, @world),
         icon(:delete) { t('delete') },
         world_path(@world),
         method: :delete,
         class: 'dropdown-item',
         title: t(:delete),
-        data: { confirm: t('.confirm_delete', world: @world.name) }) %>
+        data: { confirm: t('.confirm_delete', world: @world.name) }) {} %>
     </div>
   </li>
 </ul>

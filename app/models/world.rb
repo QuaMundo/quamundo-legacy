@@ -8,6 +8,12 @@ class World < ApplicationRecord
 
   belongs_to :user, inverse_of: :worlds
   has_many :inventories
+  has_many :permissions
+
+  accepts_nested_attributes_for :permissions,
+    update_only: true,
+    allow_destroy: true,
+    reject_if: ->(attr) { attr[:permissions].blank? }
 
   # FIXME: Can this put in a concern?
   with_options dependent: :destroy do |assoc|

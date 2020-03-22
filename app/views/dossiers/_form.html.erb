@@ -1,5 +1,8 @@
 <h5><%= associated_object_info(@dossier.dossierable) %></h5>
 <%= form_with url: @form_url, model: @dossier, local: true do |f| %>
+  <%= f.hidden_field(:dossierable_id, value: @dossier.dossierable.id) %>
+  <%= f.hidden_field(:dossierable_type,
+                     value: @dossier.dossierable.model_name.name) %>
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, autofocus: true, class: 'form-control' %>

@@ -1,0 +1,27 @@
+<%= tag.div(id: 'users', class: 'card') do %>
+  <%# card header %>
+  <div class="card-header">
+    <div class="row">
+      <div class="col-10">
+        <h2 class="card-title mt-2">
+          <%= icon(:user) { User.model_name.human(count: @users.count) } %>
+        </h2>
+      </div>
+      <div class="col-2 text-right">
+        <%= render partial: 'index_menu' %>
+      </div>
+    </div>
+  </div>
+
+  <%# card body %>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <ul class="list-unstyled">
+          <%= render partial: 'users/index_entry', collection: @users %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+

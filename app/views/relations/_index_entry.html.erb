@@ -44,24 +44,25 @@
           world_fact_relation_path(index_entry.fact.world,
                                    index_entry.fact, index_entry),
           class: 'nav-link pr-2 pl-0 py-0') %>
-        <%= link_to(
+        <%= link_to_if(
+          allowed_to?(:edit?, index_entry),
           icon(:edit),
           edit_world_fact_relation_path(index_entry.fact.world,
                                         index_entry.fact, index_entry),
           class: 'nav-link px-2 py-0',
-          id: element_id(index_entry, 'edit')) %>
-        <%= link_to(
+          id: element_id(index_entry, 'edit')) {} %>
+        <%= link_to_if(
+          allowed_to?(:destroy?, index_entry),
           icon(:delete),
           world_fact_relation_path(index_entry.fact.world,
                                    index_entry.fact, index_entry),
           id: element_id(index_entry, 'delete'),
+          title: 'delete',
           class: 'nav-link px-2 py-0',
           method: :delete,
-          data: { confirm: t('.confirm_delete', relation: index_entry.name) })%>
+          data: { confirm: t('.confirm_delete', relation: index_entry.name) }) {} %>
       </nav>
     </div>
   </div>
 <% end %>
-
-
 

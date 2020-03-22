@@ -14,11 +14,12 @@
         world_path(@world),
         class: 'dropdown-item',
         title: t(:world)) %>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:update?, @world),
         icon(:new) { t('new') },
         new_world_figure_path(@world),
         class: 'dropdown-item',
-        title: t(:new)) %>
+        title: t(:new)) {} %>
     </div>
   </li>
 </ul>

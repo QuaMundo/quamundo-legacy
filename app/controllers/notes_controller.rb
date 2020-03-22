@@ -1,27 +1,34 @@
 class NotesController < ApplicationController
-  include PolymorphicController
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
 
-  before_action :set_note, only: [:edit, :update, :destroy, :show]
-  before_action -> { assoc_obj(@note, :noteable) }
+  before_action :set_note, only: [:edit, :update, :destroy]
+
+  authorize :world, through: :current_world
 
   def new
-    @note = @assoc_obj.notes.new
-    @form_url = [@assoc_obj.try(:world), @assoc_obj, @note]
+    @note = Note.new(note_params)
+    authorize! @note
+    @form_url = [@note.noteable.try(:world), @note.noteable, @note]
   end
 
   def create
-    @note = @assoc_obj.notes.new(note_params)
+    @note = Note.new(note_params)
+    authorize! @note
     respond_to do |format|
       if @note.save
         format.html do
-          redirect_to(@redirect_path,
-                      notice: t('.created'))
+          redirect_to(redirect_path, notice: t('.created'))
         end
       else
         format.html do
           # FIXME: Generating @form_url is redundant - maybe put into
           # a before_action!?
-          @form_url = [@assoc_obj.try(:world), @assoc_obj, @note]
+          @form_url = [@note.noteable.try(:world), @note.noteable, @note]
           flash[:alert] = t('.create_failed')
           render :new
         end
@@ -37,8 +44,7 @@ class NotesController < ApplicationController
     respond_to do |format|
       if @note.update(note_params)
         format.html do
-          redirect_to(@redirect_path,
-                      notice: t('.updated'))
+          redirect_to(redirect_path, notice: t('.updated'))
         end
       else
         format.html do
@@ -53,8 +59,7 @@ class NotesController < ApplicationController
     @note.destroy
     respond_to do |format|
       format.html do
-        redirect_to(@redirect_path,
-                    notice: t('.destroyed'))
+        redirect_to(redirect_path, notice: t('.destroyed'))
       end
     end
   end
@@ -62,9 +67,22 @@ class NotesController < ApplicationController
   private
   def set_note
     @note = Note.find_by(id: params[:id])
+    authorize! @note
+  end
+
+  def redirect_path
+    polymorphic_path([@note.noteable.try(:world), @note.noteable])
   end
 
   def note_params
-    params.require(:note).permit(:content)
+    params
+      .require(:note)
+      .permit([:content, :noteable_id, :noteable_type])
+  end
+
+  def current_world
+    @note
+      .noteable
+      .is_a?(World) ? @note.noteable : @note.noteable.world
   end
 end

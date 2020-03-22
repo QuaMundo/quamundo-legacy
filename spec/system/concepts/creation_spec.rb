@@ -1,8 +1,7 @@
 RSpec.describe 'Creating a concept', type: :system do
   include_context 'Session'
 
-  let(:world) { create(:world_with_items, user: user) }
-  let(:other_world) { create(:world_with_items) }
+  let(:world) { create(:world_with_concepts, user: user) }
 
   context 'in own world' do
     before(:example) { visit new_world_concept_path(world) }
@@ -17,7 +16,9 @@ RSpec.describe 'Creating a concept', type: :system do
       expect(page).to have_selector('.alert-info',
                                     text: /successfully\s+created/i)
       expect(page)
-        .to have_current_path(world_concept_path(world, Concept.find_by(name: 'A new concept')))
+        .to have_current_path(
+          world_concept_path(world, Concept.find_by(name: 'A new concept'))
+      )
     end
 
     it 'redirects to new form if name is missing' do
@@ -38,13 +39,5 @@ RSpec.describe 'Creating a concept', type: :system do
     end
   end
 
-  context 'in other users world' do
-    before(:example) { visit new_world_concept_path(other_world) }
-
-    it 'redirects to worlds index' do
-      expect(page).to have_current_path(worlds_path)
-      expect(page).to have_selector('.alert-danger',
-                                    text: /not allowed/i)
-    end
-  end
+  context 'in other users world'
 end

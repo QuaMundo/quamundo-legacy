@@ -20,23 +20,26 @@
         world_items_path(@item.world),
         class: 'dropdown-item',
         title: t(:index)) %>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:edit?, @item),
         icon(:edit) { t('edit') },
         edit_world_item_path(@item.world, @item),
         class: 'dropdown-item',
-        title: t(:edit)) %>
-      <%= link_to(
+        title: t(:edit)) {} %>
+      <%= link_to_if(
+        allowed_to?(:new?, @item),
         icon(:new) { t('new') },
         new_world_item_path(@item.world),
         class: 'dropdown-item',
-        title: t(:new)) %>
-      <%= link_to(
+        title: t(:new)) {} %>
+      <%= link_to_if(
+        allowed_to?(:destroy?, @item),
         icon(:delete) { t('delete') },
         world_item_path(@item.world, @item),
         method: :delete,
         class: 'dropdown-item',
         title: t(:delete),
-        data: { confirm: t('.confirm_delete', item: @item.name) }) %>
+        data: { confirm: t('.confirm_delete', item: @item.name) }) {} %>
     </div>
   </li>
 </ul>

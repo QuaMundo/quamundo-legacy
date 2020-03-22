@@ -1,0 +1,8 @@
+<h2><%= t('.edit_permissions', world: @world.name) %></h2>
+<%# FIXME: Change this in future versions, if permissions will be
+    for other objects, too %>
+  <%= form_with model: @world, local: true do |f| %>
+    <%= render(
+      partial: 'permission_input',
+      locals: { form: f, permittable: @world}) %>
+  <% end %>

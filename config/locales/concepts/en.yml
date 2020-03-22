@@ -2,6 +2,7 @@ en:
   concepts:
     new:
       new_concept: 'New concept'
+      not_allowed: 'You are not allowed to create a concept in this world'
     edit:
       edit_concept: 'Edit concept'
     create:

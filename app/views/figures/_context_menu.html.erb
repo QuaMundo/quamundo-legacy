@@ -20,23 +20,26 @@
         world_figures_path(@figure.world),
         class: 'dropdown-item',
         title: t(:index)) %>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:edit?, @figure),
         icon(:edit) { t('edit') },
         edit_world_figure_path(@figure.world, @figure),
         class: 'dropdown-item',
-        title: t(:edit)) %>
-      <%= link_to(
+        title: t(:edit)) {} %>
+      <%= link_to_if(
+        allowed_to?(:new?, @figure),
         icon(:new) { t('new') },
         new_world_figure_path(@figure.world),
         class: 'dropdown-item',
-        title: t(:new)) %>
-      <%= link_to(
+        title: t(:new)) {} %>
+      <%= link_to_if(
+        allowed_to?(:destroy?, @figure),
         icon(:delete) { t('delete') },
         world_figure_path(@figure.world, @figure),
         method: :delete,
         class: 'dropdown-item',
         title: t(:delete),
-        data: { confirm: t('.confirm_delete', figure: @figure.name) }) %>
+        data: { confirm: t('.confirm_delete', figure: @figure.name) }) {} %>
     </div>
   </li>
 </ul>

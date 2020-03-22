@@ -17,26 +17,52 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownWorld">
           <%= link_to(t(:list), worlds_path, class: 'nav-link nav-item') %>
-          <%= link_to(t(:new), new_world_path, class: 'nav-link nav-item') %>
+          <%= link_to_if(
+            allowed_to?(:new?, World),
+            t(:new),
+            new_world_path,
+            class: 'nav-link nav-item') {} %>
         </div>
       </div>
 
-      <%# user submenu %>
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle"
-           href="#"
-           id="navbarDropdownUser"
-           role="button"
-           data-toggle="dropdown"
-           aria-haspopup="true"
-           aria-expanded="false">
-           <%= current_user.nick %>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownUser">
-      <%= link_to(t(:profile), edit_user_registration_path, class: 'dropdown-item') %>
-      <%= link_to(t(:logout), destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+      <% unless user_signed_in? %>
+        <div class="nav-item">
+          <%= link_to(
+            t(:login),
+            new_user_session_path,
+            class: 'nav-link') %>
         </div>
-      </div>
+      <% else %>
+        <%# user submenu %>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="#"
+             id="navbarDropdownUser"
+             role="button"
+             data-toggle="dropdown"
+             aria-haspopup="true"
+             aria-expanded="false">
+            <%= current_user.nick %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownUser">
+            <%= link_to(
+              t(:profile),
+              edit_user_registration_path,
+              class: 'dropdown-item') %>
+            <%= link_to(
+              t(:logout), 
+              destroy_user_session_path, 
+              method: :delete, 
+              class: 'dropdown-item') %>
+            <%= link_to_if(
+              allowed_to?(:new?, User),
+              User.model_name.human(count: 2),
+              users_path,
+              class: 'dropdown-item') {} %>
+          </div>
+        </div>
+        <%# /user submenu %>
+      <% end %>
 
     </div>
   </div>

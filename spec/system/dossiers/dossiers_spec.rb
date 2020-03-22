@@ -4,7 +4,14 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
   context 'create a dossier' do
     let(:world) { create(:world, user: user) }
 
-    before(:example) { visit(new_polymorphic_path([world, Dossier])) }
+    before(:example) {
+      visit(new_polymorphic_path(
+        [world, Dossier],
+        dossier: {
+          dossierable_type: 'World',
+          dossierable_id: world.id
+        }))
+    }
 
     it 'succeeds with proper filled form' do
       dossiers_count = world.dossiers.count
@@ -28,12 +35,20 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     end
 
     it_behaves_like 'valid_view' do
-      let(:path) { new_polymorphic_path([world, Dossier]) }
+      let(:path) {
+        new_polymorphic_path(
+          [world, Dossier],
+          dossier: {
+            dossierable_type: 'World',
+            dossierable_id: world.id
+          }
+        )
+      }
     end
   end
 
   context 'edit a dossier' do
-    let(:dossier) { create(:world_with_dossiers).dossiers.first }
+    let(:dossier) { create(:world_with_dossiers, user: user).dossiers.first }
 
     before(:example) { visit(edit_dossier_path(dossier)) }
 
@@ -72,7 +87,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
         * List Item 2
       EOT
 
-      create(:dossier, content: content, dossierable: build(:world))
+      create(:dossier, content: content, dossierable: build(:world, user: user))
     end
 
     it 'renders markdown content as html' do
@@ -92,7 +107,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
   end
 
   context 'handling attachments' do
-    let(:dossier) { create(:dossier, dossierable: build(:world)) }
+    let(:dossier) { create(:dossier, dossierable: build(:world, user: user)) }
 
     it 'adds an attachment' do
       dossier.files.attach(fixture_file_upload(fixture_file_name('earth.jpg')))

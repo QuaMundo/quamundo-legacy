@@ -1,20 +1,27 @@
 class DossiersController < ApplicationController
-  include PolymorphicController
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
 
   before_action :set_dossier, only: [:edit, :update, :destroy, :show]
-  before_action :form_url, only: [:new, :create]
-  before_action -> { assoc_obj(@dossier, :dossierable) }
+
+  authorize :world, through: :current_world
 
   def show
   end
 
   def new
-    @dossier = @assoc_obj.dossiers.new
-    @form_url = [@assoc_obj.try(:world), @assoc_obj, @dossier]
+    @dossier = Dossier.new(dossier_params)
+    authorize! @dossier
+    @form_url = form_url
   end
 
   def create
-    @dossier = @assoc_obj.dossiers.new(dossier_params)
+    @dossier = Dossier.new(dossier_params)
+    authorize! @dossier
     respond_to do |format|
       if @dossier.save
         format.html do
@@ -22,7 +29,7 @@ class DossiersController < ApplicationController
         end
       else
         format.html do
-          @form_url = [@assoc_obj.try(:world), @assoc_obj, @dossier]
+          @form_url = form_url
           flash[:alert] = t('.create_failed')
           render :new
         end
@@ -54,8 +61,11 @@ class DossiersController < ApplicationController
     @dossier.destroy
     respond_to do |format|
       format.html do
-        redirect_to(@redirect_path,
-                    notice: t('.destroyed', dossier: @dossier.name))
+        redirect_to(
+          polymorphic_path(
+            [@dossier.dossierable.try(:world), @dossier.dossierable]
+          ),
+          notice: t('.destroyed', dossier: @dossier.name))
       end
     end
   end
@@ -63,14 +73,23 @@ class DossiersController < ApplicationController
   private
   def set_dossier
     @dossier = Dossier.find_by(id: params[:id])
+    authorize! @dossier
   end
 
   def dossier_params
-    params.require(:dossier).permit(:name, :description, :content, files: [])
+    params
+      .require(:dossier)
+      .permit(
+        :name,
+        :description,
+        :content,
+        :dossierable_id,
+        :dossierable_type,
+        files: [])
   end
 
   def form_url
-    @form_url ||= [@assoc_obj.try(:world), @assoc_obj, @dossier]
+    [@dossier.dossierable.try(:world), @dossier.dossierable, @dossier]
   end
 
   def remove_attachments
@@ -89,5 +108,11 @@ class DossiersController < ApplicationController
   def handle_attachments
     remove_attachments
     add_attachments
+  end
+
+  def current_world
+    @dossier
+      .dossierable
+      .is_a?(World) ? @dossier.dossierable : @dossier.dossierable.world
   end
 end

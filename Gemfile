@@ -19,6 +19,8 @@ gem 'jbuilder'
 # Use devise for authentication
 gem 'devise'
 gem 'devise-i18n'
+# Use ActionPolicy  for authorization
+gem 'action_policy'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

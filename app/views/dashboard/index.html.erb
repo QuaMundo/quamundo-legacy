@@ -1,4 +1,4 @@
-<% if current_user.worlds.empty? %>
+<% if current_user.present? && current_user.worlds.empty? %>
   <%= render partial: 'invitation' %>
 <% else %>
 

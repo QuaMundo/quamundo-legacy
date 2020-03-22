@@ -14,12 +14,6 @@ RSpec.shared_examples 'associated tags', type: :system do
       subject.tag.tagset
         .each { |t| expect(page).to have_selector('.tag', text: t) }
     end
-
-    it 'provides link to edit' do
-      visit(polymorphic_path(path))
-      page.find("a#edit-tag-#{subject.tag.id}").click
-      expect(page).to have_current_path(edit_polymorphic_path(path))
-    end
   end
 
   context 'CRUD actions' do

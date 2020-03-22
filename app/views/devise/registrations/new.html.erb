@@ -1,5 +1,6 @@
 <h2><%= t('.sign_up') %></h2>
 
+<%= debug(registration_path(resource_name)) %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
   <div class="form-group">

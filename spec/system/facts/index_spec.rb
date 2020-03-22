@@ -20,7 +20,7 @@ RSpec.describe 'Listing facts', type: :system do
   end
 
   context 'of another users world' do
-    let(:other_world) { create(:world) }
+    let(:other_world) { create(:world_with_facts) }
     before(:example) { visit world_facts_path(other_world) }
 
     it 'does not show facts of another users world' do

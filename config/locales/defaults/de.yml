@@ -3,6 +3,7 @@ de:
   list: 'Liste'
   new: 'neu'
   delete: 'löschen'
+  permissions_nav: 'Berechtigungen'
   add: 'hinzufügen'
   edit: 'bearbeiten'
   submit: 'absenden'
@@ -12,6 +13,7 @@ de:
   hello: 'Hallo %{nick}'
   show: 'anzeigen'
   dashboard: 'Übersicht'
+  login: 'Login'
   logout: 'abmelden'
   profile: 'Profil'
   nick_normalized: 'Ein Nickname darf nur Buchstaben, Ziffern und die Zeichen "._-" enthalten und muss mit einem Buchstaben oder einer Ziffer beginnen und enden'
@@ -27,6 +29,7 @@ de:
   constituent_common_world: 'Alle Aspekte eines Fakts müssen derselben Welt angehören!'
   ancestor_common_world: 'Alle Vorfahren und Nachkommen müssen derselben Welt angehören!'
   relation_common_fact: 'Allen Partnern einer Relation muss der gleiche Fakt zugrunde liegen.'
+  new_user: 'Neuer Benutzer'
 
   shared:
     traits:

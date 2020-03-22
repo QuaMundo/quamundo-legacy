@@ -2,27 +2,39 @@ class FiguresController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
+
   before_action :set_figure, only: [:show, :edit, :update, :destroy]
 
+  authorize :world, through: :current_world
+
   def index
-    @figures = @world.figures.order(name: :asc)
+    @figures = current_world.figures.order(name: :asc)
+    authorize! @figures
   end
 
   def show
   end
 
   def new
-    @figure = @world.figures.new(tag_attributes: {},
-                                 trait_attributes: {})
+    @figure = current_world.figures.new(tag_attributes: {},
+                                        trait_attributes: {})
+    authorize! @figure
   end
 
   def create
-    @figure = @world.figures.new(figure_params)
+    @figure = current_world.figures.new(figure_params)
+    authorize! @figure
 
     respond_to do |format|
       if @figure.save
         format.html do
-          redirect_to(world_figure_path(@world, @figure),
+          redirect_to(world_figure_path(current_world, @figure),
                       notice: t('.created'))
         end
       else
@@ -42,7 +54,7 @@ class FiguresController < ApplicationController
     respond_to do |format|
       if @figure.update(figure_params)
         format.html do
-          redirect_to(world_figure_path(@world, @figure),
+          redirect_to(world_figure_path(current_world, @figure),
                       notice: t('.updated', figure: @figure.name))
         end
       else
@@ -58,7 +70,7 @@ class FiguresController < ApplicationController
     @figure.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_figures_path(@world),
+        redirect_to(world_figures_path(current_world),
                     notice: t('.destroyed', figure: @figure.name))
       end
     end
@@ -66,10 +78,11 @@ class FiguresController < ApplicationController
 
   private
   def set_figure
-    @figure = @world.figures
+    @figure = current_world.figures
       .with_attached_image
       .includes(:tag, :trait, :notes, :dossiers)
       .find(params[:id])
+    authorize! @figure
   end
 
   def figure_params

@@ -1,5 +1,19 @@
 de:
+  users:
+    new:
+      sign_up: 'Registrieren'
+      not_allowed: 'Keine Berechtigung, neue Benutzer zu erstellen'
+
+    create:
+      created: 'Neuer Benutzer "%{user}" erstellt'
+      create_failed: 'Erstellen des Benutzers "%{user}" fehlgeschlagen'
+
+    index:
+      not_allowed: 'Keine Berechtigung zum Auflisten der Benutzer'
+
   activerecord:
     models:
-      user: 'Benutzer'
+      user:
+        one: 'Benutzer'
+        other: 'Benutzer'
 

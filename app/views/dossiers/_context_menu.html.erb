@@ -18,16 +18,20 @@
       <% end %>
       <%= link_to(
         icon(@dossier.dossierable) { @dossier.dossierable.name },
-        polymorphic_path([@dossier.dossierable.try(:world), @dossier.dossierable]),
+        polymorphic_path(
+          [@dossier.dossierable.try(:world), @dossier.dossierable]
+        ),
         class: 'dropdown-item',
         title: @dossier.dossierable.name) %>
       <div class="dropdown-divider"></div>
-      <%= link_to(
+      <%= link_to_if(
+        allowed_to?(:edit?, @dossier),
         icon(:edit) { t('edit') },
         edit_dossier_path(@dossier),
         class: 'dropdown-item',
-        title: t(:edit)) %>
-      <%= link_to(
+        title: t(:edit)) {} %>
+      <%= link_to_if(
+        allowed_to?(:new?, @dossier),
         icon(:new) { t('new') },
         new_polymorphic_path(
           [@dossier.dossierable.try(:world),
@@ -35,14 +39,15 @@
            Dossier]
         ),
         class: 'dropdown-item',
-        title: t(:new)) %>
-      <%= link_to(
+        title: t(:new)) {} %>
+      <%= link_to_if(
+        allowed_to?(:destroy?, @dossier),
         icon(:delete) { t('delete') },
         dossier_path(@dossier),
         method: :delete,
         class: 'dropdown-item',
         title: t(:delete),
-        data: { confirm: t('.confirm_delete', dossier: @dossier) }) %>
+        data: { confirm: t('.confirm_delete', dossier: @dossier) }) {} %>
     </div>
   </li>
 </ul>

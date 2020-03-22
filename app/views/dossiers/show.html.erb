@@ -36,11 +36,15 @@
               <% @dossier.images.each do |slide| %>
                 <% if slide == @dossier.images.first %>
                   <div class="carousel-item active">
-                    <%= tag.img(class: 'q-slide d-block w-100', src: card_img_path(slide)) %>
+                    <%= tag.img(
+                      class: 'q-slide d-block w-100',
+                      src: card_img_path(slide)) %>
                   </div>
                 <% else %>
                   <div class="carousel-item">
-                    <%= tag.img(class: 'q-slide d-block w-100', src: card_img_path(slide)) %>
+                    <%= tag.img(
+                      class: 'q-slide d-block w-100',
+                      src: card_img_path(slide)) %>
                   </div>
                 <% end %>
               <% end %>
@@ -82,7 +86,9 @@
         <% @dossier.videos.each do |video| %>
           <div class="col col-lg-8 offset-lg-2">
             <h6><%= video.filename.base %></h6>
-            <%= tag.video(src: rails_blob_path(video), width: '100%', controls: true) %>
+            <%= tag.video(
+              src: rails_blob_path(video),
+              width: '100%', controls: true) %>
           </div>
         <% end %>
       </div>
@@ -114,8 +120,8 @@
                     file.filename,
                     rails_blob_path(file))
                   %>
-              </li>
-            <% end %>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>

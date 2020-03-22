@@ -34,8 +34,7 @@ RSpec.shared_examples 'associated relations',
 
   it 'can delete a relation to an inventory' do
     relative = relation.relatives.first
-    click_link(href: world_relation_constituent_path(fact.world, relative),
-               id: "#{element_id(relative, 'delete')}")
+    click_link(id: "#{element_id(relative, 'delete')}")
     expect(page)
       .to have_current_path(
         world_fact_relation_path(fact.world, fact, relative.relation)

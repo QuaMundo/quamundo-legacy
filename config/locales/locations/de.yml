@@ -16,6 +16,8 @@ de:
       confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
     index:
       confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
+    index_entry:
+      confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
     show:
       part_of_facts:
         one: 'Ein Fakt geschieht an diesem Ort.'

@@ -2,7 +2,7 @@ RSpec.describe 'Session', type: :system do
   context 'Without user logged in' do
     scenario 'Visiting dashboard redirects to login page' do
       visit root_path
-      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_current_path(root_path)
     end
   end
 
@@ -15,7 +15,7 @@ RSpec.describe 'Session', type: :system do
 
     scenario 'User is redirected to login after logout' do
       logout
-      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_current_path(root_path)
     end
   end
 end

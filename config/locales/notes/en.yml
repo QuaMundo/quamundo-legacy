@@ -12,7 +12,7 @@ en:
       update_failed: 'Failed to update note'
     destroy:
       destroyed: 'Note deleted'
-    notes:
+    index_entry:
       confirm_delete: 'Should this note really be removed?'
 
   activerecord:

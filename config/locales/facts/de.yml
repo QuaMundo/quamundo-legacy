@@ -2,6 +2,7 @@ de:
   facts:
     new:
       new_fact: 'Neuer Fakt'
+      not_allowed: 'Keine Berechtigung, ein neues Fakt anzulegen'
     create:
       created: 'Fakt erfolgreich erstellt'
       create_failed: 'Fakt konnte nicht erstellt werden'

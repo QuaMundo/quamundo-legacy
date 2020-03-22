@@ -2,6 +2,7 @@ de:
   concepts:
     new:
       new_concept: 'Neues Konzept'
+      not_allowed: 'Keine Berechtigung, ein neues Konzept zu erstellen'
     edit:
       edit_concept: 'Konzept bearbeiten'
     create:

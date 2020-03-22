@@ -3,26 +3,38 @@ class FactsController < ApplicationController
   include ProcessParams
   include FactConstituentsParams
 
+  rescue_from ActionPolicy::Unauthorized do |ex|
+    # FIXME: Manage err msgs
+    flash[:alert] = t('.not_allowed', world: @world.try(:name))
+    # flash[:alert] = ex.result.reasons.full_messages
+    redirect_to worlds_path
+  end
+
   before_action :set_fact, only: [:show, :edit, :update, :destroy]
 
+  authorize :world, through: :current_world
+
   def index
-    @facts = @world.facts.chronological
+    @facts = current_world.facts.chronological
+    authorize! @facts
   end
 
   def new
-    @fact = @world.facts.new(tag_attributes: {},
-                             trait_attributes: {})
+    @fact = current_world.facts.new(tag_attributes: {},
+                                    trait_attributes: {})
+    authorize! @fact
   end
 
   def create
-    @fact = @world.facts.new(fact_params)
+    @fact = current_world.facts.new(fact_params)
+    authorize! @fact
 
     # FIXME: Entering a non-date value does not cause an error msg
 
     respond_to do |format|
       if @fact.save
         format.html do
-          redirect_to(world_fact_path(@world, @fact),
+          redirect_to(world_fact_path(current_world, @fact),
                       notice: t('.created', fact: @fact.name))
         end
       else
@@ -45,7 +57,7 @@ class FactsController < ApplicationController
     respond_to do |format|
       if @fact.update(fact_params)
         format.html do
-          redirect_to(world_fact_path(@world, @fact),
+          redirect_to(world_fact_path(current_world, @fact),
                       notice: t('.updated',
                                 fact: @fact.name))
         end
@@ -63,7 +75,7 @@ class FactsController < ApplicationController
     @fact.destroy
     respond_to do |format|
       format.html do
-        redirect_to(world_facts_path(@world),
+        redirect_to(world_facts_path(current_world),
                     notice: t('.destroyed', fact: @fact))
       end
     end
@@ -71,10 +83,11 @@ class FactsController < ApplicationController
 
   private
   def set_fact
-    @fact = @world.facts
+    @fact = current_world.facts
       .with_attached_image
       .includes(:tag, :trait, :notes, :dossiers)
       .find(params[:id])
+    authorize! @fact
   end
 
   def fact_params
@@ -86,8 +99,7 @@ class FactsController < ApplicationController
     params
       .require(:fact)
       .permit(:name, :description, :image, :start_date, :end_date,
-              tag_attributes:               [:id,
-                                             tagset: [] ],
+              tag_attributes:               [:id, tagset: [] ],
               trait_attributes:             [:id, attributeset: {}],
               fact_constituents_attributes: [:id,
                                              :constituable_id, 

@@ -1,0 +1,23 @@
+de:
+  permissions:
+    edit:
+      edit_permissions: 'Berechtigungen der Welt "%{world}"'
+
+    permission_input:
+      r: 'nur lesen'
+      rw: 'lesen und schreiben'
+      public: 'für alle lesbar'
+      select_permission: 'Berechtigung wählen'
+      select_user: 'Benutzer wählen'
+
+  activerecord:
+    models:
+      permission:
+        one: 'Berechtigung'
+        other: 'Berechtigungen'
+
+    attributes:
+      permission:
+        user: 'Benutzer'
+        world: 'Welt'
+        permissions: 'Berechtigungen'

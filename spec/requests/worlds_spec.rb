@@ -2,35 +2,80 @@ RSpec.describe 'Worlds', type: :request do
   context 'without user logged in' do
     let(:world) { create(:world, name: 'Welt') }
 
-    it 'redirects to login when world index ist requested' do
-      get worlds_path
-      expect_login_path
-    end
+    context 'if world is not public readable' do
+      it 'redirects to login when world index ist requested' do
+        get worlds_path
+        pending('FIXME: Index view for unregistered visitor should show '\
+                'empty list')
+        expect_login_path
+      end
 
-    it 'redirects to login when world show is requested' do
-      get world_path(world)
-      expect_login_path
-    end
+      it 'redirects to index when world show is requested' do
+        get world_path(world)
+        expect(response).to redirect_to worlds_path
+      end
 
-    it 'redirects to login when world create is requested' do
-      get new_world_path
-      expect_login_path
-    end
+      it 'redirects to login when world create is requested' do
+        get new_world_path
+        expect_login_path
+      end
 
-    it 'redirects to login when world edit is requested' do
-      get edit_world_path(world)
-      expect_login_path
-    end
+      it 'redirects to login when world edit is requested' do
+        get edit_world_path(world)
+        expect_login_path
+      end
 
-    it 'redirects to login when world destroy is requested' do
-      delete world_path(world)
-      expect_login_path
-    end
+      it 'redirects to login when world destroy is requested' do
+        delete world_path(world)
+        expect_login_path
+      end
 
-    it 'redirects to login when world update is requested' do
-      post_data = '{ "world": { "name": "Neuer Titel" } }'
-      patch world_path(world), params: post_data
-      expect_login_path
+      it 'redirects to login when world update is requested' do
+        post_data = '{ "world": { "name": "Neuer Titel" } }'
+        patch world_path(world), params: post_data
+        expect_login_path
+      end
+
+      context 'if world is public readable' do
+        before(:example)  do
+          Permission.create(world: world, permissions: :public)
+        end
+
+        it 'renders show view' do
+          get world_path(world)
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'renders index view' do
+          get worlds_path
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'redirects to login when new is requested' do
+          get new_world_path
+          expect(response).to redirect_to(new_user_session_path)
+        end
+
+        it 'redirects to login when create is requested' do
+          post worlds_path
+          expect(response).to redirect_to(new_user_session_path)
+        end
+
+        it 'redirects to login when edit is requested' do
+          get edit_world_path(world)
+          expect(response).to redirect_to(new_user_session_path)
+        end
+
+        it 'redirects to login when update is requested' do
+          put world_path(world)
+          expect(response).to redirect_to(new_user_session_path)
+        end
+
+        it 'redirects to login when destroy is requested' do
+          delete world_path(world)
+          expect(response).to redirect_to(new_user_session_path)
+        end
+      end
     end
 
     private

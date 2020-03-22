@@ -27,35 +27,7 @@
           <div class="col">
 
             <ul class="list-unstyled">
-              <% obj.each do |location| %> 
-                <%= tag.li(class: 'media mb-4', id: element_id(location)) do %>
-
-                  <%# Image - Thumbnail %>
-                  <%= tag.a(href: world_location_path(location.world, location)) do %>
-                    <% if location.image.attached? %>
-                      <%=
-                        tag.img(
-                          src: attached_img_path(location.image, 64, 64),
-                          class: 'mr-3 q-media-img'
-                        ) %>
-                    <% else %>
-                      <%= default_image(location, 'mr-3 q-media-img-default') %>
-                    <% end %>
-                  <% end %>
-
-                  <%# Body %>
-                  <div class="media-body">
-                    <h5 class="mb-1">
-                      <%= icon(location) { location.name } %>
-                    </h5>
-                    <div class="small">
-                      <%= location.description %><br />
-                      <%= link_to(t('show'), world_location_path(location.world, location)) %>
-                    </div>
-                  </div>
-
-                <% end %>
-              <% end %>
+              <%= render partial: 'locations/index_entry', collection: obj %>
             </ul>
 
           </div> 
@@ -64,7 +36,11 @@
 
         <div class="row">
           <div class="col text-right">
-            <%= link_to(icon(:new), new_world_location_path(@world)) %>
+            <%= link_to_if(
+              allowed_to?(:new?, obj),
+              icon(:new),
+              new_world_location_path(@world),
+              id: 'add-location') {} %>
           </div>
         </div>
 

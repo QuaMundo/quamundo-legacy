@@ -36,7 +36,11 @@
 
         <div class="row">
           <div class="col text-right">
-            <%= link_to(icon(:new), new_world_fact_path(@world)) %>
+            <%= link_to_if(
+              allowed_to?(:new?, obj),
+              icon(:new),
+              new_world_fact_path(@world),
+              id: 'add-fact') {} %>
           </div>
         </div>
 

@@ -1,5 +1,19 @@
 en:
+  users:
+    new:
+      sign_up: 'Sign up'
+      not_allowed: 'You are not allowed to create new users'
+
+    create:
+      created: 'New user "%{user}" created'
+      create_failed: 'Failed to create user "%{user}"'
+
+    index:
+      not_allowed: 'You are not allowed to list users'
+
   activerecord:
     models:
-      user: 'user'
+      user:
+        one: 'User'
+        other: 'Users'
 

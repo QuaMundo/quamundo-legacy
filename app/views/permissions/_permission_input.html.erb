@@ -1,0 +1,145 @@
+<%= field_set_tag(
+  Permission.model_name.human(count: 2),
+  data: { controller: 'permissions' },
+  id: 'permissions-input') do %>
+
+  <%# List existing permissions %>
+  <div id="selected-permissions">
+    <%= form.fields_for(
+      :permissions,
+      permittable.permissions) do |permission_form| %>
+      <%= tag.div(
+        id: element_id(permission_form.object, 'selected'),
+        class: %w(form-group row permission_entry)) do %>
+        <div class="col-md-4 col-12 input-group">
+          <%= text_field_tag(
+            nil,
+            # FIXME: Refactor - this is not rails way, is it?
+            t(".#{permission_form.object.permissions}"),
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+        </div>
+        <div class="col-md-8 col-12 input-group">
+          <%= permission_form.hidden_field(
+            :id,
+            value: permission_form.object.id) %>
+          <%= permission_form.hidden_field('_destroy', value: false) %>
+          <%= hidden_field_tag(
+            nil,
+            permission_form.object.user_id,
+            data: { target: 'permissions.selectedUsers' }) %>
+          <%= hidden_field_tag(
+            nil,
+            permission_form.object.permissions,
+            data: { target: 'permissions.selectedPermissions' }) %>
+          <%= text_field_tag(
+            nil,
+            permission_form.object.user.try(:nick),
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+          <div class="input-group-append">
+            <button class="btn input-group-text btn-outline-primary"
+                    data-action="permissions#deleteItem"
+                    type="button">
+              <%= icon(:delete) %>
+            </button>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <%# /List existing permissions %>
+
+  <%# Add new permission %>
+  <div id="new-permissions">
+    <%= form.fields_for(
+      :permissions,
+      permittable.permissions.new,
+      child_index: -1) do |permission_form| %>
+
+      <div class="form-group row permission_entry"
+           data-target="permissions.input">
+        <div class="col-md-4 col-12 input-group">
+          <%= permission_form.select(
+            :permissions,
+            [
+              [t('.r'), :r],
+              [t('.rw'), :rw],
+              [t('.public'), :public]
+            ],
+            {prompt: t('.select_permission')},
+            class: 'form-control',
+            data: { target: 'permissions.permissions' }) %>
+        </div>
+        <div class="col-md-8 col-12 input-group">
+          <%= permission_form.collection_select(
+            :user_id,
+            # FIXME: Request only users without permissions!
+            User.where.not(id: current_user.id),
+            :id,
+            :nick,
+            { prompt: t('.select_user') },
+            class: 'form-control',
+            data: { target: 'permissions.user' }) %>
+          <div class="input-group-append">
+            <button id="add-permissions"
+                    class="btn input-group-text btn-outline-primary"
+                    data-action="permissions#addItem"
+                    type="button">
+              <%= icon(:new) %>
+            </button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%# /Add new permission %>
+
+  <%# Template for newly added permissions %>
+  <template id="new-permission-input"
+            data-target="permissions.template">
+    <%= form.fields_for(
+      :permissions,
+      permittable.permissions.new,
+      child_index: 'TPL_NEW_INPUT') do |permission_form| %>
+      <div class="form-group row permission_entry">
+        <div class="col-md-4 col-12 input-group">
+          <%# FIXME: Is there a better way than to use placeholders!? %>
+          <%= permission_form.hidden_field(
+            :permissions,
+            value: 'TPL_NEW_PERM_ID',
+            class: 'form-control') %>
+          <%= text_field_tag(
+            nil,
+            'TPL_NEW_PERM_NAME',
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+        </div>
+        <div class="col-md-8 col-12 input-group">
+          <%= permission_form.hidden_field(
+            :user_id,
+            value: 'TPL_NEW_USERID') %>
+          <%= text_field_tag(
+            nil,
+            'TPL_NEW_USER',
+            class: 'form-control',
+            id: nil,
+            readonly: true) %>
+          <div class="input-group-append">
+            <button class="btn input-group-text btn-outline-primary"
+                    data-action="permissions#removeItem"
+                    type="button">
+              <%= icon(:delete) %>
+            </button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </template>
+  <%# /Template for newly added permissions %>
+
+  <%= form.submit t(:submit), class: 'btn btn-primary btn-lg' %>
+<% end %>

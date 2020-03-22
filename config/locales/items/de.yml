@@ -2,6 +2,7 @@ de:
   items:
     new:
       new_item: 'Neuer Gegenstand'
+      not_allowed: 'Keine Berechtigung, einen Gegenstand zu erstellen'
     create:
       created: 'Gegenstand wurde erfolgreich erstellt'
       create_failed: 'Gegenstand konnte nicht erstellt werden'

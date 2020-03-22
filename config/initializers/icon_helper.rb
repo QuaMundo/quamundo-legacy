@@ -31,6 +31,7 @@ module IconHelper
       index:            { icon: 'list',                 style: 'fas' },
       new:              { icon: 'plus',                 style: 'fas' },
       delete:           { icon: 'trash',                style: 'fas' },
+      permissions:      { icon: 'lock',                 style: 'fas' },
 
       # Misc
       start_date:       { icon: 'step-forward',         style: 'fas' },

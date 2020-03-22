@@ -1,0 +1,21 @@
+<ul class="nav justify-content-end context-menu mt-2">
+  <li class="nav-item">
+    <a class="nav-link dropdown"
+       data-toggle="dropdown"
+       href="#"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false">
+      <%= icon(:menu) %>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <%= link_to_if(
+        allowed_to?(:new?, User),
+        icon(:new) { t('new') },
+        new_user_path,
+        class: 'dropdown-item',
+        title: t(:new)) {} %>
+    </div>
+  </li>
+</ul>
+

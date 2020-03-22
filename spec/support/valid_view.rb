@@ -14,7 +14,7 @@ RSpec.shared_examples "valid_view", type: :system do
       page.within('header') do
         click_link('logout')
       end
-      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_current_path(root_path)
     end
 
     it 'has a link to user profile' do

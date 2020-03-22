@@ -56,4 +56,17 @@ RSpec.describe User, type: :model do
     expect(user_with_worlds).to be_destroyed
     expect(World.find_by(id: worlds)).to be_nil
   end
+
+  # FIXME: Add `admin` flag in future versions!
+  context 'admin privileges' do
+    it 'has admin privileges with user id 0' do
+      admin = build(:user, id: 0)
+      expect(admin.admin?).to be_truthy
+    end
+
+    it 'does not have admin privileges with a user id other than 0' do
+      user = build(:user, id: 42)
+      expect(user.admin?).to be_falsey
+    end
+  end
 end

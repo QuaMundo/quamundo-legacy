@@ -2,6 +2,7 @@ en:
   figures:
     new:
       new_figure: 'New Figure'
+      not_allowed: 'You are not allowed to create a figure in world "%{world}"'
     create:
       created: 'Figure successfully created'
       create_failed: 'Failed to create figure'

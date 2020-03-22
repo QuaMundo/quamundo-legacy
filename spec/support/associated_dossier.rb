@@ -6,14 +6,13 @@ RSpec.shared_examples 'associated dossiers', type: :system do
                                     content: 'Test',
                                     description: 'Desription of Test Dossier')
     visit(polymorphic_path(path))
-    page.within('div#dossiers-header') do
-      page.find('button').click
-    end
+    page.find('div#dossiers-header button').click
   end
 
   it 'show up in details view' do
     expect(page)
-      .to have_selector('[id^="index-entry-dossier-"]', count: subject.dossiers.count)
+      .to have_selector('[id^="index-entry-dossier-"]',
+                        count: subject.dossiers.count)
     subject.dossiers.each do |d|
       expect(page).to have_content(d.name)
       expect(page).to have_content(d.description)
@@ -23,7 +22,9 @@ RSpec.shared_examples 'associated dossiers', type: :system do
 
   it 'can be created' do
     page.find('a#add-dossier').click
-    expect(page).to have_current_path(new_polymorphic_path(path << Dossier))
+    expect(page).to have_current_path(
+      /#{new_polymorphic_path(path << Dossier)}/
+    )
     # further steps in `spec/system/dossiers/dossiers_spec.rb`
   end
 
@@ -32,7 +33,8 @@ RSpec.shared_examples 'associated dossiers', type: :system do
     page.find("a#edit-dossier-#{edited_dossier.id}").click
     expect(page).to have_current_path(edit_dossier_path(edited_dossier))
     expect(page)
-      .to have_content("#{subject.model_name.human.capitalize} \"#{subject.try(:name) || subject.try(:name)}\"")
+      .to have_content("#{subject.model_name.human.capitalize} "\
+                       "\"#{subject.try(:name) || subject.try(:name)}\"")
     # further steps in `spec/system/dossiers/dossiers_spec.rb`
   end
 

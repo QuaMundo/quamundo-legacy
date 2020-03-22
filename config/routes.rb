@@ -1,7 +1,23 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
+  # FIXME: new/create should be removed, since only admin is allowed to
+  devise_for(
+    :users,
+    skip: [:registrations],
+    controllers: {
+      registrations: 'users/registrations',
+      sessions: 'users/sessions'
+    }
+  )
+  as :user do
+    get 'users/edit' => 'users/registrations#edit',
+      as: 'edit_user_registration'
+    put 'users' => 'users/registrations#update',
+      as: 'user_registration'
+    patch 'users' => 'users/registrations#update'
+    delete 'users' => 'users/registrations#destroy'
+  end
+
+  resources :users, only: [:index, :new, :create]
 
   # World#index and World#create via get/post '/worlds'
   resources :worlds, only: [:index, :create]
@@ -26,13 +42,11 @@ Rails.application.routes.draw do
     end
 
     resources :facts do
-      # fact_constituents
-      resources :fact_constituents, except: [:show, :index]
       # relations
       resources :relations
     end
 
-    resources :relation_constituents, except: [:index, :show]
+    resource :permissions, only: [:edit]
   end
 
 

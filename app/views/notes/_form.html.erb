@@ -5,6 +5,10 @@
   <div class="form-group">
     <%= f.label :content %>
     <%= f.text_area :content, autofocus: true, class: 'form-control' %>
+    <%= f.hidden_field(:noteable_id, value: @note.noteable.id) %>
+    <%= f.hidden_field(
+      :noteable_type,
+      value: @note.noteable.model_name.name) %>
   </div>
   <%= f.submit t(:submit), class: 'btn btn-primary btn-lg' %>
 <% end %>

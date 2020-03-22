@@ -3,8 +3,7 @@ module FigurePedigree
 
   included do
     def pedigree
-      @pedigree ||= Pedigree.new(self.id)
-      @pedigree.execute
+      Pedigree.new(self.id).execute
     end
   end
 
@@ -12,6 +11,7 @@ module FigurePedigree
   # Adds field 'degree' which represents the relation degree; positive numbers
   # are descendants, negative numbers are ancestors
   class Pedigree
+    # FIXME: Avoid doubles (with non-direct ancestors)
     SQL = <<~SQL
       WITH pedigree AS (
         WITH RECURSIVE ancestor_tree(id, figure_id, ancestor_id, degree)
