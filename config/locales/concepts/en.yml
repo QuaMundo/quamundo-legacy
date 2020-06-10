@@ -1,23 +1,30 @@
 en:
   concepts:
+    index:
+      not_allowed: 'You are not allowed to list concepts of this world'
     new:
       new_concept: 'New concept'
       not_allowed: 'You are not allowed to create a concept in this world'
     edit:
+      not_allowed: 'You are not allowed to edit a concept'
       edit_concept: 'Edit concept'
     create:
+      not_allowed: 'You are not allowed to create a concept'
       created: 'Concept successfully created'
       create_failed: 'Failed to create concept'
     update:
+      not_allowed: 'You are not allowed to edit a concept'
       updated: 'Concept "%{concept}" successfully updated'
       update_failed: 'Failed to update concept "%{concept}"'
     destroy:
+      not_allowed: 'You are not allowed to delete this concept'
       destroyed: 'Concept %{concept} deleted'
     context_menu:
       confirm_delete: 'Should concept "%{concept}" really be removed?'
     index_entry:
       confirm_delete: 'Should concept "%{concept}" really be removed?'
     show:
+      not_allowed: 'You are not allowed to show this concept'
       part_of_facts:
         one: 'This concept ist part of one fact.'
         other: 'This concept is part of %{count} facts.'

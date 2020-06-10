@@ -3,7 +3,7 @@ RSpec.describe 'facts/index', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:fact)    { create(:fact, user: user) }
+      let(:fact)      { create(:fact, user: user) }
       let(:world)     { fact.world }
 
       before(:example) do

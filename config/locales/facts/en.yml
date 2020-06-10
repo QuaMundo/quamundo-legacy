@@ -4,14 +4,20 @@ en:
       new_fact: 'New Fact'
       not_allowed: 'You are not allowed to create a fact in this world'
     create:
+      not_allowed: 'You are not allowed to create a fact in this world'
       created: 'Fact successfully created'
       create_failed: 'Failed to create fact'
     edit:
+      not_allowed: 'You are not allowed to edit this fact'
       edit_fact: 'Edit Fact'
     update:
+      not_allowed: 'You are not allowed to edit this fact'
       updated: 'Fact %{fact} successfully updated'
       update_failed: 'Failed to update fact %{fact}'
+    index:
+      not_allowed: 'You are not allowed to show facts index'
     show:
+      not_allowed: 'You are not allowed to show this fact'
       edit_roles: 'Edit roles'
       remove_from_fact: 'Remove from fact'
       confirm_delete: 'Should %{constituent} really be unlinked?'
@@ -20,6 +26,7 @@ en:
       ends_at: 'The event ends at %{end}.'
       duration: 'The event spans a time of %{duration}.'
     destroy:
+      not_allowed: 'You are not allowed to delete this fact'
       destroyed: 'Fact %{fact} successfully deleted'
     context_menu:
       confirm_delete: 'Should fact %{fact} really be removed'

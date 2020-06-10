@@ -5,9 +5,13 @@ class FactsController < ApplicationController
 
   rescue_from ActionPolicy::Unauthorized do |ex|
     # FIXME: Manage err msgs
-    flash[:alert] = t('.not_allowed', world: @world.try(:name))
-    # flash[:alert] = ex.result.reasons.full_messages
-    redirect_to worlds_path
+    if request.format.symbol == :json
+      render json: 'Error', status: :unprocessable_entity
+    else
+      flash[:alert] = t('.not_allowed', world: @world.try(:name))
+      # flash[:alert] = ex.result.reasons.full_messages
+      redirect_to worlds_path
+    end
   end
 
   before_action :set_fact, only: [:show, :edit, :update, :destroy]
@@ -15,8 +19,21 @@ class FactsController < ApplicationController
   authorize :world, through: :current_world
 
   def index
-    @facts = current_world.facts.chronological
+    unless params[:inventory].present?
+      @facts = current_world.facts.chronological
+    else
+      @facts = current_world.facts
+        .joins(:fact_constituents)
+        .where(
+          'fact_constituents.constituable_type' => params[:inventory][:type],
+          'fact_constituents.constituable_id' => params[:inventory][:id]
+      ).chronological
+    end
     authorize! @facts
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @facts }
+    end
   end
 
   def new
@@ -48,6 +65,10 @@ class FactsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @fact }
+    end
   end
 
   def edit
@@ -99,6 +120,7 @@ class FactsController < ApplicationController
     params
       .require(:fact)
       .permit(:name, :description, :image, :start_date, :end_date,
+              inventory:                    [:id, :type],
               tag_attributes:               [:id, tagset: [] ],
               trait_attributes:             [:id, attributeset: {}],
               fact_constituents_attributes: [:id,
@@ -107,5 +129,9 @@ class FactsController < ApplicationController
                                              :_destroy,
                                              roles: [] ]
              )
+  end
+
+  def fact_index_params
+    params.permit(inventory: [:id, :type])
   end
 end

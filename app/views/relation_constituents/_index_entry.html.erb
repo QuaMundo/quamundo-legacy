@@ -41,11 +41,11 @@
       <span class="text-muted">
         <% if index_entry.relation.fact.start_date.present? %>
           <%= icon(:start_date) %>
-          <%= l(index_entry.relation.fact.start_date) %>&nbsp;
+          <%= l(index_entry.relation.fact.start_date, format: :fact) %>&nbsp;
         <% end %>
         <% if index_entry.relation.fact.end_date.present? %>
           <%= icon(:end_date) %>
-          <%= l(index_entry.relation.fact.end_date) %>
+          <%= l(index_entry.relation.fact.end_date, format: :fact) %>
         <% end %><br />
         <%= icon(:world) %>
         <%= index_entry.relation.fact.world.name %>&nbsp;

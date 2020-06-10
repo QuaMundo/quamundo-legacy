@@ -16,6 +16,11 @@
 
   <%# card body %>
   <div class="card-body">
+    <div id="fact-timeline" class="row">
+      <div class="col">
+        <%= render(partial: 'fact_timeline', locals: { fact: @fact }) %>
+      </div>
+    </div>
     <div class="row">
       <%# info %>
       <div class="col-md-6 col-12">

@@ -36,12 +36,13 @@ Rails.application.routes.draw do
   resources :worlds, param: :slug, path: '/', except: [:index, :create],
     concerns: [:noteable, :dossierable] do
 
-    resources :concepts, :figures, :items, :locations, :facts do
-      concerns :noteable
-      concerns :dossierable
+    resources :concepts, :figures, :items, :locations do
+      concerns [:noteable, :dossierable]
     end
 
     resources :facts do
+      concerns [:noteable, :dossierable]
+
       # relations
       resources :relations
     end

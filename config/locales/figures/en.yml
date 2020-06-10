@@ -4,20 +4,27 @@ en:
       new_figure: 'New Figure'
       not_allowed: 'You are not allowed to create a figure in world "%{world}"'
     create:
+      not_allowed: 'You are not allowed to create a figure in world "%{world}"'
       created: 'Figure successfully created'
       create_failed: 'Failed to create figure'
     edit:
+      not_allowed: 'You are not allowed to edit this figure'
       edit_figure: 'Edit Figure'
     update:
+      not_allowed: 'You are not allowed to edit this figure'
       updated: 'Figure %{figure} successfully updated'
       update_failed: 'Failed to update figure %{figure}'
     destroy:
+      not_allowed: 'You are not allowed to delete this figure'
       destroyed: 'Figure %{figure} successfully deleted'
     context_menu:
       confirm_delete: 'Should figure %{figure} really be deleted?'
     index_entry:
       confirm_delete: 'Should figure %{figure} really be deleted?'
+    index:
+      not_allowed: 'You are not allowed to show figures index of this world'
     show:
+      not_allowed: 'You are not allowed to show this figure'
       part_of_facts:
         zero: 'This figure is not part of any fact'
         one: 'This figure ist part of one fact.'

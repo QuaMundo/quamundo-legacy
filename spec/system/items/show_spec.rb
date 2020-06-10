@@ -53,6 +53,10 @@ RSpec.describe 'Showing an item', type: :system do
     it_behaves_like 'associated relations' do
       let(:subject) { create(:item, world: world) }
     end
+
+    it_behaves_like 'inventory timelines' do
+      let(:subject)   { item }
+    end
   end
 
   context 'with image' do

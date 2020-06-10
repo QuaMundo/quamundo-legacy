@@ -1,16 +1,23 @@
 de:
   dossiers:
+    show:
+      not_allowed: 'Keine Berechtigung, dieses Dossier zu sehen'
     edit:
+      not_allowed: 'Keine Berechtigung, dieses Dossier zu bearbeiten'
       edit_dossier: 'Dossier bearbeiten'
     new:
+      not_allowed: 'Keine Berechtigung, ein Dossier zu erstellen'
       new_dossier: 'Neues Dossier'
     create:
+      not_allowed: 'Keine Berechtigung, ein Dossier zu erstellen'
       created: 'Dossier erfoglreich erstellt'
       create_failed: 'Dossier konnte nicht erstellt werden'
     update:
+      not_allowed: 'Keine Berechtigung, dieses Dossier zu bearbeiten'
       updated: 'Dossier %{dossier} wurde erfolgreich aktualisiert'
       update_failed: 'Dossier %{dossier} konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, dieses Dossier zu löschen'
       destroyed: 'Dossier %{dossier} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll das Dossier %{dossier} wirklich gelöscht werden?'

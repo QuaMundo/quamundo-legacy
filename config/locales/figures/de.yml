@@ -4,20 +4,27 @@ de:
       new_figure: 'Neue Figur'
       not_allowed: 'Keine Berechtigung, eine neue Figure in der Welt "%(world)" zu erstellen'
     create:
+      not_allowed: 'Keine Berechtigung, eine neue Figure in der Welt "%(world)" zu erstellen'
       created: 'Figur erfolgreich erstellt'
       create_failed: 'Figur konnte nicht erstellt werden'
     edit:
+      not_allowed: 'Keine Berechtigung, diese Figur zu bearbeiten'
       edit_figure: 'Figur bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, diese Figur zu bearbeiten'
       updated: 'Figur %{figure} erfolgreich aktualisiert'
       update_failed: 'Figur %{figure} konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, diese Figur zu löschen'
       destroyed: 'Figur %{figure} erfoglreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
     index_entry:
       confirm_delete: 'Soll die Figure %{figure} wirklich gelöscht werden?'
+    index:
+      not_allowed: 'Keine Berechtigung, die Figuren dieser Welt zu listen'
     show:
+      not_allowed: 'Keine Berechtigung, diese Figur zu lesen'
       part_of_facts:
         zero: 'Diese Figur ist an keinem Fakt beteiligt'
         one: 'Diese Figur ist an einem Fakt beteiligt.'

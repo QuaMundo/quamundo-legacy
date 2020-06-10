@@ -4,14 +4,20 @@ de:
       new_fact: 'Neuer Fakt'
       not_allowed: 'Keine Berechtigung, ein neues Fakt anzulegen'
     create:
+      not_allowed: 'Keine Berechtigung, ein neues Fakt anzulegen'
       created: 'Fakt erfolgreich erstellt'
       create_failed: 'Fakt konnte nicht erstellt werden'
     edit:
+      not_allowed: 'Keine Berechtigung, dieses Fakt zu bearbeiten'
       edit_fact: 'Fakt bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, dieses Fakt zu bearbeiten'
       updated: 'Fakt %{fact} wurde erfolgreich aktualisiert'
       update_failed: 'Fakt %{fact} konnte nicht aktualisiert werden'
+    index:
+      not_allowed: 'Keine Berechtigung, die Fakten dieser Welt zu listen'
     show:
+      not_allowed: 'Keine Berechtigung, dieses Fakt zu sehen'
       edit_roles: 'Rollen bearbeiten'
       remove_from_fact: 'Von Fakt entfernen'
       confirm_delete: 'Soll Aspekt %{constituent} wirklich entfernt werden?'
@@ -20,6 +26,7 @@ de:
       ends_at: 'Das Ereignis endet am %{end}.'
       duration: 'Das Ereignis dauert %{duration}.'
     destroy:
+      not_allowed: 'Keine Berechtigung, dieses Fakt zu löschen'
       destroyed: 'Fakt %{fact} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll Fakt %{fact} wirklich gelöscht werden?'

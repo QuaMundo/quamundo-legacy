@@ -38,4 +38,4 @@ de:
 
   time:
     formats:
-      fact: '%d.%m.%Y %H:%M:%S h'
+      fact: '%d.%m.%Y %H:%M h'

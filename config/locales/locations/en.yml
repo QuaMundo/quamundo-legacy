@@ -1,24 +1,31 @@
 en:
   locations:
     new:
+      not_allowed: 'You are not allowed to create a location in this world'
       new_location: 'New Location'
-    edit:
-      edit_location: 'Edit Location'
     create:
+      not_allowed: 'You are not allowed to create a location in this world'
       created: 'Location successfully created'
       create_failed: 'Failed to create location'
+    edit:
+      not_allowed: 'You are not allowed to edit this location'
+      edit_location: 'Edit Location'
     update:
+      not_allowed: 'You are not allowed to edit this location'
       updated: 'Location %{location} successfully updated'
       update_failed: 'Failed to update location %{location}'
     destroy:
+      not_allowed: 'You are not allowed to delete this location'
       destroyed: 'Location %{location} successfully deleted'
     context_menu:
       confirm_delete: 'Should location %{location} really be removed?'
     index:
+      not_allowed: 'You are not allowed to list the locations of this world'
       confirm_delete: 'Should location %{location} really be removed?'
     index_entry:
       confirm_delete: 'Should location %{location} really be removed?'
     show:
+      not_allowed: 'You are not allowed to show this location'
       part_of_facts:
         one: 'This location ist part of one fact.'
         other: 'This location is part of %{count} facts.'

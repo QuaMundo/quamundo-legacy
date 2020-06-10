@@ -1,0 +1,12 @@
+<%= tag.div(
+  id: element_id(inventory, 'inventory-timeline'),
+  class: 'simple-timeline inventory-timeline',
+  data: {
+    controller: 'fact-simple-timeline',
+    'fact-simple-timeline-target': 'simpleTimeline',
+    'fact-simple-timeline-facts-url-value': inventory_facts_path(inventory, format: :json),
+    'fact-simple-timeline-timeline-age-value': inventory.world.age.to_s,
+    'fact-simple-timeline-timeline-start-value': inventory.world.beginning.try(:to_s, :db),
+    'fact-simple-timeline-timeline-end-value': inventory.world.ending.try(:to_s, :db)
+  }
+) %>

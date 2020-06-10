@@ -46,14 +46,14 @@
 
       <%# select new constituent %>
       <div class="form-group row relation_constituent_entry"
-           data-target="relation-constituents.input">
+           data-relation-constituents-target="input">
         <div class="col-md-8 col-12 input-group">
           <%= constituent_form.select(
             :fact_constituent_id,
             nil,
             {},
             class: 'form-control',
-            data: { target: 'relation-constituents.constituent' }) do%>
+            data: { 'relation-constituents-target' => 'constituent' }) do%>
 
             <%= grouped_options_for_select(
               RelationConstituentHelper.select_group_options(@relation),
@@ -71,7 +71,7 @@
             ],
             {},
             class: 'form-control',
-            data: { target: 'relation-constituents.role' }) %>
+            data: { 'relation-constituents-target' => 'role' }) %>
           <button class="btn input-group-text btn-outline-primary"
                   id="add-constituent"
                   data-action="relation-constituents#addItem"
@@ -86,7 +86,7 @@
 
   <%# Template for newly added constituents %>
   <template id="new-constituent-input"
-            data-target="relation-constituents.template">
+            data-relation-constituents-target="template">
     <%= form.fields_for(
       :relation_constituents,
       @relation.relation_constituents.new,

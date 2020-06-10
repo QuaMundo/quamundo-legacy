@@ -11,25 +11,31 @@ export default class extends Controller {
     "name"
   ]
 
-  connect() { this.faInput = new FigureAncestorInputHandler(this); }
+  faInput: FigureAncestorInputHandler;
 
-  addItem(e) {
+  connect(): void { this.faInput = new FigureAncestorInputHandler(this); }
+
+  addItem(e): void {
     if (this.faInput.value == undefined || this.faInput.value == '') {
       return;
     }
     this.faInput.addRow();
   }
 
-  removeItem(e) { this.faInput.removeRow(e); }
+  removeItem(e): void { this.faInput.removeRow(e); }
 
-  deleteItem(e) { this.faInput.deleteRow(e); }
+  deleteItem(e): void { this.faInput.deleteRow(e); }
 }
 
 // FIXME: Is this the right way to do it?
 // FIXME: Extract common code from relation_constituents_controller
 // and fact_constituents_controller
 class FigureAncestorInputHandler {
-  // FIXME: What about error handling???
+  ancestor: HTMLSelectElement;
+  input: HTMLInputElement;
+  name: HTMLInputElement;
+  template: HTMLElement;
+
   constructor(obj) {
     this.ancestor         = obj.ancestorTarget;
     this.input            = obj.inputTarget;
@@ -37,17 +43,17 @@ class FigureAncestorInputHandler {
     this.template         = obj.templateTarget;
   }
 
-  resetInput() {
+  resetInput(): void {
     this.ancestor.selectedIndex = 0;
     this.name.value = '';
   }
 
-  addRow() {
+  addRow(): void {
     // FIXME: Is there a better way than using placeholders???
-    let html = this
+    const html = this
       .template
       .innerHTML
-      .replace(/TPL_NEW_INPUT/g, new Date().valueOf())
+      .replace(/TPL_NEW_INPUT/g, new Date().valueOf().toString())
       .replace(/TPL_NEW_VAL/g, this.value)
       .replace(/TPL_NEW_TEXT/g, this.ancestor_name)
       .replace(/TPL_NEW_NAME/g, this.role);
@@ -56,25 +62,27 @@ class FigureAncestorInputHandler {
     this.resetInput();
   }
 
-  removeRow(e) {
+  removeRow(e): void {
     // FIXME: Try this without a css selector, use data-? instead!?
-    let row = this.row(e);
-    let value = row.querySelector('input[type="hidden"]').value;
-    let search = 'option[value="' + value + '"]';
-    let option = this.input.querySelector(search);
+    const row = this.row(e);
+    const field: HTMLInputElement = row.querySelector('input[type="hidden"]');
+    const value = field.value;
+    const search = 'option[value="' + value + '"]';
+    const option = this.input.querySelector(search);
     row.parentNode.removeChild(row);
     option.removeAttribute('disabled');
   }
 
-  deleteRow(e) {
+  deleteRow(e): void {
     // FIXME: Deleted ancestors don't show up in select list yet!
-    let row = this.row(e);
-    let input = row.querySelector('input[type="hidden"][id$="_destroy"]');
+    const row = this.row(e);
+    const input: HTMLInputElement = row.
+      querySelector('input[type="hidden"][id$="_destroy"]');
     input.value = '1';
     row.classList.add('d-none');
   }
 
-  row(e) {
+  row(e): HTMLElement {
     return e.currentTarget.closest('div.figure_ancestor_entry');
   }
 
@@ -84,3 +92,4 @@ class FigureAncestorInputHandler {
   get ancestor_name() { return this.option.text; }
   get role()          { return this.name.value; }
 }
+

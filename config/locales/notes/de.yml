@@ -1,19 +1,26 @@
 de:
   notes:
     new:
+      not_allowed: 'Keine Berechtigung, eine Notiz zu erstellen'
       new_note: 'Neue Notiz'
     create:
+      not_allowed: 'Keine Berechtigung, eine Notiz zu erstellen'
       created: 'Notiz erzeugt'
       create_failed: 'Notiz konnte nicht erzeugt werden'
     edit:
+      not_allowed: 'Keine Berechtigung, eine Notiz zu bearbeiten'
       edit_note: 'Notiz bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, eine Notiz zu bearbeiten'
       updated: 'Notiz aktualisiert'
       update_failed: 'Notiz konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, diese Notiz zu löschen'
       destroyed: 'Notiz gelöscht'
     index_entry:
       confirm_delete: 'Soll diese Notiz wirklich gelöscht werden?'
+    show:
+      not_allowed: 'Keine Berechtigung, dies Notiz zu lesen'
 
   activerecord:
     models:

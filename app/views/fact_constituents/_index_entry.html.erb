@@ -37,14 +37,6 @@
     <%# Stats %>
     <div class="small index_entry_stats">
       <span class="text-muted">
-        <% if index_entry.fact.start_date.present? %>
-          <%= icon(:start_date) %>
-          <%= l(index_entry.fact.start_date) %>&nbsp;
-        <% end %>
-        <% if index_entry.fact.end_date.present? %>
-          <%= icon(:end_date) %>
-          <%= l(index_entry.fact.end_date) %>
-        <% end %><br />
         <%= icon(:world) %>
         <%= index_entry.fact.world.name %>&nbsp;
         <%= icon(:fact) %>

@@ -11,25 +11,31 @@ export default class extends Controller {
     "role"
   ]
 
-  connect() { this.rcInput = new RelationConstituentInputHandler(this); }
+  rcInput: RelationConstituentInputHandler;
 
-  addItem(e) {
+  connect(): void { this.rcInput = new RelationConstituentInputHandler(this); }
+
+  addItem(e): void {
     if (this.rcInput.value == undefined || this.rcInput.value == '') {
       return;
     }
     this.rcInput.addRow();
   }
 
-  removeItem(e) { this.rcInput.removeRow(e); }
+  removeItem(e): void { this.rcInput.removeRow(e); }
 
-  deleteItem(e) { this.rcInput.deleteRow(e); }
+  deleteItem(e): void { this.rcInput.deleteRow(e); }
 }
 
 // FIXME: Is this the right way to do it?
 // FIXME: Extract common code from relation_constituents_controller
 // and fact_constituents_controller
 class RelationConstituentInputHandler {
-  // FIXME: What about error handling???
+  constituent: HTMLSelectElement;
+  input: HTMLInputElement;
+  role: HTMLInputElement;
+  template: HTMLElement;
+
   constructor(obj) {
     this.constituent    = obj.constituentTarget;
     this.input          = obj.inputTarget;
@@ -37,41 +43,42 @@ class RelationConstituentInputHandler {
     this.template       = obj.templateTarget;
   }
 
-  resetInput() {
+  resetInput(): void {
     this.constituent.selectedIndex = 0;
   }
 
-  addRow(e) {
+  addRow(): void {
     // FIXME: Is there a better way than using placeholders???
-    let html = this
+    const html = this
       .template
       .innerHTML
-      .replace(/TPL_NEW_INPUT/g, new Date().valueOf())
+      .replace(/TPL_NEW_INPUT/g, new Date().valueOf().toString())
       .replace(/TPL_NEW_VAL/g, this.value)
       .replace(/TPL_NEW_TEXT/g, this.name + ' (' + this.type + ')')
       .replace(/TPL_NEW_ROLE/g, this.roles);
     this.input.insertAdjacentHTML('beforebegin', html);
     // set role of newly created row
-    let r = this.input.previousElementSibling;
+    const r = this.input.previousElementSibling;
     r.querySelector('select').value = this.roles;
     this.constituent.options[this.selectedIdx].disabled = true;
     this.resetInput();
   }
 
-  removeRow(e) {
+  removeRow(e): void {
     // FIXME: Try this without a css selector, use data-? instead!?
-    let row = this.row(e);
-    let value = row.querySelector('input[type="hidden"]').value;
-    let search = 'option[value="' + value + '"]';
-    let option = this.input.querySelector(search);
+    const row = this.row(e);
+    const field: HTMLInputElement = row.querySelector('input[type="hidden"]');
+    const value = field.value;
+    const search = 'option[value="' + value + '"]';
+    const option = this.input.querySelector(search);
     row.parentNode.removeChild(row);
     option.removeAttribute('disabled');
   }
 
-  deleteRow(e) {
+  deleteRow(e): void {
     // FIXME: Deleted constituents don't show up in select list yet!
-    let row = this.row(e);
-    let input = row.querySelector('input[type="hidden"][id$="_destroy"]');
+    const row = this.row(e);
+    const input = row.querySelector('input[type="hidden"][id$="_destroy"]');
     input.value = '1';
     row.classList.add('d-none');
   }
@@ -84,6 +91,11 @@ class RelationConstituentInputHandler {
   get value()         { return this.constituent.value; }
   get option()        { return this.constituent.options[this.selectedIdx]; }
   get name()          { return this.option.text; }
-  get type()          { return this.option.parentNode.label; }
   get roles()         { return this.role.value; }
+  get type()          {
+    // return this.option.parentNode.label;
+    const typeNode: HTMLOptGroupElement = <HTMLOptGroupElement>this
+      .option.parentElement;
+    return typeNode.label;
+  }
 }

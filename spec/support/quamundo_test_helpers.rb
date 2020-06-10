@@ -8,6 +8,7 @@ module QuamundoTestHelpers
 
   def cleanup_test_environment
     remove_uploads
+    remove_screenshots
     reset_db_sequences
     refresh_materialized_views
   end
@@ -16,10 +17,18 @@ module QuamundoTestHelpers
     FileUtils::rm_rf(Rails.root.join('tmp/storage'))
   end
 
+  def remove_screenshots
+    FileUtils::rm_rf(Rails.root.join('tmp/screenshots'))
+  end
+
   def reset_db_sequences
     ActiveRecord::Base.connection.tables.each do |t|
       ActiveRecord::Base.connection.reset_pk_sequence!(t)
     end
+  end
+
+  def file_fixture_path
+    Rails.root.join('spec', 'fixtures', 'files')
   end
 
   def fixture_file_name(name)

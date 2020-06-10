@@ -23,13 +23,13 @@
         <% if @world.description.present? %>
           <p class="leader"><%= @world.description %></p>
         <% end %>
-        <% if @world.begin_of_time %>
+        <% if @world.beginning %>
           <p><%= t('.begin_of_time',
-                   start: l(@world.begin_of_time, format: :long)) %></p>
+                   start: l(@world.beginning, format: :long)) %></p>
         <% end %>
-        <% if @world.end_of_time %>
+        <% if @world.ending %>
           <p><%= t('.end_of_time',
-                   end: l(@world.end_of_time, format: :long)) %></p>
+                   end: l(@world.ending, format: :long)) %></p>
         <% end %>
         <% if @world.age %>
           <p><%= t('.age', age: distance_of_time_in_words(@world.age)) %></p>
@@ -68,4 +68,3 @@
 <%= render partial: 'facts/facts', locals: { obj: @world.facts.chronological } %>
 
 <%= render partial: 'shared/attributes', locals: { obj: @world } %>
-

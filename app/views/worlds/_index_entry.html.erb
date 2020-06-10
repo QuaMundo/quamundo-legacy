@@ -33,13 +33,13 @@
     <%# Stats %>
     <div class="small index_entry_stats">
       <span class="text-muted">
-        <% if index_entry.begin_of_time.present? %>
+        <% if index_entry.beginning.present? %>
           <%= icon(:start_date) %>
-          <%= l(index_entry.begin_of_time) %>&nbsp;
+          <%= l(index_entry.beginning) %>&nbsp;
         <% end %>
-        <% if index_entry.end_of_time.present? %>
+        <% if index_entry.ending.present? %>
           <%= icon(:end_date) %>
-          <%= l(index_entry.end_of_time) %>
+          <%= l(index_entry.ending) %>
         <% end %><br />
         <%= icon(:figure) %>&nbsp;<%= index_entry.figures.count %>&nbsp;
         <%= icon(:item) %>&nbsp;<%= index_entry.items.count %>&nbsp;

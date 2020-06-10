@@ -4,6 +4,15 @@ module ApplicationHelper
     [prefix, obj.model_name.param_key, obj.id].compact.join('-')
   end
 
+  # Create a link to facts of an inventory object by adding params
+  # inventory: { :id, :type }
+  def inventory_facts_path(obj, format: :html)
+    world_facts_path(obj.world, inventory: {
+      id: obj.id,
+      type: obj.model_name.name
+    }, format: format)
+  end
+
   # LonLat helper - gets coords as string from rgeo object (to prefill input)
   def get_lonlat(lonlat)
     lonlat ? "#{lonlat.lat.to_s}, #{lonlat.lon.to_s}" : ''

@@ -1,21 +1,28 @@
 en:
   worlds:
-    edit:
-      edit_world: 'Edit World'
     new:
+      not_allowed: 'You are not allowed to create a world'
       new_world: 'New World'
     create:
+      not_allowed: 'You are not allowed to create a world'
       created: 'World successfully created'
       create_failed: 'Failed to create world'
+    edit:
+      not_allowed: 'You are not allowed to edit this world'
+      edit_world: 'Edit World'
     update:
+      not_allowed: 'You are not allowed to edit this world'
       updated: 'World %{world} successfully updated'
       update_failed: 'Failed to update %{world}'
     destroy:
+      not_allowed: 'You are not allowed to delete this world'
       destroyed: 'World %{world} successfully deleted'
     context_menu:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
     index_entry:
       confirm_delete: 'Do you really want to bring apycalypse to world "%{world}"?'
+    index:
+      not_allowed: 'You are not allowed to list worlds'
     show:
       not_allowed: 'You are not allowed to show %{world}'
       begin_of_time: 'The first known event in this world starts at %{start}'

@@ -1,6 +1,7 @@
 de:
   permissions:
     edit:
+      not_allowed: 'Keine Berechtigung, rechte zu verwalten'
       edit_permissions: 'Berechtigungen der Welt "%{world}"'
 
     permission_input:

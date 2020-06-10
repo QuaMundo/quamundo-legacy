@@ -1,21 +1,28 @@
 de:
   worlds:
-    edit:
-      edit_world: 'Welt bearbeiten'
     new:
+      not_allowed: 'Keine Berechtigung, eine Welt zu erstellen'
       new_world: 'Neue Welt erstellen'
     create:
+      not_allowed: 'Keine Berechtigung, eine Welt zu erstellen'
       created: 'Welt erfolgreich erstellt'
       create_failed: 'Welt konnte nicht erstellt werden'
+    edit:
+      not_allowed: 'Keine Berechtigung, diese Welt zu bearbeiten'
+      edit_world: 'Welt bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, diese Welt zu bearbeiten'
       updated: 'Welt %{world} wurde erfolgreich aktualisiert'
       update_failed: 'Welt %{world} konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, diese Welt zu löschen'
       destroyed: 'Welt %{world} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
     index_entry:
       confirm_delete: 'Soll die Welt "%{world}" wirklich der Apokalypse anheim fallen?'
+    index:
+      not_allowed: 'Keine Berechtigung, Welten zu listen'
     show:
       not_allowed: 'Keine Berechtigung für Welt %{world}'
       begin_of_time: 'Das erste bekannte Ereignis dieser Welt beginnt am %{start}.'

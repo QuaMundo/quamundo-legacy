@@ -74,35 +74,4 @@ RSpec.describe World, type: :model do
   it_behaves_like 'dossierable' do
     let(:subject) { build(:world_with_dossiers) }
   end
-
-  context 'age of world' do
-      let(:world) { build(:world) }
-      let(:s_time) { Time.current - 50.years }
-      let(:e_time) { Time.current + 50.years }
-
-    it 'knows its time of beginning' do
-      world.facts << build(:fact, start_date: s_time)
-      world.save
-      expect(world.begin_of_time).to eq s_time
-      expect(world.end_of_time).to be_nil
-      expect(world.age).to be_nil
-    end
-
-    it 'knows its time of ending' do
-      world.facts << build(:fact, end_date: e_time)
-      world.save
-      expect(world.begin_of_time).to be_nil
-      expect(world.end_of_time).to eq e_time
-      expect(world.age).to be_nil
-    end
-
-    it 'knows about its age if dated facts exist' do
-      world.facts << build(:fact, start_date: s_time)
-      world.facts << build(:fact, end_date: e_time)
-      world.save
-      expect(world.begin_of_time).to eq s_time
-      expect(world.end_of_time).to eq e_time
-      expect(world.age).to eq(e_time - s_time)
-    end
-  end
 end

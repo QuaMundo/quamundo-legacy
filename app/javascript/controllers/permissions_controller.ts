@@ -3,47 +3,59 @@
 
 import { Controller } from "stimulus"
 
-export default class extends Controller {
-  static targets = [
+class PermissionsControllerBase extends Controller {
+  selectedUsersTargets!: HTMLSelectElement[];
+  selectedPermissionsTargets!: HTMLSelectElement[];
+  userTarget!: HTMLSelectElement;
+  permissionsTarget!: HTMLSelectElement;
+  inputTarget!: HTMLElement;
+  templateTarget!: HTMLElement;
+}
+
+export default class extends (Controller as typeof PermissionsControllerBase) {
+  static targets: string[] = [
     "template",
     "input",
     "permissions",
     "user",
     "selectedUsers",
     "selectedPermissions"
-  ]
+  ];
 
-  connect() {
+  permInput: PermissionInputHandler;
+
+  connect(): void {
     this.permInput = new PermissionInputHandler(this);
     this.disableSelectedUserOptions(this.permInput);
     this.disableSelectedPublicOptions(this.permInput);
   }
 
-  addItem(e) {
+  addItem(e: Event): void {
     this.permInput.addRow(e);
-    if (this.permInput.permissions == '') {
+    // FIXME: Missing instructions!
+    if (this.permInput.permissions.value == '') {
     }
   }
 
-  removeItem(e) { this.permInput.removeRow(e); }
+  removeItem(e: Event): void { this.permInput.removeRow(e); }
 
-  deleteItem(e) { this.permInput.deleteRow(e); }
+  deleteItem(e: Event): void { this.permInput.deleteRow(e); }
 
-  disableSelectedUserOptions(obj) {
+  disableSelectedUserOptions(obj: PermissionInputHandler): void {
     this.selectedUsersTargets.forEach(function(user) {
       let option = obj.user.querySelector('option[value="' + user.value +'"]');
-      option.disabled = true;
+      (option as HTMLInputElement).disabled = true;
     });
   }
 
-  disableSelectedPublicOptions(obj) {
+  disableSelectedPublicOptions(obj: PermissionInputHandler): void {
     if (this.selectedPermissionsTargets.some(function(perm) {
       return (perm.value == 'public');
     })) {
       let publicOption = obj
         .permissions
         .querySelector('option[value="public"]');
-      publicOption.disabled = true;
+      (publicOption as HTMLInputElement).disabled = true;
     }
   }
 }
@@ -53,22 +65,23 @@ export default class extends Controller {
 // FIXME: Extract common code from relation_constituents_controller
 // and fact_constituents_controller
 class PermissionInputHandler {
-  // FIXME: What about error handling???
-  constructor(obj) {
+  obj: PermissionsControllerBase;
+
+  constructor(obj: PermissionsControllerBase) {
     this.obj = obj;
   }
 
-  resetInput() {
+  resetInput(): void {
     this.permissions.selectedIndex = 0;
     this.user.selectedIndex = 0;
   }
 
-  addRow(e) {
+  addRow(e: Event): void {
     // FIXME: Is there a better way than using placeholders???
     let html = this
       .template
       .innerHTML
-      .replace(/TPL_NEW_INPUT/g, new Date().valueOf())
+      .replace(/TPL_NEW_INPUT/g, new Date().valueOf().toString())
       .replace(/TPL_NEW_PERM_ID/g, this.permission_id)
       .replace(/TPL_NEW_PERM_NAME/g, this.permission_name)
       .replace(/TPL_NEW_USERID/g, this.user_id)
@@ -78,17 +91,19 @@ class PermissionInputHandler {
     this.resetInput();
   }
 
-  removeRow(e) {
+  removeRow(e: Event): void {
     // FIXME: Try this without a css selector, use data-? instead!?
     let row = this.row(e);
-    let value = row.querySelector('input[id$="_user_id"]').value;
+    let value = (
+      row.querySelector('input[id$="_user_id"]') as HTMLInputElement
+    ).value;
     let search = 'option[value="' + value + '"]';
     let option = this.input.querySelector(search);
     row.parentNode.removeChild(row);
     option.removeAttribute('disabled');
   }
 
-  deleteRow(e) {
+  deleteRow(e: Event): void {
     let row = this.row(e);
     let input = row.querySelector('input[type="hidden"][id$="_destroy"]');
     // FIXME: This will fail if 'public' has been removed and re-enabled
@@ -107,13 +122,13 @@ class PermissionInputHandler {
     // this.permissions.querySelector('option[value="' + permission + '"]')
     //   .removeAttribute('disabled');
 
-    input.value = '1';
+    (input as HTMLInputElement).value = '1';
     row.classList.add('d-none');
   }
 
-  row(e) {
+  row(e: Event): HTMLElement {
     // FIXME: Maybe use (element) ID; see redmine #541
-    return e.currentTarget.closest('div.permission_entry');
+    return (e.currentTarget as HTMLElement).closest('div.permission_entry');
   }
 
   get user()              { return this.obj.userTarget; }
@@ -127,7 +142,9 @@ class PermissionInputHandler {
   get user_id()           { return this.user.value; }
   // Needed?
   get permission_id()     { return this.permissions.value; }
-  get permission_name()   { return this
-      .permissions[this.selectedPermIdx].text; }
+  get permission_name()   { return (this
+      .permissions[this.selectedPermIdx] as HTMLOptionElement)
+      .text; }
   // /Needed?
 }
+

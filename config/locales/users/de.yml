@@ -11,6 +11,10 @@ de:
     index:
       not_allowed: 'Keine Berechtigung zum Auflisten der Benutzer'
 
+    registrations:
+      destroy:
+        only_admin_registration: 'Nur Administratoren können Benutzer anlegen'
+
   activerecord:
     models:
       user:

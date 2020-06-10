@@ -1,23 +1,30 @@
 de:
   concepts:
+    index:
+      not_allowed: 'Keine Berechtigung, die Konzepte dieser Welt zu listen'
     new:
       new_concept: 'Neues Konzept'
       not_allowed: 'Keine Berechtigung, ein neues Konzept zu erstellen'
     edit:
+      not_allowed: 'Keine Berechtigung, dieses Konzept zu bearbeiten'
       edit_concept: 'Konzept bearbeiten'
     create:
       created: 'Konzept erfolgreich erstellt'
       create_failed: 'Konzept konnte nicht erstellt werden'
+      not_allowed: 'Keine Berechtigung, ein Konzept zu erstellen'
     update:
+      not_allowed: 'Keine Berechtigung, dieses Konzept zu bearbeiten'
       updated: 'Konzept "%{concept}" erfolgreich aktualisiert'
       update_failed: 'Konzept "%{concept}" konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, dieses Konzept zu löschen'
       destroyed: 'Konzept %{concept} wurde gelöscht'
     context_menu:
       confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
     index_entry:
       confirm_delete: 'Soll das Konzept "%{concept}" wirklich gelöscht werden?'
     show:
+      not_allowed: 'Keine Berechtigung, dieses Konzept zu sehen'
       part_of_facts:
         one: 'Dieses Konzept ist in einem Fakt enthalten.'
         other: 'Dieses Konzept ist in %{count} Fakten enthalten.'

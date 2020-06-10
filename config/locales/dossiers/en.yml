@@ -1,16 +1,23 @@
 en:
   dossiers:
+    show:
+      not_allowed: 'You are not allowed to show this dossier'
     edit:
+      not_allowed: 'You are not allowed to edit this dossier'
       edit_dossier: 'Edit Dossier'
     new:
+      not_allowed: 'You are not allowed to create a dossier'
       new_dossier: 'New Dossier'
     create:
+      not_allowed: 'You are not allowed to create a dossier'
       created: 'Dossier successfully created'
       create_failed: 'Failed to create dossier'
     update:
+      not_allowed: 'You are not allowed to edit this dossier'
       updated: 'Dossier %{dossier} successfully updated'
       update_failed: 'Failed to update dossier %{dossier}'
     destroy:
+      not_allowed: 'You are not allowed to delete this dossier'
       destroyed: 'Deleted dossier %{dossier}'
     context_menu:
       confirm_delete: 'Do you really want to delete dossier %{dossier}'

@@ -1,19 +1,26 @@
 en:
   notes:
     new:
+      not_allowed: 'You are not allowed to create a note'
       new_note: 'New Note'
     create:
+      not_allowed: 'You are not allowed to create a note'
       created: 'Note successfully created'
       create_failed: 'Failed to create note'
     edit:
+      not_allowed: 'You are not allowed to edit this note'
       edit_note: 'Edit Note'
     update:
+      not_allowed: 'You are not allowed to edit this note'
       updated: 'Note successfully updated'
       update_failed: 'Failed to update note'
     destroy:
+      not_allowed: 'You are not allowed to delete this note'
       destroyed: 'Note deleted'
     index_entry:
       confirm_delete: 'Should this note really be removed?'
+    show:
+      not_allowed: 'You are not allowed to show this note'
 
   activerecord:
     models:

@@ -47,7 +47,7 @@
 
       <%# Add new trait %>
       <div class="form-group row trait_entry"
-           data-target="traits.input">
+           data-traits-target="input">
         <%#
             FIXME: Can this be done simpler? I want for input a name like this:
             '<model>[trait_attributes][attributeset][key|value][<number>]'
@@ -56,7 +56,7 @@
           <div class="col-md-4 col-12 input-group">
             <%= key_form.text_field(
               'new_key',
-              data: { target: 'traits.key' },
+              data: { 'traits-target' => 'key' },
               class: 'form-control',
               placeholder: t('traits.form.new_key')) %>
           </div>
@@ -69,7 +69,7 @@
           <div class="col-md-8 col-12 input-group">
             <%= value_form.text_field(
               'new_value',
-              data: { target: 'traits.value' },
+              data: { 'traits-target' => 'value' },
               class: 'form-control',
               placeholder: t('traits.form.new_value')) %>
             <div class="input-group-append">
@@ -91,7 +91,7 @@
 
   <%# Template for newly added traits %>
   <template id="new-trait-input"
-            data-target="traits.template">
+            data-traits-target="template">
     <%= form.fields_for :trait do |traits_form| %>
       <%= traits_form.fields_for :attributeset do |attributeset_form| %>
         <div class="form-group row trait_entry">

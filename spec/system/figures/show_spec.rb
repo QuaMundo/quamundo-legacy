@@ -52,6 +52,10 @@ RSpec.describe 'Showing a figure', type: :system do
     it_behaves_like 'associated relations' do
       let(:subject) { create(:figure, world: world) }
     end
+
+    it_behaves_like 'inventory timelines' do
+      let(:subject)   { figure }
+    end
   end
 
   context 'with image' do

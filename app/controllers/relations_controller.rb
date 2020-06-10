@@ -57,7 +57,7 @@ class RelationsController < ApplicationController
         end
       else
         format.html do
-          flash[:alert] = t('.update-failed', relation: @relation.name)
+          flash[:alert] = t('.update_failed', relation: @relation.name)
           render :edit
         end
       end

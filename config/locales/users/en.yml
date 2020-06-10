@@ -11,6 +11,10 @@ en:
     index:
       not_allowed: 'You are not allowed to list users'
 
+    registrations:
+      destroy:
+        only_admin_registration: 'Only admin users may register new users'
+
   activerecord:
     models:
       user:

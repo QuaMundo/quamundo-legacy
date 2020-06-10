@@ -40,14 +40,14 @@
     child_index: -1) do |ancestor_form| %>
 
     <div class="form-group row figure_ancestor_entry"
-         data-target="figure-ancestors.input">
+         data-figure-ancestors-target="input">
       <div class="col-md-4 col-12 input-group">
         <%= ancestor_form.select(
           :ancestor_id,
           nil,
           { include_blank: t('.choose') },
           { class: 'form-control',
-            data: { target: 'figure-ancestors.ancestor' }}) do %>
+            data: { 'figure-ancestors-target' => 'ancestor' }}) do %>
 
             <%= options_from_collection_for_select(
               FigureAncestorHelper.selectable_ancestors(figure),
@@ -58,7 +58,7 @@
         <%= ancestor_form.text_field(
           :name,
           placeholder: t('.name'),
-          data: { target: 'figure-ancestors.name' },
+          data: { 'figure-ancestors-target' => 'name' },
           class: 'form-control') %>
         <div class="input-group-append">
           <button id="add-ancestor"
@@ -75,7 +75,7 @@
 
   <%# Template for newly added ancestors %>
   <template id="new-ancestor-input"
-            data-target="figure-ancestors.template">
+            data-figure-ancestors-target="template">
     <%= form.fields_for(
       :figure_ancestors,
       figure.figure_ancestors.new,

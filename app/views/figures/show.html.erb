@@ -51,6 +51,14 @@
       </div>
     </div> 
 
+    <div id="inventory-timeline" class="row inventory-timeline">
+      <div class="col">
+        <%= render(
+          partial: 'shared/inventory_timeline', locals: { inventory: @figure }
+        ) %>
+      </div>
+    </div>
+
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @figure } %>
   </div>

@@ -24,7 +24,7 @@
         :lonlat,
         autocomplete: :lonlat,
         class: 'form-control',
-        data: { target: 'location.coords' },
+        data: { 'location-target' => 'coords' },
         value: get_lonlat(@location.lonlat)) %>
       <div class="input-group-append">
         <%# Get current position by button click %>

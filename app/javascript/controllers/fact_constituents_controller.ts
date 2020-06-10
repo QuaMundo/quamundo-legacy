@@ -4,32 +4,38 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [
+  static targets: string[] = [
     "template",
     "input",
     "constituent",
     "roles"
   ];
 
-  connect() { this.fcInput = new FactConstituentInputHandler(this); }
+  fcInput: FactConstituentInputHandler;
 
-  addItem(e) {
+  connect(): void { this.fcInput = new FactConstituentInputHandler(this); }
+
+  addItem(e): void {
     if (this.fcInput.value == undefined || this.fcInput.value == '') {
       return;
     }
     this.fcInput.addRow();
   }
 
-  removeItem(e) { this.fcInput.removeRow(e); }
+  removeItem(e): void { this.fcInput.removeRow(e); }
 
-  deleteItem(e) { this.fcInput.deleteRow(e); }
+  deleteItem(e): void { this.fcInput.deleteRow(e); }
 }
 
 // FIXME: Is this the right way to do it?
 // FIXME: Extract common code from relation_constituents_controller
 // and fact_constituents_controller
 class FactConstituentInputHandler {
-  // FIXME: What about error handling???
+  constituent: HTMLSelectElement;
+  input: HTMLInputElement;
+  role: HTMLInputElement;
+  template: HTMLElement;
+
   constructor(obj) {
     // this.obj            = obj;
     this.constituent    = obj.constituentTarget;
@@ -38,17 +44,17 @@ class FactConstituentInputHandler {
     this.template       = obj.templateTarget;
   }
 
-  resetInput() {
+  resetInput(): void {
     this.constituent.selectedIndex = 0;
     this.role.value = '';
   }
 
-  addRow() {
+  addRow(): void {
     // FIXME: Is there a better way than using placeholders???
-    let html = this
+    const html = this
       .template
       .innerHTML
-      .replace(/TPL_NEW_INPUT/g, new Date().valueOf())
+      .replace(/TPL_NEW_INPUT/g, new Date().valueOf().toString())
       .replace(/TPL_NEW_VAL/g, this.value)
       .replace(/TPL_NEW_TEXT/g, this.name + ' (' + this.type + ')')
       .replace(/TPL_NEW_ROLES/g, this.roles);
@@ -57,25 +63,27 @@ class FactConstituentInputHandler {
     this.resetInput();
   }
 
-  removeRow(e) {
+  removeRow(e): void {
     // FIXME: Try this without a css selector, use data-? instead!?
-    let row = this.row(e);
-    let value = row.querySelector('input[type="hidden"]').value;
-    let search = 'option[value="' + value + '"]';
-    let option = this.input.querySelector(search);
+    const row = this.row(e);
+    const field: HTMLInputElement = row.querySelector('input[type="hidden"]');
+    const value = field.value;
+    const search = 'option[value="' + value + '"]';
+    const option = this.input.querySelector(search);
     row.parentNode.removeChild(row);
     option.removeAttribute('disabled');
   }
 
-  deleteRow(e) {
+  deleteRow(e): void {
     // FIXME: Deleted constituents don't show up in select list yet!
-    let row = this.row(e);
-    let input = row.querySelector('input[type="hidden"][id$="_destroy"]');
+    const row = this.row(e);
+    const input: HTMLInputElement = row.
+      querySelector('input[type="hidden"][id$="_destroy"]');
     input.value = '1';
     row.classList.add('d-none');
   }
 
-  row(e) {
+  row(e): HTMLElement {
     return e.currentTarget.closest('div.fact_constituent_entry');
   }
 

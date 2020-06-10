@@ -1,6 +1,7 @@
 en:
   permissions:
     edit:
+      not_allowed: 'You are not allowed to edit permissions'
       edit_permissions: 'Permissions of world "%{world}"'
 
     permission_input:

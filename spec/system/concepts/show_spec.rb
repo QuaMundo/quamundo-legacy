@@ -55,6 +55,10 @@ RSpec.describe 'Showing an concept', type: :system do
     it_behaves_like 'associated relations' do
       let(:subject) { create(:concept, world: world) }
     end
+
+    it_behaves_like 'inventory timelines' do
+      let(:subject)   { concept }
+    end
   end
 
   context 'with image' do

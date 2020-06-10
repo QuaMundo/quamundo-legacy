@@ -38,4 +38,4 @@ en:
 
   time:
     formats:
-      fact: '%m-%d-%Y %H:%M:%S h'
+      fact: '%m/%d/%Y %H:%M h'

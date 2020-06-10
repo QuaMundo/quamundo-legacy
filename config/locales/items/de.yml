@@ -4,20 +4,27 @@ de:
       new_item: 'Neuer Gegenstand'
       not_allowed: 'Keine Berechtigung, einen Gegenstand zu erstellen'
     create:
+      not_allowed: 'Keine Berechtigung, einen Gegenstand zu erstellen'
       created: 'Gegenstand wurde erfolgreich erstellt'
       create_failed: 'Gegenstand konnte nicht erstellt werden'
     edit:
+      not_allowed: 'Keine Berechtigung, diesen Gegenstand zu bearbeiten'
       edit_item: 'Gegenstand Bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, diesen Gegenstand zu bearbeiten'
       updated: 'Gegenstand %{item} wurde erfolgreich aktualisiert'
       update_failed: 'Gegenstand %{item} konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, diesen Gegenstand zu löschen'
       destroyed: 'Gegenstand %{item} erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
     index_entry:
       confirm_delete: 'Soll der Gegenstand %{item} wirklich entfernt werden?'
+    index:
+      no_allowed: 'Keine Berechtigung, die Gegenstände dieser Welt zu listen'
     show:
+      no_allowed: 'Keine Berechtigung, diesen Gegenstand zu lesen'
       part_of_facts:
         one: 'Dieser Gegenstand ist ist Bestandteil von einem Fakt.'
         other: 'Diser Gegenstand ist Bestandteil von %{count} Fakten.'

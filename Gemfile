@@ -26,7 +26,7 @@ gem 'action_policy'
 # Use ActiveModel has_secure_password
 # FIXME: After upgrade of Debian servers remove this entry!
 # bcrypt 3.1.13 (the actual) doesn't run on raspi/Debian Stretch
-  gem 'bcrypt', '<= 3.1.12'
+  gem 'bcrypt'
 
 # Use ActiveStorage variant
 gem 'image_processing', '~> 1.2'

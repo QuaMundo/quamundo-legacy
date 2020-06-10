@@ -1,4 +1,4 @@
-module IconHelper
+module IconTypesHelper
   # FontAwesome mappings used by IconHelper
   def self.available_types
     # Be sure to keep `app/javascript/src/default_images.js` up-to-date

@@ -55,6 +55,10 @@ RSpec.describe 'Showing a location', type: :system do
     it_behaves_like 'associated relations' do
       let(:subject) { create(:location, world: world) }
     end
+
+    it_behaves_like 'inventory timelines' do
+      let(:subject)   { location }
+    end
   end
 
   context 'with image' do

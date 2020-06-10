@@ -24,6 +24,8 @@
       <%= icon(:fact) { index_entry.name } %>
     </h5>
 
+    <%= render(partial: 'facts/fact_timeline', locals: { fact: index_entry }) %>
+
     <%# Description %>
     <div class="small index_entry_description">
       <% if index_entry.description.present? %>
@@ -35,11 +37,11 @@
       <span class="text-muted">
         <% if index_entry.start_date.present? %>
           <%= icon(:start_date) %>
-          <%= l(index_entry.start_date) %>&nbsp;
+          <%= l(index_entry.start_date, format: :fact) %>&nbsp;
         <% end %>
         <% if index_entry.end_date.present? %>
           <%= icon(:end_date) %>
-          <%= l(index_entry.end_date) %>
+          <%= l(index_entry.end_date, format: :fact) %>
         <% end %><br />
         <%= icon(:world) %>
         <%= index_entry.world.name %>&nbsp;

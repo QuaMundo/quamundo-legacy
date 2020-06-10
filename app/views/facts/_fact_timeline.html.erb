@@ -1,0 +1,16 @@
+<%= tag.div(
+  id: element_id(fact, 'simple-timeline'),
+  class: 'simple-timeline',
+  data: {
+    controller: 'fact-simple-timeline',
+    'fact-simple-timeline-target': 'simpleTimeline',
+    # 'fact-simple-timeline-facts-url-value': world_fact_path(
+      # fact.world, fact, format: :json
+    # ),
+    # FIXME: Add more fact attributes
+    'fact-simple-timeline-fact-start-date-value': fact.start_date.try(:to_s, :db),
+    'fact-simple-timeline-fact-end-date-value': fact.end_date.try(:to_s, :db),
+    'fact-simple-timeline-timeline-age-value': fact.world.age.to_s,
+    'fact-simple-timeline-timeline-start-value': fact.world.beginning.try(:to_s, :db),
+    'fact-simple-timeline-timeline-end-value': fact.world.ending.try(:to_s, :db)
+  }) %>

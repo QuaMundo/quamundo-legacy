@@ -31,16 +31,20 @@ module IconHelper
       ).html_safe
     end
 
-    def icon(*classes, &block)
-      html = '' << tag.i(class: ["fa-#{available_types[@type][:icon]}",
-                                 available_types[@type][:style] ] << classes)
+    def icon(*classes, color: 'inherit', &block)
+      css_classes = [
+        "fa-#{available_types[@type][:icon]}",
+        available_types[@type][:style]
+      ] << classes
+      # FIXME: Avoid inline style (maybe use classes?)
+      html = '' << tag.i(class: css_classes, style: "color: #{color};")
       html << '&nbsp;' << yield if block_given?
       html.html_safe
     end
 
     private
     def available_types
-      IconHelper.available_types
+      IconTypesHelper.available_types
     end
   end
 end

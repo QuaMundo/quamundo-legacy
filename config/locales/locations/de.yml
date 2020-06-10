@@ -1,24 +1,31 @@
 de:
   locations:
     new:
+      not_allowed: 'Keine Berechtigung, einen Ort zu erstellen'
       new_location: 'Neuer Ort'
     create:
+      not_allowed: 'Keine Berechtigung, einen Ort zu erstellen'
       created: 'Neuer Ort erfolgreich erstellt'
       create_failed: 'Ort konnte nicht erstellt werden'
     edit:
+      not_allowed: 'Keine Berechtigung, einen Ort zu bearbeiten'
       edit_location: 'Ort bearbeiten'
     update:
+      not_allowed: 'Keine Berechtigung, einen Ort zu bearbeiten'
       updated: 'Ort %{location} erfolgreich aktualisiert'
       update_failed: 'Ort %{location} konnte nicht aktualisiert werden'
     destroy:
+      not_allowed: 'Keine Berechtigung, diesen Ort zu löschen'
       destroyed: 'Ort %{location} wurde erfolgreich gelöscht'
     context_menu:
       confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
     index:
+      not_allowed: 'Keine Berechtigung, die Orte dieser Welt zu listen'
       confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
     index_entry:
       confirm_delete: 'Soll der Ort %{location} wirklich entfernt werden?'
     show:
+      not_allowed: 'Keine Berechtigung, diesen Ort zu lesen'
       part_of_facts:
         one: 'Ein Fakt geschieht an diesem Ort.'
         other: '%{count} Fakten geschehen an diesem Ort.'

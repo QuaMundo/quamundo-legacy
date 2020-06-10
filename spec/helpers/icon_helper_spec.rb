@@ -19,7 +19,7 @@ RSpec.describe 'Icon helper', type: :helper do
     it 'renders html code for icon with additional classes' do
       icons.each do |icon, name|
         expect(helper.icon(icon, 'a', 'b', 'c'))
-          .to match /<i class="fa-#{name} .+a b c"><\/i>/
+          .to match /<i class="fa-#{name} .+a b c".*><\/i>/
       end
     end
 

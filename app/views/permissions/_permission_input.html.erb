@@ -28,11 +28,11 @@
           <%= hidden_field_tag(
             nil,
             permission_form.object.user_id,
-            data: { target: 'permissions.selectedUsers' }) %>
+            data: { 'permissions-target' => 'selectedUsers' }) %>
           <%= hidden_field_tag(
             nil,
             permission_form.object.permissions,
-            data: { target: 'permissions.selectedPermissions' }) %>
+            data: { 'permissions-target' => 'selectedPermissions' }) %>
           <%= text_field_tag(
             nil,
             permission_form.object.user.try(:nick),
@@ -60,7 +60,7 @@
       child_index: -1) do |permission_form| %>
 
       <div class="form-group row permission_entry"
-           data-target="permissions.input">
+           data-permissions-target="input">
         <div class="col-md-4 col-12 input-group">
           <%= permission_form.select(
             :permissions,
@@ -71,18 +71,19 @@
             ],
             {prompt: t('.select_permission')},
             class: 'form-control',
-            data: { target: 'permissions.permissions' }) %>
+            data: { 'permissions-target' => 'permissions' }) %>
         </div>
         <div class="col-md-8 col-12 input-group">
           <%= permission_form.collection_select(
             :user_id,
+            # FIXME: Refactor that!!!
             # FIXME: Request only users without permissions!
             User.where.not(id: current_user.id),
             :id,
             :nick,
             { prompt: t('.select_user') },
             class: 'form-control',
-            data: { target: 'permissions.user' }) %>
+            data: { 'permissions-target' => 'user' }) %>
           <div class="input-group-append">
             <button id="add-permissions"
                     class="btn input-group-text btn-outline-primary"
@@ -99,7 +100,7 @@
 
   <%# Template for newly added permissions %>
   <template id="new-permission-input"
-            data-target="permissions.template">
+            data-permissions-target="template">
     <%= form.fields_for(
       :permissions,
       permittable.permissions.new,
