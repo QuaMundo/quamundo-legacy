@@ -49,8 +49,31 @@ RSpec.describe Permission, type: :model do
       .to raise_error ActiveRecord::StatementInvalid
   end
 
-  it 'cann allow a specific user to change a world' do
+  it 'can allow a specific user to change a world' do
     permission = Permission.create(world: world, user: mate, permissions: :rw)
     expect(permission).to be_valid
+  end
+
+  it 'will be deleted if world is deleted', db_triggers: true do
+    u = create(:user)
+    perm_1 = world.permissions.create(user: u, permissions: :r)
+    perm_2 = world.permissions.create(permissions: :public)
+    expect { world.destroy }.not_to raise_error
+    expect(world).to be_destroyed
+    expect(Permission.find_by(id: perm_1.id)).to be_falsey
+    expect(Permission.find_by(id: perm_2.id)).to be_falsey
+  end
+
+  it 'does not touch world if deleted', db_triggers: true do
+    perm = world.permissions.create(permissions: :public)
+    perm.destroy
+    expect(world).to be
+  end
+
+  it 'will be deleted if user is deleted', db_triggers: true do
+    u = create(:user)
+    perm = world.permissions.create(user: u, permissions: :rw)
+    expect { u.destroy! }.not_to raise_error
+    expect(Permission.find_by(id: perm.id)).to be_falsey
   end
 end

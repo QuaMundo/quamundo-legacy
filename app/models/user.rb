@@ -9,7 +9,7 @@ class User < ApplicationRecord
   # FIXME: Get also worlds not owned by user but permitted!
   has_many :worlds, dependent: :destroy
   has_many :inventories, through: :worlds
-  has_many :permissions
+  has_many :permissions, dependent: :destroy
 
   # FIXME: Is this really needed?
   with_options through: :worlds do |assoc|

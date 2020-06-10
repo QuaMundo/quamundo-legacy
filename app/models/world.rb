@@ -8,7 +8,7 @@ class World < ApplicationRecord
 
   belongs_to :user, inverse_of: :worlds
   has_many :inventories
-  has_many :permissions
+  has_many :permissions, dependent: :destroy
 
   accepts_nested_attributes_for :permissions,
     update_only: true,
