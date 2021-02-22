@@ -70,5 +70,10 @@ module QuamundoTestHelpers
       travel(rand 5.days) { world.concepts << build(:concept) }
     end
   end
+
+  # parse json response (request spec)
+  def json_of(data)
+    JSON.parse(data.body)
+  end
 end
 

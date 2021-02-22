@@ -1,0 +1,19 @@
+<%= tag.div(
+  id: 'map',
+  class: 'map',
+  data: {
+    controller: 'location-map',
+    'location-map-target': 'map',
+    'location-map-tileserver-value': MapTileServer.url,
+    # FIXME: Refactor. Better solution for fact param needed.
+    'location-map-ajax-url-value': locations_by_fact_path(
+      @world, fact: local_assigns[:fact], format: :json
+    )
+  }) do %>
+  <%= tag.div(
+    id: 'popup',
+    class: 'map-popup',
+    data: {
+      'location-map-target': 'popup'
+    }) %>
+<% end %>

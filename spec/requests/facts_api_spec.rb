@@ -127,8 +127,4 @@ RSpec.describe 'Facts API', type: :request do
       context 'with read-write permissions'
     end
   end
-
-  def json_of(data)
-    JSON.parse(data.body)
-  end
 end

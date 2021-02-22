@@ -71,6 +71,14 @@ table.world-overview {
   margin: 0;
 }
 
+div#map {
+  height: 400px;
+}
+
+img.popup-img {
+  max-width: 80px;
+}
+
 @include media-breakpoint-down(sm) {
   .q-slide {
     height: 280px;

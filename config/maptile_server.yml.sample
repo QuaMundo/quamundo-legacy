@@ -1,0 +1,23 @@
+# Configure map tile server
+production:
+  # osm tile server
+  # which will be used by OpenLayers
+  # see: https://openlayers.org/en/latest/apidoc/module-ol_source_OSM-OSM.html
+  #
+  # As state there:
+  # > URL template. Must include {x}, {y} or {-y}, and {z} placeholders.
+  url: nil
+
+development:
+  # Maybe use local (docker) maptile server
+  # (see: https://github.com/Overv/openstreetmap-tile-server)
+  url: nil
+
+test:
+  # You can use `http://localhost` as a `fake` server
+  # (assuming s.th. is runnning locally on port 80)
+  # which possibly causee errors in js, but an ol map will be renedered, even
+  # without tiles.
+  #
+  # Using a `real`server may slow down testing
+  url: 'http://localhost'

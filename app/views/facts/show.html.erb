@@ -60,8 +60,19 @@
             alt: "Bild: #{@fact.name}") %>
         <% end %>
       </div>
-      
+
     </div>
+
+    <%# ol test %>
+    <div class="map row mb-2">
+      <div class="col">
+        <%= render(
+          partial: 'locations/locations_map',
+          locals: { fact: @fact }
+        ) %>
+      </div>
+    </div>
+    <%# /ol test %>
 
     <%# FIXME: Refactor - extract to image partial %>
     <%# Show tags %>

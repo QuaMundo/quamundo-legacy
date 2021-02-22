@@ -34,7 +34,7 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 -- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
 --
 
-COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
 
 
 --
@@ -1880,8 +1880,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200309083810'),
 ('20200403165547'),
 ('20200403181101'),
-('20210111180427'),
-('20210111180428'),
 ('20210113190613'),
 ('20210113190614');
 

@@ -44,3 +44,6 @@ config/credentials.yml.enc
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# ignore local config for maptile server
+config/maptile_server.yml

@@ -108,7 +108,7 @@ export default class extends (Controller as typeof FactSimpleTimelineControllerB
     })
     .then(json => {
       // Ensure json is an array
-      if (! (json instanceof Array)) { json = [json]; }
+      if (! (Array.isArray(json))) { json = [json]; }
 
       this.create_timeline(json);
     })

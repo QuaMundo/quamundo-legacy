@@ -54,6 +54,16 @@
 
     </div>
 
+    <%# test ol %>
+    <div class="map row mb-2">
+      <div class="col">
+        <%= render(
+          partial: 'locations/locations_map'
+        ) unless @world.locations.empty? %>
+      </div>
+    </div>
+    <%# /test ol %>
+
     <%# Show tags %>
     <%= render partial: 'shared/tags', locals: { obj: @world } %>
 

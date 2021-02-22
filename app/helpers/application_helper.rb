@@ -13,6 +13,17 @@ module ApplicationHelper
     }, format: format)
   end
 
+  # Create a link to locations belonging to a fact by adding params
+  # fact: fact_id
+  # FIXME: Refactor naming of method
+  def locations_by_fact_path(world, fact: nil, format: :html)
+    if fact.nil?
+      world_locations_path(world, format: format)
+    else
+      world_locations_path(world, fact: fact, format: format)
+    end
+  end
+
   # LonLat helper - gets coords as string from rgeo object (to prefill input)
   def get_lonlat(lonlat)
     lonlat ? "#{lonlat.lat.to_s}, #{lonlat.lon.to_s}" : ''

@@ -27,6 +27,19 @@ RSpec.describe 'Showing a location', type: :system do
       end
     end
 
+    it 'shows location map', js: true do
+      expect(page).to have_selector('#map')
+      expect(page).to have_selector('#popup', visible: false)
+      map = page.find('canvas')
+      x = map.rect.width / 2
+      y = map.rect.height / 2
+      map.click(x: x, y: y)
+      # FIXME: After click in canvas a tooltip should be rendered with
+      # location name as header - find out how to test this!?
+      pending 'Find out how to test canvas click'
+      expect(page).to have_selector('h3.popover-header', text: location.name)
+    end
+
     it_behaves_like 'valid_view' do
       let(:subject) { world_location_path(world, location) }
     end

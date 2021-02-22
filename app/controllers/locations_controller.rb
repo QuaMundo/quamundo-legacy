@@ -4,9 +4,13 @@ class LocationsController < ApplicationController
 
   rescue_from ActionPolicy::Unauthorized do |ex|
     # FIXME: Manage err msgs
-    flash[:alert] = t('.not_allowed', world: @world.try(:name))
-    # flash[:alert] = ex.result.reasons.full_messages
-    redirect_to worlds_path
+    if request.format.symbol == :json
+      render json: 'Error', status: :unprocessable_entity
+    else
+      flash[:alert] = t('.not_allowed', world: @world.try(:name))
+      # flash[:alert] = ex.result.reasons.full_messages
+      redirect_to worlds_path
+    end
   end
 
   before_action :set_location, only: [:show, :edit, :update, :destroy]
@@ -15,8 +19,37 @@ class LocationsController < ApplicationController
   authorize :world, through: :current_world
 
   def index
-    @locations = current_world.locations.order(name: :asc)
+    params = location_index_params
+    unless params[:fact].present?
+      @locations = current_world.locations.order(name: :asc)
+    else
+      # FIXME: Refactor - find locations by inventories, too
+      @locations = current_world.locations
+        .joins(:fact_constituents)
+        .where('fact_constituents.fact_id' => params[:fact])
+        .order(name: :asc)
+    end
     authorize! @locations
+    # FIXME: Where to put this?
+    respond_to do |format|
+      format.html { render }
+      format.json do
+        # FIXME: Where to put this?
+        # Maybe generalize this (helper, concern)
+        #
+        # Add some computed attributes to json ajax response
+        locations = @locations.map do |location|
+          location.attributes.merge(
+            { 'url' => world_location_path(location.world, location),
+              # FIXME: Better use card_img_helper which is not available!?
+              'img' => location.image.attached? ? url_for(location.image) : '',
+              'lat' => location.lat,
+              'lon' => location.lon }
+          )
+        end
+        render json: locations
+      end
+    end
   end
 
   def new
@@ -46,6 +79,10 @@ class LocationsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html { render }
+      format.json { render json: @location }
+    end
   end
 
   def edit
@@ -104,5 +141,9 @@ class LocationsController < ApplicationController
       .permit(:name, :description, :image, :lonlat,
               tag_attributes: [ :id, tagset: [] ],
               trait_attributes: [:id, attributeset: {}])
+  end
+
+  def location_index_params
+    params.permit(:fact)
   end
 end

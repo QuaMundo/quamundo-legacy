@@ -19,6 +19,7 @@ class FactsController < ApplicationController
   authorize :world, through: :current_world
 
   def index
+    params = fact_index_params
     unless params[:inventory].present?
       @facts = current_world.facts.chronological
     else

@@ -54,6 +54,14 @@
       </div>
     </div>
 
+    <%# test ol %>
+    <div class="map row mb-2">
+      <div class="col">
+        <%= render partial: 'location_map' unless @location.lonlat.nil? %>
+      </div>
+    </div>
+    <%# /test ol %>
+
     <div id="inventory-timeline" class="row inventory-timeline">
       <div class="col">
         <%= render(

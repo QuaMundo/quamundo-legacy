@@ -150,7 +150,6 @@ export class SimpleTimeline {
         const start = timeline.scale(new Date(data.start_date));
         const end   = timeline.scale(new Date(data.end_date));
         const dur   = end - start;
-        console.log(data, start, end, dur);
         if (dur < MinLength) {
           // range is too short, draw marker
           const center = start + dur / 2.0,

@@ -9,6 +9,7 @@
     "bootstrap": "*",
     "d3": "*",
     "jquery": "*",
+    "ol": "*",
     "popper.js": "*",
     "rails-ujs": "*",
     "stimulus": "*",
@@ -16,6 +17,7 @@
     "webpack": "^4.0.0"
   },
   "devDependencies": {
+    "@types/webpack-env": "*",
     "fork-ts-checker-webpack-plugin": "*",
     "webpack-dev-server": "*"
   }

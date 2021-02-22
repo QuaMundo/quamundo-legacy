@@ -1,0 +1,23 @@
+<%= tag.div(
+  id: 'map',
+  class: 'map',
+  data: {
+    controller: 'location-map',
+    'location-map-target': 'map',
+    'location-map-tileserver-value': MapTileServer.url,
+    'location-map-long-value': @location.lon,
+    'location-map-lat-value': @location.lat,
+    'location-map-url-value': world_location_path(@location.world, @location),
+    'location-map-name-value': @location.name,
+    'location-map-desc-value': @location.description,
+    'location-map-img-value': card_img_path(@location.image)
+  }) do %>
+  <%= tag.div(
+    id: 'popup',
+    class: 'map-popup',
+    title: @location.name,
+    data: {
+      'location-map-target': 'popup'
+    }
+  ) %>
+<% end %>
