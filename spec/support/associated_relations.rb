@@ -1,6 +1,7 @@
-RSpec.shared_examples 'associated relations',
-  type: :system do
+# frozen_string_literal: true
 
+RSpec.shared_examples 'associated relations',
+                      type: :system do
   # Expect `subject` and `path` to be present
   let(:fact)      { create(:fact, world: subject.world) }
   let(:relation)  { create(:relation_with_constituents, fact: fact) }
@@ -23,22 +24,22 @@ RSpec.shared_examples 'associated relations',
 
   it 'can edit a relation' do
     constituent = relation.relatives.first.fact_constituent
-    click_link(id: "#{element_id(constituent, 'edit')}",
+    click_link(id: element_id(constituent, 'edit').to_s,
                href: edit_world_fact_relation_path(fact.world, fact, relation))
 
     expect(page)
       .to have_current_path(
         edit_world_fact_relation_path(fact.world, fact, relation)
-    )
+      )
   end
 
   it 'can delete a relation to an inventory' do
     relative = relation.relatives.first
-    click_link(id: "#{element_id(relative, 'delete')}")
+    click_link(id: element_id(relative, 'delete').to_s)
     expect(page)
       .to have_current_path(
         world_fact_relation_path(fact.world, fact, relative.relation)
-    )
+      )
     expect { RelationConstituent.find(relative.id) }
       .to raise_error ActiveRecord::RecordNotFound
   end

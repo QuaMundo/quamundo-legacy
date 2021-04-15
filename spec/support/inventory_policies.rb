@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'inventory policies', type: :policy do
   let(:policeable) do
     # According to api docs KlassPolicy.identifier is :klass
@@ -15,20 +17,20 @@ RSpec.shared_examples 'inventory policies', type: :policy do
       let(:context)   { { world: world, user: user } }
 
       describe_rule :new? do
-        succeed "if user owns described objects world"
+        succeed 'if user owns described objects world'
       end
 
       describe_rule :update? do
-        succeed "if user owns described objects world"
+        succeed 'if user owns described objects world'
       end
 
       describe_rule :show? do
-        succeed "if user owns described objects world"
+        succeed 'if user owns described objects world'
       end
 
       describe_rule :index? do
-        let(:record)      { build_stubbed_list(policeable, 2, world: world) }
-        succeed "if user owns described objects world"
+        let(:record) { build_stubbed_list(policeable, 2, world: world) }
+        succeed 'if user owns described objects world'
       end
     end
 
@@ -38,21 +40,21 @@ RSpec.shared_examples 'inventory policies', type: :policy do
       let(:context)   { { world: world, user: user } }
 
       describe_rule :new? do
-        succeed "if user does not own world but has read-write permissions" do
+        succeed 'if user does not own world but has read-write permissions' do
           before(:example) do
             Permission.create(world: world, user: user, permissions: :rw)
           end
         end
 
-        failed "if user does not own world and has no permissions"
+        failed 'if user does not own world and has no permissions'
 
-        failed "if user does not own world and has only read permissions" do
+        failed 'if user does not own world and has only read permissions' do
           before(:example) do
             Permission.create(world: world, user: user, permissions: :r)
           end
         end
 
-        failed "if user does not own world and world is public readable" do
+        failed 'if user does not own world and world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end
@@ -60,21 +62,21 @@ RSpec.shared_examples 'inventory policies', type: :policy do
       end
 
       describe_rule :update? do
-        succeed "if user does not own world but has read-write permissions" do
+        succeed 'if user does not own world but has read-write permissions' do
           before(:example) do
             Permission.create(world: world, user: user, permissions: :rw)
           end
         end
 
-        failed "if user does not own world and has no permissions"
+        failed 'if user does not own world and has no permissions'
 
-        failed "if user does not own world and has only read permissions" do
+        failed 'if user does not own world and has only read permissions' do
           before(:example) do
             Permission.create(world: world, user: user, permissions: :r)
           end
         end
 
-        failed "if user does not own world and world is public readable" do
+        failed 'if user does not own world and world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end
@@ -82,49 +84,49 @@ RSpec.shared_examples 'inventory policies', type: :policy do
       end
 
       describe_rule :show? do
-        succeed "if user does not own world but has read permissions" do
+        succeed 'if user does not own world but has read permissions' do
           before(:example) do
             Permission.create(user: user, world: world, permissions: :r)
           end
         end
 
-        succeed "if user does not own world but has read-write permissions" do
+        succeed 'if user does not own world but has read-write permissions' do
           before(:example) do
             Permission.create(user: user, world: world, permissions: :rw)
           end
         end
 
-        succeed "if user does not own world but world is public readable" do
+        succeed 'if user does not own world but world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end
         end
 
-        failed "if user does not own world and has no permissions"
+        failed 'if user does not own world and has no permissions'
       end
 
       describe_rule :index? do
-        let(:record)      { build_stubbed_list(policeable, 2, world: world) }
+        let(:record) { build_stubbed_list(policeable, 2, world: world) }
 
-        succeed "if user does not now world but has read permissions" do
+        succeed 'if user does not now world but has read permissions' do
           before(:example) do
             Permission.create(user: user, world: world, permissions: :r)
           end
         end
 
-        succeed "if user does not own world but has read-write permissions" do
+        succeed 'if user does not own world but has read-write permissions' do
           before(:example) do
             Permission.create(user: user, world: world, permissions: :rw)
           end
         end
 
-        succeed "if user does not own world but world is public readable" do
+        succeed 'if user does not own world but world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end
         end
 
-        failed "if user does not owm world and has no permissions"
+        failed 'if user does not owm world and has no permissions'
       end
     end
   end
@@ -135,33 +137,33 @@ RSpec.shared_examples 'inventory policies', type: :policy do
     let(:context)   { { user: nil, world: world } }
 
     describe_rule :new? do
-      failed "if user is not registered"
+      failed 'if user is not registered'
     end
 
     describe_rule :update? do
-      failed "if user is not registered"
+      failed 'if user is not registered'
     end
 
     describe_rule :show? do
-      succeed "if described objects world is public readable" do
+      succeed 'if described objects world is public readable' do
         before(:example) do
           Permission.create(world: record.world, permissions: :public)
         end
       end
 
-      failed "if described objects world is not public readable"
+      failed 'if described objects world is not public readable'
     end
 
     describe_rule :index? do
-      let(:record)  { build_stubbed_list(policeable, 2, world: world) }
+      let(:record) { build_stubbed_list(policeable, 2, world: world) }
 
-      succeed "if described objects world is public readable" do
+      succeed 'if described objects world is public readable' do
         before(:example) do
           Permission.create(world: world, permissions: :public)
         end
       end
 
-      failed "if described objects world is not public readable"
+      failed 'if described objects world is not public readable'
     end
   end
 end

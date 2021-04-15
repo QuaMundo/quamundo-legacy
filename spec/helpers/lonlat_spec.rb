@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'LonLat Helper', type: :helper do
   let(:pos) { RGeo::Geographic.spherical_factory(srid: 4326).point(8.5, 49.5) }
 

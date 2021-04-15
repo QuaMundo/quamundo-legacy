@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'users/index_entry', type: :view do
   include_context 'Admin Session'
 

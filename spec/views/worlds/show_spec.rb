@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe 'worlds/show', type: :view do
-  let(:world)     { create(:world) }
+  let(:world) { create(:world) }
 
   before(:example) do
     # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -50,7 +52,7 @@ RSpec.describe 'worlds/show', type: :view do
           .to have_link(href: new_world_path)
         expect(rendered)
           .to have_link(href: world_path(world),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
 

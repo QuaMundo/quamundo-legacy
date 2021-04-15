@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Associated object info', type: :helper do
   it 'shows world name' do
     world = build(:world, name: 'Hello World')
     expect(helper.associated_object_info(world))
-      .to eq("World \"Hello World\"")
+      .to eq('World "Hello World"')
   end
 
   it 'shows figure name' do

@@ -1,4 +1,6 @@
-RSpec.shared_context 'UserLogin' do |context|
+# frozen_string_literal: true
+
+RSpec.shared_context 'UserLogin' do |_context|
   let(:user) { create(:user) }
 
   before(:example) do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'associated note', type: :system do
   let(:path) { [subject.try(:world), subject] }
 
@@ -38,7 +40,7 @@ RSpec.shared_examples 'associated note', type: :system do
 
   it 'can be deleted', :js, :comprehensive do
     deleted_note = subject.notes.first
-    res = page.accept_confirm() do
+    res = page.accept_confirm do
       page.find("a#delete-note-#{deleted_note.id}").click
     end
     expect(res).not_to match(/translation missing/i)

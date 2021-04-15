@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'relations/index', type: :view do
   context 'registered user' do
     include_context 'Session'
@@ -79,7 +81,8 @@ RSpec.describe 'relations/index', type: :view do
         )
 
         expect(rendered).to have_link(
-          href: edit_world_fact_relation_path(world, fact, relation))
+          href: edit_world_fact_relation_path(world, fact, relation)
+        )
         expect(rendered).to have_link(
           href: world_fact_relation_path(world, fact, relation),
           title: 'delete'
@@ -108,7 +111,8 @@ RSpec.describe 'relations/index', type: :view do
 
     it 'does not render crud links' do
       expect(rendered).not_to have_link(
-        href: edit_world_fact_relation_path(world, fact, relation))
+        href: edit_world_fact_relation_path(world, fact, relation)
+      )
       expect(rendered).not_to have_link(
         href: world_fact_relation_path(world, fact, relation),
         title: 'delete'

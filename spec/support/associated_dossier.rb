@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'associated dossiers', type: :system do
   let(:path) { [subject.try(:world), subject] }
 
@@ -34,13 +36,13 @@ RSpec.shared_examples 'associated dossiers', type: :system do
     expect(page).to have_current_path(edit_dossier_path(edited_dossier))
     expect(page)
       .to have_content("#{subject.model_name.human.capitalize} "\
-                       "\"#{subject.try(:name) || subject.try(:name)}\"")
+                       "\"#{subject.try(:name)}\"")
     # further steps in `spec/system/dossiers/dossiers_spec.rb`
   end
 
   it 'can be deleted', :js, :comprehensive do
     deleted_dossier = subject.dossiers.first
-    page.accept_confirm() do
+    page.accept_confirm do
       page.find("a#delete-dossier-#{deleted_dossier.id}").click
     end
     expect(page).to have_current_path(polymorphic_path(path))

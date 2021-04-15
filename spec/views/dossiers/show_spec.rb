@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'dossiers/show', type: :view do
   let(:world)     { create(:world_with_dossiers, dossiers_count: 1) }
   let(:dossier)   { world.dossiers.first }
@@ -46,7 +48,6 @@ RSpec.describe 'dossiers/show', type: :view do
 
     context 'owning world' do
       let(:world)   { create(:world_with_dossiers, user: user, dossiers_count: 1) }
-
     end
 
     context 'not owning world' do
@@ -124,11 +125,9 @@ RSpec.describe 'dossiers/show', type: :view do
           )
           expect(rendered)
             .to have_link(href: dossier_path(dossier),
-                              title: 'delete')
+                          title: 'delete')
         end
       end
     end
   end
 end
-
-

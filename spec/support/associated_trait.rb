@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'associated traits', type: :system do
   let(:path) { [subject.try(:world), subject].compact }
 

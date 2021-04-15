@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :figure do
     transient do
-      user            { build(:user) }
+      user { build(:user) }
     end
 
     sequence(:name) { |n| "figure_#{n}" }
@@ -14,6 +16,6 @@ FactoryBot.define do
     factory :figure_with_dossiers, traits: [:with_dossiers]
     factory :figure_with_facts, traits: [:with_facts]
     factory :figure_with_all,
-      traits: [:with_notes, :with_tags, :with_traits, :with_dossiers]
+            traits: %i[with_notes with_tags with_traits with_dossiers]
   end
 end

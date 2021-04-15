@@ -1,18 +1,26 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'inventory timelines', type: :system, js: true do
   let(:now)         { DateTime.current }
   let(:early)       { now - 1.year }
   let(:late)        { now + 1.year }
-  let(:fact_1)      { create(:fact, world: subject.world,
-                             end_date: now) }
-  let(:fact_2)      { create(:fact, world: subject.world,
-                            start_date: early,
-                            end_date: late) }
-  let(:fact_3)      { create(:fact, world: subject.world) }
-  let(:fact_other)  { create(:fact, world: subject.world,
-                             start_date: now) }
-  before(:example)  do
-    create(:fact_constituent, constituable: subject, fact: fact_1)
-    create(:fact_constituent, constituable: subject, fact: fact_2)
+  let(:fact1) do
+    create(:fact, world: subject.world,
+                  end_date: now)
+  end
+  let(:fact2) do
+    create(:fact, world: subject.world,
+                  start_date: early,
+                  end_date: late)
+  end
+  let(:fact3) { create(:fact, world: subject.world) }
+  let(:fact_other) do
+    create(:fact, world: subject.world,
+                  start_date: now)
+  end
+  before(:example) do
+    create(:fact_constituent, constituable: subject, fact: fact1)
+    create(:fact_constituent, constituable: subject, fact: fact2)
     visit(polymorphic_path([subject.world, subject]))
   end
 

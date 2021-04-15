@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'dossierable', type: :model do
   before(:example) do
     subject.save!

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe 'locations/index', type: :view do
-  let(:world)   { create(:world) }
+  let(:world) { create(:world) }
 
   before(:example) do
     # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -57,7 +59,7 @@ RSpec.describe 'locations/index', type: :view do
 
       context 'with read-write permissions' do
         before(:example) do
-          Permission.create(user:user, world: world, permissions: :rw)
+          Permission.create(user: user, world: world, permissions: :rw)
 
           assign(:world, world)
 
@@ -91,4 +93,3 @@ RSpec.describe 'locations/index', type: :view do
     end
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'dossiers/index', type: :view do
   let(:world)     { create(:world_with_dossiers, dossiers_count: 1) }
   let(:dossier)   { world.dossiers.first }
@@ -6,10 +8,9 @@ RSpec.describe 'dossiers/index', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:world) {
+      let(:world) do
         create(:world_with_dossiers, user: user, dossiers_count: 1)
-      }
-
+      end
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -70,7 +71,7 @@ RSpec.describe 'dossiers/index', type: :view do
           .to have_link(href: edit_dossier_path(dossier))
         expect(rendered)
           .to have_link(href: dossier_path(dossier),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
   end
@@ -95,4 +96,3 @@ RSpec.describe 'dossiers/index', type: :view do
     end
   end
 end
-

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe 'locations/index', type: :view do
   context 'registered user' do
     include_context 'Session'
 
     context 'owning world' do
-      let(:location)    { create(:location, user: user) }
-      let(:world)     { location.world }
+      let(:location) { create(:location, user: user) }
+      let(:world) { location.world }
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -37,7 +39,7 @@ RSpec.describe 'locations/index', type: :view do
 
     context 'not owning world' do
       let(:location)    { create(:location) }
-      let(:world)     { location.world }
+      let(:world) { location.world }
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -66,14 +68,14 @@ RSpec.describe 'locations/index', type: :view do
           .to have_link(href: edit_world_location_path(world, location))
         expect(rendered)
           .to have_link(href: world_location_path(world, location),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
   end
 
   context 'unregistered user not owning public readable world' do
-    let(:location)    { create(:location) }
-    let(:world)     { location.world }
+    let(:location) { create(:location) }
+    let(:world) { location.world }
 
     before(:example) do
       Permission.create(world: world, permissions: :public)
@@ -94,5 +96,3 @@ RSpec.describe 'locations/index', type: :view do
     end
   end
 end
-
-

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :location do
     transient do
-      user            { build(:user) }
+      user { build(:user) }
     end
 
     sequence(:name) { |n| "Location #{n}" }
@@ -15,6 +17,6 @@ FactoryBot.define do
     factory :location_with_dossiers, traits: [:with_dossiers]
     factory :location_with_facts, traits: [:with_facts]
     factory :location_with_all,
-      traits: [:with_notes, :with_tags, :with_traits, :with_dossiers]
+            traits: %i[with_notes with_tags with_traits with_dossiers]
   end
 end

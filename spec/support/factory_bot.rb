@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/quamundo_test_helpers'
 require 'support/factorybot_common_traits'
 
@@ -8,4 +10,3 @@ end
 FactoryBot::SyntaxRunner.class_eval do
   include QuamundoTestHelpers
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'shared/main_menu', type: :view do
   before(:example) { render(partial: 'shared/main_menu') }
 

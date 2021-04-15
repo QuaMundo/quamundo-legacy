@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'items/index', type: :view do
   context 'registered user' do
     include_context 'Session'
@@ -36,8 +38,8 @@ RSpec.describe 'items/index', type: :view do
     end
 
     context 'not owning world' do
-      let(:item)    { create(:item) }
-      let(:world)     { item.world }
+      let(:item) { create(:item) }
+      let(:world) { item.world }
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -66,14 +68,14 @@ RSpec.describe 'items/index', type: :view do
           .to have_link(href: edit_world_item_path(world, item))
         expect(rendered)
           .to have_link(href: world_item_path(world, item),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
   end
 
   context 'unregistered user not owning public readable world' do
-    let(:item)    { create(:item) }
-    let(:world)     { item.world }
+    let(:item) { create(:item) }
+    let(:world) { item.world }
 
     before(:example) do
       Permission.create(world: world, permissions: :public)
@@ -94,4 +96,3 @@ RSpec.describe 'items/index', type: :view do
     end
   end
 end
-

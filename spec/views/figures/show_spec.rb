@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'figures/show', type: :view do
   let(:figure)    { create(:figure) }
   let(:world)     { figure.world }
@@ -41,8 +43,7 @@ RSpec.describe 'figures/show', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:figure)    { create(:figure, user: user) }
-
+      let(:figure) { create(:figure, user: user) }
     end
 
     context 'not owning world' do
@@ -102,7 +103,7 @@ RSpec.describe 'figures/show', type: :view do
             .to have_link(href: new_world_figure_path(world))
           expect(rendered)
             .to have_link(href: world_figure_path(world, figure),
-                              title: 'delete')
+                          title: 'delete')
         end
       end
     end

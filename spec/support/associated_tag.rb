@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'associated tags', type: :system do
   let(:path) { [subject.try(:world), subject].compact }
 
@@ -7,12 +9,12 @@ RSpec.shared_examples 'associated tags', type: :system do
 
   context 'in show views' do
     it 'lists all tags' do
-      subject.tag.tagset = [:a, :b, :c]
+      subject.tag.tagset = %i[a b c]
       subject.tag.save
       visit(polymorphic_path(path))
       expect(page).to have_selector('.tag', count: subject.tag.tagset.count)
       subject.tag.tagset
-        .each { |t| expect(page).to have_selector('.tag', text: t) }
+             .each { |t| expect(page).to have_selector('.tag', text: t) }
     end
   end
 

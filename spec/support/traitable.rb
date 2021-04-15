@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'traitable', type: :model do
   before(:example) { subject.save }
   it 'has a set of traits' do
@@ -14,7 +16,7 @@ RSpec.shared_examples 'traitable', type: :model do
     subject.create_trait(attributeset: { key_a: 'value a', key_b: 'value b' })
     subject.save
     expect(Trait.where('traitable_type = ? and traitable_id = ?',
-           subject.model_name.to_s, subject.id).count)
+                       subject.model_name.to_s, subject.id).count)
       .to eq(1)
   end
 end
