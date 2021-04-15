@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FigureAncestorHelper
   class << self
     def selectable_ancestors(figure)
@@ -8,6 +10,7 @@ module FigureAncestorHelper
   end
 
   class FigureAncestorSelector
+    # rubocop:disable Rails/HelperInstanceVariable
     # FIXME: Check and refactor SQL
     # Find all figures that are not related to @figure but share the same world
     SQL = <<~SQL
@@ -37,11 +40,12 @@ module FigureAncestorHelper
       if @figure.id.nil?
         @figure.world.figures.order(name: :asc)
       else
-        @ancestors ||= Figure.find_by_sql(
+        @selectable_ancestors ||= Figure.find_by_sql(
           [SQL,
            { figure_id: @figure.id, world_id: @figure.world_id }]
         )
       end
     end
+    # rubocop:enable Rails/HelperInstanceVariable
   end
 end

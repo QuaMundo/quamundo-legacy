@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IconHelper
   # Based on fontawesome
   def icon(type, *classes, &block)
@@ -9,17 +11,19 @@ module IconHelper
   end
 
   class InventoryIcon
+    # rubocop:disable Rails/HelperInstanceVariable
     include Webpacker::Helper
     include ActionView::Helpers
 
     def initialize(type)
-      if type.is_a? String
-        @type = type.downcase.to_sym
-      elsif type.is_a? Symbol
-        @type = type
-      else
-        @type = type.model_name.param_key.to_sym
-      end
+      @type = case type
+              when String
+                type.downcase.to_sym
+              when Symbol
+                type
+              else
+                type.model_name.param_key.to_sym
+              end
     end
 
     def image(*classes)
@@ -28,23 +32,28 @@ module IconHelper
       tag.img(
         src: asset_pack_path("media/#{style_path}/#{fa_item[:icon]}.svg"),
         class: classes
-      ).html_safe
+      )
     end
 
-    def icon(*classes, color: 'inherit', &block)
+    def icon(*classes, color: 'inherit')
       css_classes = [
         "fa-#{available_types[@type][:icon]}",
         available_types[@type][:style]
       ] << classes
+      color = sanitize("color: #{color};")
       # FIXME: Avoid inline style (maybe use classes?)
-      html = '' << tag.i(class: css_classes, style: "color: #{color};")
-      html << '&nbsp;' << yield if block_given?
-      html.html_safe
+      i_tag = tag.i(class: css_classes, style: color)
+      block = yield if block_given?
+      html = "#{i_tag}&nbsp;#{block if block.presence}"
+      # FIXME: Sanitize seems to strip off color style
+      sanitize(html)
     end
 
     private
+
     def available_types
       IconTypesHelper.available_types
     end
+    # rubocop:enable Rails/HelperInstanceVariable
   end
 end

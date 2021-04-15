@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # Element ID helper - creates ids for html elements
   def element_id(obj, prefix = nil)
@@ -8,9 +10,9 @@ module ApplicationHelper
   # inventory: { :id, :type }
   def inventory_facts_path(obj, format: :html)
     world_facts_path(obj.world, inventory: {
-      id: obj.id,
-      type: obj.model_name.name
-    }, format: format)
+                       id: obj.id,
+                       type: obj.model_name.name
+                     }, format: format)
   end
 
   # Create a link to locations belonging to a fact by adding params
@@ -26,19 +28,22 @@ module ApplicationHelper
 
   # LonLat helper - gets coords as string from rgeo object (to prefill input)
   def get_lonlat(lonlat)
-    lonlat ? "#{lonlat.lat.to_s}, #{lonlat.lon.to_s}" : ''
+    lonlat ? "#{lonlat.lat}, #{lonlat.lon}" : ''
   end
 
+  # FIXME: Extract to dedicated helper; implement caching of renderer
   # A Markdown helper to render markdown text fields
   def markdown(text)
-    return '' unless text.present?
-    @markdown ||= Redcarpet::Markdown.new(
+    pp '#'
+    return '' if text.blank?
+
+    markdown = Redcarpet::Markdown.new(
       Redcarpet::Render::HTML,
       autolink: true,
       tables: true,
       underline: true,
       highlight: true
     )
-    @markdown.render(text).html_safe
+    sanitize(markdown.render(text))
   end
 end
