@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Permission < ApplicationRecord
-  validates :world, presence: true
+  validates :world, :permissions, presence: true
   validates :world_id, uniqueness: { scope: :user_id }
   validate :not_owner
 

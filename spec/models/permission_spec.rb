@@ -11,10 +11,12 @@ RSpec.describe Permission, type: :model do
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
+
     permission = Permission.new(user: mate, permissions: :public)
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
+
     permission = Permission.new(world: world, user: mate)
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
