@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 module IconTypesHelper
   # FontAwesome mappings used by IconHelper
+
+  # rubocop:disable Metrics/MethodLength
   def self.available_types
+    # rubocop:disable Layout/HashAlignment
     # Be sure to keep `app/javascript/src/default_images.js` up-to-date
     {
       # Inventory
@@ -37,5 +42,7 @@ module IconTypesHelper
       start_date:       { icon: 'step-forward',         style: 'fas' },
       end_date:         { icon: 'step-backward',        style: 'fas' }
     }
+    # rubocop:enable Layout/HashAlignment
   end
+  # rubocop:enable Metrics/MethodLength
 end
