@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class FiguresController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     flash[:alert] = t('.not_allowed', world: @world.try(:name))
     # flash[:alert] = ex.result.reasons.full_messages
     redirect_to worlds_path
   end
 
-  before_action :set_figure, only: [:show, :edit, :update, :destroy]
+  before_action :set_figure, only: %i[show edit update destroy]
 
   authorize :world, through: :current_world
 
@@ -18,8 +20,7 @@ class FiguresController < ApplicationController
     authorize! @figures
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @figure = current_world.figures.new(tag_attributes: {},
@@ -47,8 +48,7 @@ class FiguresController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -77,11 +77,12 @@ class FiguresController < ApplicationController
   end
 
   private
+
   def set_figure
     @figure = current_world.figures
-      .with_attached_image
-      .includes(:tag, :trait, :notes, :dossiers)
-      .find(params[:id])
+                           .with_attached_image
+                           .includes(:tag, :trait, :notes, :dossiers)
+                           .find(params[:id])
     authorize! @figure
   end
 
@@ -90,12 +91,12 @@ class FiguresController < ApplicationController
     dispatch_tags_param!(params[:figure][:tag_attributes])
     dispatch_traits_param!(params[:figure][:trait_attributes])
     params.require(:figure)
-      .permit(:name, :description, :image,
-              figure_ancestors_attributes: [:id,
-                                            :ancestor_id,
-                                            :name,
-                                            :_destroy],
-              tag_attributes: [:id, tagset: []],
-              trait_attributes: [:id, attributeset: {}])
+          .permit(:name, :description, :image,
+                  figure_ancestors_attributes: %i[id
+                                                  ancestor_id
+                                                  name
+                                                  _destroy],
+                  tag_attributes: [:id, { tagset: [] }],
+                  trait_attributes: [:id, { attributeset: {} }])
   end
 end

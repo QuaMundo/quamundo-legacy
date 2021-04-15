@@ -1,17 +1,18 @@
+# frozen_string_literal: true
+
 class DossiersController < ApplicationController
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     flash[:alert] = t('.not_allowed', world: @world.try(:name))
     # flash[:alert] = ex.result.reasons.full_messages
     redirect_to worlds_path
   end
 
-  before_action :set_dossier, only: [:edit, :update, :destroy, :show]
+  before_action :set_dossier, only: %i[edit update destroy show]
 
   authorize :world, through: :current_world
 
-  def show
-  end
+  def show; end
 
   def new
     @dossier = Dossier.new(dossier_params)
@@ -37,8 +38,7 @@ class DossiersController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -65,12 +65,14 @@ class DossiersController < ApplicationController
           polymorphic_path(
             [@dossier.dossierable.try(:world), @dossier.dossierable]
           ),
-          notice: t('.destroyed', dossier: @dossier.name))
+          notice: t('.destroyed', dossier: @dossier.name)
+        )
       end
     end
   end
 
   private
+
   def set_dossier
     @dossier = Dossier.find_by(id: params[:id])
     authorize! @dossier
@@ -85,7 +87,8 @@ class DossiersController < ApplicationController
         :content,
         :dossierable_id,
         :dossierable_type,
-        files: [])
+        files: []
+      )
   end
 
   def form_url
@@ -94,15 +97,11 @@ class DossiersController < ApplicationController
 
   def remove_attachments
     # FIXME: Needs refactoring, maybe use `purge_later`
-    if params[:remove_attachment]
-      @dossier.files.find(params[:remove_attachment]).each(&:purge)
-    end
+    @dossier.files.find(params[:remove_attachment]).each(&:purge) if params[:remove_attachment]
   end
 
   def add_attachments
-    if params[:dossier][:files]
-      @dossier.files.attach(params[:dossier].delete(:files))
-    end
+    @dossier.files.attach(params[:dossier].delete(:files)) if params[:dossier][:files]
   end
 
   def handle_attachments
@@ -111,8 +110,12 @@ class DossiersController < ApplicationController
   end
 
   def current_world
-    @dossier
-      .dossierable
-      .is_a?(World) ? @dossier.dossierable : @dossier.dossierable.world
+    if @dossier
+       .dossierable
+       .is_a?(World)
+      @dossier.dossierable
+    else
+      @dossier.dossierable.world
+    end
   end
 end

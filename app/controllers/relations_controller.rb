@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class RelationsController < ApplicationController
-  before_action :set_relation, only: [:show, :edit, :update, :destroy]
+  before_action :set_relation, only: %i[show edit update destroy]
   before_action :set_fact
 
   authorize :world, through: :current_world
   authorize :fact, through: :current_fact
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Fix error handling (redmine #530)
     # flash[:alert] = ex.result.reason.full_messages
     flash[:alert] = t('not_allowed')
@@ -51,9 +53,9 @@ class RelationsController < ApplicationController
       if @relation.update(relation_params)
         format.html do
           redirect_to(world_fact_relation_path(
-            @relation.fact.world, @relation.fact, @relation
-          ),
-          notice: t('.updated', relation: @relation.name))
+                        @relation.fact.world, @relation.fact, @relation
+                      ),
+                      notice: t('.updated', relation: @relation.name))
         end
       else
         format.html do
@@ -81,6 +83,7 @@ class RelationsController < ApplicationController
   end
 
   private
+
   def set_fact
     @fact = @relation.try(:fact) || Fact.find(params[:fact_id])
   end
@@ -99,17 +102,15 @@ class RelationsController < ApplicationController
       .require(:relation)
       .permit(
         :name, :description, :reverse_name, :fact_id,
-        relation_constituents_attributes: [
-          :id, :role, :_destroy, :fact_constituent_id
+        relation_constituents_attributes: %i[
+          id role _destroy fact_constituent_id
         ]
-    )
+      )
   end
 
   # FIXME: Put this into a helper method
   def strip_empty_params
-    if params[:relation][:reverse_name].blank?
-      params[:relation][:reverse_name] = nil
-    end
+    params[:relation][:reverse_name] = nil if params[:relation][:reverse_name].blank?
   end
 
   def current_world

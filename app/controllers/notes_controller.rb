@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class NotesController < ApplicationController
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     flash[:alert] = t('.not_allowed', world: @world.try(:name))
     # flash[:alert] = ex.result.reasons.full_messages
     redirect_to worlds_path
   end
 
-  before_action :set_note, only: [:edit, :update, :destroy]
+  before_action :set_note, only: %i[edit update destroy]
 
   authorize :world, through: :current_world
 
@@ -65,6 +67,7 @@ class NotesController < ApplicationController
   end
 
   private
+
   def set_note
     @note = Note.find_by(id: params[:id])
     authorize! @note
@@ -77,12 +80,16 @@ class NotesController < ApplicationController
   def note_params
     params
       .require(:note)
-      .permit([:content, :noteable_id, :noteable_type])
+      .permit(%i[content noteable_id noteable_type])
   end
 
   def current_world
-    @note
-      .noteable
-      .is_a?(World) ? @note.noteable : @note.noteable.world
+    if @note
+       .noteable
+       .is_a?(World)
+      @note.noteable
+    else
+      @note.noteable.world
+    end
   end
 end

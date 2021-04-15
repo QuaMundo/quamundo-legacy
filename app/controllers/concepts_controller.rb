@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class ConceptsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     flash[:alert] = t('.not_allowed', world: @world.try(:name))
     # flash[:alert] = ex.result.reasons.full_messages
     redirect_to worlds_path
   end
 
-  before_action :set_concept, only: [:show, :edit, :update, :destroy]
+  before_action :set_concept, only: %i[show edit update destroy]
 
   authorize :world, through: :current_world
 
@@ -32,7 +34,7 @@ class ConceptsController < ApplicationController
       if @concept.save
         format.html do
           redirect_to(world_concept_path(current_world, @concept),
-                                notice: t('.created'))
+                      notice: t('.created'))
         end
       else
         format.html do
@@ -44,11 +46,9 @@ class ConceptsController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -78,11 +78,12 @@ class ConceptsController < ApplicationController
   end
 
   private
+
   def set_concept
     @concept = current_world.concepts
-      .with_attached_image
-      .includes(:tag, :trait, :notes, :dossiers)
-      .find(params[:id])
+                            .with_attached_image
+                            .includes(:tag, :trait, :notes, :dossiers)
+                            .find(params[:id])
     authorize! @concept
   end
 
@@ -91,8 +92,8 @@ class ConceptsController < ApplicationController
     dispatch_tags_param!(params[:concept][:tag_attributes])
     dispatch_traits_param!(params[:concept][:trait_attributes])
     params.require(:concept)
-      .permit(:name, :description, :image,
-              tag_attributes: [ :id, tagset: [] ],
-              trait_attributes: [:id, attributeset: {}])
+          .permit(:name, :description, :image,
+                  tag_attributes: [:id, { tagset: [] }],
+                  trait_attributes: [:id, { attributeset: {} }])
   end
 end

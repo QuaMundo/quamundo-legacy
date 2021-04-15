@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # FIXME: This has to be changed when permissions are added
 # i.e. Do not only list owned objects, list accessible objs, too
 class DashboardController < ApplicationController
@@ -10,6 +12,7 @@ class DashboardController < ApplicationController
   end
 
   private
+
   INVENTORY_SQL = <<~SQL
     SELECT i.* FROM
     worlds w
@@ -48,13 +51,18 @@ class DashboardController < ApplicationController
 
   def set_worlds
     @worlds = World
-      .find_by_sql([WORLD_SQL, { user_id: current_user.try(:id) }])
+              .find_by_sql([WORLD_SQL, { user_id: current_user.try(:id) }])
   end
 
   def set_inventories
     @inventories = Inventory
-      .find_by_sql([INVENTORY_SQL,
-                    { user_id: current_user.try(:id),
-                      limit: limit ||= 15 }])
+                   .find_by_sql([INVENTORY_SQL,
+                                 { user_id: current_user.try(:id),
+                                   limit: inventory_limit }])
+  end
+
+  def inventory_limit
+    # FIXME: Temporarily hardcoded
+    15
   end
 end

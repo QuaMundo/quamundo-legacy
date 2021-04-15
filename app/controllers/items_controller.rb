@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class ItemsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     flash[:alert] = t('.not_allowed', world: @world.try(:name))
     # flash[:alert] = ex.result.reasons.full_messages
     redirect_to worlds_path
   end
 
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: %i[show edit update destroy]
 
   authorize :world, through: :current_world
 
@@ -18,8 +20,7 @@ class ItemsController < ApplicationController
     authorize! @items
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @item = current_world.items.new(tag_attributes: {},
@@ -47,8 +48,7 @@ class ItemsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -78,11 +78,12 @@ class ItemsController < ApplicationController
   end
 
   private
+
   def set_item
     @item = current_world.items
-      .with_attached_image
-      .includes(:tag, :trait, :notes, :dossiers)
-      .find(params[:id])
+                         .with_attached_image
+                         .includes(:tag, :trait, :notes, :dossiers)
+                         .find(params[:id])
     authorize! @item
   end
 
@@ -91,8 +92,8 @@ class ItemsController < ApplicationController
     dispatch_tags_param!(params[:item][:tag_attributes])
     dispatch_traits_param!(params[:item][:trait_attributes])
     params.require(:item)
-      .permit(:name, :description, :image,
-              tag_attributes: [ :id, tagset: [] ],
-              trait_attributes: [:id, attributeset: {}])
+          .permit(:name, :description, :image,
+                  tag_attributes: [:id, { tagset: [] }],
+                  trait_attributes: [:id, { attributeset: {} }])
   end
 end
