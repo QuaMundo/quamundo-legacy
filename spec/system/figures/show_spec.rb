@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a figure', type: :system do
   include_context 'Session'
 
@@ -68,7 +70,6 @@ RSpec.describe 'Showing a figure', type: :system do
     it 'has an img tag' do
       expect(page).to have_selector('img.figure-image')
     end
-
   end
 
   context 'of another users world' do

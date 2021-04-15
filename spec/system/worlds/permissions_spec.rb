@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Accessing world with permissions', type: :system do
-  let(:world)   { create(:world_with_all) }
+  let(:world) { create(:world_with_all) }
 
   context 'as unregistered user' do
     context 'when world is public readable' do
-
       before(:example) do
         Permission.create(world: world, permissions: :public)
       end
@@ -138,27 +139,27 @@ RSpec.describe 'Accessing world with permissions', type: :system do
             .not_to have_link(href: edit_world_permissions_path(world))
         end
 
-        page.within('#notes') {
+        page.within('#notes') do
           expect(page).not_to have_link(href: new_world_note_path(world))
-        }
-        page.within('#dossiers') {
+        end
+        page.within('#dossiers') do
           expect(page).not_to have_link(href: new_world_dossier_path(world))
-        }
-        page.within('#items') {
+        end
+        page.within('#items') do
           expect(page).not_to have_link(href: new_world_item_path(world))
-        }
-        page.within('#figures') {
+        end
+        page.within('#figures') do
           expect(page).not_to have_link(href: new_world_figure_path(world))
-        }
-        page.within('#locations') {
+        end
+        page.within('#locations') do
           expect(page).not_to have_link(href: new_world_location_path(world))
-        }
-        page.within('#concepts') {
+        end
+        page.within('#concepts') do
           expect(page).not_to have_link(href: new_world_concept_path(world))
-        }
-        page.within('#facts') {
+        end
+        page.within('#facts') do
           expect(page).not_to have_link(href: new_world_fact_path(world))
-        }
+        end
       end
 
       it 'does not show crud links in index view' do

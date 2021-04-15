@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing an concept', type: :system do
   include_context 'Session'
 
   let(:concept) { create(:concept, user: user) }
-  let(:world)   { concept.world}
+  let(:world)   { concept.world }
   let(:other_world) { create(:world_with_concepts) }
 
   context 'of an own world' do
@@ -83,4 +85,3 @@ RSpec.describe 'Showing an concept', type: :system do
     end
   end
 end
-

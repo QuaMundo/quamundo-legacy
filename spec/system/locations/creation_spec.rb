@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a location', type: :system do
   include_context 'Session'
 
@@ -11,7 +13,7 @@ RSpec.describe 'Creating a location', type: :system do
         .execute_script(
           'navigator.geolocation.getCurrentPosition = function(success) '\
           '{ success({coords: {latitude: 12, longitude: 34}}); }'
-      )
+        )
       page.find('#get_device_pos').click
       expect(page.find('#location_lonlat').value).to eq '12, 34'
     end
@@ -25,7 +27,7 @@ RSpec.describe 'Creating a location', type: :system do
       expect(world.locations.count).to be > location_count
       expect(page).to have_selector('.alert-info',
                                     text: /successfully\s+created/i)
-      expect(page) .to have_current_path(
+      expect(page).to have_current_path(
         world_location_path(world, Location.find_by(name: 'A new location'))
       )
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Dashboard', type: :system do
   include_context 'Session'
 
@@ -11,7 +13,7 @@ RSpec.describe 'Dashboard', type: :system do
       expect(page).to have_current_path(new_world_path)
     end
 
-    it_behaves_like "valid_view" do
+    it_behaves_like 'valid_view' do
       let(:subject) { root_path }
     end
   end
@@ -21,9 +23,9 @@ RSpec.describe 'Dashboard', type: :system do
 
     it 'shows 4 last updated worlds' do
       visit root_path
-      expect(page).to have_selector("div[id^=\"card-world-\"]", count: 4)
+      expect(page).to have_selector('div[id^="card-world-"]', count: 4)
       world_ids = user.worlds.order(updated_at: :desc).limit(4)
-        .all.map { |w| "card-world-#{w.id}" }
+                      .all.map { |w| "card-world-#{w.id}" }
       world_ids.each do |id|
         expect(page).to have_selector("##{id}")
       end
@@ -48,9 +50,8 @@ RSpec.describe 'Dashboard', type: :system do
       end
     end
 
-    it_behaves_like "valid_view" do
+    it_behaves_like 'valid_view' do
       let(:subject) { root_path }
     end
   end
 end
-

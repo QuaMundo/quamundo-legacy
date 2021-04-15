@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a fact with constituents',
-  type: :system, db_triggers: true, js: true, comprehensive: true do
+               type: :system, db_triggers: true, js: true, comprehensive: true do
   include_context 'Session'
 
   let(:world)   { create(:world_with_inventories, user: user) }
@@ -26,7 +28,7 @@ RSpec.describe 'Creating a fact with constituents',
     page
       .find(
         'select[id^="fact_fact_constituents_attributes_"][id$="_constituable"]'
-    ).select(figure.name)
+      ).select(figure.name)
     # Remove first constituent
     page.find('input[value="Role 1"]+div button').click
     expect(page).not_to have_selector('div div input[value="Role 1"]')

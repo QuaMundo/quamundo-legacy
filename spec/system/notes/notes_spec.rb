@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'CRUD actions on notes', type: :system do
   include_context 'Session'
 
@@ -7,14 +9,15 @@ RSpec.describe 'CRUD actions on notes', type: :system do
     let(:note) { build(:note, noteable: world) }
 
     it_behaves_like 'valid_view' do
-      let(:path) {
+      let(:path) do
         new_polymorphic_path(
           [world, Note],
           note: {
             noteable_id: world.id,
             noteable_type: 'World'
-          })
-      }
+          }
+        )
+      end
     end
   end
 

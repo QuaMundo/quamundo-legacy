@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating/Editing an concept', type: :system do
   include_context 'Session'
 
@@ -8,8 +10,9 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
 
   context 'of own world' do
     it 'can update name and description' do
-      QuamundoTestHelpers::attach_file(
-        concept.image, fixture_file_name('concept.jpg'))
+      QuamundoTestHelpers.attach_file(
+        concept.image, fixture_file_name('concept.jpg')
+      )
       visit edit_world_concept_path(world, concept)
       expect(page).to have_selector("img##{element_id(concept, 'img')}")
       fill_in('Name', with: 'New Name')
@@ -51,7 +54,7 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:subject)     { create(:concept, :with_traits, user: user) }
+      let(:subject) { create(:concept, :with_traits, user: user) }
     end
   end
 
@@ -62,4 +65,3 @@ RSpec.describe 'Updating/Editing an concept', type: :system do
     end
   end
 end
-

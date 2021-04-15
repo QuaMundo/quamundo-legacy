@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating/Editing an item', type: :system do
   include_context 'Session'
 
@@ -8,8 +10,9 @@ RSpec.describe 'Updating/Editing an item', type: :system do
 
   context 'of own world' do
     it 'can update name and description' do
-      QuamundoTestHelpers::attach_file(
-        item.image, fixture_file_name('item.jpg'))
+      QuamundoTestHelpers.attach_file(
+        item.image, fixture_file_name('item.jpg')
+      )
       visit edit_world_item_path(world, item)
       expect(page).to have_selector("img##{element_id(item, 'img')}")
       fill_in('Name', with: 'New Name')
@@ -50,7 +53,7 @@ RSpec.describe 'Updating/Editing an item', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:subject)     { create(:item, :with_traits, user: user) }
+      let(:subject) { create(:item, :with_traits, user: user) }
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Deleting a figure', type: :system do
   include_context 'Session'
 
@@ -11,7 +13,7 @@ RSpec.describe 'Deleting a figure', type: :system do
 
     it 'removes this figure', :js, :comprehensive do
       page.find('.nav-item a.nav-link.dropdown').click
-      page.accept_confirm() do
+      page.accept_confirm do
         page.first('a.dropdown-item[title="delete"]').click
       end
       expect(page).to have_current_path(world_figures_path(world))

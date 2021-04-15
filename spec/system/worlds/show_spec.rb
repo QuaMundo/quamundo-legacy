@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a world', type: :system do
   include_context 'Session'
 
@@ -125,7 +127,7 @@ RSpec.describe 'Showing a world', type: :system do
       expect(page).not_to have_current_path(world_path(other_world))
       expect(page).to have_current_path(worlds_path)
       expect(page).to have_selector('aside.alert-danger',
-                                   text: /^You are not allowed/)
+                                    text: /^You are not allowed/)
     end
 
     it_behaves_like 'valid_view' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating/editing a world', type: :system do
   include_context 'Session'
 
@@ -39,7 +41,7 @@ RSpec.describe 'Updating/editing a world', type: :system do
   it 'lets enter tags' do
     visit edit_world_path(world)
     page.find('input[id$="_tag_attributes_tagset"]')
-      .fill_in(with: 'tag 1, tag 2, tag 3')
+        .fill_in(with: 'tag 1, tag 2, tag 3')
     click_button('submit')
     within('.tagset') do
       ['tag 1', 'tag 2', 'tag 3'].each do |tag|

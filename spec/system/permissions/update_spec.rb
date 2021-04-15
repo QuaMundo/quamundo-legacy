@@ -1,33 +1,35 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
   include_context 'Session'
 
   let!(:user_a)   { create(:user) }
   let!(:user_b)   { create(:user) }
   let!(:user_c)   { create(:user) }
-  
+
   context 'in users own world' do
-    let(:world)   { create(:world, user: user) }
+    let(:world) { create(:world, user: user) }
 
     it 'shows existing permissions', :js do
-      perm_1 = Permission.create(world: world, user: user_a, permissions: :rw)
-      perm_2 = Permission.create(world: world, permissions: :public)
-      perm_3 = Permission
-        .create(world: build_stubbed(:world), user: user_b, permissions: :r)
+      perm1 = Permission.create(world: world, user: user_a, permissions: :rw)
+      perm2 = Permission.create(world: world, permissions: :public)
+      perm3 = Permission
+              .create(world: build_stubbed(:world), user: user_b, permissions: :r)
 
       visit edit_world_permissions_path(world)
 
-      page.within('div', id: element_id(perm_1, 'selected')) do
+      page.within('div', id: element_id(perm1, 'selected')) do
         expect(page).to have_selector('input[value="read and write"]')
         expect(page).to have_selector("input[value=\"#{user_a.nick}\"]")
         expect(page)
-          .to have_selector("input[value=\"#{perm_1.id}\"]", visible: false)
+          .to have_selector("input[value=\"#{perm1.id}\"]", visible: false)
       end
 
-      page.within('div', id: element_id(perm_2, 'selected')) do
+      page.within('div', id: element_id(perm2, 'selected')) do
         expect(page).to have_selector('input[value="public readable"]')
         expect(page).to have_selector('input:not([value])')
         expect(page)
-          .to have_selector("input[value=\"#{perm_2.id}\"]", visible: false)
+          .to have_selector("input[value=\"#{perm2.id}\"]", visible: false)
       end
 
       page.within('#new-permissions select[id$="_user_id"]') do
@@ -36,15 +38,15 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
       end
 
       expect(page)
-        .not_to have_selector('div', id: element_id(perm_3, 'selected'))
+        .not_to have_selector('div', id: element_id(perm3, 'selected'))
 
       expect(page)
         .to have_selector('input[id$="_destroy"]', visible: false, count: 2)
     end
 
     it 'can add and remove permissions', :js do
-      perm_1 = Permission.create(world: world, user: user_a, permissions: :rw)
-      perm_2 = Permission.create(world: world, permissions: :public)
+      perm1 = Permission.create(world: world, user: user_a, permissions: :rw)
+      _perm2 = Permission.create(world: world, permissions: :public)
 
       visit edit_world_permissions_path(world)
 
@@ -54,7 +56,7 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
       end
 
       # Remove permissions for user_a
-      page.within('div', id: element_id(perm_1, 'selected')) do
+      page.within('div', id: element_id(perm1, 'selected')) do
         find('button').click
         expect(page).to have_selector(
           'input[id$="_destroy"][type="hidden"][value="1"]', visible: false
@@ -65,11 +67,10 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
 
       expect(page).to have_selector(
         'div',
-        id: element_id(perm_1, 'selected'),
+        id: element_id(perm1, 'selected'),
         class: /d-none/,
         visible: false
       )
-
 
       # Add a new permission :r to user_b
       page.find('select', id: /-1_permissions$/).select('read only')
@@ -122,7 +123,7 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
     end
 
     it 'can choose public only once', :js do
-      perm_1 = Permission.create(world: world, permissions: :public)
+      perm1 = Permission.create(world: world, permissions: :public)
 
       visit edit_world_permissions_path(world)
 
@@ -132,7 +133,7 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
         )
       end
 
-      page.within('div', id: element_id(perm_1, 'selected')) do
+      page.within('div', id: element_id(perm1, 'selected')) do
         page.find('button').click
       end
       page.within('#new-permissions') do
@@ -148,7 +149,7 @@ RSpec.describe 'Updating/Editing a worlds permissions', type: :system do
   end
 
   context 'in another users world' do
-    let(:world)   { create(:world) }
+    let(:world) { create(:world) }
 
     before(:example) do
       Permission.create(user: user, world: world, permissions: :rw)

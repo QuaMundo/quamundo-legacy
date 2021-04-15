@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a relation', type: :system do
   include_context 'Session'
 
@@ -21,7 +23,7 @@ RSpec.describe 'Showing a relation', type: :system do
                 href: polymorphic_path(
                   [relation.fact.world, subject.fact_constituent.constituable]
                 )
-            )
+              )
           end
         end
         # relatives
@@ -36,7 +38,7 @@ RSpec.describe 'Showing a relation', type: :system do
                 href: polymorphic_path(
                   [relation.fact.world, relative.fact_constituent.constituable]
                 )
-            )
+              )
           end
         end
       end
@@ -47,9 +49,11 @@ RSpec.describe 'Showing a relation', type: :system do
     end
 
     context 'bidirectional' do
-      let(:relation)  { create(:relation_with_constituents,
-                               user: user,
-                               bidirectional: true) }
+      let(:relation) do
+        create(:relation_with_constituents,
+               user: user,
+               bidirectional: true)
+      end
       let(:fact)      { relation.fact }
       let(:world)     { fact.world }
 
@@ -63,11 +67,12 @@ RSpec.describe 'Showing a relation', type: :system do
   end
 
   context 'in another users world' do
-    let(:other_relation)  { create(:relation) }
+    let(:other_relation) { create(:relation) }
 
     it 'redirects to world index' do
       visit(world_fact_relation_path(
-        other_relation.fact.world, other_relation.fact, other_relation))
+              other_relation.fact.world, other_relation.fact, other_relation
+            ))
       expect(page).to have_current_path(worlds_path)
     end
   end

@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a figure with ancestors',
-  type: :system, js: true, comprehensive: true do
+               type: :system, js: true, comprehensive: true do
   include_context 'Session'
 
   let(:world)     { build(:world, user: user) }
 
-  figures = %i(figure          father        mother
-               grandfather_m   grandmother_m
-               grandfather_f   grandmother_f
-               greatgrandfather              greatgrandmother
-               son             daughter      grandson
-               other_figure    other_father  other_son)
+  figures = %i[figure father mother
+               grandfather_m grandmother_m
+               grandfather_f grandmother_f
+               greatgrandfather greatgrandmother
+               son daughter grandson
+               other_figure other_father other_son]
   figures.each do |i|
     let(i) { create(:figure, world: world, name: i.to_s) }
   end

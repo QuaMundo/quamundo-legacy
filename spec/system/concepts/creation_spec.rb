@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a concept', type: :system do
   include_context 'Session'
 
@@ -18,7 +20,7 @@ RSpec.describe 'Creating a concept', type: :system do
       expect(page)
         .to have_current_path(
           world_concept_path(world, Concept.find_by(name: 'A new concept'))
-      )
+        )
     end
 
     it 'redirects to new form if name is missing' do

@@ -1,15 +1,22 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating/Editing a relation', type: :system do
   include_context 'Session'
 
-  let(:relation)  { create(:relation,
-                           name: 'relation',
-                           reverse_name: 'reverse relation',
-                           user: user) }
+  let(:relation)  do
+    create(:relation,
+           name: 'relation',
+           reverse_name: 'reverse relation',
+           user: user)
+  end
   let(:world)     { relation.fact.world }
 
   context 'of own world' do
-    before(:example)  { visit(
-      edit_world_fact_relation_path(world, relation.fact, relation)) }
+    before(:example) do
+      visit(
+        edit_world_fact_relation_path(world, relation.fact, relation)
+      )
+    end
 
     it 'can change name, reverse_name and description' do
       fill_in('Name', with: 'new relation name')
@@ -38,8 +45,11 @@ RSpec.describe 'Updating/Editing a relation', type: :system do
     end
 
     it_behaves_like 'valid_view' do
-      let(:subject) { edit_world_fact_relation_path(
-        world, relation.fact, relation) }
+      let(:subject) do
+        edit_world_fact_relation_path(
+          world, relation.fact, relation
+        )
+      end
     end
   end
 

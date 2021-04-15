@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a relation', type: :system do
   include_context 'Session'
 
@@ -5,7 +7,7 @@ RSpec.describe 'Creating a relation', type: :system do
   let(:fact)        { subject.fact }
   let(:world)       { fact.world }
   let(:relative)    { create(:fact_constituent, fact: fact) }
-  
+
   before(:example)  { visit new_world_fact_relation_path(world, fact) }
 
   context 'in own world' do

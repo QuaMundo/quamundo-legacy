@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Listing locations', type: :system do
   include_context 'Session'
 
@@ -13,7 +15,7 @@ RSpec.describe 'Listing locations', type: :system do
           .within("[id=\"location-#{location.id}\"]") do
           expect(page).to have_content(location.name)
           expect(page).to have_content(location.description)
-          expect(page).to have_selector("img")
+          expect(page).to have_selector('img')
         end
       end
     end
