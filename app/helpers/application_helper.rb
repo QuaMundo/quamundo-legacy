@@ -34,7 +34,6 @@ module ApplicationHelper
   # FIXME: Extract to dedicated helper; implement caching of renderer
   # A Markdown helper to render markdown text fields
   def markdown(text)
-    pp '#'
     return '' if text.blank?
 
     markdown = Redcarpet::Markdown.new(

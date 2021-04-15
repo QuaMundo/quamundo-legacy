@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RegistrationPolicy < ApplicationPolicy
   def new?
     user.admin?
