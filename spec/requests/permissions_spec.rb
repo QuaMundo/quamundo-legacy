@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Permisssions', type: :request do
   context 'without user logged in' do
-    let(:world)     { create(:world) }
+    let(:world) { create(:world) }
 
     it 'redirects to login when requesting permissions form' do
       get edit_world_permissions_path(world)
@@ -12,7 +14,7 @@ RSpec.describe 'Permisssions', type: :request do
     include_context 'Session'
 
     context 'accessing own worlds permissions' do
-      let(:world)     { create(:world, user: user) }
+      let(:world) { create(:world, user: user) }
 
       it 'renders form' do
         get edit_world_permissions_path(world)
@@ -21,7 +23,7 @@ RSpec.describe 'Permisssions', type: :request do
     end
 
     context 'accessing other users worlds permissions' do
-      let(:world)     { create(:world) }
+      let(:world) { create(:world) }
 
       it 'redirects to worlds index' do
         get edit_world_permissions_path(world)

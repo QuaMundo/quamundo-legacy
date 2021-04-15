@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Notes', type: :request do
-  let(:item)      { create(:item_with_notes, notes_count: 1) }
-  let(:note)   { item.notes.first }
-  let(:world)     { item.world }
+  let(:item) { create(:item_with_notes, notes_count: 1) }
+  let(:note) { item.notes.first }
+  let(:world) { item.world }
 
   context 'with unregistered user' do
     context 'with non public world' do
@@ -150,6 +152,3 @@ RSpec.describe 'Notes', type: :request do
     }
   end
 end
-
-
-

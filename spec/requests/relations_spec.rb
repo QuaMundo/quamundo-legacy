@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Relations', type: :request do
   let(:fact)      { create(:fact) }
   let(:relation)  { create(:relation, fact: fact) }
@@ -194,6 +196,3 @@ RSpec.describe 'Relations', type: :request do
     }
   end
 end
-
-
-
