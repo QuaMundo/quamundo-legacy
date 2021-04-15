@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Tag < ApplicationRecord
   validates :tagable_id, uniqueness: { scope: :tagable_type }
   after_validation :normalize_tagset
@@ -6,9 +8,8 @@ class Tag < ApplicationRecord
   belongs_to :tagable, polymorphic: true, touch: true, autosave: true
 
   private
+
   def normalize_tagset
-    unless tagset.nil? || tagset.empty?
-      tagset.sort!.uniq!
-    end
+    tagset.sort!.uniq! if tagset.present?
   end
 end

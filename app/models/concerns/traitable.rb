@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Traitable
   extend ActiveSupport::Concern
 
@@ -8,8 +10,9 @@ module Traitable
     after_validation :set_attributeset
 
     private
+
     def set_attributeset
-      self.build_trait if self.trait.nil?
+      build_trait if trait.nil?
     end
   end
 end

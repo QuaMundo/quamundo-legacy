@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class World < ApplicationRecord
   include Imaged
   include Slugged
@@ -7,21 +9,23 @@ class World < ApplicationRecord
   include Dossierable
 
   belongs_to :user, inverse_of: :worlds
+  # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :inventories
+  # rubocop:enable Rails/HasManyOrHasOneDependent
   has_many :permissions, dependent: :destroy
 
   accepts_nested_attributes_for :permissions,
-    update_only: true,
-    allow_destroy: true,
-    reject_if: ->(attr) { attr[:permissions].blank? }
+                                update_only: true,
+                                allow_destroy: true,
+                                reject_if: ->(attr) { attr[:permissions].blank? }
 
   # FIXME: Can this put in a concern?
-  with_options dependent: :destroy do |assoc|
-    assoc.has_many :figures
-    assoc.has_many :items
-    assoc.has_many :locations
-    assoc.has_many :concepts
-    assoc.has_many :facts
+  with_options dependent: :destroy do
+    has_many :figures
+    has_many :items
+    has_many :locations
+    has_many :concepts
+    has_many :facts
   end
 
   # FIXME: This should go to a helper
@@ -37,8 +41,9 @@ class World < ApplicationRecord
   def age
     world_age.age_of_world
   end
-  
+
   private
+
   WORLD_AGE_SQL = <<~SQL
     WITH fact_dates AS (
       SELECT
@@ -71,6 +76,6 @@ class World < ApplicationRecord
   SQL
 
   def world_age
-    @age ||= World.find_by_sql([WORLD_AGE_SQL, { world_id: id }]).first
+    @world_age ||= World.find_by_sql([WORLD_AGE_SQL, { world_id: id }]).first
   end
 end

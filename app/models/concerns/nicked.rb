@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Nicked
   extend ActiveSupport::Concern
 
   included do
     validate :nick, :nick_normalized?
     validates :nick, presence: true
-    validates_uniqueness_of :nick, case_sensitive: false
+    validates :nick, uniqueness: { case_sensitive: false }
 
     before_save :downcase_nick
 
@@ -14,9 +16,7 @@ module Nicked
   end
 
   def nick_normalized?
-    unless nick =~ %r{^[a-zA-Z0-9][a-zA-Z0-9\.\-_]*[a-zA-Z0-9]$}
-      errors.add(:nick, I18n.t('nick_normalized'))
-    end
+    errors.add(:nick, I18n.t('nick_normalized')) unless nick =~ /^[a-zA-Z0-9][a-zA-Z0-9.\-_]*[a-zA-Z0-9]$/
   end
 
   def downcase_nick

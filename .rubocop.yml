@@ -1,0 +1,13 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+   - "bin/**/*"
+   - "db/migrate/**/*"
+   - "db/structure.sql"
+   - "vendor/**/*"
+   - "gemfiles/vendor/**/*"
+
+Documentation:
+  Enabled: false
+

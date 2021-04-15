@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FactConstituent < ApplicationRecord
   belongs_to :fact, touch: true, inverse_of: :fact_constituents
   belongs_to :constituable, polymorphic: true, inverse_of: :fact_constituents
@@ -10,7 +12,7 @@ class FactConstituent < ApplicationRecord
   before_validation :normalize_roles
 
   validates :fact_id,
-    uniqueness: { scope: [:constituable_type, :constituable_id] }
+            uniqueness: { scope: %i[constituable_type constituable_id] }
   validate :allowed_constituable_type
   validate :common_world, on: :create
 
@@ -21,19 +23,21 @@ class FactConstituent < ApplicationRecord
   # scope :concepts,  -> { where(constituable_type: 'Concept') }
 
   private
+
   def allowed_constituable_type
-    unless %w(Item Figure Location Concept).include?(constituable_type)
-      errors.add(:constituable_type, 'Facts not allowed to contain facts')
-    end
+    return if %w[Item Figure Location Concept].include?(constituable_type)
+
+    # FIXME: Add i18n
+    errors.add(:constituable_type, 'Facts not allowed to contain facts')
   end
 
   def common_world
-    unless constituable.present? && constituable.world == fact.world
-      errors.add(:constituable, I18n.t('constituent_common_world'))
-    end
+    return if constituable.present? && constituable.world == fact.world
+
+    errors.add(:constituable, I18n.t('constituent_common_world'))
   end
 
   def normalize_roles
-    self.roles ||=  []
+    self.roles ||= []
   end
 end
