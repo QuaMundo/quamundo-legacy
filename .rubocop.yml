@@ -2,12 +2,12 @@ require: rubocop-rails
 
 AllCops:
   Exclude:
-   - "bin/**/*"
-   - "db/migrate/**/*"
-   - "db/structure.sql"
-   - "vendor/**/*"
-   - "gemfiles/vendor/**/*"
+    - "bin/**/*"
+    - "db/migrate/**/*"
+    - "db/structure.sql"
+    - "vendor/**/*"
+    - "node_modules/**/*"
 
-Documentation:
-  Enabled: false
+  Documentation:
+    Enabled: false
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Tag, type: :model do
   let(:world) { build(:world_with_tags) }
   let(:tag) { world.tag }
@@ -12,9 +14,9 @@ RSpec.describe Tag, type: :model do
 
   context 'validation fo tags' do
     it 'ensures tags are sorted and do not have doubles' do
-      tag.tagset = %w{ hAllo\ wElT one double tWo THREE double aüöä-= one }
+      tag.tagset = %w[hAllo\ wElT one double tWo THREE double aüöä-= one]
       tag.validate
-      expect(tag.tagset).to eq(%w{ THREE aüöä-= double hAllo\ wElT one tWo })
+      expect(tag.tagset).to eq(%w[THREE aüöä-= double hAllo\ wElT one tWo])
     end
 
     it 'is true for empty tagset' do
@@ -23,7 +25,7 @@ RSpec.describe Tag, type: :model do
     end
 
     it 'handles one element tagsets right' do
-      tag.tagset = %w{one_tag}
+      tag.tagset = %w[one_tag]
       expect(tag).to be_valid
     end
   end

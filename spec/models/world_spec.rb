@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe World, type: :model do
   it 'must not exist without an associated user' do
     world = build(:world, user: nil)
@@ -38,7 +40,7 @@ RSpec.describe World, type: :model do
 
   it 'has a case insensitive unique name' do
     user = build(:user)
-    world = create(:world, name: 'Test', user: user)
+    _world = create(:world, name: 'Test', user: user)
     other_world = build(:world, name: 'tesT', user: user)
     expect { other_world.save!(validate: false) }
       .to raise_error ActiveRecord::RecordNotUnique
@@ -52,9 +54,9 @@ RSpec.describe World, type: :model do
   end
 
   it 'has an unique slug' do
-    world = create(:world, user: build(:user), name: 'A Meaningfull Name')
+    _world = create(:world, user: build(:user), name: 'A Meaningfull Name')
     other_world = build(:world, user: build(:user),
-                        name: 'a meaningfull name')
+                                name: 'a meaningfull name')
     expect { other_world.save(validate: false) }
       .to raise_error ActiveRecord::RecordNotUnique
   end

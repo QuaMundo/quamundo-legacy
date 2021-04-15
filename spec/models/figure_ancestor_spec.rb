@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 RSpec.describe FigureAncestor, type: :model do
   include_context 'Session'
 
   let(:world)     { build(:world) }
 
-  figures = %i(figure          father        mother
-               grandfather_m   grandmother_m
-               grandfather_f   grandmother_f
-               greatgrandfather              greatgrandmother
-               son             daughter      grandson
-               other_figure    other_father  other_son)
+  figures = %i[figure father mother
+               grandfather_m grandmother_m
+               grandfather_f grandmother_f
+               greatgrandfather greatgrandmother
+               son daughter grandson
+               other_figure other_father other_son]
   figures.each do |i|
     let(i) { create(:figure, world: world, name: i.to_s) }
   end
@@ -35,7 +37,7 @@ RSpec.describe FigureAncestor, type: :model do
       end
 
       it 'cannot add same parent twice' do
-        fa = FigureAncestor.create(figure: figure, ancestor: father)
+        _fa = FigureAncestor.create(figure: figure, ancestor: father)
         fb = FigureAncestor.new(figure: figure, ancestor: father)
         expect(fb).not_to be_valid
         expect { fb.save!(validate: false) }
@@ -53,7 +55,7 @@ RSpec.describe FigureAncestor, type: :model do
         stranger = build_stubbed(:figure)
         expect(stranger.world).not_to eq(figure.world)
         invalid_ancestor = FigureAncestor
-          .new(figure: figure, ancestor: stranger)
+                           .new(figure: figure, ancestor: stranger)
         expect(invalid_ancestor).not_to be_valid
         expect { invalid_ancestor.save!(validate: false) }
           .to raise_error ActiveRecord::StatementInvalid
@@ -104,7 +106,7 @@ RSpec.describe FigureAncestor, type: :model do
           daughter,           grandmother_m,       grandmother_f,
           grandfather_m,      grandfather_f,       greatgrandfather,
           greatgrandmother,   grandson
-      )
+        )
       expect(pedigree)
         .not_to include(other_father, other_figure, other_son)
       # FIXME: The degrees are checked only with few samples ...
@@ -136,9 +138,11 @@ RSpec.describe FigureAncestor, type: :model do
 
     it_behaves_like 'updates parents' do
       let(:parent)  { figure }
-      let(:subject) { create(:figure_ancestor,
-                             figure: father,
-                             ancestor: figure) }
+      let(:subject) do
+        create(:figure_ancestor,
+               figure: father,
+               ancestor: figure)
+      end
     end
   end
 end

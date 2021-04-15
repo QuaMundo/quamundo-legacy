@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe FactConstituent, type: :model do
   include_context 'Session'
 
@@ -8,31 +10,31 @@ RSpec.describe FactConstituent, type: :model do
   let(:location)  { build(:location, world: world) }
   let(:concept)   { build(:concept, world: world) }
 
-  let!(:item_fc)   {
+  let!(:item_fc) do
     create(:fact_constituent,
            fact: fact,
            constituable: item,
            roles: ['n.n.', 'superduper'])
-  }
-  let!(:figure_fc) {
+  end
+  let!(:figure_fc) do
     create(:fact_constituent,
            fact: fact,
            constituable: figure,
            roles: ['n.n.', 'superduper'])
-  }
-  let!(:location_fc) {
+  end
+  let!(:location_fc) do
     create(:fact_constituent,
            fact: fact,
            constituable: location,
            roles: ['n.n.', 'superduper'])
-  }
+  end
 
-  let!(:concept_fc) {
+  let!(:concept_fc) do
     create(:fact_constituent,
            fact: fact,
            constituable: concept,
            roles: ['n.n.', 'superduper'])
-  }
+  end
 
   it 'can be build with item, figure and location' do
     expect(fact.fact_constituents.count).to eq(4)
@@ -50,8 +52,8 @@ RSpec.describe FactConstituent, type: :model do
 
   it 'has an empty list of roles if no roles are given' do
     fc = build_stubbed(:fact_constituent,
-                fact: fact,
-                constituable: build(:item, world: fact.world))
+                       fact: fact,
+                       constituable: build(:item, world: fact.world))
     expect(fc.roles).to be_empty
   end
 
@@ -80,15 +82,14 @@ RSpec.describe FactConstituent, type: :model do
   end
 
   it 'refuses creation if no constituable is given' do
-    fc = fact.fact_constituents.build()
+    fc = fact.fact_constituents.build
     expect(fc).not_to be_valid
     expect { fc.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
   end
 
   it 'refuses creating of constituable that does not belong to facts world',
-    db_triggers: true do
-
+     db_triggers: true do
     other_world = build_stubbed(:world, user: user)
     item = build_stubbed(:item, world: other_world)
     fc = fact.fact_constituents.build(constituable: item)
@@ -103,7 +104,8 @@ RSpec.describe FactConstituent, type: :model do
       fact.fact_constituents << create(
         :fact_constituent,
         fact: fact,
-        constituable: build(:item, world: fact.world))
+        constituable: build(:item, world: fact.world)
+      )
       expect(fact.updated_at).to be > t
     end
   end
@@ -111,7 +113,7 @@ RSpec.describe FactConstituent, type: :model do
   it 'touches timestamp of its fact when updated' do
     t = fact.updated_at
     travel(10.days) do
-      fact.fact_constituents.first.update(roles: ['a', 'b', 'c'])
+      fact.fact_constituents.first.update(roles: %w[a b c])
       expect(fact.updated_at).to be > t
     end
   end

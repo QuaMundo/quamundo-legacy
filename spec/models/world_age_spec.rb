@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe World, type: :model do
   context 'Age of world' do
     let(:world)         { create(:world) }

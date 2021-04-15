@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Figure, type: :model do
   include_context 'Session'
 

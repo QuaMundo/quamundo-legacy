@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Location, type: :model do
   include_context 'Session'
 

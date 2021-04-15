@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -27,7 +29,7 @@ RSpec.describe User, type: :model do
   it 'requires nick name to be case insensitive unique' do
     user.save
     other_user = build(:user, nick: user.nick.upcase,
-                       email: 'test1@example.com', password: 'pa55w05t')
+                              email: 'test1@example.com', password: 'pa55w05t')
     expect { other_user.save!(validate: false) }
       .to raise_error ActiveRecord::RecordNotUnique
     expect(other_user).not_to be_valid
@@ -35,7 +37,7 @@ RSpec.describe User, type: :model do
 
   it 'changes nick to all lowercase' do
     new_user = build(:user, nick: 'NIcKnAMe', email: 'test@example.com',
-                     password: 's3cr3t')
+                            password: 's3cr3t')
     new_user.save!
     expect(new_user.nick).to eq('nickname')
   end
