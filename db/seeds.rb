@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -14,9 +16,9 @@ if User.where('id = ? AND nick = ?', 0, 'admin').blank?
                     email: 'example@example.tld',
                     password: 'Qu4Mund0' }])
     p "Created user 'admin' with id '0'."
-  rescue
-    raise "\n\nUnable to ensure existence of adminuser with id 0!\n" +
-      "Please check manually!\n\n"
+  rescue StandardError
+    raise "\n\nUnable to ensure existence of adminuser with id 0!\n" \
+          "Please check manually!\n\n"
   end
 end
-puts "Ensured there is a admin user with id 0."
+puts 'Ensured there is a admin user with id 0.'
