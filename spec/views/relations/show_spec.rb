@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'relations/show', type: :view do
   let(:relation)  { create(:relation) }
   let(:fact)      { relation.fact }
@@ -47,8 +49,7 @@ RSpec.describe 'relations/show', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:relation)    { create(:relation, user: user) }
-
+      let(:relation) { create(:relation, user: user) }
     end
 
     context 'not owning world' do
@@ -129,6 +130,3 @@ RSpec.describe 'relations/show', type: :view do
     end
   end
 end
-
-
-

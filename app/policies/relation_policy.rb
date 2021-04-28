@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RelationPolicy < ApplicationPolicy
   pre_check :context_fact, only: [:index?]
 
@@ -22,7 +24,8 @@ class RelationPolicy < ApplicationPolicy
   end
 
   private
+
   def context_fact
-    deny! unless fact.present?
+    deny! if fact.blank?
   end
 end

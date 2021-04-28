@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   trait :with_image do
     transient do
-      image_file  { fixture_file_name('earth.jpg') }
+      image_file { fixture_file_name('earth.jpg') }
     end
 
-    image       { fixture_file_upload(image_file) }
+    image { fixture_file_upload(image_file) }
   end
 
   trait :with_notes do
     transient do
-      notes_count     { 3 }
+      notes_count { 3 }
     end
 
     after(:build) do |obj, evaluator|
@@ -19,7 +21,7 @@ FactoryBot.define do
 
   trait :with_tags do
     transient do
-      tagset          { %w{ tag_1 tag_2} }
+      tagset { %w[tag_1 tag_2] }
     end
 
     after(:build) do |obj, evaluator|
@@ -30,8 +32,10 @@ FactoryBot.define do
 
   trait :with_traits do
     transient do
-      attributeset    { { 'key 1' => 'value 1',
-                          'key 2' => 'value 2' } }
+      attributeset do
+        { 'key 1' => 'value 1',
+          'key 2' => 'value 2' }
+      end
     end
 
     after(:build) do |obj, evaluator|
@@ -42,7 +46,7 @@ FactoryBot.define do
 
   trait :with_dossiers do
     transient do
-      dossiers_count  { 1 }
+      dossiers_count { 1 }
     end
 
     after(:build) do |obj, evaluator|
@@ -52,7 +56,7 @@ FactoryBot.define do
 
   trait :with_facts do
     transient do
-      facts_count     { 1 }
+      facts_count { 1 }
     end
 
     after(:build) do |obj, evaluator|

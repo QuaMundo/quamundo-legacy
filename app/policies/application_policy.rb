@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base class for application policies
 class ApplicationPolicy < ActionPolicy::Base
   # Configure additional authorization contexts here
@@ -14,6 +16,7 @@ class ApplicationPolicy < ActionPolicy::Base
   alias_rule :edit?, :create?, :destroy?, to: :update?
 
   private
+
   # Define shared methods useful for most policies.
   # For example:
   #

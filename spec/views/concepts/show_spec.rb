@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'concepts/show', type: :view do
-  let(:concept)      { create(:concept) }
-  let(:world)     { concept.world }
+  let(:concept) { create(:concept) }
+  let(:world) { concept.world }
 
   before(:example) do
     # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -42,7 +44,6 @@ RSpec.describe 'concepts/show', type: :view do
 
     context 'owning world' do
       let(:concept)    { create(:concept, user: user) }
-
     end
 
     context 'not owning world' do
@@ -102,11 +103,9 @@ RSpec.describe 'concepts/show', type: :view do
             .to have_link(href: new_world_concept_path(world))
           expect(rendered)
             .to have_link(href: world_concept_path(world, concept),
-                              title: 'delete')
+                          title: 'delete')
         end
       end
     end
   end
 end
-
-

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module FigurePedigree
   extend ActiveSupport::Concern
 
   included do
     def pedigree
-      Pedigree.new(self.id).execute
+      Pedigree.new(id).execute
     end
   end
 

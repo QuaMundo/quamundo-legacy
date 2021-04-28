@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a figure', type: :system do
   include_context 'Session'
 
@@ -45,7 +47,7 @@ RSpec.describe 'Creating a figure', type: :system do
     it 'redirects to worlds index' do
       expect(page).to have_current_path(worlds_path)
       expect(page).to have_selector('aside.alert-danger',
-                                   text: 'You are not allowed')
+                                    text: 'You are not allowed')
     end
   end
 end

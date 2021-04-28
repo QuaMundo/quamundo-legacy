@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'editable traits', type: :system do
   # expect subject to be present
   it 'lets enter and remove multiple attributes', :js do

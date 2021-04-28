@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :world do
     sequence(:name)   { |n| "World #{n}" }
@@ -7,7 +9,7 @@ FactoryBot.define do
 
     trait :with_figures do
       transient do
-        figures_count       { 1 }
+        figures_count { 1 }
       end
 
       after(:build) do |world, evaluator|
@@ -17,7 +19,7 @@ FactoryBot.define do
 
     trait :with_items do
       transient do
-        items_count         { 1 }
+        items_count { 1 }
       end
 
       after(:build) do |world, evaluator|
@@ -27,7 +29,7 @@ FactoryBot.define do
 
     trait :with_locations do
       transient do
-        locations_count     { 1 }
+        locations_count { 1 }
       end
 
       after(:build) do |world, evaluator|
@@ -37,7 +39,7 @@ FactoryBot.define do
 
     trait :with_concepts do
       transient do
-        concepts_count      { 1 }
+        concepts_count { 1 }
       end
 
       after(:build) do |world, evaluator|
@@ -47,7 +49,7 @@ FactoryBot.define do
 
     trait :with_facts do
       transient do
-        facts_count         { 1 }
+        facts_count { 1 }
       end
 
       after(:build) do |world, evaluator|
@@ -65,24 +67,24 @@ FactoryBot.define do
     factory :world_with_locations, traits: [:with_locations]
     factory :world_with_concepts, traits: [:with_concepts]
     factory :world_with_facts, traits: [:with_facts]
-    factory :world_with_inventories, traits: [
-      :with_concepts,
-      :with_figures,
-      :with_items,
-      :with_locations,
-      :with_facts
+    factory :world_with_inventories, traits: %i[
+      with_concepts
+      with_figures
+      with_items
+      with_locations
+      with_facts
     ]
 
-    factory :world_with_all, traits: [
-      :with_notes,
-      :with_tags,
-      :with_traits,
-      :with_dossiers,
-      :with_figures,
-      :with_items,
-      :with_locations,
-      :with_concepts,
-      :with_facts
+    factory :world_with_all, traits: %i[
+      with_notes
+      with_tags
+      with_traits
+      with_dossiers
+      with_figures
+      with_items
+      with_locations
+      with_concepts
+      with_facts
     ]
   end
 end

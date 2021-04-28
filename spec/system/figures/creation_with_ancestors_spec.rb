@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a figure with ancestors',
-  type: :system, js: true, comprehensive: true do
+               type: :system, js: true, comprehensive: true do
   include_context 'Session'
 
   let(:world)     { create(:world, user: user) }

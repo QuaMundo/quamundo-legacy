@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Routes for Quamundo', type: :routing do
   include_context 'Session'
 

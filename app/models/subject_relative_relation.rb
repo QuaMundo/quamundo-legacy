@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 class SubjectRelativeRelation < ApplicationRecord
   belongs_to :relation, inverse_of: :subject_relative_relations
   belongs_to :subject,
-    class_name: 'RelationConstituent',
-    foreign_key: :subject_id
+             class_name: 'RelationConstituent'
   belongs_to :relative,
-    class_name: 'RelationConstituent',
-    foreign_key: :relative_id
+             class_name: 'RelationConstituent'
 
   has_one :fact_constituent, through: :relative
 

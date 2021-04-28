@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Dossiers', type: :request do
   let(:item)      { create(:item_with_dossiers, dossiers_count: 1) }
   let(:dossier)   { item.dossiers.first }
@@ -169,5 +171,3 @@ RSpec.describe 'Dossiers', type: :request do
     }
   end
 end
-
-

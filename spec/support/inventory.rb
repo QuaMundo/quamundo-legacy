@@ -1,5 +1,7 @@
-RSpec.shared_examples "inventory", type: :model do
-  let(:image_file)    { subject.model_name.to_s.downcase + '.jpg' }
+# frozen_string_literal: true
+
+RSpec.shared_examples 'inventory', type: :model do
+  let(:image_file)    { "#{subject.model_name.to_s.downcase}.jpg" }
   let(:subject_world) { subject.world }
   let(:klass)         { subject.class }
   let(:method)        { subject.model_name.plural.to_s.downcase.to_sym }

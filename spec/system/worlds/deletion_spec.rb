@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Deleting a world', type: :system do
   include_context 'Session'
 
@@ -8,7 +10,7 @@ RSpec.describe 'Deleting a world', type: :system do
   it 'brings apocalypse', :js, :comprehensive do
     world.reload
     page.find('.nav-item a.nav-link.dropdown').click
-    page.accept_confirm() do
+    page.accept_confirm do
       page.first('a.dropdown-item[title="delete"]').click
     end
     expect(page).to have_current_path(worlds_path)

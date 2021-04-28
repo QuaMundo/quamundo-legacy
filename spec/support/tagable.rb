@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'tagable', type: :model do
   before(:example) { subject.save! }
 
@@ -15,7 +17,7 @@ RSpec.shared_examples 'tagable', type: :model do
     subject.create_tag(tagset: ['new'])
     subject.save
     expect(Tag.where('tagable_type = ? and tagable_id = ?',
-           subject.model_name.to_s, subject.id).count)
+                     subject.model_name.to_s, subject.id).count)
       .to eq(1)
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Dossier, type: :model do
   include_context 'Session'
 
@@ -29,7 +31,7 @@ RSpec.describe Dossier, type: :model do
   end
 
   it 'can remove attached files' do
-    %w(video.m4v earth.jpg audio.mp3).each { |f| attach_file(dossier.files, f) }
+    %w[video.m4v earth.jpg audio.mp3].each { |f| attach_file(dossier.files, f) }
     dossier.save!
     expect(dossier.files.count).to eq(3)
     dossier.files.first.purge

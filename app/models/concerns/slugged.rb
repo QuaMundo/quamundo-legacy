@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Slugged
   extend ActiveSupport::Concern
 
   included do
     validates :name, :user, presence: true
-    validates_uniqueness_of :name, case_sensitive: false
+    validates :name, uniqueness: { case_sensitive: false }
 
     before_save :slugify
 
@@ -13,7 +15,8 @@ module Slugged
   end
 
   private
+
   def slugify
-    self.slug = self.name.parameterize
+    self.slug = name.parameterize
   end
 end

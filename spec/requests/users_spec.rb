@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'User', type: :request do
   context 'as admin user' do
     include_context 'Admin Session'
@@ -31,7 +33,7 @@ RSpec.describe 'User', type: :request do
     end
 
     it 'cannot list users' do
-      get  users_path
+      get users_path
       expect(response).to redirect_to root_path
     end
   end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe SubjectRelativeRelation, type: :model do
-  let!(:relation)  { create(:relation_with_constituents) }
+  let!(:relation) { create(:relation_with_constituents) }
   let(:sub_rel) do
     refresh_materialized_views(SubjectRelativeRelation)
     relation.subject_relative_relations.first
@@ -13,7 +15,7 @@ RSpec.describe SubjectRelativeRelation, type: :model do
 
   it 'does not allow constituents to be added twice' do
     srr = relation
-      .subject_relative_relations.new(subject: subject, relative: relative)
+          .subject_relative_relations.new(subject: subject, relative: relative)
     expect(srr).not_to be_valid
     # Attention: This does not check unique index on subject_id and relative_id
     # in DB, since model is marked as readonly.

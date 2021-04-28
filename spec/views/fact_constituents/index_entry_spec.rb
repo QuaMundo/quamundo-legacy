@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe 'fact_constituents/index', type: :view do
-  let(:constituent)   { create(:fact_constituent,
-                              roles: ['role 1', 'role 2']) }
+  let(:constituent) do
+    create(:fact_constituent,
+           roles: ['role 1', 'role 2'])
+  end
   let(:constituable)  { constituent.constituable }
   let(:fact)          { constituent.fact }
   let(:world)         { fact.world }
@@ -15,9 +19,11 @@ RSpec.describe 'fact_constituents/index', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:constituent)   { create(:fact_constituent,
-                                   roles: ['role 1', 'role 2'],
-                                   user: user) }
+      let(:constituent) do
+        create(:fact_constituent,
+               roles: ['role 1', 'role 2'],
+               user: user)
+      end
 
       it 'shows a fact constituent index entry' do
         render(partial: 'fact_constituents/index_entry',
@@ -36,11 +42,13 @@ RSpec.describe 'fact_constituents/index', type: :view do
           .to have_link(href: polymorphic_path([world, constituable]))
         expect(rendered)
           .to have_link(
-            href: edit_world_fact_path(world, fact))
+            href: edit_world_fact_path(world, fact)
+          )
         expect(rendered)
           .to have_link(
             href: /^#{world_fact_path(world, fact)}/,
-            id: /delete-.+/)
+            id: /delete-.+/
+          )
       end
     end
 
@@ -53,11 +61,13 @@ RSpec.describe 'fact_constituents/index', type: :view do
 
         expect(rendered)
           .not_to have_link(
-            href: edit_world_fact_path(world, fact))
+            href: edit_world_fact_path(world, fact)
+          )
         expect(rendered)
           .not_to have_link(
             href: /^#{world_fact_path(world, fact)}/,
-            id: /delete-.+/)
+            id: /delete-.+/
+          )
       end
 
       it 'shows crud links with read-write permissions' do
@@ -68,11 +78,13 @@ RSpec.describe 'fact_constituents/index', type: :view do
 
         expect(rendered)
           .to have_link(
-            href: edit_world_fact_path(world, fact))
+            href: edit_world_fact_path(world, fact)
+          )
         expect(rendered)
           .to have_link(
             href: /^#{world_fact_path(world, fact)}/,
-            id: /delete-.+/)
+            id: /delete-.+/
+          )
       end
     end
   end
@@ -86,11 +98,13 @@ RSpec.describe 'fact_constituents/index', type: :view do
 
       expect(rendered)
         .not_to have_link(
-          href: edit_world_fact_path(world, fact))
+          href: edit_world_fact_path(world, fact)
+        )
       expect(rendered)
         .not_to have_link(
           href: /^#{world_fact_path(world, fact)}/,
-          id: /delete-.+/)
+          id: /delete-.+/
+        )
     end
   end
 end

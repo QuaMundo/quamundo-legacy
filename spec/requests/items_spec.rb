@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Items', type: :request do
-  let(:item)    { create(:item) }
-  let(:world)     { item.world }
+  let(:item) { create(:item) }
+  let(:world) { item.world }
 
   context 'with unregistered user' do
     context 'with non public world' do
@@ -177,9 +179,8 @@ RSpec.describe 'Items', type: :request do
   def sample_params
     {
       item: {
-        tag_attributes: {id: nil, tagset: 'tag'}
+        tag_attributes: { id: nil, tagset: 'tag' }
       }
     }
   end
 end
-

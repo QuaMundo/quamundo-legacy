@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Concept, type: :model do
   include_context 'Session'
 

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe Relation, type: :model do
   include_context 'Session'
 
   let(:fact)      { create(:fact, user: user) }
 
   context 'basic usage' do
-    let(:relation)  { create(:relation, fact: fact) }
+    let(:relation) { create(:relation, fact: fact) }
 
     it 'can be created with a name' do
       rel = Relation.new(name: 'relates to', fact: fact)
@@ -35,9 +37,9 @@ RSpec.describe Relation, type: :model do
     it 'can add constituents' do
       inventory = build(:item, world: fact.world)
       fact_constituent = fact.fact_constituents
-        .build(constituable: inventory)
+                             .build(constituable: inventory)
       relation_constituent = relation.relation_constituents
-        .build(fact_constituent: fact_constituent, role: :subject)
+                                     .build(fact_constituent: fact_constituent, role: :subject)
       expect(relation.relation_constituents)
         .to contain_exactly(relation_constituent)
     end
@@ -57,7 +59,7 @@ RSpec.describe Relation, type: :model do
     it 'gets destroyed if its fact is destroyed' do
       rel = create(:relation, fact: fact)
       fact.destroy
-      expect { rel.reload}.to raise_error ActiveRecord::RecordNotFound
+      expect { rel.reload }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it 'cannot change its fact' do
@@ -81,32 +83,33 @@ RSpec.describe Relation, type: :model do
   context 'advanced usage' do
     let(:fact)          { create(:fact, user: user) }
     let(:relation)      { create(:relation_with_constituents, fact: fact) }
-    let(:subject_1)     { relation.subjects.first }
-    let(:subject_2)     { relation.subjects.second }
-    let(:relative_1)    { relation.relatives.first }
-    let(:relative_2)    { relation.relatives.second }
+    let(:subject1)     { relation.subjects.first }
+    let(:subject2)     { relation.subjects.second }
+    let(:relative1)    { relation.relatives.first }
+    let(:relative2)    { relation.relatives.second }
 
     it 'knows about its subjects and relatives', db_triggers: true do
-      #binding.pry
-      expect(subject_2.class).to eq(RelationConstituent)
+      # binding.pry
+      expect(subject2.class).to eq(RelationConstituent)
       expect(relation.subjects)
-        .to contain_exactly(subject_1, subject_2)
+        .to contain_exactly(subject1, subject2)
       expect(relation.relatives)
-        .to contain_exactly(relative_1, relative_2)
+        .to contain_exactly(relative1, relative2)
     end
 
     context 'unidirectional', db_triggers: true do
       it 'it associates its subjects to its relatives' do
-        relatives = subject_1.relatives
-        expect(subject_1.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
-        expect(relative_1.relatives).to be_empty
-        fact_constituent = subject_1.fact_constituent
+        # FIXME: delete line
+        # relatives = subject1.relatives
+        expect(subject1.relatives.map(&:relative))
+          .to contain_exactly(relative1, relative2)
+        expect(relative1.relatives).to be_empty
+        fact_constituent = subject1.fact_constituent
         expect(fact_constituent.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
+          .to contain_exactly(relative1, relative2)
         inventory = fact_constituent.constituable
         expect(inventory.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
+          .to contain_exactly(relative1, relative2)
       end
     end
 
@@ -114,31 +117,31 @@ RSpec.describe Relation, type: :model do
       before(:example)  { relation.update(reverse_name: 'is related to by') }
 
       it 'it associates its subjects to its relatives' do
-        relatives = subject_1.relatives
-        expect(subject_1.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
-        expect(relative_1.relatives.map(&:relative))
-          .to contain_exactly(subject_1, subject_2)
-        fact_constituent = subject_1.fact_constituent
+        # relatives = subject1.relatives
+        expect(subject1.relatives.map(&:relative))
+          .to contain_exactly(relative1, relative2)
+        expect(relative1.relatives.map(&:relative))
+          .to contain_exactly(subject1, subject2)
+        fact_constituent = subject1.fact_constituent
         expect(fact_constituent.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
+          .to contain_exactly(relative1, relative2)
         inventory = fact_constituent.constituable
         expect(inventory.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
+          .to contain_exactly(relative1, relative2)
       end
 
       it 'it also associates its relatives to its subjects' do
-        relatives = relative_1.relatives
-        expect(relative_1.relatives.map(&:relative))
-          .to contain_exactly(subject_1, subject_2)
-        expect(subject_1.relatives.map(&:relative))
-          .to contain_exactly(relative_1, relative_2)
-        fact_constituent = relative_1.fact_constituent
+        # relatives = relative1.relatives
+        expect(relative1.relatives.map(&:relative))
+          .to contain_exactly(subject1, subject2)
+        expect(subject1.relatives.map(&:relative))
+          .to contain_exactly(relative1, relative2)
+        fact_constituent = relative1.fact_constituent
         expect(fact_constituent.relatives.map(&:relative))
-          .to contain_exactly(subject_1, subject_2)
+          .to contain_exactly(subject1, subject2)
         inventory = fact_constituent.constituable
         expect(inventory.relatives.map(&:relative))
-          .to contain_exactly(subject_1, subject_2)
+          .to contain_exactly(subject1, subject2)
       end
     end
   end

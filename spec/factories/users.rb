@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
-    sequence(:nick)   { |n| "nick_#{n.to_s}" }
+    sequence(:nick)   { |n| "nick_#{n}" }
     email             { "#{nick}@example.tld" }
 
     password          { 's3cr3t' }
 
     factory :user_with_worlds do
       transient do
-        worlds_count      { 1 }
+        worlds_count { 1 }
       end
 
       after(:build) do |user, evaluator|
@@ -17,7 +19,7 @@ FactoryBot.define do
 
     factory :user_with_worlds_wo_img do
       transient do
-        worlds_count      { 1 }
+        worlds_count { 1 }
       end
 
       after(:build) do |user, evaluator|

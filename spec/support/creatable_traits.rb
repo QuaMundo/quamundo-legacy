@@ -1,14 +1,18 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'creatable traits', type: :system do
   # Expect `path` to be present
   before(:example) do
     visit path
+    # rubocop:disable Lint/SuppressedException
     begin
       # A world has an immutable name - so, name is not the thing we want
       # to test, errors should be ignored
       # FIXME: Is there a way to solve above issue?
       fill_in('Name', with: 'Test-Name')
-    rescue
+    rescue StandardError
     end
+    # rubocop:enable Lint/SuppressedException
   end
 
   it 'lets enter and remove multiple attributes', :js do

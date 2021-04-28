@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # FIXME: Do some more testing on the svg timelines ...
 RSpec.describe 'Rendering fact timeline', type: :system, js: true do
   include_context 'Session'
@@ -49,7 +51,7 @@ RSpec.describe 'Rendering fact timeline', type: :system, js: true do
       before(:example) { world.facts.create(name: 'fact').save! }
 
       it 'renders second ranged fact' do
-        fact = create(:fact, world: world,start_date: early, end_date: late)
+        fact = create(:fact, world: world, start_date: early, end_date: late)
         visit(world_fact_path(world, fact))
         expect(page).to have_selector('svg.simple-timeline')
         expect(page).to have_selector('rect.fact.ranged-fact')

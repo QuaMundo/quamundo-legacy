@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Updating a fact with constituents',
-  type: :system, db_triggers: true, js: true, comprehensive: true do
+               type: :system, db_triggers: true, js: true, comprehensive: true do
   include_context 'Session'
 
   let(:world)   { build(:world_with_inventories, user: user) }
@@ -10,16 +12,18 @@ RSpec.describe 'Updating a fact with constituents',
   let(:concept)   { world.concepts.first }
   let(:location)  { world.locations.first }
 
-  let!(:const_1) { create(:fact_constituent, fact: fact, constituable: item) }
-  let!(:const_2) { create(:fact_constituent, fact: fact, constituable: figure) }
+  let!(:const1) { create(:fact_constituent, fact: fact, constituable: item) }
+  let!(:const2) { create(:fact_constituent, fact: fact, constituable: figure) }
 
   it 'can add an constituent' do
     visit edit_world_fact_path(world, fact)
 
     expect(page).not_to have_selector(
-      "option[value=\"#{item.name}.#{item.id.to_s}\"]")
+      "option[value=\"#{item.name}.#{item.id}\"]"
+    )
     expect(page).not_to have_selector(
-      "option[value=\"#{figure.name}.#{figure.id.to_s}\"]")
+      "option[value=\"#{figure.name}.#{figure.id}\"]"
+    )
     expect(page).to have_selector("input[value=\"#{figure.name} (Figure)\"]")
     expect(page).to have_selector("input[value=\"#{item.name} (Item)\"]")
     expect(page).to have_selector("option[value=\"Concept.#{concept.id}\"]")
@@ -34,7 +38,8 @@ RSpec.describe 'Updating a fact with constituents',
     expect(page)
       .to have_selector("input[value=\"#{location.name} (Location)\"]")
     expect(page).to have_selector(
-      "option[value=\"Location.#{location.id}\"][disabled]")
+      "option[value=\"Location.#{location.id}\"][disabled]"
+    )
 
     # Add another constituent
     page.find(
@@ -44,14 +49,15 @@ RSpec.describe 'Updating a fact with constituents',
     expect(page)
       .to have_selector("input[value=\"#{concept.name} (Concept)\"]")
     expect(page).to have_selector(
-      "option[value=\"Location.#{location.id}\"][disabled]")
+      "option[value=\"Location.#{location.id}\"][disabled]"
+    )
     # ... and remove it ...
     i = page.find("input[value=\"#{concept.name} (Concept)\"]")
-      .find(:xpath, '../..')
+            .find(:xpath, '../..')
     i.find('button').click
     expect(page).not_to have_selector(
-      "option[value=\"Concept.#{concept.id}\"][disabled]")
-
+      "option[value=\"Concept.#{concept.id}\"][disabled]"
+    )
 
     # Remove existing constituent
     i = page.find("input[value=\"#{item.name} (Item)\"]").find(:xpath, '../..')

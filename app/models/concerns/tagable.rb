@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Tagable
   extend ActiveSupport::Concern
 
@@ -8,8 +10,9 @@ module Tagable
     after_validation :set_tagset
 
     private
+
     def set_tagset
-      self.build_tag if self.tag.nil?
+      build_tag if tag.nil?
     end
   end
 end

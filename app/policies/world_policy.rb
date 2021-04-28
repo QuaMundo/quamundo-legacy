@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class WorldPolicy < ApplicationPolicy
-  pre_check :allow_owner, only: [
-    :edit?, :update?, :show?, :destroy?, :set_permissions?
+  pre_check :allow_owner, only: %i[
+    edit? update? show? destroy? set_permissions?
   ]
 
   def new?
@@ -41,6 +43,7 @@ class WorldPolicy < ApplicationPolicy
   end
 
   private
+
   def owner?
     user.nil? ? false : (record.user.id == user.id)
   end
@@ -55,24 +58,36 @@ class WorldPolicy < ApplicationPolicy
 
   # FIXME: Refactor - seems to do 2 db req with pr?
   def r?
-    record.nil? ? false : record
-      .permissions
-      .where(permissions: [:r, :rw], user: user)
-      .exists?
+    if record.nil?
+      false
+    else
+      record
+        .permissions
+        .where(permissions: %i[r rw], user: user)
+        .exists?
+    end
   end
 
   def rw?
-    record.nil? ? false : record
-      .permissions
-      .where(permissions: :rw, user: user)
-      .exists?
+    if record.nil?
+      false
+    else
+      record
+        .permissions
+        .where(permissions: :rw, user: user)
+        .exists?
+    end
   end
 
   # FIXME: Refactor - seems to do 2 db req with r?
   def pr?
-    record.nil? ? false : record
-      .permissions
-      .where(permissions: :public)
-      .exists?
+    if record.nil?
+      false
+    else
+      record
+        .permissions
+        .where(permissions: :public)
+        .exists?
+    end
   end
 end

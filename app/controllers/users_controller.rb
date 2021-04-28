@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     flash[:alert] = t('.not_allowed')
     redirect_to root_path
   end
@@ -26,7 +28,7 @@ class UsersController < ApplicationController
         end
       else
         format.html do
-          flash[:alert] =  t('.create_failed', user: @new_user.nick)
+          flash[:alert] = t('.create_failed', user: @new_user.nick)
           render :new
         end
       end
@@ -34,6 +36,7 @@ class UsersController < ApplicationController
   end
 
   private
+
   def user_params
     params
       .require(:user)

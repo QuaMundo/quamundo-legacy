@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class FactsController < ApplicationController
   include WorldAssociationController
   include ProcessParams
   include FactConstituentsParams
+  include FactsConcern
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # FIXME: Manage err msgs
     if request.format.symbol == :json
       render json: 'Error', status: :unprocessable_entity
@@ -14,22 +17,21 @@ class FactsController < ApplicationController
     end
   end
 
-  before_action :set_fact, only: [:show, :edit, :update, :destroy]
+  before_action :set_fact, only: %i[show edit update destroy]
 
   authorize :world, through: :current_world
 
   def index
     params = fact_index_params
-    unless params[:inventory].present?
-      @facts = current_world.facts.chronological
-    else
-      @facts = current_world.facts
-        .joins(:fact_constituents)
-        .where(
-          'fact_constituents.constituable_type' => params[:inventory][:type],
-          'fact_constituents.constituable_id' => params[:inventory][:id]
-      ).chronological
-    end
+    @facts = if params[:inventory].present?
+               facts_by_inventory(
+                 inventory_id: params[:inventory][:id],
+                 inventory_type: params[:inventory][:type],
+                 world: current_world
+               ).chronological
+             else
+               current_world.facts.chronological
+             end
     authorize! @facts
     respond_to do |format|
       format.html { render }
@@ -72,8 +74,7 @@ class FactsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     respond_to do |format|
@@ -104,11 +105,12 @@ class FactsController < ApplicationController
   end
 
   private
+
   def set_fact
     @fact = current_world.facts
-      .with_attached_image
-      .includes(:tag, :trait, :notes, :dossiers)
-      .find(params[:id])
+                         .with_attached_image
+                         .includes(:tag, :trait, :notes, :dossiers)
+                         .find(params[:id])
     authorize! @fact
   end
 
@@ -116,23 +118,23 @@ class FactsController < ApplicationController
     dispatch_tags_param!(params[:fact][:tag_attributes])
     dispatch_traits_param!(params[:fact][:trait_attributes])
     dispatch_fact_constituents_param!(
-      params[:fact][:fact_constituents_attributes])
+      params[:fact][:fact_constituents_attributes]
+    )
 
     params
       .require(:fact)
       .permit(:name, :description, :image, :start_date, :end_date,
-              inventory:                    [:id, :type],
-              tag_attributes:               [:id, tagset: [] ],
-              trait_attributes:             [:id, attributeset: {}],
+              inventory: %i[id type],
+              tag_attributes: [:id, { tagset: [] }],
+              trait_attributes: [:id, { attributeset: {} }],
               fact_constituents_attributes: [:id,
-                                             :constituable_id, 
+                                             :constituable_id,
                                              :constituable_type,
                                              :_destroy,
-                                             roles: [] ]
-             )
+                                             { roles: [] }])
   end
 
   def fact_index_params
-    params.permit(inventory: [:id, :type])
+    params.permit(inventory: %i[id type])
   end
 end

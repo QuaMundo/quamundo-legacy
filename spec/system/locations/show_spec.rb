@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a location', type: :system do
   include_context 'Session'
 

@@ -1,16 +1,18 @@
-RSpec.describe 'Updating/editing a figure', type: :system do
+# frozen_string_literal: true
 
+RSpec.describe 'Updating/editing a figure', type: :system do
   include_context 'Session'
 
   let(:figure)        { create(:figure, user: user) }
   let(:world)         { figure.world }
-  let(:other_figure)  { create(:figure)  }
+  let(:other_figure)  { create(:figure) }
   let(:other_world)   { other_figure.world }
 
   context 'of own world' do
     it 'can update description' do
-      QuamundoTestHelpers::attach_file(
-        figure.image, fixture_file_name('location.jpg'))
+      QuamundoTestHelpers.attach_file(
+        figure.image, fixture_file_name('location.jpg')
+      )
       visit edit_world_figure_path(world, figure)
       expect(page).to have_selector("img##{element_id(figure, 'img')}")
       fill_in('Description', with: 'New description')
@@ -55,7 +57,7 @@ RSpec.describe 'Updating/editing a figure', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:subject)     { create(:figure, :with_traits, user: user) }
+      let(:subject) { create(:figure, :with_traits, user: user) }
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemPolicy < ApplicationPolicy
   def new?
     allowed_to?(:update?, world)
@@ -15,4 +17,3 @@ class ItemPolicy < ApplicationPolicy
     allowed_to?(:show?, world)
   end
 end
-

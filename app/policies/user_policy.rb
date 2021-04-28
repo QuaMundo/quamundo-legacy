@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserPolicy < ApplicationPolicy
   pre_check :admin?
 
@@ -14,7 +16,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   private
+
   def admin?
-    deny! unless user.present?
+    deny! if user.blank?
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Fact, type: :model do
   include_context 'Session'
 
@@ -23,15 +25,15 @@ RSpec.describe Fact, type: :model do
 
     it 'can have a start and end date if end is after start' do
       fact = build(:fact, world: world,
-                   start_date: DateTime.current - 1.day,
-                   end_date: DateTime.current + 1.day)
+                          start_date: DateTime.current - 1.day,
+                          end_date: DateTime.current + 1.day)
       expect(fact).to be_valid
     end
 
     it 'cannot have a start date that is behind end date' do
       fact = build(:fact, world: world,
-                   start_date: DateTime.current + 1.day,
-                   end_date: DateTime.current - 1.day)
+                          start_date: DateTime.current + 1.day,
+                          end_date: DateTime.current - 1.day)
       expect(fact).not_to be_valid
       expect { fact.save!(validate: false) }
         .to raise_error ActiveRecord::StatementInvalid
@@ -40,8 +42,8 @@ RSpec.describe Fact, type: :model do
     it 'cannot have a start date equal to end date' do
       date = DateTime.current
       fact = build(:fact, world: world,
-                   start_date: date,
-                   end_date: date)
+                          start_date: date,
+                          end_date: date)
       expect(fact).not_to be_valid
       expect { fact.save!(validate: false) }
         .to raise_error ActiveRecord::StatementInvalid

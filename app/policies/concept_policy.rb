@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConceptPolicy < ApplicationPolicy
   def new?
     allowed_to?(:update?, world)

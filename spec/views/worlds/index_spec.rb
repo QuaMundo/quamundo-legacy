@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'worlds/index', type: :view do
   context 'unregistered user' do
     it 'does not show new world link' do

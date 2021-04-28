@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DossierPolicy < ApplicationPolicy
   def new?
     allowed_to?(:update?, record.dossierable)

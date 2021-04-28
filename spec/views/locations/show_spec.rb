@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'locations/show', type: :view do
-  let(:location)      { create(:location) }
-  let(:world)     { location.world }
+  let(:location) { create(:location) }
+  let(:world) { location.world }
 
   before(:example) do
     # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -41,8 +43,7 @@ RSpec.describe 'locations/show', type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:location)    { create(:location, user: user) }
-
+      let(:location) { create(:location, user: user) }
     end
 
     context 'not owning world' do
@@ -102,11 +103,9 @@ RSpec.describe 'locations/show', type: :view do
             .to have_link(href: new_world_location_path(world))
           expect(rendered)
             .to have_link(href: world_location_path(world, location),
-                              title: 'delete')
+                          title: 'delete')
         end
       end
     end
   end
 end
-
-

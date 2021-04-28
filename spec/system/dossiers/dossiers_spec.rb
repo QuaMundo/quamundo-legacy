@@ -1,23 +1,26 @@
+# frozen_string_literal: true
+
 RSpec.describe 'CRUD actions on dossiers', type: :system do
   include_context 'Session'
 
   context 'create a dossier' do
     let(:world) { create(:world, user: user) }
 
-    before(:example) {
+    before(:example) do
       visit(new_polymorphic_path(
-        [world, Dossier],
-        dossier: {
-          dossierable_type: 'World',
-          dossierable_id: world.id
-        }))
-    }
+              [world, Dossier],
+              dossier: {
+                dossierable_type: 'World',
+                dossierable_id: world.id
+              }
+            ))
+    end
 
     it 'succeeds with proper filled form' do
       dossiers_count = world.dossiers.count
       fill_in('Name', with: 'New Dossier')
       fill_in('Content', with: 'Some content')
-      files = %w(earth.jpg file.pdf).map { |f| fixture_file_name(f) }
+      files = %w[earth.jpg file.pdf].map { |f| fixture_file_name(f) }
       page.attach_file('dossier_files', files)
       click_button('submit')
       expect(page).to have_content('New Dossier')
@@ -35,7 +38,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     end
 
     it_behaves_like 'valid_view' do
-      let(:path) {
+      let(:path) do
         new_polymorphic_path(
           [world, Dossier],
           dossier: {
@@ -43,7 +46,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
             dossierable_id: world.id
           }
         )
-      }
+      end
     end
   end
 
@@ -76,7 +79,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
   context 'showing a dossier' do
     let(:dossier) do
-      content = <<~EOT
+      content = <<~ENDOFTEXT
         # Heading 1
 
         ## Heading 2
@@ -85,7 +88,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
 
         * List Item 1
         * List Item 2
-      EOT
+      ENDOFTEXT
 
       create(:dossier, content: content, dossierable: build(:world, user: user))
     end
@@ -124,7 +127,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     end
 
     it 'removes attachments marked for removal' do
-      files = %w(earth.jpg file.pdf item.jpg).map do |file|
+      %w[earth.jpg file.pdf item.jpg].map do |file|
         f = fixture_file_name(file)
         dossier.files.attach(fixture_file_upload(f))
       end
@@ -138,7 +141,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     end
 
     it 'deletes all attachments when dossier is deleted', :comprehensive do
-      files = %w(earth.jpg file.pdf).map do |file|
+      %w[earth.jpg file.pdf].map do |file|
         f = fixture_file_name(file)
         dossier.files.attach(fixture_file_upload(f))
       end
@@ -148,7 +151,7 @@ RSpec.describe 'CRUD actions on dossiers', type: :system do
     end
 
     it 'renders image sliders' do
-      files = %w(earth.jpg htrae.jpg video.m4v audio.mp3).map do |file|
+      %w[earth.jpg htrae.jpg video.m4v audio.mp3].map do |file|
         f = fixture_file_name(file)
         dossier.files.attach(fixture_file_upload(f))
       end

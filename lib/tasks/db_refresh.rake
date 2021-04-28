@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   def refresh_materialized_views
     # Add models which use materialized views here
@@ -5,7 +7,7 @@ namespace :db do
     SubjectRelativeRelation.refresh
   end
 
-  desc "Refresh materialized views"
+  desc 'Refresh materialized views'
   task refresh: :environment do
     refresh_materialized_views
   end

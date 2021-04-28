@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'figures/index', type: :view do
   context 'registered user' do
     include_context 'Session'
@@ -66,7 +68,7 @@ RSpec.describe 'figures/index', type: :view do
           .to have_link(href: edit_world_figure_path(world, figure))
         expect(rendered)
           .to have_link(href: world_figure_path(world, figure),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
   end

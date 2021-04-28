@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Element ID helper', type: :helper do
   let(:world)   { build(:world, id: 42) }
-  let(:user)    { build(:user, id: 111268) }
+  let(:user)    { build(:user, id: 111_268) }
   let(:prefix)  { 'prefix' }
 
   context 'for user' do

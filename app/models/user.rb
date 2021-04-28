@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   include Nicked
 
@@ -12,16 +14,16 @@ class User < ApplicationRecord
   has_many :permissions, dependent: :destroy
 
   # FIXME: Is this really needed?
-  with_options through: :worlds do |assoc|
-    assoc.has_many :figures
-    assoc.has_many :items
-    assoc.has_many :locations
-    assoc.has_many :concepts
-    assoc.has_many :facts
+  with_options through: :worlds do
+    has_many :figures
+    has_many :items
+    has_many :locations
+    has_many :concepts
+    has_many :facts
   end
 
   # FIXME: Add `admin` flag in future versions
   def admin?
-    id == 0
+    id.zero?
   end
 end

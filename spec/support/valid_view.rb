@@ -1,5 +1,7 @@
-RSpec.shared_examples "valid_view", type: :system do
-  let (:path) { subject }
+# frozen_string_literal: true
+
+RSpec.shared_examples 'valid_view', type: :system do
+  let(:path) { subject }
   before(:example) { visit path }
 
   context 'header', :comprehensive do

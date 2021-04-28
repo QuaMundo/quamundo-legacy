@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'relatable', type: :model do
   let(:fact)        { create(:fact, world: subject.world) }
   let(:relation)    { create(:relation_with_constituents, fact: fact) }
-  let!(:fact_constituent) {
+  let!(:fact_constituent) do
     fact.fact_constituents.create(constituable: subject)
-  }
-  let!(:relation_constituent) {
+  end
+  let!(:relation_constituent) do
     relation.relation_constituents
-      .create(fact_constituent: fact_constituent, role: :subject)
-  }
+            .create(fact_constituent: fact_constituent, role: :subject)
+  end
 
   before(:example) do
     refresh_materialized_views(SubjectRelativeRelation)
@@ -23,7 +25,7 @@ RSpec.shared_examples 'relatable', type: :model do
   end
 
   context 'bidirectional' do
-    before(:example)  do
+    before(:example) do
       relation.update(reverse_name: 'is related to by')
       refresh_materialized_views(SubjectRelativeRelation)
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Imaged
   extend ActiveSupport::Concern
 
@@ -8,15 +10,13 @@ module Imaged
   end
 
   def only_image_attachments
-    if image.attached? && !image.image?
-      # FIXME: I18n
-      errors.add(:image, 'Only images may be attached!')
-    end
+    return unless image.attached? && !image.image?
+
+    # FIXME: I18n
+    errors.add(:image, 'Only images may be attached!')
   end
 
   def purge_image
-    if image.attached?
-      image.purge
-    end
+    image.purge if image.attached?
   end
 end

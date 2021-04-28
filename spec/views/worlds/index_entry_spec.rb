@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'worlds/index', type: :view do
   let(:world) { build(:world_with_facts, facts_count: 2) }
 
@@ -7,8 +9,10 @@ RSpec.describe 'worlds/index', type: :view do
     context 'owning world' do
       let(:world) do
         world = build(:world_with_facts, facts_count: 2, user: user)
+        # rubocop:disable Rails/SkipsModelValidations
         world.facts.first.update_attribute(:start_date, DateTime.new(1800, 1, 1))
         world.facts.last.update_attribute(:end_date, DateTime.new(2200, 12, 31))
+        # rubocop:enable Rails/SkipsModelValidations
         world.save!
         world
       end

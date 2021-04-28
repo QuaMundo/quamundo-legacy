@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FactConstituentHelper
   class << self
     def selectable_constituents(fact)
@@ -7,15 +9,15 @@ module FactConstituentHelper
     end
 
     def select_group_options(fact)
-      selectable_constituents(fact).inject({}) do |memo, current|
+      selectable_constituents(fact).each_with_object({}) do |current, memo|
         (memo[current.inventory_type] ||= [])
           .push([current.name, current.type_id])
-        memo
       end
     end
   end
 
   class FactConstituentsSelector
+    # rubocop:disable Rails/HelperInstanceVariable
     SQL = <<~SQL
       SELECT
         i.inventory_type,
@@ -44,7 +46,9 @@ module FactConstituentHelper
     end
 
     def selectable_constituents
-      @constituents ||= Inventory.find_by_sql([SQL, @fact.world.id, @fact.id])
+      @selectable_constituents ||=
+        Inventory.find_by_sql([SQL, @fact.world.id, @fact.id])
     end
+    # rubocop:enable Rails/HelperInstanceVariable
   end
 end

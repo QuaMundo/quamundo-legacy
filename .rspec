@@ -1,1 +1,2 @@
 --require rails_helper
+--exclude-pattern "**/disabled/**/*_spec.rb"

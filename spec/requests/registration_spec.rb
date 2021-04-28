@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'User registration', type: :request do
   context 'as admin user' do
     include_context 'Admin Session'

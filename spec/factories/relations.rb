@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module QuamundoRelationConstituentHelper
   class << self
     def random_relation_constituent(relation, role)
@@ -8,8 +10,9 @@ module QuamundoRelationConstituentHelper
     end
 
     private
+
     def types
-      [:concept, :figure, :item, :location]
+      %i[concept figure item location]
     end
 
     def random_type

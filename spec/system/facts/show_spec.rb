@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing a fact', type: :system do
   include_context 'Session'
 
@@ -24,13 +26,13 @@ RSpec.describe 'Showing a fact', type: :system do
     end
 
     context 'with relations' do
-      let!(:relation_1)  { create(:relation, fact: fact, name: 'rel 1') }
-      let!(:relation_2)  { create(:relation, fact: fact, name: 'rel 2') }
+      let!(:relation1)  { create(:relation, fact: fact, name: 'rel 1') }
+      let!(:relation2)  { create(:relation, fact: fact, name: 'rel 2') }
 
       it 'shows a list of relations' do
         visit(world_fact_path(world, fact))
         expect(page).to have_selector('#relations')
-        [relation_1, relation_2].each do |relation|
+        [relation1, relation2].each do |relation|
           expect(page).to have_content(relation.name)
           expect(page).to have_content(relation.description)
           expect(page)
@@ -40,7 +42,8 @@ RSpec.describe 'Showing a fact', type: :system do
                           id: /delete-.*/)
           expect(page)
             .to have_link(href: edit_world_fact_relation_path(
-              world, fact, relation))
+              world, fact, relation
+            ))
         end
       end
     end

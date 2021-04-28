@@ -1,4 +1,6 @@
-RSpec.shared_examples "associated_with_world", type: :model do
+# frozen_string_literal: true
+
+RSpec.shared_examples 'associated_with_world', type: :model do
   let(:subject_world) { subject.world }
   let(:klass)         { subject.class }
   let(:method)        { subject.model_name.plural.to_s.downcase.to_sym }

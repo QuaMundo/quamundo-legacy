@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a user', type: :system do
   include_context 'Admin Session'
 
-  let(:other_user)    { create(:user) }
+  let(:other_user) { create(:user) }
 
   before(:example) { visit new_user_path }
 

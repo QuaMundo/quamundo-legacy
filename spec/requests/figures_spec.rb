@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Figures', type: :request do
   let(:figure)    { create(:figure) }
   let(:world)     { figure.world }
@@ -62,7 +64,7 @@ RSpec.describe 'Figures', type: :request do
     include_context 'Session'
 
     context 'owning world' do
-      let(:figure)    { create(:figure, user: user) }
+      let(:figure) { create(:figure, user: user) }
 
       it 'shows all actions' do
         post world_figures_path(world, params: sample_params)
@@ -177,7 +179,7 @@ RSpec.describe 'Figures', type: :request do
   def sample_params
     {
       figure: {
-        tag_attributes: {id: nil, tagset: 'tag'}
+        tag_attributes: { id: nil, tagset: 'tag' }
       }
     }
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Showing an item', type: :system do
   include_context 'Session'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Inventory, type: :model do
   include_context 'Session'
 
@@ -27,8 +29,8 @@ RSpec.describe Inventory, type: :model do
 
     it 'contains all types of inventories' do
       refresh_materialized_views(Inventory)
-      available_types = %w(Item Figure Location Concept)
-      types = Inventory.pluck(:inventory_type).uniq
+      available_types = %w[Item Figure Location Concept]
+      types = Inventory.distinct.pluck(:inventory_type)
       expect(types).to include(*available_types)
     end
 
@@ -39,7 +41,7 @@ RSpec.describe Inventory, type: :model do
     it 'lists only objects belonging to the worlds of current user' do
       users_worlds = user.worlds
       expect(user.inventories.all? { |i| users_worlds.include?(i.world) })
-          .to be_truthy
+        .to be_truthy
     end
   end
 end

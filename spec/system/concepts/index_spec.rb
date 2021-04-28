@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Listing concepts', type: :system do
   include_context 'Session'
 
@@ -34,4 +36,3 @@ RSpec.describe 'Listing concepts', type: :system do
     end
   end
 end
-

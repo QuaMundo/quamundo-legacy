@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Deleting a relation', type: :system do
   include_context 'Session'
 
@@ -5,13 +7,15 @@ RSpec.describe 'Deleting a relation', type: :system do
     let(:relation)  { create(:relation, user: user) }
     let(:world)     { relation.fact.world }
 
-    before(:example)  { visit(
-      world_fact_relation_path(world, relation.fact, relation)
-    ) }
+    before(:example)  do
+      visit(
+        world_fact_relation_path(world, relation.fact, relation)
+      )
+    end
 
     it 'removes a relation', :js, :comprehensive do
       page.find('.nav-item a.nav-link.dropdown').click
-      page.accept_confirm() do
+      page.accept_confirm do
         page.first('a.dropdown-item[title="delete"]').click
       end
       expect(page)
@@ -31,7 +35,8 @@ RSpec.describe 'Deleting a relation', type: :system do
     it 'refuses to remove relation fo another users world' do
       visit(
         world_fact_relation_path(
-          other_world, other_relation.fact, other_relation)
+          other_world, other_relation.fact, other_relation
+        )
       )
       expect(page).to have_current_path(worlds_path)
     end

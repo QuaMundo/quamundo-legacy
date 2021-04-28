@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Creating a fact', type: :system do
   include_context 'Session'
 
-  let(:world)   { create(:world, user: user) }
+  let(:world) { create(:world, user: user) }
 
   context 'in own world' do
     before(:example) { visit new_world_fact_path(world) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Session', type: :system do
   context 'Without user logged in' do
     scenario 'Visiting dashboard redirects to login page' do

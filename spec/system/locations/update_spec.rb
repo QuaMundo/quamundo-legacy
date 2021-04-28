@@ -1,5 +1,6 @@
-RSpec.describe 'Updating/Editing a location', type: :system do
+# frozen_string_literal: true
 
+RSpec.describe 'Updating/Editing a location', type: :system do
   include_context 'Session'
 
   let(:location)        { create(:location, user: user) }
@@ -11,7 +12,10 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     it 'has button to get current position via javascript', :js, :comprehensive do
       visit edit_world_location_path(world, location)
       page.execute_script(
-        'navigator.geolocation.getCurrentPosition = function(success) { success({coords: {latitude: 12, longitude: 34}}); }'
+        'navigator.geolocation.getCurrentPosition = ' \
+        'function(success) {' \
+        'success({coords: {latitude: 12, longitude: 34}});' \
+        '}'
       )
       page.find('#get_device_pos').click
       expect(page.find('#location_lonlat').value).to eq '12, 34'
@@ -27,8 +31,9 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it 'can update name, position and description' do
-      QuamundoTestHelpers::attach_file(
-        location.image, fixture_file_name('location.jpg'))
+      QuamundoTestHelpers.attach_file(
+        location.image, fixture_file_name('location.jpg')
+      )
       visit edit_world_location_path(world, location)
       expect(page).to have_selector("img##{element_id(location, 'img')}")
       fill_in('Name', with: 'A new location')
@@ -71,7 +76,7 @@ RSpec.describe 'Updating/Editing a location', type: :system do
     end
 
     it_behaves_like 'editable traits' do
-      let(:subject)     { create(:location, :with_traits, user: user) }
+      let(:subject) { create(:location, :with_traits, user: user) }
     end
   end
 

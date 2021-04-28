@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Worlds', type: :request do
   context 'without user logged in' do
     let(:world) { create(:world, name: 'Welt') }
@@ -37,7 +39,7 @@ RSpec.describe 'Worlds', type: :request do
       end
 
       context 'if world is public readable' do
-        before(:example)  do
+        before(:example) do
           Permission.create(world: world, permissions: :public)
         end
 
@@ -79,6 +81,7 @@ RSpec.describe 'Worlds', type: :request do
     end
 
     private
+
     def expect_login_path
       expect(response).to redirect_to(new_user_session_path)
     end
@@ -100,7 +103,7 @@ RSpec.describe 'Worlds', type: :request do
       it 'must not update name' do
         world = user.worlds.first
         old_name = world.name
-        headers = { "CONTENT_TYPE" => "application/json" }
+        headers = { 'CONTENT_TYPE' => 'application/json' }
         post_data = '{ "world": { "name": "A New Title" } }'
         patch(world_path(world), params: post_data, headers: headers)
         world.reload

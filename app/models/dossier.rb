@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Dossier < ApplicationRecord
   include Benamed
 
@@ -27,6 +29,7 @@ class Dossier < ApplicationRecord
   end
 
   private
+
   def purge_files
     # FIXME: Maybe use `purge_later`
     files.purge

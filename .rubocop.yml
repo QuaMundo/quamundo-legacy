@@ -1,0 +1,16 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "db/migrate/**/*"
+    - "db/structure.sql"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "Gemfile*"
+    - "config.ru"
+    - "Rakefile"
+
+Documentation:
+  Enabled: false
+

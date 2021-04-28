@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe 'concepts/index', type: :view do
   context 'registered user' do
     include_context 'Session'
 
     context 'owning world' do
-      let(:concept)    { create(:concept, user: user) }
-      let(:world)     { concept.world }
+      let(:concept) { create(:concept, user: user) }
+      let(:world) { concept.world }
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -36,8 +38,8 @@ RSpec.describe 'concepts/index', type: :view do
     end
 
     context 'not owning world' do
-      let(:concept)    { create(:concept) }
-      let(:world)     { concept.world }
+      let(:concept) { create(:concept) }
+      let(:world) { concept.world }
 
       before(:example) do
         # FIXME: `current_world` doesn't seem to be available, so work around ...
@@ -66,14 +68,14 @@ RSpec.describe 'concepts/index', type: :view do
           .to have_link(href: edit_world_concept_path(world, concept))
         expect(rendered)
           .to have_link(href: world_concept_path(world, concept),
-                            title: 'delete')
+                        title: 'delete')
       end
     end
   end
 
   context 'unregistered user not owning public readable world' do
-    let(:concept)    { create(:concept) }
-    let(:world)     { concept.world }
+    let(:concept) { create(:concept) }
+    let(:world) { concept.world }
 
     before(:example) do
       Permission.create(world: world, permissions: :public)
@@ -94,5 +96,3 @@ RSpec.describe 'concepts/index', type: :view do
     end
   end
 end
-
-

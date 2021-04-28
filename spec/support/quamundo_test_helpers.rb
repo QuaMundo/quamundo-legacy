@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module QuamundoTestHelpers
   # Make `#fixture_file_upload` available
   # Prepare for ActiveStorage attachment testing, according to:
@@ -14,11 +16,11 @@ module QuamundoTestHelpers
   end
 
   def remove_uploads
-    FileUtils::rm_rf(Rails.root.join('tmp/storage'))
+    FileUtils.rm_rf(Rails.root.join('tmp/storage'))
   end
 
   def remove_screenshots
-    FileUtils::rm_rf(Rails.root.join('tmp/screenshots'))
+    FileUtils.rm_rf(Rails.root.join('tmp/screenshots'))
   end
 
   def reset_db_sequences
@@ -28,7 +30,7 @@ module QuamundoTestHelpers
   end
 
   def file_fixture_path
-    Rails.root.join('spec', 'fixtures', 'files')
+    Rails.root.join('spec/fixtures/files')
   end
 
   def fixture_file_name(name)
@@ -57,23 +59,24 @@ module QuamundoTestHelpers
 
   # get random inventory type
   def random_inventory_type
-    [:concept, :figure, :item, :location][rand(4)]
+    %i[concept figure item location][rand(4)]
   end
 
   # create some inventory to fill up worlds
+  # rubocop:disable Metrics/AbcSize
   def create_some_inventory(user)
     user.worlds.each do |world|
-      travel(rand 5.days) { world.items << build(:item) }
-      travel(rand 5.days) { world.figures << build(:figure) }
-      travel(rand 5.days) { world.locations << build(:location) }
-      travel(rand 5.days) { world.facts << build(:fact) }
-      travel(rand 5.days) { world.concepts << build(:concept) }
+      travel(rand(5.days)) { world.items << build(:item) }
+      travel(rand(5.days)) { world.figures << build(:figure) }
+      travel(rand(5.days)) { world.locations << build(:location) }
+      travel(rand(5.days)) { world.facts << build(:fact) }
+      travel(rand(5.days)) { world.concepts << build(:concept) }
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # parse json response (request spec)
   def json_of(data)
     JSON.parse(data.body)
   end
 end
-

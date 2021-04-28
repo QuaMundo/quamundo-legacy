@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'figure_ancestors/index', db_triggers: true, type: :view do
   let(:figure)          { create(:figure) }
   let!(:figureancestor) { create(:figure_ancestor, figure: figure) }
@@ -14,7 +16,7 @@ RSpec.describe 'figure_ancestors/index', db_triggers: true, type: :view do
     include_context 'Session'
 
     context 'owning world' do
-      let(:figure)        { create(:figure, user: user) }
+      let(:figure) { create(:figure, user: user) }
 
       it 'shows crud links' do
         render(partial: 'figure_ancestors/index_entry',

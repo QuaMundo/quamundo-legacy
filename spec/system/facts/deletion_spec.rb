@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Deleting a fact', type: :system do
   include_context 'Session'
 
@@ -5,11 +7,11 @@ RSpec.describe 'Deleting a fact', type: :system do
   let(:world) { fact.world }
 
   context 'of an own world' do
-    before(:example)  { visit world_fact_path(world, fact) }
+    before(:example) { visit world_fact_path(world, fact) }
 
     it 'removes a fact', :js, :comprehensive do
       page.find('.nav-item a.nav-link.dropdown').click
-      page.accept_confirm() do
+      page.accept_confirm do
         page.first('a.dropdown-item[title="delete"]').click
       end
       expect(page).to have_current_path(world_facts_path(world))

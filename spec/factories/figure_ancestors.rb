@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :figure_ancestor do
     figure      { build(:figure) }
     ancestor    { build(:figure, world: figure.world) }
-    name        { "Mother" }
+    name        { 'Mother' }
   end
 end

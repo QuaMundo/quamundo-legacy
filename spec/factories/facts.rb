@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :fact do
     transient do
-      user              { build(:user) }
+      user { build(:user) }
     end
 
     sequence(:name) { |n| "Fact No. #{n}" }
@@ -10,14 +12,14 @@ FactoryBot.define do
 
     trait :with_constituents do
       transient do
-        fact_constituents_count       { 1 }
+        fact_constituents_count { 1 }
       end
 
       after(:build) do |fact, evaluator|
-        [:item, :location, :figure, :concept].each do |inventory|
+        %i[item location figure concept].each do |inventory|
           evaluator.fact_constituents_count.times do
             create(:fact_constituent,
-                  inventory_type: inventory, fact: fact)
+                   inventory_type: inventory, fact: fact)
           end
         end
       end
@@ -29,8 +31,7 @@ FactoryBot.define do
     factory :fact_with_dossiers, traits: [:with_dossiers]
     factory :fact_with_constituents, traits: [:with_constituents]
     factory :fact_with_all,
-      traits: [:with_notes, :with_tags, :with_traits,
-               :with_dossiers, :with_constituents]
+            traits: %i[with_notes with_tags with_traits
+                       with_dossiers with_constituents]
   end
 end
-

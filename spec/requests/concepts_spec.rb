@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Concepts', type: :request do
-  let(:concept)    { create(:concept) }
-  let(:world)     { concept.world }
+  let(:concept) { create(:concept) }
+  let(:world) { concept.world }
 
   context 'with unregistered user' do
     context 'with non public world' do
@@ -62,7 +64,7 @@ RSpec.describe 'Concepts', type: :request do
     include_context 'Session'
 
     context 'owning world' do
-      let(:concept)    { create(:concept, user: user) }
+      let(:concept) { create(:concept, user: user) }
 
       it 'shows all actions' do
         post world_concepts_path(world, params: sample_params)
@@ -177,10 +179,8 @@ RSpec.describe 'Concepts', type: :request do
   def sample_params
     {
       concept: {
-        tag_attributes: {id: nil, tagset: 'tag'}
+        tag_attributes: { id: nil, tagset: 'tag' }
       }
     }
   end
 end
-
-

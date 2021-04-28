@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe RegistrationPolicy, type: :policy do
   context 'for normal user' do
     include_context 'Session'

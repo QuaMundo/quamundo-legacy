@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 RSpec.describe 'Locations', type: :request do
-  let(:location)    { create(:location) }
-  let(:world)     { location.world }
+  let(:location) { create(:location) }
+  let(:world) { location.world }
 
   context 'with unregistered user' do
     context 'with non public world' do
@@ -62,7 +64,7 @@ RSpec.describe 'Locations', type: :request do
     include_context 'Session'
 
     context 'owning world' do
-      let(:location)    { create(:location, user: user) }
+      let(:location) { create(:location, user: user) }
 
       it 'shows all actions' do
         post world_locations_path(world, params: sample_params)
@@ -177,10 +179,8 @@ RSpec.describe 'Locations', type: :request do
   def sample_params
     {
       location: {
-        tag_attributes: {id: nil, tagset: 'tag'}
+        tag_attributes: { id: nil, tagset: 'tag' }
       }
     }
   end
 end
-
-

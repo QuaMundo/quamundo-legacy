@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'facts/show', type: :view do
   let(:fact)      { create(:fact) }
   let(:world)     { fact.world }
@@ -42,7 +44,6 @@ RSpec.describe 'facts/show', type: :view do
 
     context 'owning world' do
       let(:fact)    { create(:fact, user: user) }
-
     end
 
     context 'not owning world' do
@@ -102,11 +103,9 @@ RSpec.describe 'facts/show', type: :view do
             .to have_link(href: new_world_fact_path(world))
           expect(rendered)
             .to have_link(href: world_fact_path(world, fact),
-                              title: 'delete')
+                          title: 'delete')
         end
       end
     end
   end
 end
-
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe DossierPolicy, type: :policy do
   let(:world)     { build_stubbed(:world) }
   let(:item)      { build_stubbed(:item, world: world) }
@@ -12,17 +14,16 @@ RSpec.describe DossierPolicy, type: :policy do
         let(:context)   { { user: user, world: world } }
 
         describe_rule :new? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
 
         describe_rule :update? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
 
         describe_rule :show? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
-
       end
 
       context 'with world not owned by user' do
@@ -31,19 +32,19 @@ RSpec.describe DossierPolicy, type: :policy do
         let(:context)   { { user: user, world: world } }
 
         describe_rule :new? do
-          succeed "if user does not own dossierables world but may write" do
+          succeed 'if user does not own dossierables world but may write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          failed "if user does not own dossierables world and only may read" do
+          failed 'if user does not own dossierables world and only may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          failed "if user does not own dossierables world that is public readable" do
+          failed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -51,19 +52,19 @@ RSpec.describe DossierPolicy, type: :policy do
         end
 
         describe_rule :update? do
-          succeed "if user does not own dossierables world but my write" do
+          succeed 'if user does not own dossierables world but my write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          failed "if user does not own dossierables world and only may read" do
+          failed 'if user does not own dossierables world and only may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          failed "if user does not own dossierables world that is public readable" do
+          failed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -71,19 +72,19 @@ RSpec.describe DossierPolicy, type: :policy do
         end
 
         describe_rule :show? do
-          succeed "if user does not own dossierables world and may read-write" do
+          succeed 'if user does not own dossierables world and may read-write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          succeed "if user does not own dossierables world and may read" do
+          succeed 'if user does not own dossierables world and may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          succeed "if user does not own dossierables world that is public readable" do
+          succeed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -97,15 +98,15 @@ RSpec.describe DossierPolicy, type: :policy do
       let(:context)   { { world: world } }
 
       describe_rule :new? do
-        failed "if dossierables world is not public readable"
+        failed 'if dossierables world is not public readable'
       end
 
       describe_rule :update? do
-        failed "if dossierables world is not public readable"
+        failed 'if dossierables world is not public readable'
       end
 
       describe_rule :show? do
-        succeed "if dossierables world is public readable" do
+        succeed 'if dossierables world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end
@@ -124,17 +125,16 @@ RSpec.describe DossierPolicy, type: :policy do
         let(:context)   { { user: user, world: world } }
 
         describe_rule :new? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
 
         describe_rule :update? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
 
         describe_rule :show? do
-          succeed "if user owns world of dossierable"
+          succeed 'if user owns world of dossierable'
         end
-
       end
 
       context 'with world not owned by user' do
@@ -143,19 +143,19 @@ RSpec.describe DossierPolicy, type: :policy do
         let(:context)   { { user: user, world: world } }
 
         describe_rule :new? do
-          succeed "if user does not own dossierables world but my write" do
+          succeed 'if user does not own dossierables world but my write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          failed "if user does not own dossierables world and only may read" do
+          failed 'if user does not own dossierables world and only may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          failed "if user does not own dossierables world that is public readable" do
+          failed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -163,19 +163,19 @@ RSpec.describe DossierPolicy, type: :policy do
         end
 
         describe_rule :update? do
-          succeed "if user does not own dossierables world but my write" do
+          succeed 'if user does not own dossierables world but my write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          failed "if user does not own dossierables world and only may read" do
+          failed 'if user does not own dossierables world and only may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          failed "if user does not own dossierables world that is public readable" do
+          failed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -183,19 +183,19 @@ RSpec.describe DossierPolicy, type: :policy do
         end
 
         describe_rule :show? do
-          succeed "if user does not own dossierables world and may read-write" do
+          succeed 'if user does not own dossierables world and may read-write' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :rw)
             end
           end
 
-          succeed "if user does not own dossierables world and may read" do
+          succeed 'if user does not own dossierables world and may read' do
             before(:example) do
               Permission.create(world: world, user: user, permissions: :r)
             end
           end
 
-          succeed "if user does not own dossierables world that is public readable" do
+          succeed 'if user does not own dossierables world that is public readable' do
             before(:example) do
               Permission.create(world: world, permissions: :public)
             end
@@ -209,15 +209,15 @@ RSpec.describe DossierPolicy, type: :policy do
       let(:context)   { { world: world } }
 
       describe_rule :new? do
-        failed "if dossierables world is not public readable"
+        failed 'if dossierables world is not public readable'
       end
 
       describe_rule :update? do
-        failed "if dossierables world is not public readable"
+        failed 'if dossierables world is not public readable'
       end
 
       describe_rule :show? do
-        succeed "if dossierables world is public readable" do
+        succeed 'if dossierables world is public readable' do
           before(:example) do
             Permission.create(world: world, permissions: :public)
           end

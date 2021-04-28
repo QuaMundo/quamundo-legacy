@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples 'associated facts', type: :system do
   # Expect `subject` and `path` to be present
   before(:example) do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FigurePolicy < ApplicationPolicy
   def new?
     allowed_to?(:update?, world)

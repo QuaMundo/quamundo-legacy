@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Permission, type: :model do
   let(:owner)     { create(:user) }
   let(:mate)      { build_stubbed(:user) }
@@ -9,11 +11,13 @@ RSpec.describe Permission, type: :model do
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
+
     permission = Permission.new(user: mate, permissions: :public)
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
-    permissions = Permission.new(world: world, user: mate)
+
+    permission = Permission.new(world: world, user: mate)
     expect(permission).not_to be_valid
     expect { permission.save!(validate: false) }
       .to raise_error ActiveRecord::NotNullViolation
@@ -35,7 +39,7 @@ RSpec.describe Permission, type: :model do
 
   it 'can allow a specific user to show a world' do
     permission = Permission
-      .new(world: world, user: mate, permissions: :r)
+                 .new(world: world, user: mate, permissions: :r)
     expect(permission).to be_valid
     expect { permission.save!(validate: false) }
       .not_to raise_error
@@ -56,12 +60,12 @@ RSpec.describe Permission, type: :model do
 
   it 'will be deleted if world is deleted', db_triggers: true do
     u = create(:user)
-    perm_1 = world.permissions.create(user: u, permissions: :r)
-    perm_2 = world.permissions.create(permissions: :public)
+    perm1 = world.permissions.create(user: u, permissions: :r)
+    perm2 = world.permissions.create(permissions: :public)
     expect { world.destroy }.not_to raise_error
     expect(world).to be_destroyed
-    expect(Permission.find_by(id: perm_1.id)).to be_falsey
-    expect(Permission.find_by(id: perm_2.id)).to be_falsey
+    expect(Permission.find_by(id: perm1.id)).to be_falsey
+    expect(Permission.find_by(id: perm2.id)).to be_falsey
   end
 
   it 'does not touch world if deleted', db_triggers: true do

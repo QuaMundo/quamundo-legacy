@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # FIXME: This helper needs refactoring!
 module RelationConstituentHelper
   class << self
@@ -18,15 +20,15 @@ module RelationConstituentHelper
 
     # FIXME: Make this conform to app/helpers/fact_constituent_helper.rb:9
     def select_group_options(relation)
-      selectable_constituents(relation).inject({}) do |memo, current|
+      selectable_constituents(relation).each_with_object({}) do |current, memo|
         (memo[current.constituable_type] ||= [])
           .push([current.constituable_name, current.id])
-        memo
       end
     end
   end
 
   class RelationConstituentsSelector
+    # rubocop:disable Rails/HelperInstanceVariable
     # If a relation exists (i.e. relation.id is not nil) use this query
     SQL_EDIT = <<~SQL
       SELECT
@@ -80,7 +82,7 @@ module RelationConstituentHelper
         fc.fact_id = ?      -- insert param fact_id
       ORDER BY i.inventory_type ASC
     SQL
-    
+
     def initialize(relation)
       @relation = relation
       if relation.id.nil?
@@ -93,7 +95,8 @@ module RelationConstituentHelper
     end
 
     def selectable_constituents
-      @consituents ||= FactConstituent.find_by_sql([@sql, @param])
+      @selectable_constituents ||= FactConstituent.find_by_sql([@sql, @param])
     end
+    # rubocop:enable Rails/HelperInstanceVariable
   end
 end

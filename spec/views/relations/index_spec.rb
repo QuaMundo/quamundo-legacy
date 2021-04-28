@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe 'relations/index', type: :view do
   let(:world)     { create(:world) }
   let(:fact)      { create(:fact, world: world) }
@@ -71,7 +73,7 @@ RSpec.describe 'relations/index', type: :view do
 
       context 'with read-write permissions' do
         before(:example) do
-          Permission.create(user:user, world: world, permissions: :rw)
+          Permission.create(user: user, world: world, permissions: :rw)
 
           assign(:world, world)
           assign(:fact, fact)
@@ -117,5 +119,3 @@ RSpec.describe 'relations/index', type: :view do
     end
   end
 end
-
-
