@@ -4,9 +4,10 @@
   "dependencies": {
     "@babel/preset-typescript": "*",
     "@fortawesome/fontawesome-free": "*",
+    "@popperjs/core": "*",
     "@rails/webpacker": "*",
     "activestorage": "*",
-    "bootstrap": "*",
+    "bootstrap": "^4.6.0",
     "d3": "*",
     "jquery": "*",
     "ol": "*",
