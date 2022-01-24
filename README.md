@@ -1,5 +1,8 @@
 # README
 
+*Attention: This project is no longer maintained. It was meant to be a prototype,
+I will now focus on a complete rework of QuaMundo!*
+
 **QuaMundo** is a web based app for building fictional or investigate in real
 worlds by taking sort of "smart notes" – think of it as a
 "multi-dimensional and multi-medial notebook".
